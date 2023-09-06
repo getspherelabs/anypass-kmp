@@ -16,3 +16,9 @@ dependencyResolutionManagement {
 rootProject.name = "locker-kmp"
 include(":androidApp")
 include(":shared")
+include(":data")
+include(":data:local")
+include(":data:settings")
+include(":features")
+include(":features:createPassword")
+include(":biometry")

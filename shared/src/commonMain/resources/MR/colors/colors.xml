@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">0xFFFFFF</color>
+    <color name="lavender">0xA493F0</color>
+    <color name="lavender_pink">0xFFADFC</color>
+    <color name="dynamic_yellow">0xD0FF6D</color>
+    <color name="cinderella">0xDACDFF</color>
+    <color name="black">0x000000</color>
+
+</resources>
