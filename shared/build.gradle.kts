@@ -22,7 +22,9 @@ kotlin {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
+
         podfile = project.file("../iosApp/Podfile")
+
         framework {
             baseName = "shared"
             isStatic = true
@@ -107,8 +109,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
 
