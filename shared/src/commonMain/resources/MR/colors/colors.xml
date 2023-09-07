@@ -6,5 +6,5 @@
     <color name="dynamic_yellow">0xD0FF6D</color>
     <color name="cinderella">0xDACDFF</color>
     <color name="black">0x000000</color>
-
+    <color name="grey">0x222222</color>
 </resources>
