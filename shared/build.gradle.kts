@@ -16,7 +16,8 @@ kotlin {
 
     macosArm64()
     macosX64()
-
+    linuxArm64()
+    linuxX64()
     cocoapods {
         version = "1.0.0"
         summary = "Some description for the Shared Module"
@@ -87,11 +88,19 @@ kotlin {
 
         val macosX64Main by getting
         val macosArm64Main by getting
-
+        val jvmMain by creating
+        val linuxX64Main by getting
+        val linux64ArmMain by creating
         val desktopMain by getting {
             dependsOn(commonMain)
-            macosX64Main.dependsOn(this)
-            macosArm64Main.dependsOn(this)
+
+            jvmMain.dependsOn(this)
+            linux64ArmMain.dependsOn(this)
+            linuxX64Main.dependsOn(this)
+
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
         }
 
     }
@@ -109,8 +118,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 

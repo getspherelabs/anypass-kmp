@@ -1,6 +1,7 @@
 package io.spherelabs.lockerkmp.components
 
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -8,11 +9,12 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.ArrowBackIos
+import androidx.compose.material.icons.outlined.ArrowForwardIos
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
@@ -48,5 +50,62 @@ fun NewItemButton(
             tint = colorResource(MR.colors.black)
         )
 
+    }
+}
+
+
+@Composable
+fun BackButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    onButtonClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .width(75.dp)
+            .height(32.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(color = colorResource(MR.colors.dynamic_yellow))
+    ) {
+        Row(
+            modifier = modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                modifier = modifier.size(12.dp),
+                imageVector = Icons.Outlined.ArrowBackIos, contentDescription = null
+            )
+            Spacer(modifier = modifier.width(4.dp))
+            Text("Back", fontSize = 12.sp)
+        }
+    }
+}
+
+@Composable
+fun UseButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    onButtonClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .width(75.dp)
+            .height(32.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(color = colorResource(MR.colors.dynamic_yellow))
+    ) {
+        Row(
+            modifier = modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text("Use", fontSize = 12.sp)
+            Spacer(modifier = modifier.width(4.dp))
+            Icon(
+                modifier = modifier.size(12.dp),
+                imageVector = Icons.Outlined.ArrowForwardIos, contentDescription = null
+            )
+        }
     }
 }
