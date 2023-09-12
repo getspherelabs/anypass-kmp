@@ -2,7 +2,6 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
-    id("dev.icerock.moko.kswift")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -36,7 +35,6 @@ kotlin {
 
                 api(Libs.Meteor.core)
                 api(Libs.Koin.core)
-                api("dev.icerock.moko:kswift-runtime:0.6.1")
             }
         }
         val commonTest by getting {

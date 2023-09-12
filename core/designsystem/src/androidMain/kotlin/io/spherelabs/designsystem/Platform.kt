@@ -1,4 +1,4 @@
-package io.spherelabs.biometry
+package io.spherelabs.designsystem
 
 class AndroidPlatform : Platform {
     override val name: String = "Android ${android.os.Build.VERSION.SDK_INT}"

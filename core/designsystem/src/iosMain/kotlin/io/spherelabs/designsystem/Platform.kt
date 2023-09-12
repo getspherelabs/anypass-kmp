@@ -1,4 +1,4 @@
-package io.spherelabs.biometry
+package io.spherelabs.designsystem
 
 import platform.UIKit.UIDevice
 

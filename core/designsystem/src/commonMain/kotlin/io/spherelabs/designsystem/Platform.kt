@@ -1,4 +1,4 @@
-package io.spherelabs.biometry
+package io.spherelabs.designsystem
 
 interface Platform {
     val name: String

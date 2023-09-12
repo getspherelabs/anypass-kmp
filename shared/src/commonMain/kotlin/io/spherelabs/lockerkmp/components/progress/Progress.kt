@@ -24,7 +24,7 @@ fun OuterProgress(
     val nbMarker = 180
 
     val markerActives by animateFloatAsState(
-        targetValue = nbMarker / 30f * 60,
+        targetValue = nbMarker / 60f * 60,
         animationSpec = tween(500)
     )
 

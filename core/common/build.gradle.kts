@@ -1,12 +1,12 @@
+import Libs.Koin.compose
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.compose")
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
     android {
         compilations.all {
             kotlinOptions {
@@ -21,17 +21,17 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "onboardingDomain"
+            baseName = "common"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":data:settings"))
+                implementation(compose.runtime)
+                implementation(compose.foundation)
 
                 api(Libs.Coroutine.core)
-                api(Libs.Koin.core)
             }
         }
         val commonTest by getting {
@@ -39,28 +39,21 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(Libs.Android.viewModel)
-            }
-        }
+        val androidMain by getting
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-
-        val iosMain by getting {
+        val iosMain by creating {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
         }
-
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by getting {
+        val iosTest by creating {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
@@ -70,7 +63,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.spherelabs.onboardingdomain"
+    namespace = "io.spherelabs.common"
     compileSdk = 33
     defaultConfig {
         minSdk = 24

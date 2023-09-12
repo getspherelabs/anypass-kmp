@@ -44,12 +44,30 @@ kotlin {
                 implementation(compose.components.resources)
                 api("dev.icerock.moko:resources-compose:0.22.3")
                 api(project(":navigation"))
+
                 api(Libs.Coroutine.core)
                 api(Libs.Koin.core)
+
+                api(project(":core:common"))
+                api(project(":features:addnewpassword:addNewPasswordDomain"))
+                api(project(":features:addnewpassword:addNewPasswodPresentation"))
+
                 api(project(":data:settings"))
+                api(project(":manager:password"))
+
                 api(project(":features:onboarding:onboardingDomain"))
                 api(project(":features:onboarding:onboardingPresentation"))
+
+
+
+                api(project(":features:generatepassword:generatePasswordDomain"))
+                api(project(":features:generatepassword:generatePasswordPresentation"))
+
+                api(project(":data:local"))
+                api(project(":manager:biometry"))
+
                 implementation(Libs.Koin.compose)
+                implementation("com.benasher44:uuid:0.8.1")
             }
         }
         val commonTest by getting {
@@ -107,8 +125,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 

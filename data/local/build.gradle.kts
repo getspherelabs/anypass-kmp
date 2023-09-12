@@ -26,9 +26,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(Libs.Koin.core)
                 implementation(Libs.SqlDelight.runtime)
                 implementation(Libs.SqlDelight.extension)
                 implementation(Libs.SqlDelight.primitiveAdapter)
+
+                api(project(":features:addnewpassword:addNewPasswordDomain"))
             }
         }
         val commonTest by getting {
