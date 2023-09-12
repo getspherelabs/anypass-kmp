@@ -1,4 +1,4 @@
-package io.spherelabs.biometry
+package io.spherelabs.designsystem
 
 class Greeting {
     private val platform: Platform = getPlatform()

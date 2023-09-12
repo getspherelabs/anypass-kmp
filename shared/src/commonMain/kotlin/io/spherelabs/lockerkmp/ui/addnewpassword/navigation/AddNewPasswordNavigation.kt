@@ -1,6 +1,7 @@
 package io.spherelabs.lockerkmp.ui.addnewpassword.navigation
 
 import io.spherelabs.lockerkmp.navigation.Route
+import io.spherelabs.lockerkmp.ui.addnewpassword.AddNewPasswordRoute
 import io.spherelabs.lockerkmp.ui.addnewpassword.AddNewPasswordScreen
 import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
@@ -11,9 +12,12 @@ fun NavigationController<Route>.navigateToAddNewPassword() {
 }
 
 fun NavHostScope<Route>.addNewPasswordScreen(
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToGeneratePassword: () -> Unit
 ) {
     this.composable<Route.AddNewPassword> {
-        AddNewPasswordScreen()
+        AddNewPasswordRoute {
+            navigateToGeneratePassword.invoke()
+        }
     }
 }

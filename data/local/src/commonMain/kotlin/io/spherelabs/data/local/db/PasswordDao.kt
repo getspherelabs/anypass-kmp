@@ -28,10 +28,14 @@ class DefaultPasswordDao(
         queries.transaction {
             queries.insertPassword(
                 id = password.id,
+                email = password.email,
                 title = password.title,
                 username = password.username,
                 password = password.password,
-                category = password.category
+                category = password.category,
+                websiteAddress = password.websiteAddress,
+                notes = password.notes,
+                image = password.image
             )
         }
     }
@@ -43,7 +47,10 @@ class DefaultPasswordDao(
                 username = password.username,
                 password = password.password,
                 category = password.category,
-                email = password.email
+                email = password.email,
+                websiteAddress = password.websiteAddress,
+                notes = password.notes,
+                image = password.image
             )
         }
     }

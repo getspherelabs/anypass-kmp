@@ -1,11 +1,13 @@
 package io.spherelabs.lockerkmp.ui.createpassword
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Replay
@@ -17,21 +19,57 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import io.spherelabs.common.compose.rememberStableCoroutineScope
+import io.spherelabs.generatepasswordpresentation.GeneratePasswordEffect
+import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
+import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
+import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.BackButton
 import io.spherelabs.lockerkmp.components.UseButton
 import io.spherelabs.lockerkmp.components.progress.*
 import io.spherelabs.lockerkmp.components.slider.LockerSlider
 import io.spherelabs.lockerkmp.ui.home.CreateBoxes
+import kotlinx.coroutines.flow.Flow
+import org.koin.compose.rememberKoinInject
 
 @Composable
-fun CreatePassword(
-    modifier: Modifier = Modifier
+fun GeneratePasswordRoute(
+    modifier: Modifier = Modifier,
+    viewModel: GeneratePasswordViewModel = rememberKoinInject()
 ) {
+    val uiState = viewModel.state.collectAsState()
+
+    GeneratePasswordScreen(
+        wish = { newWish ->
+            viewModel.wish(newWish)
+        },
+        state = uiState,
+        flow = viewModel.effect,
+
+        )
+}
+
+@Composable
+fun GeneratePasswordScreen(
+    modifier: Modifier = Modifier,
+    wish: (GeneratePasswordWish) -> Unit,
+    state: State<GeneratePasswordState>,
+    flow: Flow<GeneratePasswordEffect>,
+) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberStableCoroutineScope()
+
+    LaunchedEffect(true) {
+        wish.invoke(GeneratePasswordWish.GeneratePassword())
+    }
     Column(
         modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.grey))
     ) {
         var progress by remember { mutableStateOf(0f) }
+        var tissot by remember { mutableStateOf(10) }
+
         Text(
             modifier = modifier.padding(start = 24.dp, top = 8.dp),
             text = "Create Unique Password",
@@ -48,16 +86,20 @@ fun CreatePassword(
             Column {
                 Text(
                     modifier = modifier,
-                    text = "Caps",
+                    text = "Uppercase",
                     fontSize = 12.sp,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White.copy(alpha = 0.5f)
                 )
                 LockerSlider(
                     modifier = modifier.width(100.dp),
-                    value = progress,
+                    value = state.value.uppercaseLength,
                     onValueChange = { value, offset ->
-                        progress = value
+                        wish.invoke(
+                            GeneratePasswordWish.OnUppercaseLengthChanged(
+                                value
+                            )
+                        )
                     },
                     trackHeight = 8.dp,
                     valueRange = 0f..10f
@@ -72,7 +114,7 @@ fun CreatePassword(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${progress.toInt()}",
+                            text = "${state.value.uppercaseLength.toInt()}",
                             fontSize = 10.sp,
                             color = Color.Black,
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
@@ -85,19 +127,19 @@ fun CreatePassword(
             Column {
                 Text(
                     modifier = modifier.padding(start = 24.dp),
-                    text = "Caps",
+                    text = "Digits",
                     fontSize = 12.sp,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White.copy(alpha = 0.5f)
                 )
                 LockerSlider(
                     modifier = modifier.width(100.dp),
-                    value = 40f,
+                    value = state.value.digitLength,
                     onValueChange = { value, offset ->
-
+                        wish.invoke(GeneratePasswordWish.OnDigitLengthChanged(value))
                     },
                     trackHeight = 8.dp,
-                    valueRange = 0f..50f
+                    valueRange = 0f..10f
                 ) {
                     Box(
                         modifier = Modifier
@@ -109,7 +151,7 @@ fun CreatePassword(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "03",
+                            text = "${state.value.digitLength.toInt()}",
                             fontSize = 10.sp,
                             color = Color.Black,
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
@@ -157,6 +199,8 @@ fun CreatePassword(
             }
         }
 
+
+
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -164,7 +208,7 @@ fun CreatePassword(
                 .padding(top = 24.dp)
         )
         {
-            Tissot(40)
+            Tissot(state.value.length)
         }
 
         Text(
@@ -197,7 +241,7 @@ fun CreatePassword(
                 Spacer(modifier = modifier.height(24.dp))
 
                 Text(
-                    text = "PA43@sdf%123a",
+                    text = state.value.password,
                     fontSize = 24.sp,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.bold),
                     color = Color.White,
@@ -217,7 +261,13 @@ fun CreatePassword(
                         .background(
                             color = colorResource(MR.colors.dynamic_yellow),
                             shape = CircleShape
-                        ),
+                        )
+                        .clickable {
+                                   wish.invoke(GeneratePasswordWish.GeneratePassword(
+                                       uppercaseLength = state.value.uppercaseLength.toInt(),
+                                       digitLength = state.value.digitLength.toInt()
+                                   ))
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Box(

@@ -22,14 +22,10 @@ import io.spherelabs.lockerkmp.ui.createpassword.purpleDark
 
 @Composable
 internal fun TissotProgress(
+    value: Int,
     modifier: Modifier = Modifier
 ) {
-    val nbMarker = 120
 
-    val markerActives by animateFloatAsState(
-        targetValue = nbMarker / 30f * 60,
-        animationSpec = tween(500)
-    )
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -38,7 +34,7 @@ internal fun TissotProgress(
     ) {
 
         Text(
-            text = "65",
+            text = "$value",
             fontFamily = fontFamilyResource(MR.fonts.googlesans.bold),
             fontSize = 42.sp,
             color = purpleDark,

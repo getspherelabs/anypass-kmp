@@ -17,7 +17,7 @@ fun Tissot(
     val nbMarker = 180
 
     val progressAngle by animateFloatAsState(
-        targetValue = 180f / 30f * value,
+        targetValue = 180f / 15f * value,
         animationSpec = tween(500)
     )
 
@@ -28,7 +28,7 @@ fun Tissot(
     ) {
         OuterProgress(modifier = modifier)
         CircleProgress(modifier = modifier, angle = progressAngle)
-        TissotProgress(modifier = modifier)
+        TissotProgress(modifier = modifier, value = value)
         InnerProgress(modifier = modifier)
     }
 }

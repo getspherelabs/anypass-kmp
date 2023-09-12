@@ -5,6 +5,8 @@ import io.spherelabs.lockerkmp.ui.addnewpassword.navigation.addNewPasswordScreen
 import io.spherelabs.lockerkmp.ui.addnewpassword.navigation.navigateToAddNewPassword
 import io.spherelabs.lockerkmp.ui.confirmpassword.navigation.navigateToPassword
 import io.spherelabs.lockerkmp.ui.confirmpassword.navigation.passwordScreen
+import io.spherelabs.lockerkmp.ui.createpassword.navigation.createPasswordScreen
+import io.spherelabs.lockerkmp.ui.createpassword.navigation.navigateToCreatePassword
 import io.spherelabs.lockerkmp.ui.home.navigation.homeScreen
 import io.spherelabs.lockerkmp.ui.home.navigation.navigateToHome
 import io.spherelabs.lockerkmp.ui.onboarding.navigation.onboardingScreen
@@ -27,8 +29,13 @@ fun LockerNavHost(
         homeScreen {
             navigationController.navigateToAddNewPassword()
         }
-        addNewPasswordScreen {  }
-
+        addNewPasswordScreen(
+            navigateToHome =  {},
+            navigateToGeneratePassword = {
+                navigationController.navigateToCreatePassword()
+            }
+        )
+        createPasswordScreen {  }
     }
 }
 
