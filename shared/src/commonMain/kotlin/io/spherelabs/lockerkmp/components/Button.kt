@@ -1,6 +1,10 @@
 package io.spherelabs.lockerkmp.components
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -11,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.ArrowBackIos
 import androidx.compose.material.icons.outlined.ArrowForwardIos
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +24,15 @@ import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.stringResource
 import io.spherelabs.lockerkmp.MR
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun NewItemButton(
@@ -40,7 +52,7 @@ fun NewItemButton(
             text = stringResource(MR.strings.new_item),
             color = colorResource(MR.colors.black),
             fontSize = 14.sp,
-            fontFamily = fontFamilyResource(MR.fonts.hiraginosans.`gb-w3`),
+            fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
         )
 
         Icon(
@@ -107,5 +119,27 @@ fun UseButton(
                 imageVector = Icons.Outlined.ArrowForwardIos, contentDescription = null
             )
         }
+    }
+}
+
+
+@Composable
+fun NumberButton(
+    value: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .size(75.dp)
+            .clickable { onClick.invoke() },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = value,
+            color = Color.White,
+            style = MaterialTheme.typography.h4,
+            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+        )
     }
 }

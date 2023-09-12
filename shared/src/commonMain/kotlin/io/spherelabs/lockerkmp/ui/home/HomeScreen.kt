@@ -30,7 +30,8 @@ import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToCreatePassword: () -> Unit
 ) {
     val state = rememberScrollState(0)
     Column(
@@ -43,10 +44,12 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             RoundedImage(
-                painter = mokoPainterResource(MR.images.whale_logo), contentDescription = null
+                painter = mokoPainterResource(MR.images.avatar), contentDescription = null
             )
 
-            NewItemButton { }
+            NewItemButton {
+                navigateToCreatePassword.invoke()
+            }
         }
         Spacer(modifier = modifier.height(24.dp))
         Headline()
@@ -228,7 +231,7 @@ fun Headline(
                 text = "Keep",
                 color = colorResource(MR.colors.white),
                 fontSize = 42.sp,
-                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.`gb-w6`)
+                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
             )
             Spacer(modifier = modifier.width(12.dp))
             RoundedImage(
@@ -247,7 +250,7 @@ fun Headline(
                 text = "Your Life",
                 color = colorResource(MR.colors.white),
                 fontSize = 42.sp,
-                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.`gb-w6`)
+                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
             )
 
         }
@@ -257,7 +260,7 @@ fun Headline(
                 text = "Safe",
                 color = colorResource(MR.colors.white),
                 fontSize = 42.sp,
-                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.`gb-w6`)
+                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
             )
             Spacer(modifier = modifier.width(12.dp))
             RoundedImage(

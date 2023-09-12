@@ -69,7 +69,7 @@ object Libs {
     object Koin {
         const val android = "io.insert-koin:koin-android:${Version.koinAndroidVersion}"
         const val core = "io.insert-koin:koin-core:${Version.koinCoreVersion}"
-        const val compose = "io.insert-koin:koin-androidx-compose:${Version.koinCoreVersion}"
+        const val compose = "io.insert-koin:koin-compose:1.0.4"
     }
 
 
