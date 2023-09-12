@@ -23,13 +23,26 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                api(Libs.Settings.coroutine)
+                api(Libs.Settings.core)
+                api(Libs.Koin.core)
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Libs.Koin.android)
+                implementation(Libs.Android.datastore)
+                implementation(Libs.Android.datastorePref)
+                api(Libs.Settings.datastore)
+            }
+        }
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting

@@ -1,10 +1,12 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("app.cash.sqldelight") version "2.0.0-rc02"
 }
 
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targetHierarchy.default()
+
     android {
         compilations.all {
             kotlinOptions {
@@ -19,16 +21,17 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "local"
+            baseName = "onboardingDomain"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Libs.SqlDelight.runtime)
-                implementation(Libs.SqlDelight.extension)
-                implementation(Libs.SqlDelight.primitiveAdapter)
+                implementation(project(":data:settings"))
+
+                api(Libs.Coroutine.core)
+                api(Libs.Koin.core)
             }
         }
         val commonTest by getting {
@@ -36,56 +39,36 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(Libs.SqlDelight.android)
-                implementation(Libs.Koin.android)
-            }
-        }
+
+        val androidMain by getting
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-
-            dependencies {
-                implementation(Libs.SqlDelight.native)
-            }
         }
+
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by creating {
+        val iosTest by getting {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
-
-//            dependencies {
-//                implementation(Libs.SqlDelight.test)
-//            }
         }
     }
 }
 
 android {
-    namespace = "io.spherelabs.data.local"
+    namespace = "io.spherelabs.onboardingdomain"
     compileSdk = 33
     defaultConfig {
         minSdk = 24
-    }
-}
-
-
-sqldelight {
-    databases {
-        create("LockerDatabase") {
-            packageName.set("io.spherelabs.local.db")
-        }
     }
 }

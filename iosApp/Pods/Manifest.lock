@@ -1,16 +1,21 @@
 PODS:
+  - navigation (1.0.0)
   - shared (1.0.0)
 
 DEPENDENCIES:
+  - navigation (from `../navigation`)
   - shared (from `../shared`)
 
 EXTERNAL SOURCES:
+  navigation:
+    :path: "../navigation"
   shared:
     :path: "../shared"
 
 SPEC CHECKSUMS:
-  shared: 012d9212381fa85946ccfcf32536927e7dddad2a
+  navigation: f8856973f0bd7dc6ab5bfe6bb45cbeb61234bc22
+  shared: f130bf8bd5b503a36c3c7432a3b74d16213b9b06
 
-PODFILE CHECKSUM: 0ca6d65d39c37516911c9405bcd2d8404140ca7b
+PODFILE CHECKSUM: 3ca1de93747b580aef42336775f541eb610a7c80
 
 COCOAPODS: 1.12.1

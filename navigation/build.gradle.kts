@@ -2,12 +2,13 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
-    id("dev.icerock.mobile.multiplatform-resources")
     kotlin("native.cocoapods")
 }
 
 kotlin {
     android()
+
+    jvm("desktop")
 
     ios()
     iosX64()
@@ -24,11 +25,9 @@ kotlin {
         podfile = project.file("../iosApp/Podfile")
 
         framework {
-            baseName = "shared"
+            baseName = "navigation"
             isStatic = true
-            export("dev.icerock.moko:resources:0.22.3")
         }
-        extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
     }
 
@@ -40,16 +39,7 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                api("dev.icerock.moko:resources-compose:0.22.3")
-                api(project(":navigation"))
                 api(Libs.Coroutine.core)
-                api(Libs.Koin.core)
-                api(project(":data:settings"))
-                api(project(":features:onboarding:onboardingDomain"))
-                api(project(":features:onboarding:onboardingPresentation"))
-                implementation(Libs.Koin.compose)
             }
         }
         val commonTest by getting {
@@ -61,7 +51,6 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(Libs.Android.coil)
-                api(Libs.Koin.android)
                 implementation("androidx.activity:activity-compose:1.7.2")
                 implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
                 implementation("androidx.compose.material:material:1.5.0")
@@ -77,10 +66,6 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-
-            dependencies {
-                api(Libs.Coroutine.core)
-            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -92,11 +77,24 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
 
+        val jvmMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val desktopMain by getting {
+            dependsOn(commonMain)
+            jvmMain.dependsOn(this)
+
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+
     }
 }
 
 android {
-    namespace = "io.spherelabs.lockerkmp"
+    namespace = "io.spherelabs.navigation"
     compileSdk = 33
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -123,27 +121,4 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "io.spherelabs.lockerkmp"
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
-    @Suppress("ObjectLiteralToLambda")
-    doLast(object : Action<Task> {
-        override fun execute(task: Task) {
-            task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
-
-            val frameworkDir = File(task.destinationDir, task.frameworkName.get() + ".framework")
-
-            listOf(
-                "locker-kmp:shared.bundle"
-            ).forEach { bundleName ->
-                val bundleDir = File(frameworkDir, bundleName)
-                bundleDir.mkdir()
-                File(bundleDir, "dummyFile").writeText("dummy")
-            }
-        }
-    })
 }
