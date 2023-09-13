@@ -95,7 +95,6 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-
             dependencies {
                 api(Libs.Coroutine.core)
             }

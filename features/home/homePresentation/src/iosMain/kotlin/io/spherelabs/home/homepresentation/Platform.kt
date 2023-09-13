@@ -1,4 +1,4 @@
-package io.spherelabs.designsystem
+package io.spherelabs.home.homepresentation
 
 import platform.UIKit.UIDevice
 

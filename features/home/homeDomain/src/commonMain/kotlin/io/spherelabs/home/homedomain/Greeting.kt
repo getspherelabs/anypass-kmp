@@ -1,4 +1,4 @@
-package io.spherelabs.designsystem
+package io.spherelabs.home.homedomain
 
 class Greeting {
     private val platform: Platform = getPlatform()

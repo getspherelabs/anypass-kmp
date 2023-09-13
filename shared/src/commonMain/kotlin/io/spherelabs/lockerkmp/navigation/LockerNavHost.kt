@@ -35,7 +35,11 @@ fun LockerNavHost(
                 navigationController.navigateToCreatePassword()
             }
         )
-        createPasswordScreen {  }
+        createPasswordScreen(
+            navigateToHome = {}
+        ) {
+            navigationController.navigateUp()
+        }
     }
 }
 

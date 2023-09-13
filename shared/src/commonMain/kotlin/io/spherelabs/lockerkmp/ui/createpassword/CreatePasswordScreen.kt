@@ -29,6 +29,8 @@ import io.spherelabs.lockerkmp.components.BackButton
 import io.spherelabs.lockerkmp.components.UseButton
 import io.spherelabs.lockerkmp.components.progress.*
 import io.spherelabs.lockerkmp.components.slider.LockerSlider
+import io.spherelabs.lockerkmp.components.slider.SliderColors
+import io.spherelabs.lockerkmp.components.slider.SliderDefaults
 import io.spherelabs.lockerkmp.ui.home.CreateBoxes
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.rememberKoinInject
@@ -36,7 +38,8 @@ import org.koin.compose.rememberKoinInject
 @Composable
 fun GeneratePasswordRoute(
     modifier: Modifier = Modifier,
-    viewModel: GeneratePasswordViewModel = rememberKoinInject()
+    viewModel: GeneratePasswordViewModel = rememberKoinInject(),
+    navigateToBack: () -> Unit
 ) {
     val uiState = viewModel.state.collectAsState()
 
@@ -46,8 +49,10 @@ fun GeneratePasswordRoute(
         },
         state = uiState,
         flow = viewModel.effect,
-
-        )
+        navigateToBack = {
+            navigateToBack.invoke()
+        }
+    )
 }
 
 @Composable
@@ -56,6 +61,7 @@ fun GeneratePasswordScreen(
     wish: (GeneratePasswordWish) -> Unit,
     state: State<GeneratePasswordState>,
     flow: Flow<GeneratePasswordEffect>,
+    navigateToBack: () -> Unit
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -94,13 +100,19 @@ fun GeneratePasswordScreen(
                 LockerSlider(
                     modifier = modifier.width(100.dp),
                     value = state.value.uppercaseLength,
-                    onValueChange = { value, offset ->
+                    onValueChange = { value, _ ->
                         wish.invoke(
                             GeneratePasswordWish.OnUppercaseLengthChanged(
                                 value
                             )
                         )
+
                     },
+                    colors = SliderDefaults.sliderColors(
+                        thumbColor = colorResource(MR.colors.cinderella),
+                        trackColor = colorResource(MR.colors.cinderella),
+                        disabledTrackColor = colorResource(MR.colors.cinderella)
+                    ),
                     trackHeight = 8.dp,
                     valueRange = 0f..10f
                 ) {
@@ -255,7 +267,9 @@ fun GeneratePasswordScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             CreateBoxes(modifier = modifier.fillMaxWidth().align(Alignment.CenterVertically)) {
-                BackButton("") {}
+                BackButton("") {
+                    navigateToBack.invoke()
+                }
                 Box(
                     modifier = modifier.size(70.dp)
                         .background(
@@ -263,10 +277,12 @@ fun GeneratePasswordScreen(
                             shape = CircleShape
                         )
                         .clickable {
-                                   wish.invoke(GeneratePasswordWish.GeneratePassword(
-                                       uppercaseLength = state.value.uppercaseLength.toInt(),
-                                       digitLength = state.value.digitLength.toInt()
-                                   ))
+                            wish.invoke(
+                                GeneratePasswordWish.GeneratePassword(
+                                    uppercaseLength = state.value.uppercaseLength.toInt(),
+                                    digitLength = state.value.digitLength.toInt()
+                                )
+                            )
                         },
                     contentAlignment = Alignment.Center
                 ) {

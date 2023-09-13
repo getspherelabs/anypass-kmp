@@ -25,25 +25,25 @@ class GeneratePasswordReducer :
                 }
             }
             is GeneratePasswordWish.OnUppercaseLengthChanged -> {
-                val difference = currentWish.value.toInt()- currentState.length
-                val newLength = currentState.length + difference + currentState.digitLength.toInt()
+                var totalLength = 10
+                totalLength += currentWish.value.toInt() + currentState.digitLength.toInt()
 
                 expect {
                     currentState.copy(
                         uppercaseLength = currentWish.value,
-                        length =  newLength + 10
+                        length = totalLength
                     )
                 }
+
             }
             is GeneratePasswordWish.OnDigitLengthChanged -> {
-                val difference = currentWish.value.toInt()- currentState.length
-
-                val newLength = currentState.length  + difference + currentState.digitLength.toInt()
+                var totalLength = 10
+                totalLength += currentWish.value.toInt() + currentState.uppercaseLength.toInt()
 
                 expect {
                     currentState.copy(
                         digitLength = currentWish.value,
-                        length =  newLength + 10
+                        length = totalLength
                     )
                 }
             }

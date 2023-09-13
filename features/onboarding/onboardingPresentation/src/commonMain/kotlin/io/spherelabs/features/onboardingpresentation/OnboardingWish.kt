@@ -6,4 +6,5 @@ sealed interface OnboardingWish {
     object GetStartedClick : OnboardingWish
     data class Failed(val message: String) : OnboardingWish
     data class IsFinished(val value: Boolean) : OnboardingWish
+    data class OnLoadingChanged(val loading: Boolean) : OnboardingWish
 }

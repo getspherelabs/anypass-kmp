@@ -1,9 +1,7 @@
 package io.spherelabs.features.onboardingpresentation
 
 import io.spherelabs.meteor.configs.Change
-import io.spherelabs.meteor.extension.effect
-import io.spherelabs.meteor.extension.route
-import io.spherelabs.meteor.extension.unexpected
+import io.spherelabs.meteor.extension.*
 import io.spherelabs.meteor.reducer.Reducer
 
 class OnboardingReducer : Reducer<OnboardingState, OnboardingWish, OnboardingEffect> {
@@ -21,9 +19,32 @@ class OnboardingReducer : Reducer<OnboardingState, OnboardingWish, OnboardingEff
             }
             is OnboardingWish.IsFinished -> {
                 if (currentWish.value) {
-                    route { OnboardingEffect.IsFinished }
+                    expect(
+                        effectAction = { OnboardingEffect.IsFinished },
+                        stateAction = {
+                            currentState.copy(
+                                isFirstTime = false,
+                                isLogged = currentWish.value,
+                                isLoading = false
+                            )
+                        }
+                    )
                 } else {
-                    route { OnboardingEffect.IsFirstTime }
+                    expect(
+                        effectAction = { OnboardingEffect.IsFirstTime },
+                        stateAction = {
+                            currentState.copy(
+                                isFirstTime = true,
+                                isLogged = false,
+                                isLoading = false
+                            )
+                        }
+                    )
+                }
+            }
+            is OnboardingWish.OnLoadingChanged -> {
+                expect {
+                    currentState.copy(isLoading = currentWish.loading)
                 }
             }
             else -> unexpected { currentState }

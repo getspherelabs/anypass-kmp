@@ -77,6 +77,7 @@ fun BackButton(
             .width(75.dp)
             .height(32.dp)
             .clip(RoundedCornerShape(24.dp))
+            .clickable { onButtonClick.invoke() }
             .background(color = colorResource(MR.colors.dynamic_yellow))
     ) {
         Row(

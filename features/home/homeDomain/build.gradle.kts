@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -19,20 +18,12 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "designsystem"
+            baseName = "homeDomain"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.materialIconsExtended)
-                implementation(compose.ui)
-            }
-        }
+        val commonMain by getting
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -62,7 +53,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.spherelabs.designsystem"
+    namespace = "io.spherelabs.home.homedomain"
     compileSdk = 33
     defaultConfig {
         minSdk = 24

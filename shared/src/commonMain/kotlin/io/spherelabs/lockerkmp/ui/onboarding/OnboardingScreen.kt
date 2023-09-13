@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,12 +43,13 @@ fun OnboardingRoute(
     navigateToPassword: () -> Unit
 ) {
 
+    val onboardingState = viewModel.state.collectAsState()
 
     OnboardingScreen(
         wish = { newWish ->
             viewModel.wish(newWish)
         },
-        state = viewModel.state,
+        state = onboardingState,
         flow = viewModel.effect,
         navigateToPassword = {
             navigateToPassword.invoke()
@@ -58,16 +61,13 @@ fun OnboardingRoute(
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
     wish: (OnboardingWish) -> Unit,
-    state: StateFlow<OnboardingState>,
+    state: State<OnboardingState>,
     flow: Flow<OnboardingEffect>,
     navigateToPassword: () -> Unit
 ) {
 
-    val onboardingState = state.collectAsState()
-
-
     LaunchedEffect(key1 = true) {
-       flow.collectLatest {
+        flow.collectLatest {
             when (it) {
                 OnboardingEffect.SignUp -> {
                     navigateToPassword.invoke()
@@ -83,21 +83,39 @@ fun OnboardingScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = modifier.height(24.dp))
 
-        OnboardingImage(
-            modifier = modifier.fillMaxWidth().weight(1f).padding(start = 24.dp, end = 24.dp)
-        )
+        when {
+            state.value.isLogged -> {
+                LaunchedEffect(true) {
+                    navigateToPassword.invoke()
+                }
+            }
+            state.value.isLoading -> {
+                CircularProgressIndicator(
+                    modifier = modifier.align(Alignment.CenterHorizontally)
+                )
+            }
 
-        OnboardingHeadline()
+            state.value.isFirstTime -> {
+                Spacer(modifier = modifier.height(24.dp))
 
-        OnboardingDescription(modifier)
+                OnboardingImage(
+                    modifier = modifier.fillMaxWidth().weight(1f)
+                        .padding(start = 24.dp, end = 24.dp)
+                )
 
-        Spacer(modifier.height(24.dp))
+                OnboardingHeadline()
 
-        GetStartedButton(modifier) { wish.invoke(OnboardingWish.GetStartedClick) }
+                OnboardingDescription(modifier)
 
-        Spacer(modifier = modifier.height(24.dp))
+                Spacer(modifier.height(24.dp))
+
+                GetStartedButton(modifier) { wish.invoke(OnboardingWish.GetStartedClick) }
+
+                Spacer(modifier = modifier.height(24.dp))
+            }
+        }
+
     }
 }
 

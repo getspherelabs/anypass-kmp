@@ -3,6 +3,9 @@ package io.spherelabs.features.onboardingpresentation
 import io.spherelabs.meteor.middleware.Middleware
 import io.spherelabs.onboardingdomain.IsFirstTime
 import io.spherelabs.onboardingdomain.SetIsFirstTime
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
 class OnboardingMiddleware(
     private val isFirstTime: IsFirstTime,
@@ -16,15 +19,17 @@ class OnboardingMiddleware(
     ) {
         when (wish) {
             OnboardingWish.CheckFirstTime -> {
-                println("[Test] Onboarding wish starts in middleware")
-                runCatching {
-                    isFirstTime.execute()
-                }.onSuccess {
-                    println("[Test] Onboarding wish in success")
-                    next.invoke(OnboardingWish.IsFinished(it))
-                }.onFailure {
-                    val failureMessage = it.message ?: "Error is occurred."
-                    next.invoke(OnboardingWish.Failed(failureMessage))
+                withContext(Dispatchers.IO) {
+                    next.invoke(OnboardingWish.OnLoadingChanged(true))
+                    runCatching {
+                        isFirstTime.execute()
+                    }.onSuccess {
+                        println("[Test] Onboarding wish in success")
+                        next.invoke(OnboardingWish.IsFinished(it))
+                    }.onFailure {
+                        val failureMessage = it.message ?: "Error is occurred."
+                        next.invoke(OnboardingWish.Failed(failureMessage))
+                    }
                 }
             }
             OnboardingWish.GetStartedClick -> {
@@ -35,13 +40,17 @@ class OnboardingMiddleware(
     }
 
     private suspend fun handleGetStartedClick(next: suspend (OnboardingWish) -> Unit) {
-        runCatching {
-            setIsFirstTime.execute(true)
-        }.onSuccess {
-            next.invoke(OnboardingWish.GetStarted)
-        }.onFailure {
-            val failureMessage = it.message ?: "Error is occurred."
-            next.invoke(OnboardingWish.Failed(failureMessage))
+        withContext(Dispatchers.IO) {
+            next.invoke(OnboardingWish.OnLoadingChanged(true))
+            runCatching {
+                setIsFirstTime.execute(true)
+            }.onSuccess {
+                next.invoke(OnboardingWish.GetStarted)
+            }.onFailure {
+                val failureMessage = it.message ?: "Error is occurred."
+                next.invoke(OnboardingWish.Failed(failureMessage))
+            }
         }
+
     }
 }
