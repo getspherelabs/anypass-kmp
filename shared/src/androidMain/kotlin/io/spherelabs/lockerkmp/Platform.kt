@@ -22,7 +22,7 @@ fun ButtonPreview3() {
 @Preview
 @Composable
 fun ButtonPreview2() {
-    HomeScreen {}
+
 }
 
 

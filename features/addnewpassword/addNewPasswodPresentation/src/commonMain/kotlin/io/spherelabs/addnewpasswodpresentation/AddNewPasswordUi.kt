@@ -8,7 +8,7 @@ data class AddNewPasswordUi(
     val id: String,
     val title: String = String.Empty,
     val email: String = String.Empty,
-    val category: CategoryDomain?,
+    val category: String?,
     val username: String = String.Empty,
     val password: String = String.Empty,
     val websiteAddress: String = String.Empty,
@@ -21,7 +21,7 @@ fun AddNewPasswordUi.asDomain(): AddNewPasswordDomain {
     return AddNewPasswordDomain(
         id = this.id,
         title = this.title,
-        category = this.category,
+        category = this.category ?: String.Empty,
         username = this.username,
         email = this.email,
         password = this.password,
