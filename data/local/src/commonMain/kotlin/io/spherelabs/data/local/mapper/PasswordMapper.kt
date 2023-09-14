@@ -10,7 +10,7 @@ fun Password.asDomain(): AddNewPasswordDomain {
     return AddNewPasswordDomain(
         id = this.id,
         title = this.title ?: String.Empty,
-        category = this.category?.asCategoryDomain(),
+        category = this.category_id,
         username = this.username ?: String.Empty,
         email = this.email ?: String.Empty,
         password = this.password ?: String.Empty,
@@ -24,7 +24,7 @@ fun AddNewPasswordDomain.asEntity(): Password {
     return Password(
         id = this.id,
         title = this.title,
-        category = this.category?.asCategory(),
+        category_id = this.category,
         username = this.username,
         email = this.email,
         password = this.password,

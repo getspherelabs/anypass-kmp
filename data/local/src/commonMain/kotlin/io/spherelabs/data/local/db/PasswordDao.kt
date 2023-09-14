@@ -18,7 +18,7 @@ interface PasswordDao {
 }
 
 class DefaultPasswordDao(
-    database: LockerDatabase
+    database: LockerDatabase,
 ) : PasswordDao {
 
     private val queries = database.passwordQueries
@@ -32,7 +32,7 @@ class DefaultPasswordDao(
                 title = password.title,
                 username = password.username,
                 password = password.password,
-                category = password.category,
+                category_id = password.category_id,
                 websiteAddress = password.websiteAddress,
                 notes = password.notes,
                 image = password.image
@@ -46,7 +46,7 @@ class DefaultPasswordDao(
                 title = password.title,
                 username = password.username,
                 password = password.password,
-                category = password.category,
+                category_id = password.category_id,
                 email = password.email,
                 websiteAddress = password.websiteAddress,
                 notes = password.notes,

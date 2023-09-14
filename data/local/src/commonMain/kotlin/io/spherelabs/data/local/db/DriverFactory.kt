@@ -9,5 +9,5 @@ expect class DriverFactory {
 }
 
 fun createDatabase(driver: DriverFactory): LockerDatabase {
-    return LockerDatabase.invoke(driver.createDriver(), Password.Adapter(CategoryAdapter))
+    return LockerDatabase.invoke(driver.createDriver())
 }
