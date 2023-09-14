@@ -14,7 +14,7 @@ object Version {
     const val composeLifecycleVersion = "2.6.0"
     const val accompanistNavigationVersion = "0.30.1"
     const val composeAnimationVersion = "1.4.3"
-    const val sqldelightVersion = "2.0.0-rc02"
+    const val sqldelightVersion = "2.0.0"
     const val ktlint = "10.3.0"
     const val koverVersion = "0.6.0"
 }
