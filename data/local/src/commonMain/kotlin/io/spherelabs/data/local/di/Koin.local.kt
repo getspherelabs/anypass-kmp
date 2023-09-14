@@ -1,10 +1,10 @@
 package io.spherelabs.data.local.di
 
 import io.spherelabs.addnewpassworddomain.repository.AddNewPasswordRepository
-import io.spherelabs.data.local.db.DefaultPasswordDao
-import io.spherelabs.data.local.db.PasswordDao
-import io.spherelabs.data.local.db.createDatabase
+import io.spherelabs.data.local.db.*
 import io.spherelabs.data.local.repository.DefaultAddNewPasswordRepository
+import io.spherelabs.data.local.repository.DefaultHomeRepository
+import io.spherelabs.home.homedomain.repository.HomeRepository
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -14,5 +14,7 @@ val localModule = module {
     includes(platformModule())
     factory { createDatabase(get()) }
     single<PasswordDao> { DefaultPasswordDao(get()) }
+    single<CategoryDao> { DefaultCategoryDao(get()) }
     single<AddNewPasswordRepository> { DefaultAddNewPasswordRepository(get()) }
+    single<HomeRepository> { DefaultHomeRepository(get()) }
 }

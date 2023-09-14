@@ -85,7 +85,7 @@ internal fun CollapsingLayout(
                 .onSizeChanged { size ->
                     collapsingTopHeight = size.height.toFloat()
                 }
-                .offset { IntOffset(x = 0, y = (collapsingTopHeight).roundToInt()) },
+                .offset { IntOffset(x = 0, y = (offset * 1.5).roundToInt()) },
             content = collapsingTop,
         )
         Box(
