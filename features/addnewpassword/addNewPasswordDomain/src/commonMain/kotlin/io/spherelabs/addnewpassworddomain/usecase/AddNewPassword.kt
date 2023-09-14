@@ -4,25 +4,16 @@ import io.spherelabs.addnewpassworddomain.model.AddNewPasswordDomain
 import io.spherelabs.addnewpassworddomain.repository.AddNewPasswordRepository
 
 interface AddNewPassword {
-    suspend fun execute(password: AddNewPasswordDomain?): Result<Unit>
+    suspend fun execute(password: AddNewPasswordDomain)
 }
 
 class DefaultAddNewPassword(
     private val repository: AddNewPasswordRepository
 ) : AddNewPassword {
 
-    override suspend fun execute(password: AddNewPasswordDomain?): Result<Unit> {
-        return password?.let {
-            if (password.password.length <= 10) {
-                Result.failure(Exception("Password the length"))
-            } else {
-                kotlin.runCatching {
-                    repository.insertPassword(password)
-                }
-            }
-        } ?: kotlin.run {
-            Result.failure(Exception("Invalid the input password"))
-        }
+    override suspend fun execute(password: AddNewPasswordDomain) {
+        repository.insertPassword(password)
+        println("Result succes is add neww password")
 
     }
 

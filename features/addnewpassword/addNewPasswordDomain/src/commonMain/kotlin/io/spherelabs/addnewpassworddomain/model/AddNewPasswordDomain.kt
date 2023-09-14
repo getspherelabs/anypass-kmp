@@ -6,7 +6,7 @@ data class AddNewPasswordDomain(
     val id: String,
     val title: String = String.Empty,
     val email: String = String.Empty,
-    val category: CategoryDomain?,
+    val category: String = String.Empty,
     val username: String = String.Empty,
     val password: String = String.Empty,
     val websiteAddress: String = String.Empty,
