@@ -32,7 +32,6 @@ kotlin {
 
     }
 
-    // Configure the framework which is generated internally by cocoapods plugin
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
             linkerOpts.add("-lsqlite3")
@@ -73,6 +72,9 @@ kotlin {
 
                 api(project(":data:local"))
                 api(project(":manager:biometry"))
+
+                api(project(":features:home:homeDomain"))
+                api(project(":features:home:homePresentation"))
 
                 implementation(Libs.Koin.compose)
 
@@ -133,8 +135,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 

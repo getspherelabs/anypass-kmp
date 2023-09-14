@@ -1,29 +1,37 @@
-import app.cash.sqldelight.gradle.kotlin.linkSqlite
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("app.cash.sqldelight") version "2.0.0-rc02"
+    id("app.cash.sqldelight") version "2.0.0"
+    kotlin("native.cocoapods")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    android()
+
+    ios()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        ios.deploymentTarget = "14.1"
+
+        podfile = project.file("../iosApp/Podfile")
+
+        framework {
             baseName = "local"
+
+            export("dev.icerock.moko:resources:0.22.3")
         }
+
+        extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
+
     }
+
 
     sourceSets {
         val commonMain by getting {
@@ -34,6 +42,8 @@ kotlin {
                 implementation(Libs.SqlDelight.primitiveAdapter)
 
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
+                api(project(":features:home:homeDomain"))
+                api("dev.icerock.moko:resources:0.23.0")
             }
         }
         val commonTest by getting {
@@ -48,32 +58,37 @@ kotlin {
                 implementation(Libs.Koin.android)
             }
         }
-        val androidUnitTest by getting
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(Libs.SqlDelight.test)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation(Libs.SqlDelight.native)
+               api(Libs.SqlDelight.native)
+                implementation("co.touchlab:sqliter-driver:1.2.3")
             }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by creating {
+        val iosTest by getting {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
 
-//            dependencies {
-//                implementation(Libs.SqlDelight.test)
-//            }
+            dependencies {
+                implementation(Libs.SqlDelight.test)
+            }
         }
     }
 }
@@ -81,9 +96,23 @@ kotlin {
 android {
     namespace = "io.spherelabs.data.local"
     compileSdk = 33
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
     defaultConfig {
         minSdk = 24
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "io.spherelabs.lockerkmp.local"
 }
 
 

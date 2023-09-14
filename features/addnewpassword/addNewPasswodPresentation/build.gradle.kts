@@ -7,7 +7,7 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "1.8"
             }
         }
     }
