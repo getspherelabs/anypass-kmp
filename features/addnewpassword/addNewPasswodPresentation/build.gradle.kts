@@ -7,7 +7,7 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -29,8 +29,6 @@ kotlin {
 
                 api(Libs.Meteor.core)
                 api(Libs.Koin.core)
-
-                implementation("com.benasher44:uuid:0.8.1")
             }
         }
         val commonTest by getting {

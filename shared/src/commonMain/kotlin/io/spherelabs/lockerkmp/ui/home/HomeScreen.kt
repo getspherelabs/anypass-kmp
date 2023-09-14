@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
@@ -42,33 +43,29 @@ fun HomeScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = colorResource(MR.colors.lavender),
-        content =  {
-            CollapsingToolbarScaffold(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(it),
-                scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-                state = toolbarState,
-                toolbar = {
-                    Row(
-                        modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        RoundedImage(
-                            painter = mokoPainterResource(MR.images.avatar), contentDescription = null
-                        )
-
-                        NewItemButton {
-                            navigateToCreatePassword.invoke()
-                        }
-                    }
-                    Headline()
-
-                }
+        topBar = {
+            Row(
+                modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                                Column(
+                RoundedImage(
+                    painter = mokoPainterResource(MR.images.avatar),
+                    contentDescription = null
+                )
+
+                NewItemButton {
+                    navigateToCreatePassword.invoke()
+                }
+            }
+        },
+        content = {
+            CollapsingLayout(collapsingTop = {
+                Headline(fontSize = 32.sp)
+            }, bodyContent = {
+                Column(
                     modifier = modifier.fillMaxWidth()
-                        .background(color = colorResource(MR.colors.lavender)),
+                        .background(color = colorResource(MR.colors.lavender))
+                        .verticalScroll(state),
                     verticalArrangement = Arrangement.Top
                 ) {
                     Row(
@@ -96,7 +93,7 @@ fun HomeScreen(
                         }
                     }
 
-                    Column(modifier = modifier.fillMaxSize().verticalScroll(state)) {
+                    Column(modifier = modifier.fillMaxSize()) {
                         Text(
                             modifier = modifier.padding(start = 24.dp),
                             text = "Password Health",
@@ -212,7 +209,10 @@ fun HomeScreen(
                 }
 
             }
-        }
+            )
+
+        })
+}
 
 //        topBar = {
 //            Row(
@@ -382,9 +382,6 @@ fun HomeScreen(
 //
 //                }
 //            }
-        )
-    }
-
 
 
 @Composable
@@ -426,7 +423,8 @@ fun DomainCard(
 
 @Composable
 fun Headline(
-    modifier: Modifier = Modifier
+    fontSize: TextUnit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.padding(start = 24.dp)
@@ -435,7 +433,7 @@ fun Headline(
             Text(
                 text = "Keep",
                 color = colorResource(MR.colors.white),
-                fontSize = 32.sp,
+                fontSize = fontSize,
                 fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
             )
             Spacer(modifier = modifier.width(12.dp))
@@ -453,7 +451,7 @@ fun Headline(
             Text(
                 text = "Your Life",
                 color = colorResource(MR.colors.white),
-                fontSize = 32.sp,
+                fontSize = fontSize,
                 fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
             )
 
@@ -462,7 +460,7 @@ fun Headline(
             Text(
                 text = "Safe",
                 color = colorResource(MR.colors.white),
-                fontSize = 32.sp,
+                fontSize = fontSize,
                 fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
             )
             Spacer(modifier = modifier.width(12.dp))
@@ -534,8 +532,6 @@ fun Boxes(
         }
     }
 }
-
-
 
 
 @Composable

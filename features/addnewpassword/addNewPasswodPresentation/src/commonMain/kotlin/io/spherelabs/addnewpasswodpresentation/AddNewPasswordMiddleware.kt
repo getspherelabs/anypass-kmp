@@ -1,7 +1,8 @@
 package io.spherelabs.addnewpasswodpresentation
 
-import com.benasher44.uuid.uuid4
+
 import io.spherelabs.addnewpassworddomain.usecase.AddNewPassword
+import io.spherelabs.common.uuid4
 import io.spherelabs.meteor.middleware.Middleware
 
 class AddNewPasswordMiddleware(
@@ -30,7 +31,7 @@ class AddNewPasswordMiddleware(
                 next.invoke(
                     AddNewPasswordWish.InsertPassword(
                         AddNewPasswordUi(
-                            id =  uuid4().toString(),
+                            id =  uuid4(),
                             title = state.title,
                             password = state.password,
                             websiteAddress = state.websiteAddress,
