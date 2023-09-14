@@ -1,3 +1,5 @@
+import app.cash.sqldelight.gradle.kotlin.linkSqlite
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -90,5 +92,6 @@ sqldelight {
         create("LockerDatabase") {
             packageName.set("io.spherelabs.local.db")
         }
+        linkSqlite.set(true)
     }
 }

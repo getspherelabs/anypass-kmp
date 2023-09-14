@@ -25,11 +25,19 @@ kotlin {
 
         framework {
             baseName = "shared"
-            isStatic = true
+
             export("dev.icerock.moko:resources:0.22.3")
         }
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
+    }
+
+    // Configure the framework which is generated internally by cocoapods plugin
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
+            linkerOpts.add("-lsqlite3")
+
+        }
     }
 
     sourceSets {
@@ -67,7 +75,7 @@ kotlin {
                 api(project(":manager:biometry"))
 
                 implementation(Libs.Koin.compose)
-                implementation("com.benasher44:uuid:0.8.1")
+
             }
         }
         val commonTest by getting {
@@ -92,6 +100,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by getting {
             dependsOn(commonMain)
+
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
@@ -124,8 +133,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
 

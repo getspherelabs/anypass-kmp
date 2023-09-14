@@ -82,7 +82,7 @@ fun AddNewPasswordScreen(
 
                 }
                 AddNewPasswordEffect.GeneratePassword -> {
-                    navigateToGeneratePassword.invoke()
+                    // navigateToGeneratePassword.invoke()
                 }
                 is AddNewPasswordEffect.Success -> {
                     scope.launch {
@@ -174,7 +174,8 @@ fun AddNewPasswordScreen(
                     .fillMaxWidth()
                     .padding(start = 24.dp, bottom = 4.dp, top = 8.dp)
                     .clickable {
-                        wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
+                        navigateToGeneratePassword.invoke()
+//                        wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {

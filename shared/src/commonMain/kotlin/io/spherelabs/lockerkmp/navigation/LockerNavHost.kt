@@ -30,7 +30,6 @@ fun LockerNavHost(
             navigationController.navigateToAddNewPassword()
         }
         addNewPasswordScreen(
-            navigateToHome =  {},
             navigateToGeneratePassword = {
                 navigationController.navigateToCreatePassword()
             }

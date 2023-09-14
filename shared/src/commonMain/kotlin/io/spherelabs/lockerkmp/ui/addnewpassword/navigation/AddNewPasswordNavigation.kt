@@ -12,7 +12,6 @@ fun NavigationController<Route>.navigateToAddNewPassword() {
 }
 
 fun NavHostScope<Route>.addNewPasswordScreen(
-    navigateToHome: () -> Unit,
     navigateToGeneratePassword: () -> Unit
 ) {
     this.composable<Route.AddNewPassword> {
