@@ -37,7 +37,7 @@ import kotlin.math.sign
 import kotlin.math.sqrt
 
 
-class SwiperState(
+class LKSwiperState(
     private val animationSpec: AnimationSpec<Offset> = SpringSpec(),
 ) {
 
@@ -59,7 +59,7 @@ class SwiperState(
 
     var isEnabled: Boolean by mutableStateOf(false)
 
-    internal var directions: Set<SwipeDirection> by mutableStateOf(setOf())
+    internal var directions: Set<LKSwipeDirection> by mutableStateOf(setOf())
 
     internal var verticalThreshold: Float by mutableFloatStateOf(0.0f)
 
@@ -91,7 +91,7 @@ class SwiperState(
     }
 
     suspend fun animateTo(
-        target: SwipeDirection,
+        target: LKSwipeDirection,
         animation: AnimationSpec<Offset> = animationSpec,
     ) {
         try {
@@ -112,7 +112,7 @@ class SwiperState(
         maxWidth = width
     }
 
-    internal suspend fun performFling(velocity: Velocity): SwipeDirection? {
+    internal suspend fun performFling(velocity: Velocity): LKSwipeDirection? {
         val target = computeTarget(
             offset = offset,
             velocity = velocity,
@@ -145,37 +145,37 @@ class SwiperState(
         }
     }
 
-    fun offsetByDirection(direction: SwipeDirection): Offset = when (direction) {
-        SwipeDirection.Left -> {
+    fun offsetByDirection(direction: LKSwipeDirection): Offset = when (direction) {
+        LKSwipeDirection.Left -> {
             val distance = -maxWidth - (horizontalThreshold / 2)
             Offset(distance, offset.y)
         }
 
-        SwipeDirection.Right -> {
+        LKSwipeDirection.Right -> {
             val distance = maxWidth + (horizontalThreshold / 2)
             Offset(distance, offset.y)
         }
 
-        SwipeDirection.Up -> {
+        LKSwipeDirection.Up -> {
             val distance = -maxHeight - (verticalThreshold / 5)
             Offset(offset.x, distance)
         }
 
-        SwipeDirection.Down -> {
+        LKSwipeDirection.Down -> {
             val distance = maxHeight + (verticalThreshold / 5)
             Offset(offset.x, distance)
         }
     }
 
     private suspend fun animateToDirection(
-        target: SwipeDirection,
+        target: LKSwipeDirection,
         animation: AnimationSpec<Offset> = animationSpec,
     ) {
         val targetOffset = offsetByDirection(target)
         internalAnimateTo(targetOffset, animation)
     }
 
-    private suspend fun snapToDirection(target: SwipeDirection) {
+    private suspend fun snapToDirection(target: LKSwipeDirection) {
         val targetOffset = offsetByDirection(target)
         internalSnapTo(targetOffset, MutatePriority.PreventUserInput)
     }
@@ -226,19 +226,19 @@ class SwiperState(
         velocityThreshold: Float,
         horizontalThreshold: Float,
         verticalThreshold: Float
-    ): SwipeDirection? {
+    ): LKSwipeDirection? {
         return when {
-            offset.x <= 0f && abs(velocity.x) >= velocityThreshold -> SwipeDirection.Left
-            offset.x <= 0f && abs(offset.x) > horizontalThreshold -> SwipeDirection.Left
+            offset.x <= 0f && abs(velocity.x) >= velocityThreshold -> LKSwipeDirection.Left
+            offset.x <= 0f && abs(offset.x) > horizontalThreshold -> LKSwipeDirection.Left
 
-            offset.x >= 0f && velocity.x >= velocityThreshold -> SwipeDirection.Right
-            offset.x >= 0f && offset.x > horizontalThreshold -> SwipeDirection.Right
+            offset.x >= 0f && velocity.x >= velocityThreshold -> LKSwipeDirection.Right
+            offset.x >= 0f && offset.x > horizontalThreshold -> LKSwipeDirection.Right
 
-            offset.y <= 0f && abs(velocity.y) >= velocityThreshold -> SwipeDirection.Up
-            offset.y <= 0f && abs(offset.y) > verticalThreshold -> SwipeDirection.Up
+            offset.y <= 0f && abs(velocity.y) >= velocityThreshold -> LKSwipeDirection.Up
+            offset.y <= 0f && abs(offset.y) > verticalThreshold -> LKSwipeDirection.Up
 
-            offset.y >= 0f && offset.y > verticalThreshold -> SwipeDirection.Down
-            offset.y >= 0f && velocity.y >= velocityThreshold -> SwipeDirection.Down
+            offset.y >= 0f && offset.y > verticalThreshold -> LKSwipeDirection.Down
+            offset.y >= 0f && velocity.y >= velocityThreshold -> LKSwipeDirection.Down
 
             else -> null
         }
@@ -262,10 +262,10 @@ class SwiperState(
 
 @OptIn(ExperimentalMaterialApi::class)
 internal fun Modifier.swiper(
-    state: SwiperState,
-    directions: Set<SwipeDirection> = emptySet(),
+    state: LKSwiperState,
+    directions: Set<LKSwipeDirection> = emptySet(),
     threshold: (Orientation) -> ThresholdConfig = { FractionalThreshold(0.3f) },
-    onSwiped: (SwipeDirection) -> Unit = {},
+    onSwiped: (LKSwipeDirection) -> Unit = {},
     velocityThreshold: Dp = 125.dp,
 ): Modifier = composed {
     val density = LocalDensity.current

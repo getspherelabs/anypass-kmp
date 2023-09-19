@@ -8,30 +8,29 @@ import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.SwipeableDefaults
 import androidx.compose.material.ThresholdConfig
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
-import com.haroncode.lazycardstack.LazyCardStackState
-import com.haroncode.lazycardstack.rememberLazyCardStackState
+import io.spherelabs.designsystem.hooks.useScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun LazyCardStack(
+fun LKCardStack(
     modifier: Modifier = Modifier,
     threshold: (Orientation) -> ThresholdConfig = { FractionalThreshold(0.3f) },
     velocityThreshold: Dp = SwipeableDefaults.VelocityThreshold,
-    directions: Set<SwipeDirection> = setOf(SwipeDirection.Left, SwipeDirection.Right),
-    state: LazyCardStackState = rememberLazyCardStackState(),
-    onSwipedItem: (Int, SwipeDirection) -> Unit = { _, _ -> },
-    content: LazyCardStackScope.() -> Unit
+    directions: Set<LKSwipeDirection> = setOf(LKSwipeDirection.Left, LKSwipeDirection.Right),
+    state: LKCardStackState = useLKCardStackState(),
+    onSwipedItem: (Int, LKSwipeDirection) -> Unit = { _, _ -> },
+    content: LKCardStackScope.() -> Unit
 ) {
     val itemProviderLambda = rememberLazyCardStackItemProviderLambda(state, content)
-    val measurePolicy = rememberLazyCardStackMeasurePolicy(state, itemProviderLambda)
+    val measurePolicy = rememberLKCardStackMeasurePolicy(state, itemProviderLambda)
 
-    val scope = rememberCoroutineScope()
+    val scope = useScope()
+
     LazyLayout(
         modifier = Modifier
             .then(state.remeasurementModifier)

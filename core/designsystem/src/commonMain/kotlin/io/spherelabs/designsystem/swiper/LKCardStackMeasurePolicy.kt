@@ -9,12 +9,11 @@ import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.round
-import com.haroncode.lazycardstack.LazyCardStackState
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun rememberLazyCardStackMeasurePolicy(
-    state: LazyCardStackState,
+fun rememberLKCardStackMeasurePolicy(
+    state: LKCardStackState,
     itemProviderLambda: () -> LazyLayoutItemProvider,
 ) = remember<LazyLayoutMeasureScope.(Constraints) -> MeasureResult>(
     state,
