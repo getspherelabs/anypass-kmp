@@ -1,12 +1,9 @@
 package io.spherelabs.lockerkmp.ui.confirmpassword
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,11 +13,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,18 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.cell.PinInput
 import io.spherelabs.lockerkmp.components.grid.GridLayout
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ConfirmPassword(
     navigateToHome: () -> Unit
-
 ) {
 
-    var pin by remember { mutableStateOf("") }
     val text = remember { mutableStateOf("") }
 
     val (editValue, setEditValue) = remember { mutableStateOf("") }
@@ -52,12 +43,9 @@ fun ConfirmPassword(
 
         Spacer(modifier = Modifier.height(75.dp))
 
-        // Bordered PIN View
-        PinInput(
+        LKPinInput(
             value = text.value,
-            obscureText = "*",
-            length = 4, //Use the number defined here
-            disableKeypad = true, //Do not open the android keypad
+            disableKeypad = true
         ) {
             text.value = it
         }

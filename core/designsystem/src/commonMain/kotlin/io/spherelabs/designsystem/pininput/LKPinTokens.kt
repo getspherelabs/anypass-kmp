@@ -1,4 +1,4 @@
-package io.spherelabs.lockerkmp.components.cell
+package io.spherelabs.designsystem.pininput
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,7 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-object CellTokens {
+object LKPinTokens {
     val CellModifier: Modifier = Modifier.padding(horizontal = 2.dp).size(48.dp)
     val CellShape: Shape = RoundedCornerShape(16.dp)
     val BackgroundColor: Color = Color.White
