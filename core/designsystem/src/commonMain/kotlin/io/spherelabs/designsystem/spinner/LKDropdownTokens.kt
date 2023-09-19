@@ -3,11 +3,11 @@ package io.spherelabs.designsystem.spinner
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.unit.dp
 
-object LockerDropdownTokens {
+object LKDropdownTokens {
     val MenuElevation = 8.dp
     val MenuVerticalMargin = 48.dp
     val MenuItemHorizontalPadding = 16.dp
-    val MenuItemVerticalPadding = 0.dp
+    private val MenuItemVerticalPadding = 0.dp
     val MenuVerticalPadding = 8.dp
     val MenuItemDefaultMinWidth = 112.dp
     val MenuItemDefaultMaxWidth = 280.dp

@@ -31,6 +31,7 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
+                implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
             }
         }
         val commonTest by getting {

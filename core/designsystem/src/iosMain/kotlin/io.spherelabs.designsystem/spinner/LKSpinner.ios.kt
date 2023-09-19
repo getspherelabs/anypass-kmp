@@ -1,4 +1,4 @@
-package io.spherelabs.designsystem.compose
+package io.spherelabs.designsystem.spinner
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -7,26 +7,18 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.InputMode
-import androidx.compose.ui.input.InputModeManager
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -35,15 +27,10 @@ import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProvider
 import io.spherelabs.designsystem.hooks.useState
 import io.spherelabs.designsystem.hooks.useTransition
 import kotlin.math.max
@@ -51,19 +38,23 @@ import kotlin.math.min
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-actual fun Spinner(
-    expanded: Boolean, onExpandedChange: (Boolean) -> Unit,
+actual fun LKSpinner(
+    expanded: Boolean, modifier: Modifier, onExpandedChange: (Boolean) -> Unit,
     options: List<String>, onOptionChosen: (String) -> Unit, current: String
 ) {
     val lightBlue = Color(0xffd8e6ff)
 
     DropdownMenuBox(
-        modifier = Modifier.fillMaxWidth().height(65.dp).padding(horizontal = 24.dp),
+        modifier = modifier.fillMaxWidth().height(65.dp).padding(horizontal = 24.dp).clip(
+            RoundedCornerShape(8.dp)
+        ),
         expanded = expanded,
         onExpandedChange = onExpandedChange
     ) {
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth().clip(
+                RoundedCornerShape(8.dp)
+            ),
             readOnly = true,
             value = current,
             onValueChange = {},
@@ -71,7 +62,7 @@ actual fun Spinner(
                 Text(text = "Choose a category", color = Color.Black.copy(0.5f))
             },
             trailingIcon = {
-                TrailingIcon(expanded)
+                LKDropdownDefaults.TrailingIcon(expanded)
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = lightBlue,
@@ -208,7 +199,7 @@ internal fun DropdownMenuItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    contentPadding: PaddingValues = MenuDefaults.DropdownMenuItemContentPadding,
+    dropdownStyle: LKDropdownStyle = LKDropdownDefaults.dropdownStyle(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
 ) {
@@ -216,7 +207,7 @@ internal fun DropdownMenuItem(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
-        contentPadding = contentPadding,
+        contentPadding = dropdownStyle.itemContentPadding().value,
         interactionSource = interactionSource,
         content = content
     )
@@ -237,14 +228,14 @@ internal fun DropdownMenuContent(
             if (false isTransitioningTo true) {
                 // Dismissed to expanded
                 tween(
-                    durationMillis = InTransitionDuration,
+                    durationMillis = LKDropdownTokens.InTransitionDuration,
                     easing = LinearOutSlowInEasing
                 )
             } else {
                 // Expanded to dismissed.
                 tween(
                     durationMillis = 1,
-                    delayMillis = OutTransitionDuration - 1
+                    delayMillis = LKDropdownTokens.OutTransitionDuration - 1
                 )
             }
         }
@@ -265,7 +256,7 @@ internal fun DropdownMenuContent(
                 tween(durationMillis = 30)
             } else {
                 // Expanded to dismissed.
-                tween(durationMillis = OutTransitionDuration)
+                tween(durationMillis = LKDropdownTokens.OutTransitionDuration)
             }
         }
     ) {
@@ -284,11 +275,11 @@ internal fun DropdownMenuContent(
             this.alpha = alpha
             transformOrigin = transformOriginState.value
         },
-        elevation = MenuElevation
+        elevation = LKDropdownTokens.MenuElevation
     ) {
         Column(
             modifier = modifier
-                .padding(vertical = DropdownMenuVerticalPadding)
+                .padding(vertical = LKDropdownTokens.MenuVerticalPadding)
                 .width(IntrinsicSize.Max)
                 .verticalScroll(rememberScrollState()),
             content = content
@@ -316,9 +307,9 @@ internal fun DropdownMenuItemContent(
             )
             .fillMaxWidth()
             .sizeIn(
-                minWidth = DropdownMenuItemDefaultMinWidth,
-                maxWidth = DropdownMenuItemDefaultMaxWidth,
-                minHeight = DropdownMenuItemDefaultMinHeight
+                minWidth = LKDropdownTokens.MenuItemDefaultMinWidth,
+                maxWidth = LKDropdownTokens.MenuItemDefaultMaxWidth,
+                minHeight = LKDropdownTokens.MenuItemDefaultMinHeight
             )
             .padding(contentPadding),
         verticalAlignment = Alignment.CenterVertically
@@ -332,24 +323,6 @@ internal fun DropdownMenuItemContent(
         }
     }
 }
-
-object MenuDefaults {
-    val DropdownMenuItemContentPadding = PaddingValues(
-        horizontal = DropdownMenuItemHorizontalPadding,
-        vertical = 0.dp
-    )
-}
-
-private val MenuElevation = 8.dp
-internal val MenuVerticalMargin = 48.dp
-private val DropdownMenuItemHorizontalPadding = 16.dp
-internal val DropdownMenuVerticalPadding = 8.dp
-private val DropdownMenuItemDefaultMinWidth = 112.dp
-private val DropdownMenuItemDefaultMaxWidth = 280.dp
-private val DropdownMenuItemDefaultMinHeight = 48.dp
-
-internal const val InTransitionDuration = 120
-internal const val OutTransitionDuration = 75
 
 internal fun calculateTransformOrigin(
     parentBounds: IntRect,
@@ -379,91 +352,3 @@ internal fun calculateTransformOrigin(
     return TransformOrigin(pivotX, pivotY)
 }
 
-/**
- * Calculates the position of a Material [DropdownMenu].
- */
-@Immutable
-internal data class DropdownMenuPositionProvider(
-    val contentOffset: DpOffset,
-    val density: Density,
-    val onPositionCalculated: (IntRect, IntRect) -> Unit = { _, _ -> }
-) : PopupPositionProvider {
-    override fun calculatePosition(
-        anchorBounds: IntRect,
-        windowSize: IntSize,
-        layoutDirection: LayoutDirection,
-        popupContentSize: IntSize
-    ): IntOffset {
-        // The min margin above and below the menu, relative to the screen.
-        val verticalMargin = with(density) { MenuVerticalMargin.roundToPx() }
-        // The content offset specified using the dropdown offset parameter.
-        val contentOffsetX = with(density) { contentOffset.x.roundToPx() }
-        val contentOffsetY = with(density) { contentOffset.y.roundToPx() }
-
-        // Compute horizontal position.
-        val toRight = anchorBounds.left + contentOffsetX
-        val toLeft = anchorBounds.right - contentOffsetX - popupContentSize.width
-        val toDisplayRight = windowSize.width - popupContentSize.width
-        val toDisplayLeft = 0
-        val x = if (layoutDirection == LayoutDirection.Ltr) {
-            sequenceOf(
-                toRight,
-                toLeft,
-                // If the anchor gets outside of the window on the left, we want to position
-                // toDisplayLeft for proximity to the anchor. Otherwise, toDisplayRight.
-                if (anchorBounds.left >= 0) toDisplayRight else toDisplayLeft
-            )
-        } else {
-            sequenceOf(
-                toLeft,
-                toRight,
-                // If the anchor gets outside of the window on the right, we want to position
-                // toDisplayRight for proximity to the anchor. Otherwise, toDisplayLeft.
-                if (anchorBounds.right <= windowSize.width) toDisplayLeft else toDisplayRight
-            )
-        }.firstOrNull {
-            it >= 0 && it + popupContentSize.width <= windowSize.width
-        } ?: toLeft
-
-        // Compute vertical position.
-        val toBottom = maxOf(anchorBounds.bottom + contentOffsetY, verticalMargin)
-        val toTop = anchorBounds.top - contentOffsetY - popupContentSize.height
-        val toCenter = anchorBounds.top - popupContentSize.height / 2
-        val toDisplayBottom = windowSize.height - popupContentSize.height - verticalMargin
-        val y = sequenceOf(toBottom, toTop, toCenter, toDisplayBottom).firstOrNull {
-            it >= verticalMargin &&
-                    it + popupContentSize.height <= windowSize.height - verticalMargin
-        } ?: toTop
-
-        onPositionCalculated(
-            anchorBounds,
-            IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height)
-        )
-        return IntOffset(x, y)
-    }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-private fun handlePopupOnKeyEvent(
-    keyEvent: KeyEvent,
-    focusManager: FocusManager?,
-    inputModeManager: InputModeManager?
-): Boolean = if (keyEvent.type == KeyEventType.KeyDown) {
-    when (keyEvent.key) {
-        Key.DirectionDown -> {
-            inputModeManager?.requestInputMode(InputMode.Keyboard)
-            focusManager?.moveFocus(FocusDirection.Next)
-            true
-        }
-
-        Key.DirectionUp -> {
-            inputModeManager?.requestInputMode(InputMode.Keyboard)
-            focusManager?.moveFocus(FocusDirection.Previous)
-            true
-        }
-
-        else -> false
-    }
-} else {
-    false
-}
