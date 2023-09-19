@@ -38,7 +38,26 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependsOn(commonMain)
+            dependencies    {
+                implementation("androidx.savedstate:savedstate-ktx:1.2.1")
+                implementation("androidx.lifecycle:lifecycle-runtime:2.6.2")
+                implementation("androidx.compose.animation:animation-core:1.5.1")
+                implementation("androidx.compose.ui:ui-util:1.5.1")
+                implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.0")
+                api("androidx.compose.material:material-icons-core:1.5.1")
+                api("androidx.compose.material:material-ripple:1.5.1")
+                api("androidx.compose.runtime:runtime:1.5.1")
+                api("androidx.compose.ui:ui-graphics:1.5.1")
+                api("androidx.compose.ui:ui:1.5.1")
+                api("androidx.compose.ui:ui-text:1.5.1")
+                implementation("androidx.activity:activity-compose:1.7.2")
+                implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
+                implementation("androidx.compose.ui:ui-tooling:1.5.1")
+                implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
+            }
+        }
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting

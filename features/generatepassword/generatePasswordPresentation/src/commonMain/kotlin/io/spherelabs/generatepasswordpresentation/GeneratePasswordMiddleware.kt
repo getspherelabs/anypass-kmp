@@ -24,6 +24,7 @@ class GeneratePasswordMiddleware(
                     next.invoke(GeneratePasswordWish.OnPasswordChanged(newPassword))
                 }.onFailure {
                     val failureMessage = it.message ?: "Error is occurred."
+
                     next.invoke(
                         GeneratePasswordWish.GeneratePasswordFailed(
                             failureMessage

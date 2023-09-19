@@ -2,9 +2,8 @@ package io.spherelabs.lockerkmp
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import io.spherelabs.designsystem.passwordcard.PasswordCard
 import io.spherelabs.lockerkmp.ui.confirmpassword.ConfirmPassword
-import io.spherelabs.lockerkmp.ui.createpassword.GeneratePasswordScreen
-import io.spherelabs.lockerkmp.ui.home.HomeScreen
 
 
 @Preview
@@ -22,7 +21,11 @@ fun ButtonPreview3() {
 @Preview
 @Composable
 fun ButtonPreview2() {
-
+    PasswordCard(
+        password = "yesdllkdskoeroer123249lk",
+        title = "Behance",
+        email = "behzoddev@gmail.com",
+    )
 }
 
 

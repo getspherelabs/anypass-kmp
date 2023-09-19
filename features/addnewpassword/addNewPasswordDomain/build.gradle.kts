@@ -11,7 +11,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -27,8 +27,6 @@ kotlin {
             dependencies {
                 api(Libs.Coroutine.core)
                 api(Libs.Koin.core)
-
-                api(project(":core:common"))
             }
         }
         val commonTest by getting {

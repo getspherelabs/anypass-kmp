@@ -1,6 +1,7 @@
 package io.spherelabs.lockerkmp.components
 
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.material.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier

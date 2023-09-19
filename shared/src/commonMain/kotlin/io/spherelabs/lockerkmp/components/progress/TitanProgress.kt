@@ -13,12 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.ui.createpassword.purpleDark
 
 @Composable
 internal fun TissotProgress(
@@ -30,14 +30,13 @@ internal fun TissotProgress(
         modifier = modifier
             .fillMaxSize()
             .padding(105.dp)
-            .background(color = colorResource(MR.colors.dynamic_yellow), shape = CircleShape),
+            .background(color = Color.Yellow, shape = CircleShape),
     ) {
 
         Text(
             text = "$value",
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.bold),
             fontSize = 42.sp,
-            color = purpleDark,
+            color = Color.Magenta,
             modifier = Modifier.align(alignment = Alignment.Center)
         )
     }

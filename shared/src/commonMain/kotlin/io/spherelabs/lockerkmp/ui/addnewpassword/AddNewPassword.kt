@@ -23,7 +23,15 @@ import io.spherelabs.addnewpasswodpresentation.AddNewPasswordEffect
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordState
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordViewModel
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordWish
-import io.spherelabs.common.compose.rememberStableCoroutineScope
+import io.spherelabs.designsystem.ColorPalette
+import io.spherelabs.designsystem.DialogAndShowButton
+import io.spherelabs.designsystem.colorChooser
+import io.spherelabs.designsystem.compose.Spinner
+import io.spherelabs.designsystem.compose.rememberStableCoroutineScope
+import io.spherelabs.designsystem.dialog.title
+import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useSnackbar
+import io.spherelabs.designsystem.hooks.useState
 import io.spherelabs.lockerkmp.components.Headline
 import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.RoundedImage
@@ -58,6 +66,7 @@ fun AddNewPasswordRoute(
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddNewPasswordScreen(
     modifier: Modifier = Modifier,
@@ -66,11 +75,17 @@ fun AddNewPasswordScreen(
     flow: Flow<AddNewPasswordEffect>,
     navigateToGeneratePassword: () -> Unit
 ) {
-    val scrollState = rememberScrollState(0)
-    val snackbarHostState = remember { SnackbarHostState() }
+    val scrollState = rememberScrollState()
+    val snackbarHostState = useSnackbar()
     val scope = rememberStableCoroutineScope()
+    var (expand, setExpand) = useState(false)
+    val options = List(5) { "Item $it" }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf(options[0]) }
+    var option by remember { mutableStateOf("") }
+    var waitForPositiveButton by remember { mutableStateOf(false) }
 
-    LaunchedEffect(true) {
+    useEffect(true) {
         flow.collectLatest { effect ->
             when (effect) {
                 is AddNewPasswordEffect.Failure -> {
@@ -81,9 +96,11 @@ fun AddNewPasswordScreen(
                     }
 
                 }
+
                 AddNewPasswordEffect.GeneratePassword -> {
-                    // navigateToGeneratePassword.invoke()
+                    navigateToGeneratePassword.invoke()
                 }
+
                 is AddNewPasswordEffect.Success -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
@@ -153,10 +170,29 @@ fun AddNewPasswordScreen(
                 wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
             }, textLength = state.value.username.length)
 
+
+            Spinner(
+                expanded = expanded, onExpandedChange = {
+                    expanded = it
+                }, current = option, options = options, onOptionChosen = {
+                    option = it
+                })
+
             EmailTextField(state.value.email, onValueChanged = { newValue ->
                 wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
             })
 
+            DialogAndShowButton(
+                buttonText = "Color Picker Dialog",
+                buttons = {
+                    negativeButton("Cancel")
+                    positiveButton("Ok") }
+            ) {
+                title("Select a Color")
+                colorChooser(colors = ColorPalette.Primary, waitForPositiveButton = waitForPositiveButton) {
+                    println(it)
+                }
+            }
             PasswordTextField(state.value.password, onValueChanged = { newValue ->
                 wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
             })
@@ -174,8 +210,8 @@ fun AddNewPasswordScreen(
                     .fillMaxWidth()
                     .padding(start = 24.dp, bottom = 4.dp, top = 8.dp)
                     .clickable {
-                        navigateToGeneratePassword.invoke()
-//                        wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
+
+                        wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -227,5 +263,8 @@ fun AddNewPasswordScreen(
             }
         }
     }
-
 }
+
+
+
+

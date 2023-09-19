@@ -50,11 +50,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation(Libs.Android.coil)
                 implementation("androidx.activity:activity-compose:1.7.2")
-                implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
-                implementation("androidx.compose.material:material:1.5.0")
-                implementation("androidx.compose.ui:ui-tooling:1.5.0")
             }
         }
         val androidUnitTest by getting
@@ -105,8 +101,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
 
@@ -114,7 +110,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
     packagingOptions {
         resources {

@@ -28,7 +28,7 @@ kotlin {
                 api(Libs.Coroutine.core)
                 api(Libs.Koin.core)
 
-                api(project(":core:common"))
+                // implementation(project(":core:common"))
             }
         }
         val commonTest by getting {

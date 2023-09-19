@@ -87,6 +87,7 @@ kotlin {
 android {
     namespace = "io.spherelabs.features.onboardingpresentation"
     compileSdk = 33
+
     defaultConfig {
         minSdk = 24
     }

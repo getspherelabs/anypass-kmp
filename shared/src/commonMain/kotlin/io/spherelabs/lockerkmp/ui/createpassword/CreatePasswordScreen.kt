@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
-import io.spherelabs.common.compose.rememberStableCoroutineScope
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordEffect
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
@@ -29,7 +28,6 @@ import io.spherelabs.lockerkmp.components.BackButton
 import io.spherelabs.lockerkmp.components.UseButton
 import io.spherelabs.lockerkmp.components.progress.*
 import io.spherelabs.lockerkmp.components.slider.LockerSlider
-import io.spherelabs.lockerkmp.components.slider.SliderColors
 import io.spherelabs.lockerkmp.components.slider.SliderDefaults
 import io.spherelabs.lockerkmp.ui.home.CreateBoxes
 import kotlinx.coroutines.flow.Flow
@@ -65,7 +63,6 @@ fun GeneratePasswordScreen(
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberStableCoroutineScope()
 
     LaunchedEffect(true) {
         wish.invoke(GeneratePasswordWish.GeneratePassword())
@@ -73,9 +70,9 @@ fun GeneratePasswordScreen(
     Column(
         modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.grey))
     ) {
-        var progress by remember { mutableStateOf(0f) }
-        var tissot by remember { mutableStateOf(10) }
-
+//        var progress by remember { mutableStateOf(0f) }
+//        var tissot by remember { mutableStateOf(10) }
+//
         Text(
             modifier = modifier.padding(start = 24.dp, top = 8.dp),
             text = "Create Unique Password",
@@ -83,7 +80,7 @@ fun GeneratePasswordScreen(
             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
             color = Color.White
         )
-
+//
         Row(
             modifier = modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -210,9 +207,9 @@ fun GeneratePasswordScreen(
                 }
             }
         }
-
-
-
+//
+//
+//
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -255,7 +252,7 @@ fun GeneratePasswordScreen(
                 Text(
                     text = state.value.password,
                     fontSize = 24.sp,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.bold),
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White,
                     modifier = modifier.align(Alignment.CenterHorizontally)
                 )
@@ -273,7 +270,7 @@ fun GeneratePasswordScreen(
                 Box(
                     modifier = modifier.size(70.dp)
                         .background(
-                            color = colorResource(MR.colors.dynamic_yellow),
+                            color = Color.Yellow,
                             shape = CircleShape
                         )
                         .clickable {
@@ -289,7 +286,7 @@ fun GeneratePasswordScreen(
                     Box(
                         modifier = modifier.size(55.dp)
                             .background(
-                                color = colorResource(MR.colors.black),
+                                color = Color.Black,
                                 shape = CircleShape
                             ),
                         contentAlignment = Alignment.Center
@@ -310,8 +307,4 @@ fun GeneratePasswordScreen(
 }
 
 
-val purpleLightest = Color(216, 217, 235)
-val purpleLight = Color(186, 161, 252)
-val purple = Color(109, 99, 133)
-val purpleDark = Color(55, 46, 103)
 

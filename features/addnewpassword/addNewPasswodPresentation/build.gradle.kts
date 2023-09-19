@@ -29,6 +29,7 @@ kotlin {
 
                 api(Libs.Meteor.core)
                 api(Libs.Koin.core)
+                api(project(":core:common"))
             }
         }
         val commonTest by getting {

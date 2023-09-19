@@ -1,9 +1,6 @@
-import Libs.Koin.compose
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -28,10 +25,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-
-                api(Libs.Coroutine.core)
             }
         }
         val commonTest by getting {

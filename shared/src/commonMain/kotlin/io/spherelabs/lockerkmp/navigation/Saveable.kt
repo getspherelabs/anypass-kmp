@@ -1,6 +1,6 @@
 package io.spherelabs.lockerkmp.navigation
 
-private val KEY_ROUTE_NAME = "route_name"
+private const val KEY_ROUTE_NAME = "route_name"
 
 fun <R : Route> R.asSavable(): Map<String, String> {
     return when (this) {
@@ -33,8 +33,13 @@ fun buildScreenFromSavable(savable: Map<String, String>): Route {
 private inline fun <reified R : Route> savable(
     vararg pairs: Pair<String, String>,
 ) = buildMap<String, String> {
-    put(KEY_ROUTE_NAME, routeName<R>())
-    putAll(pairs)
+    try {
+        put(KEY_ROUTE_NAME, routeName<R>())
+        putAll(pairs)
+    } catch (e: Exception) {
+        error("${e.message}")
+    }
+
 }
 
 inline fun <reified ROUTE : Route> routeName(): String = ROUTE::class.qualifiedName!!

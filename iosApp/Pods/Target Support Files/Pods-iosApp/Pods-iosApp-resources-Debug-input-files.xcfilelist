@@ -1,2 +1,4 @@
 ${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources.sh
-${PODS_ROOT}/../../shared/src/commonMain/resources/MR
+${PODS_ROOT}/../../data/local/src/commonMain/resources/MR
+${PODS_ROOT}/../../navigation/build/compose/ios/navigation/compose-resources
+${PODS_ROOT}/../../shared/build/cocoapods/framework/shared.framework/locker-kmp:shared.bundle

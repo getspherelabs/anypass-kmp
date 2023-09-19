@@ -2,21 +2,20 @@ package io.spherelabs.data.local.mapper
 
 import io.spherelabs.addnewpassworddomain.model.AddNewPasswordDomain
 import io.spherelabs.addnewpassworddomain.model.CategoryDomain
-import io.spherelabs.common.Empty
 import io.spherelabs.data.local.db.Category
 import io.spherelabs.local.db.Password
 
 fun Password.asDomain(): AddNewPasswordDomain {
     return AddNewPasswordDomain(
         id = this.id,
-        title = this.title ?: String.Empty,
+        title = this.title ?: "",
         category = this.category_id,
-        username = this.username ?: String.Empty,
-        email = this.email ?: String.Empty,
-        password = this.password ?: String.Empty,
-        websiteAddress = this.websiteAddress ?: String.Empty,
-        notes = this.notes ?: String.Empty,
-        image = this.image ?: String.Empty
+        username = this.username ?: "",
+        email = this.email ?: "",
+        password = this.password ?: "",
+        websiteAddress = this.websiteAddress ?: "",
+        notes = this.notes ?: "",
+        image = this.image ?: ""
     )
 }
 

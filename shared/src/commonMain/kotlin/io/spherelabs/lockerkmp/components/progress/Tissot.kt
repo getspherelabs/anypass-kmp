@@ -14,7 +14,6 @@ fun Tissot(
     value: Int,
     modifier: Modifier = Modifier
 ) {
-    val nbMarker = 180
 
     val progressAngle by animateFloatAsState(
         targetValue = 180f / 15f * value,

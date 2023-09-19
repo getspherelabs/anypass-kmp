@@ -20,7 +20,7 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
 
-        podfile = project.file("../iosApp/Podfile")
+        podfile = project.file("../../iosApp/Podfile")
 
         framework {
             baseName = "local"
@@ -28,8 +28,7 @@ kotlin {
             export("dev.icerock.moko:resources:0.22.3")
         }
 
-        extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
-
+        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 
 
@@ -43,7 +42,7 @@ kotlin {
 
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
                 api(project(":features:home:homeDomain"))
-                api("dev.icerock.moko:resources:0.23.0")
+                api("dev.icerock.moko:resources:0.22.3")
             }
         }
         val commonTest by getting {
@@ -73,8 +72,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-               api(Libs.SqlDelight.native)
-                implementation("co.touchlab:sqliter-driver:1.2.3")
+                api(Libs.SqlDelight.native)
             }
         }
         val iosX64Test by getting
@@ -87,7 +85,7 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
 
             dependencies {
-                implementation(Libs.SqlDelight.test)
+                implementation(Libs.SqlDelight.native)
             }
         }
     }
@@ -98,8 +96,8 @@ android {
     compileSdk = 33
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

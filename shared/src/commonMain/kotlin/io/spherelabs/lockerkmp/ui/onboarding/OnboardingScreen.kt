@@ -90,6 +90,7 @@ fun OnboardingScreen(
                     navigateToPassword.invoke()
                 }
             }
+
             state.value.isLoading -> {
                 CircularProgressIndicator(
                     modifier = modifier.align(Alignment.CenterHorizontally)

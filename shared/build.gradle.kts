@@ -47,6 +47,8 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
+                implementation(compose.material3)
+
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 api("dev.icerock.moko:resources-compose:0.22.3")
@@ -75,7 +77,7 @@ kotlin {
 
                 api(project(":features:home:homeDomain"))
                 api(project(":features:home:homePresentation"))
-
+                api(project(":core:designsystem"))
                 implementation(Libs.Koin.compose)
 
             }
@@ -135,8 +137,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
 
@@ -144,7 +146,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
     packagingOptions {
         resources {

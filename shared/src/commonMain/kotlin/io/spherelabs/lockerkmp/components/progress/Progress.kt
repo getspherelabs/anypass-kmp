@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import io.spherelabs.lockerkmp.ui.createpassword.purpleLight
 
 
 @Composable
@@ -23,10 +22,6 @@ fun OuterProgress(
 ) {
     val nbMarker = 180
 
-    val markerActives by animateFloatAsState(
-        targetValue = nbMarker / 60f * 60,
-        animationSpec = tween(500)
-    )
 
     Box(
         modifier
@@ -36,6 +31,7 @@ fun OuterProgress(
         for (i in 0 until nbMarker) {
             OuterMarker(
                 angle = i * (360 / nbMarker),
+                modifier =  modifier
             )
         }
 
@@ -85,7 +81,7 @@ private fun Modifier.drawCircleProgress(angle: Float): Modifier {
             style = Stroke(width = 20f)
         )
         drawArc(
-            color = purpleLight,
+            color = Color.Magenta,
             startAngle = -90f,
             sweepAngle = angle,
             useCenter = false,

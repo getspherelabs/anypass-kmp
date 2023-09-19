@@ -3,18 +3,12 @@ package io.spherelabs.lockerkmp.ui.home
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.TextUnit
@@ -63,11 +57,11 @@ fun HomeScreen(
     val scaffoldState = rememberScaffoldState()
     val toolbarState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
 
-    val listState = rememberLazyListState()
 
     LaunchedEffect(true) {
         wish.invoke(HomeWish.GetStartedCategories)
     }
+
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = colorResource(MR.colors.lavender),
@@ -88,40 +82,19 @@ fun HomeScreen(
             }
         },
         content = {
-            CollapsingLayout(collapsingTop = {
+            Column(
+                modifier = modifier.fillMaxSize().background(
+                    color =
+                    colorResource(MR.colors.lavender)
+                )
+            ) {
                 Headline()
-            }, bodyContent = {
 
-                Column(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .background(color = colorResource(MR.colors.lavender))
-                        .verticalScroll(state),
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    if (uiState.value.categories.isNotEmpty()) {
-                        CategoryCard(uiState.value.categories)
-                    }
-//                    Row(
-//                        modifier = modifier,
-//                        verticalAlignment = Alignment.CenterVertically
-//                    ) {
-//
-//                        Tags(
-//                            uiState.value.categories,
-//                            categoryUi,
-//                            modifier = modifier
-//                        ) {
-//                            categoryUi = it
-//                        }
-//                    }
-
-//                    CategoryCard(categoryUi, modifier)
-
+                if (uiState.value.categories.isNotEmpty()) {
+                    CategoryCard(uiState.value.categories)
                 }
-
             }
-            )
+
 
         })
 }

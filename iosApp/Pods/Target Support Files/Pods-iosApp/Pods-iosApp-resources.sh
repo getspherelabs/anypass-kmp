@@ -97,10 +97,14 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/../../shared/src/commonMain/resources/MR"
+  install_resource "${PODS_ROOT}/../../data/local/src/commonMain/resources/MR"
+  install_resource "${PODS_ROOT}/../../navigation/build/compose/ios/navigation/compose-resources"
+  install_resource "${PODS_ROOT}/../../shared/build/cocoapods/framework/shared.framework/locker-kmp:shared.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/../../shared/src/commonMain/resources/MR"
+  install_resource "${PODS_ROOT}/../../data/local/src/commonMain/resources/MR"
+  install_resource "${PODS_ROOT}/../../navigation/build/compose/ios/navigation/compose-resources"
+  install_resource "${PODS_ROOT}/../../shared/build/cocoapods/framework/shared.framework/locker-kmp:shared.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

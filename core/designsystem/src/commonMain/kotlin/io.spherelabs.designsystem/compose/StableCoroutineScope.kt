@@ -1,4 +1,4 @@
-package io.spherelabs.common.compose
+package io.spherelabs.designsystem.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

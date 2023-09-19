@@ -41,6 +41,7 @@ sealed interface Route {
         }
 
         override fun hashCode(): Int {
+            println("Add new password")
             return this::class.simpleName.hashCode()
         }
     }

@@ -3,7 +3,9 @@ package io.spherelabs.lockerkmp.components
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,8 +33,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun NewItemButton(
@@ -40,7 +46,12 @@ fun NewItemButton(
     onNewItemClick: () -> Unit
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.shadow(
+            elevation = 1.dp,
+            shape = RoundedCornerShape(16.dp),
+            ambientColor = Color.Yellow
+        ),
+        border = BorderStroke(1.dp, colorResource(MR.colors.cinderella)),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(MR.colors.white)
         ),

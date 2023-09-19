@@ -6,11 +6,7 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,20 +20,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.haroncode.lazycardstack.rememberLazyCardStackState
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
+import io.spherelabs.designsystem.swiper.LazyCardStack
+import io.spherelabs.designsystem.swiper.PagingObserve
+import io.spherelabs.designsystem.swiper.SwiperState
+import io.spherelabs.designsystem.swiper.items
 import io.spherelabs.home.homepresentation.HomeCategoryUi
-import io.spherelabs.home.homepresentation.HomeState
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.swiper.Swiper
-import io.spherelabs.lockerkmp.components.swiper.rememberSwiperState
 import io.spherelabs.lockerkmp.ui.home.DomainCard
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -66,6 +61,11 @@ fun PagerState.calculateCurrentOffsetForPage(page: Int): Float {
     return (currentPage - page) + currentPageOffsetFraction
 }
 
+data class TextData(
+    val color: Color,
+    val text: String
+)
+
 @OptIn(ExperimentalFoundationApi::class)
 fun Modifier.pagerFadeTransition(page: Int, pagerState: PagerState) =
     graphicsLayer {
@@ -79,11 +79,42 @@ fun Modifier.pagerFadeTransition(page: Int, pagerState: PagerState) =
 fun ItemPager(
     modifier: Modifier = Modifier.animateContentSize(),
     pagerState: PagerState,
-    category: List<HomeCategoryUi>
+    category: List<HomeCategoryUi>,
 ) {
     var currentItem by remember {
         mutableStateOf(1)
     }
+
+    val list =  remember {
+        mutableStateOf(
+            listOf(
+                TextData(
+                    color = Color.Yellow,
+                    "1"
+                ),
+                TextData(
+                    color = Color.Red,
+                    text = "2"
+                ),
+                TextData(
+                    color = Color.Red,
+                    text = "3"
+                )
+            )
+        )
+    }
+
+    val cardStackState = rememberLazyCardStackState()
+
+    cardStackState.PagingObserve(prefetchCount = 5) {
+        val newList = mutableListOf<TextData>()
+        list.value.forEach {
+            newList.add(it)
+        }
+        list.value += newList
+    }
+
+
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect {
@@ -211,29 +242,32 @@ fun ItemPager(
 
 
             } else {
-                Swiper(
-                    modifier = modifier,
-                    count = 2,
-                    state = rememberSwiperState(),
-                    onSwiped = {}
+                LazyCardStack(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxSize(),
+                    state = cardStackState
                 ) {
-                    Column(
-                    ) {
-                        Text(
-                            modifier = modifier.padding(start = 24.dp),
-                            text = "Password Health",
-                            fontSize = 24.sp,
-                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                            color = Color.White
-                        )
+                    items(items = list.value, key = { it.hashCode() }) { newData ->
+                        Card(
+                            modifier = modifier.height(250.dp),
+                            backgroundColor = newData.color
+                        ) {
+                            Text(
+                                modifier = modifier.padding(start = 24.dp),
+                                text = newData.text,
+                                fontSize = 24.sp,
+                                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                                color = Color.White
+                            )
 
-                        Row(
-                            modifier = modifier.fillMaxWidth().height(250.dp)
-                                .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 8.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .background(color = colorResource(MR.colors.dynamic_yellow)),
-                            horizontalArrangement = Arrangement.SpaceAround
-                        ) {}
+                            Row(
+                                modifier = modifier.fillMaxWidth().height(250.dp)
+                                    .padding(start = 24.dp, end = 24.dp, top = 8.dp, bottom = 8.dp)
+                                    .clip(RoundedCornerShape(16.dp)),
+                                horizontalArrangement = Arrangement.SpaceAround
+                            ) {}
+                        }
                     }
                 }
 
