@@ -1,4 +1,4 @@
-package io.spherelabs.lockerkmp.components.progress
+package io.spherelabs.designsystem.meterprogress
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Tissot(
+fun LKMeterProgress(
     value: Int,
     modifier: Modifier = Modifier
 ) {
@@ -25,9 +25,9 @@ fun Tissot(
             .fillMaxWidth()
             .aspectRatio(1f)
     ) {
-        OuterProgress(modifier = modifier)
-        CircleProgress(modifier = modifier, angle = progressAngle)
-        TissotProgress(modifier = modifier, value = value)
-        InnerProgress(modifier = modifier)
+        LKOuterProgress(modifier = modifier)
+        LKCircleProgress(modifier = modifier, angle = progressAngle)
+        LKDashProgress(modifier = modifier, value = value)
+        LKInnerProgress(modifier = modifier)
     }
 }

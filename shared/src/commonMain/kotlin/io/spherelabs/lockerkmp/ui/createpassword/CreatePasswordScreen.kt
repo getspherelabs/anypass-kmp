@@ -21,6 +21,7 @@ import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.designsystem.button.LKBackButton
 import io.spherelabs.designsystem.button.LKUseButton
+import io.spherelabs.designsystem.meterprogress.LKMeterProgress
 import io.spherelabs.designsystem.slider.LKSlider
 import io.spherelabs.designsystem.slider.LKSliderDefaults
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordEffect
@@ -28,7 +29,6 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.progress.*
 import io.spherelabs.lockerkmp.ui.home.CreateBoxes
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.rememberKoinInject
@@ -215,7 +215,7 @@ fun GeneratePasswordScreen(
                 .padding(top = 24.dp)
         )
         {
-            Tissot(state.value.length)
+            LKMeterProgress(state.value.length)
         }
 
         Text(

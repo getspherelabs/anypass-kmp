@@ -1,4 +1,4 @@
-package io.spherelabs.lockerkmp.components.progress
+package io.spherelabs.designsystem.meterprogress
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,9 +14,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
-internal fun OuterMarker(
+internal fun LKOuterMarker(
     angle: Int,
-    color: Color = ProgressTokens.OuterMarkerColor,
+    color: Color = LKMeterProgressTokens.OuterMarkerColor,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -27,9 +27,9 @@ internal fun OuterMarker(
 }
 
 @Composable
-internal fun InnerMarker(
+internal fun LKInnerMarker(
     angle: Int,
-    color: Color = ProgressTokens.InnerMarkerColor,
+    color: Color = LKMeterProgressTokens.InnerMarkerColor,
     modifier: Modifier = Modifier
 ) {
     Box(
