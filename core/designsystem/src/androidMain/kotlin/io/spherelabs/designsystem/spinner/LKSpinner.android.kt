@@ -1,7 +1,8 @@
-package io.spherelabs.designsystem.compose
+package io.spherelabs.designsystem.spinner
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -13,20 +14,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-actual fun Spinner(
-    expanded: Boolean, onExpandedChange: (Boolean) -> Unit,
+actual fun LKSpinner(
+    expanded: Boolean,
+    modifier: Modifier,
+    onExpandedChange: (Boolean) -> Unit,
     options: List<String>, onOptionChosen: (String) -> Unit, current: String
 ) {
     val lightBlue = Color(0xffd8e6ff)
 
-    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = onExpandedChange) {
+    ExposedDropdownMenuBox(
+        modifier = modifier.fillMaxWidth().height(65.dp).padding(horizontal = 24.dp).clip(
+            RoundedCornerShape(8.dp)
+        ),
+        expanded = expanded, onExpandedChange = onExpandedChange
+    ) {
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth().clip(
+                RoundedCornerShape(8.dp)
+            ),
             readOnly = true,
             value = current,
             onValueChange = {},
@@ -34,7 +43,7 @@ actual fun Spinner(
                 Text(text = "Choose a category", color = Color.Black.copy(0.5f))
             },
             trailingIcon = {
-                TrailingIcon(expanded)
+                LKDropdownDefaults.TrailingIcon(expanded)
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = lightBlue,

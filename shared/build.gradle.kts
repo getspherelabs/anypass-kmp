@@ -74,6 +74,7 @@ kotlin {
 
                 api(project(":data:local"))
                 api(project(":manager:biometry"))
+                api(project(":core:designsystem"))
 
                 api(project(":features:home:homeDomain"))
                 api(project(":features:home:homePresentation"))
@@ -137,8 +138,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 
