@@ -6,20 +6,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.referentialEqualityPolicy
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import com.haroncode.lazycardstack.LazyCardStackState
+import io.spherelabs.designsystem.hooks.useUpdatedState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun rememberLazyCardStackItemProviderLambda(
-    state: LazyCardStackState,
-    customLazyListScope: LazyCardStackScope.() -> Unit
+    state: LKCardStackState,
+    customLazyListScope: LKCardStackScope.() -> Unit
 ): () -> LazyLayoutItemProvider {
-    val scope = LazyCardStackItemScopeImpl()
-    val latestContent = rememberUpdatedState(customLazyListScope)
+    val scope = LKCardStackItemScopeImpl()
+    val latestContent = useUpdatedState(customLazyListScope)
     return remember(state) {
         val intervalContentState = derivedStateOf(referentialEqualityPolicy()) {
-            LazyCardStackIntervalContent(latestContent.value)
+            LKCardStackIntervalContent(latestContent.value)
         }
         val itemProviderState = derivedStateOf(referentialEqualityPolicy()) {
             val intervalContent = intervalContentState.value
@@ -40,9 +39,9 @@ fun rememberLazyCardStackItemProviderLambda(
 
 @ExperimentalFoundationApi
 private class LazyCardStackItemProviderImpl(
-    private val intervalContent: LazyCardStackIntervalContent,
+    private val intervalContent: LKCardStackIntervalContent,
     private val keyIndexMap: NearestRangeKeyIndexMap,
-    private val lazyCardItemScope: LazyCardStackItemScope
+    private val lazyCardItemScope: LKCardStackItemScope
 ) : LazyLayoutItemProvider {
 
     override val itemCount: Int get() = intervalContent.itemCount

@@ -8,12 +8,12 @@ import androidx.compose.ui.unit.Density
 
 @Stable
 @LazyScopeMarker
-interface LazyCardStackItemScope {
+interface LKCardStackItemScope {
 
     fun Modifier.dragEnabled(enable: Boolean): Modifier
 }
 
-class LazyCardStackItemScopeImpl : LazyCardStackItemScope {
+class LKCardStackItemScopeImpl : LKCardStackItemScope {
 
     override fun Modifier.dragEnabled(enable: Boolean): Modifier {
         return then(DragableEnabledParentData(enable))

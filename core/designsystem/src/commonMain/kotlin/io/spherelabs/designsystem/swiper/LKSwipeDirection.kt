@@ -1,6 +1,6 @@
 package io.spherelabs.designsystem.swiper
 
-enum class SwipeDirection {
+enum class LKSwipeDirection {
     Left,
     Right,
     Up,

@@ -1,15 +1,13 @@
-package com.haroncode.lazycardstack
+package io.spherelabs.designsystem.swiper
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.layout.LazyLayoutItemProvider
 import androidx.compose.foundation.lazy.layout.LazyLayoutPrefetchState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -20,21 +18,18 @@ import androidx.compose.ui.layout.OnGloballyPositionedModifier
 import androidx.compose.ui.layout.Remeasurement
 import androidx.compose.ui.layout.RemeasurementModifier
 import androidx.compose.ui.unit.Constraints
-import io.spherelabs.designsystem.swiper.LazyCardStackMeasureResult
-import io.spherelabs.designsystem.swiper.SwipeDirection
-import io.spherelabs.designsystem.swiper.SwiperState
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @Stable
 @Composable
-fun rememberLazyCardStackState(
+fun useLKCardStackState(
     firstVisibleItemIndex: Int = 0,
     animationSpec: AnimationSpec<Offset> = SpringSpec(),
-): LazyCardStackState {
-    return rememberSaveable(saver = LazyCardStackState.Saver(animationSpec)) {
-        LazyCardStackState(
+): LKCardStackState {
+    return rememberSaveable(saver = LKCardStackState.Saver(animationSpec)) {
+        LKCardStackState(
             firstVisibleItemIndex = firstVisibleItemIndex,
             animationSpec = animationSpec
         )
@@ -43,12 +38,12 @@ fun rememberLazyCardStackState(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Stable
-class LazyCardStackState internal constructor(
+class LKCardStackState internal constructor(
     firstVisibleItemIndex: Int = 0,
     private val animationSpec: AnimationSpec<Offset>,
 ) {
 
-    internal val swiperState = SwiperState(animationSpec)
+    internal val swiperState = LKSwiperState(animationSpec)
 
     val offset: Offset get() = swiperState.offset
 
@@ -58,11 +53,11 @@ class LazyCardStackState internal constructor(
 
     val isAnimationRunning: Boolean get() = swiperState.isAnimationRunning
 
-    var itemsCount: Int by mutableIntStateOf(0)
-        private set
+    var itemsCount: Int by  mutableStateOf(0)
 
-    var visibleItemIndex by mutableIntStateOf(firstVisibleItemIndex)
-        private set
+
+    var visibleItemIndex by  mutableStateOf(firstVisibleItemIndex)
+
 
     private var lastKnownFirstItemKey: Any? = null
 
@@ -76,17 +71,14 @@ class LazyCardStackState internal constructor(
 
     internal val prefetchState = LazyLayoutPrefetchState()
 
-    /**
-     * The modifier which provides [remeasurement].
-     */
     internal val remeasurementModifier = object : RemeasurementModifier {
         override fun onRemeasurementAvailable(remeasurement: Remeasurement) {
-            this@LazyCardStackState.remeasurement = remeasurement
+            this@LKCardStackState.remeasurement = remeasurement
         }
     }
 
     suspend fun animateToBack(
-        fromDirection: SwipeDirection,
+        fromDirection: LKSwipeDirection,
         animation: AnimationSpec<Offset> = animationSpec,
     ) {
         awaitLayoutModifier.waitForFirstLayout()
@@ -112,6 +104,7 @@ class LazyCardStackState internal constructor(
         val realIndex = index.coerceIn(0, itemsCount - 1)
 
         visibleItemIndex = realIndex
+        println("Visible item index $visibleItemIndex")
         lastKnownFirstItemKey = null
 
         swiperState.snapTo(Offset.Zero)
@@ -121,7 +114,7 @@ class LazyCardStackState internal constructor(
     }
 
     suspend fun animateToNext(
-        direction: SwipeDirection,
+        direction: LKSwipeDirection,
         animation: AnimationSpec<Offset> = animationSpec,
     ) {
         awaitLayoutModifier.waitForFirstLayout()
@@ -168,31 +161,26 @@ class LazyCardStackState internal constructor(
         lastKnownIndex: Int,
     ): Int {
         if (key == null) {
-            // there were no real item during the previous measure
             return lastKnownIndex
         }
         if (lastKnownIndex < itemCount && key == getKey(lastKnownIndex)) {
-            // this item is still at the same index
             return lastKnownIndex
         }
         val newIndex = getIndex(key)
         if (newIndex != -1) {
             return newIndex
         }
-        // fallback to the previous index if we don't know the new index of the item
         return lastKnownIndex
     }
 
     companion object {
-        /**
-         * The default [Saver] implementation for [LazyListState].
-         */
+
         fun Saver(
             animationSpec: AnimationSpec<Offset>,
-        ) = Saver<LazyCardStackState, Int>(
+        ) = Saver<LKCardStackState, Int>(
             save = { it.visibleItemIndex },
             restore = {
-                LazyCardStackState(
+                LKCardStackState(
                     firstVisibleItemIndex = it,
                     animationSpec = animationSpec
                 )

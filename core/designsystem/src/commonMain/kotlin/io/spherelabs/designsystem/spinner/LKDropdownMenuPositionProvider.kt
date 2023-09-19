@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.PopupPositionProvider
 
 @Immutable
-internal data class DropdownMenuPositionProvider(
+internal data class LKDropdownMenuPositionProvider(
     val contentOffset: DpOffset,
     val density: Density,
     val onPositionCalculated: (IntRect, IntRect) -> Unit = { _, _ -> }
@@ -23,7 +23,7 @@ internal data class DropdownMenuPositionProvider(
         popupContentSize: IntSize
     ): IntOffset {
 
-        val verticalMargin = with(density) { LockerDropdownTokens.MenuVerticalMargin.roundToPx() }
+        val verticalMargin = with(density) { LKDropdownTokens.MenuVerticalMargin.roundToPx() }
 
         val contentOffsetX = with(density) { contentOffset.x.roundToPx() }
         val contentOffsetY = with(density) { contentOffset.y.roundToPx() }
