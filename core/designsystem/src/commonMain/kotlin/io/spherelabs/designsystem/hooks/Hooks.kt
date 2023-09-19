@@ -1,15 +1,12 @@
 package io.spherelabs.designsystem.hooks
 
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -52,4 +49,14 @@ fun <T> useUpdatedState(newValue: T): State<T> = remember {
 @Composable
 fun useScroll(initialValue: Int = 0): ScrollState {
     return rememberScrollState(initialValue)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun usePagerEffect(state: PagerState, action: (Int) -> Unit) {
+    LaunchedEffect(state) {
+        snapshotFlow { state.currentPage }.collect {
+            action.invoke(it)
+        }
+    }
 }
