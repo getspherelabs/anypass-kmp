@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 import io.spherelabs.designsystem.hooks.useUpdatedState
 
 @Immutable
-class PasswordCardColor(
+class LKPasswordCardColor(
     private val backgroundColor: Color,
     private val copyBackgroundColor: Color,
     private val titleColor: Color,
@@ -47,7 +47,7 @@ class PasswordCardColor(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || other !is PasswordCardColor) return false
+        if (other == null || other !is LKPasswordCardColor) return false
 
         if (backgroundColor != other.backgroundColor) return false
         if (copyBackgroundColor != other.copyBackgroundColor) return false
