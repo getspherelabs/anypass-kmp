@@ -280,7 +280,6 @@ object SocialIcons {
                 painterResource(MR.images.messenger),
                 painterResource(MR.images.patreon),
                 painterResource(MR.images.reddit),
-                painterResource(MR.images.skype),
                 painterResource(MR.images.telegram),
             )
         )
