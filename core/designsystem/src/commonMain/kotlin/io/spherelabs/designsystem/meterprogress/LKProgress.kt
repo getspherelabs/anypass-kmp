@@ -1,13 +1,10 @@
-package io.spherelabs.lockerkmp.components.progress
+package io.spherelabs.designsystem.meterprogress
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
@@ -15,9 +12,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun OuterProgress(
+fun LKOuterProgress(
     modifier: Modifier = Modifier
 ) {
     val nbMarker = 180
@@ -29,7 +25,7 @@ fun OuterProgress(
             .padding(40.dp)
     ) {
         for (i in 0 until nbMarker) {
-            OuterMarker(
+            LKOuterMarker(
                 angle = i * (360 / nbMarker),
                 modifier =  modifier
             )
@@ -39,7 +35,7 @@ fun OuterProgress(
 }
 
 @Composable
-fun InnerProgress(
+fun LKInnerProgress(
     modifier: Modifier = Modifier
 ) {
     val nbMarker = 180
@@ -50,7 +46,7 @@ fun InnerProgress(
             .padding(85.dp)
     ) {
         for (i in 0 until nbMarker) {
-            InnerMarker(
+            LKInnerMarker(
                 angle = i * (360 / nbMarker)
             )
         }
@@ -59,7 +55,7 @@ fun InnerProgress(
 }
 
 @Composable
-fun CircleProgress(
+fun LKCircleProgress(
     angle: Float,
     modifier: Modifier = Modifier
 ) {

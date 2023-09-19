@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.spherelabs.lockerkmp.components.NumberButton
+import dev.icerock.moko.resources.compose.fontFamilyResource
+import io.spherelabs.designsystem.button.LKNumberButton
+import io.spherelabs.lockerkmp.MR
 
 @Composable
 fun GridLayout(
@@ -21,7 +23,7 @@ fun GridLayout(
         modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
         content = {
             itemsIndexed(items) { _, item ->
-                NumberButton(value = item) {
+                LKNumberButton(value = item, fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)) {
                     onValueChanged.invoke(item)
                 }
             }
