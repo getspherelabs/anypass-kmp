@@ -1,13 +1,12 @@
-package io.spherelabs.lockerkmp.components.slider
+package io.spherelabs.designsystem.slider
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import dev.icerock.moko.resources.compose.colorResource
-import io.spherelabs.lockerkmp.MR
+
 
 
 @Immutable
-class SliderColors(
+class LKSliderColors(
     private val thumbColor: Color,
     private val disabledThumbColor: Color,
     private val trackColor: Color,
@@ -32,7 +31,7 @@ class SliderColors(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || other !is SliderColors) return false
+        if (other == null || other !is LKSliderColors) return false
 
         if (thumbColor != other.thumbColor) return false
         if (trackColor != other.trackColor) return false

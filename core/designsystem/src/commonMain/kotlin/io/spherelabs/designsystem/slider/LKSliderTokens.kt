@@ -1,8 +1,8 @@
-package io.spherelabs.lockerkmp.components.slider
+package io.spherelabs.designsystem.slider
 
 import androidx.compose.ui.graphics.Color
 
-object SliderTokens {
+object LKSliderTokens {
     val ThumbColor: Color = Color.Green
     val DisabledThumbColor: Color = Color.LightGray
     val TrackColor: Color = Color.Yellow
