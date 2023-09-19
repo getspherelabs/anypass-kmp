@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-object PasswordCardTokens {
+object LKPasswordCardTokens {
     val backgroundColor: Color = Color.Blue
     val copyBackgroundColor: Color = Color.White
     val titleColor: Color = Color.White
@@ -20,9 +20,9 @@ object PasswordCardTokens {
     val passwordFontFamily: FontFamily = FontFamily.Serif
     val copyFontFamily: FontFamily = FontFamily.Serif
 
-    val titleFontSize: TextUnit = 32.sp
+    val titleFontSize: TextUnit = 24.sp
     val emailFontSize: TextUnit = 16.sp
-    val passwordFontSize: TextUnit = 65.sp
+    val passwordFontSize: TextUnit = 55.sp
     val copyFontSize: TextUnit = 14.sp
 
     val cardCornerShape: Dp = 16.dp

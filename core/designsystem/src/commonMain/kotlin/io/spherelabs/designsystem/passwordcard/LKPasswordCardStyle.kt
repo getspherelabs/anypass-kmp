@@ -3,7 +3,6 @@ package io.spherelabs.designsystem.passwordcard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -11,7 +10,7 @@ import io.spherelabs.designsystem.hooks.useUpdatedState
 
 
 @Immutable
-class PasswordCardStyle(
+class LKPasswordCardStyle(
     private val titleFontFamily: FontFamily,
     private val emailFontFamily: FontFamily,
     private val passwordFontFamily: FontFamily,
@@ -69,7 +68,7 @@ class PasswordCardStyle(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || other !is PasswordCardStyle) return false
+        if (other == null || other !is LKPasswordCardStyle) return false
 
         if (titleFontFamily != other.titleFontFamily) return false
         if (emailFontFamily != other.emailFontFamily) return false
