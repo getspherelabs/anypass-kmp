@@ -284,6 +284,53 @@ private fun CloseIcon(
 }
 
 @Composable
+fun PasswordTextField(
+    textValue: String,
+    modifier: Modifier = Modifier,
+    onValueChanged: (String) -> Unit,
+    textLength: Int = 0,
+    maxLength: Int = 10
+) {
+    Column {
+        val lightBlue = Color(0xffd8e6ff)
+
+        Text(
+            text = "Username",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
+            textAlign = TextAlign.Start,
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+        )
+        TextField(
+            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+            value = textValue,
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = lightBlue,
+                cursorColor = Color.Black,
+                disabledLabelColor = lightBlue,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            onValueChange = { newValue ->
+                if (newValue.length <= maxLength) {
+                    onValueChanged.invoke(newValue)
+                }
+            },
+            shape = RoundedCornerShape(8.dp),
+            singleLine = true,
+            trailingIcon = {
+                CloseIcon(textValue, onValueChanged)
+            }
+        )
+        MaxLengthText(text = "$textLength / $maxLength")
+    }
+}
+
+
+@Composable
 private fun MaxLengthText(
     text: String,
     modifier: Modifier = Modifier,
