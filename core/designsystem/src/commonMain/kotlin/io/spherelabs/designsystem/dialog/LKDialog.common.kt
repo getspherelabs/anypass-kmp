@@ -12,14 +12,14 @@ import androidx.compose.ui.unit.dp
 import io.spherelabs.designsystem.utils.ScreenConfiguration
 
 @Composable
-internal expect fun DialogBox(
+internal expect fun LKDialog(
     onDismissRequest: () -> Unit,
-    properties: MaterialDialogProperties,
+    properties: LKDialogProperties,
     content: @Composable () -> Unit,
 )
 
 @Immutable
-data class MaterialDialogProperties(
+data class LKDialogProperties(
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
     val decorFitsSystemWindows: Boolean = true,
@@ -30,7 +30,7 @@ data class MaterialDialogProperties(
     val resizable: Boolean = true
 )
 
-internal fun List<Pair<MaterialDialogButtonTypes, Placeable>>.buttons(type: MaterialDialogButtonTypes) =
+internal fun List<Pair<LKDialogButtonTypes, Placeable>>.buttons(type: LKDialogButtonTypes) =
     this.filter { it.first == type }.map { it.second }
 
 internal expect fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier
@@ -51,17 +51,8 @@ expect class AtomicInt() : Number {
 internal expect fun ScreenConfiguration.getMaxHeight(): Dp
 
 @Composable
-internal expect fun ScreenConfiguration.getPadding(maxWidth: Dp): Dp
-
-@Composable
 internal actual fun ScreenConfiguration.getMaxHeight(): Dp {
     return 560.dp
-}
-
-@Composable
-internal actual fun ScreenConfiguration.getPadding(maxWidth: Dp): Dp {
-    val isDialogFullWidth = screenWidthDp == maxWidth.value.toInt()
-    return if (isDialogFullWidth) 16.dp else 0.dp
 }
 
 

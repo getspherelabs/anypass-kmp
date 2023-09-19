@@ -36,9 +36,9 @@ import kotlin.math.min
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-internal actual fun DialogBox(
+internal actual fun LKDialog(
     onDismissRequest: () -> Unit,
-    properties: MaterialDialogProperties,
+    properties: LKDialogProperties,
     content: @Composable () -> Unit,
 ) {
     val size = remember {
