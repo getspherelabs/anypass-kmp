@@ -25,8 +25,6 @@ internal fun LKIconView(
     Box(
         modifier
             .size(itemSizeDp)
-            .clip(CircleShape)
-            .border(1.dp, MaterialTheme.colors.onBackground, CircleShape)
             .clickable(
                 onClick = onClick,
             ),
@@ -35,7 +33,6 @@ internal fun LKIconView(
         Image(
             painter = icon,
             contentDescription = null,
-
             contentScale = ContentScale.Fit,
             modifier = Modifier.size(tickSize)
         )
