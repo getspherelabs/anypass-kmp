@@ -41,6 +41,7 @@ fun ConfirmPassword(
 
     var pin by remember { mutableStateOf("") }
     val text = remember { mutableStateOf("") }
+
     val (editValue, setEditValue) = remember { mutableStateOf("") }
     Column(
         modifier = Modifier

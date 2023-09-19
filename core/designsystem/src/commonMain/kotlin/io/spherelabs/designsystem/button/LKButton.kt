@@ -1,76 +1,57 @@
-package io.spherelabs.lockerkmp.components
+package io.spherelabs.designsystem.button
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.ArrowBackIos
 import androidx.compose.material.icons.outlined.ArrowForwardIos
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.colorResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.stringResource
-import io.spherelabs.lockerkmp.MR
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 
 @Composable
-fun NewItemButton(
+fun LKNewItemButton(
+    contentText: String,
+    contentFontFamily: FontFamily,
     modifier: Modifier = Modifier,
+    borderColor: Color = Color.Cyan,
+    backgroundColor: Color = Color.White,
+    contentColor: Color = Color.Black,
+    iconColor: Color = Color.Black,
     onNewItemClick: () -> Unit
 ) {
     Button(
-        modifier = modifier.shadow(
-            elevation = 1.dp,
-            shape = RoundedCornerShape(16.dp),
-            ambientColor = Color.Yellow
-        ),
-        border = BorderStroke(1.dp, colorResource(MR.colors.cinderella)),
+        modifier = modifier,
+        border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(MR.colors.white)
+            backgroundColor = backgroundColor
         ),
         shape = RoundedCornerShape(16.dp),
         onClick = {
             onNewItemClick.invoke()
         }) {
         Text(
-            text = stringResource(MR.strings.new_item),
-            color = colorResource(MR.colors.black),
+            text = contentText,
+            color = contentColor,
             fontSize = 14.sp,
-            fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
+            fontFamily = contentFontFamily,
         )
 
         Icon(
             modifier = modifier.size(14.dp),
             imageVector = Icons.Default.Add,
             contentDescription = null,
-            tint = colorResource(MR.colors.black)
+            tint = iconColor
         )
 
     }
@@ -78,8 +59,9 @@ fun NewItemButton(
 
 
 @Composable
-fun BackButton(
+fun LKBackButton(
     text: String,
+    backgroundColor: Color = Color.Yellow,
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit
 ) {
@@ -89,7 +71,7 @@ fun BackButton(
             .height(32.dp)
             .clip(RoundedCornerShape(24.dp))
             .clickable { onButtonClick.invoke() }
-            .background(color = colorResource(MR.colors.dynamic_yellow))
+            .background(color = backgroundColor)
     ) {
         Row(
             modifier = modifier.fillMaxSize(),
@@ -101,14 +83,15 @@ fun BackButton(
                 imageVector = Icons.Outlined.ArrowBackIos, contentDescription = null
             )
             Spacer(modifier = modifier.width(4.dp))
-            Text("Back", fontSize = 12.sp)
+            Text(text, fontSize = 12.sp)
         }
     }
 }
 
 @Composable
-fun UseButton(
+fun LKUseButton(
     text: String,
+    backgroundColor: Color = Color.Yellow,
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit
 ) {
@@ -117,14 +100,15 @@ fun UseButton(
             .width(75.dp)
             .height(32.dp)
             .clip(RoundedCornerShape(24.dp))
-            .background(color = colorResource(MR.colors.dynamic_yellow))
-    ) {
+            .background(color = backgroundColor)
+    )
+    {
         Row(
             modifier = modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text("Use", fontSize = 12.sp)
+            Text(text, fontSize = 12.sp)
             Spacer(modifier = modifier.width(4.dp))
             Icon(
                 modifier = modifier.size(12.dp),
@@ -136,8 +120,9 @@ fun UseButton(
 
 
 @Composable
-fun NumberButton(
+fun LKNumberButton(
     value: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -151,7 +136,7 @@ fun NumberButton(
             text = value,
             color = Color.White,
             style = MaterialTheme.typography.h4,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
     }
 }

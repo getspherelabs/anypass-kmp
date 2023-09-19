@@ -6,13 +6,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,15 +23,14 @@ import io.spherelabs.addnewpasswodpresentation.AddNewPasswordEffect
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordState
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordViewModel
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordWish
-import io.spherelabs.designsystem.ColorPalette
-import io.spherelabs.designsystem.DialogAndShowButton
-import io.spherelabs.designsystem.colorChooser
-import io.spherelabs.designsystem.compose.Spinner
+import io.spherelabs.designsystem.picker.LKSocialMediaPicker
+import io.spherelabs.designsystem.spinner.LKSpinner
 import io.spherelabs.designsystem.compose.rememberStableCoroutineScope
 import io.spherelabs.designsystem.dialog.title
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useSnackbar
-import io.spherelabs.designsystem.hooks.useState
+import io.spherelabs.designsystem.hooks.useUpdatedState
+import io.spherelabs.designsystem.picker.socialIconsPicker
 import io.spherelabs.lockerkmp.components.Headline
 import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.RoundedImage
@@ -78,12 +77,10 @@ fun AddNewPasswordScreen(
     val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
     val scope = rememberStableCoroutineScope()
-    var (expand, setExpand) = useState(false)
     val options = List(5) { "Item $it" }
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
     var option by remember { mutableStateOf("") }
-    var waitForPositiveButton by remember { mutableStateOf(false) }
+    val waitForPositiveButton by remember { mutableStateOf(false) }
 
     useEffect(true) {
         flow.collectLatest { effect ->
@@ -150,18 +147,14 @@ fun AddNewPasswordScreen(
                     wish.invoke(AddNewPasswordWish.OnTitleChanged(newValue))
                 })
 
-                Box(
-                    modifier = modifier.size(56.dp).clip(RoundedCornerShape(8.dp)).border(
-                        width = 2.dp,
-                        color = Color.Black.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(8.dp)
-                    ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ImageSearch,
-                        contentDescription = null
-                    )
+                LKSocialMediaPicker {
+                    title("Select a icon")
+                    socialIconsPicker(
+                        socialIcons = SocialIcons.getSocialIcons().value,
+                        waitForPositiveButton = waitForPositiveButton
+                    ) {
+                        println("Painter is $it")
+                    }
                 }
             }
 
@@ -170,29 +163,33 @@ fun AddNewPasswordScreen(
                 wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
             }, textLength = state.value.username.length)
 
+            Column {
+                Text(
+                    text = "Category",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, bottom = 4.dp),
+                    textAlign = TextAlign.Start,
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                )
+                LKSpinner(
+                    expanded = expanded,
+                    modifier = modifier,
+                    onExpandedChange = {
+                        expanded = it
+                    }, current = option, options = options, onOptionChosen = {
+                        option = it
+                    })
 
-            Spinner(
-                expanded = expanded, onExpandedChange = {
-                    expanded = it
-                }, current = option, options = options, onOptionChosen = {
-                    option = it
-                })
+            }
+
 
             EmailTextField(state.value.email, onValueChanged = { newValue ->
                 wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
             })
 
-            DialogAndShowButton(
-                buttonText = "Color Picker Dialog",
-                buttons = {
-                    negativeButton("Cancel")
-                    positiveButton("Ok") }
-            ) {
-                title("Select a Color")
-                colorChooser(colors = ColorPalette.Primary, waitForPositiveButton = waitForPositiveButton) {
-                    println(it)
-                }
-            }
             PasswordTextField(state.value.password, onValueChanged = { newValue ->
                 wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
             })
@@ -265,6 +262,21 @@ fun AddNewPasswordScreen(
     }
 }
 
+object SocialIcons {
 
+    @Composable
+    internal fun getSocialIcons(): State<List<Painter>> {
+        return useUpdatedState(
+            listOf(
+                painterResource(MR.images.behance),
+                painterResource(MR.images.behance),
+                painterResource(MR.images.behance),
+                painterResource(MR.images.behance),
+                painterResource(MR.images.behance)
+            )
+        )
+    }
+
+}
 
 

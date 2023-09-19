@@ -19,13 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import io.spherelabs.designsystem.button.LKBackButton
+import io.spherelabs.designsystem.button.LKUseButton
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordEffect
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.BackButton
-import io.spherelabs.lockerkmp.components.UseButton
 import io.spherelabs.lockerkmp.components.progress.*
 import io.spherelabs.lockerkmp.components.slider.LockerSlider
 import io.spherelabs.lockerkmp.components.slider.SliderDefaults
@@ -264,7 +264,7 @@ fun GeneratePasswordScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             CreateBoxes(modifier = modifier.fillMaxWidth().align(Alignment.CenterVertically)) {
-                BackButton("") {
+                LKBackButton("Back", backgroundColor = colorResource(MR.colors.dynamic_yellow)) {
                     navigateToBack.invoke()
                 }
                 Box(
@@ -299,7 +299,10 @@ fun GeneratePasswordScreen(
                     }
 
                 }
-                UseButton("") {}
+                LKUseButton("Use", backgroundColor = colorResource(MR.colors.dynamic_yellow)) {
+
+
+                }
             }
         }
     }
