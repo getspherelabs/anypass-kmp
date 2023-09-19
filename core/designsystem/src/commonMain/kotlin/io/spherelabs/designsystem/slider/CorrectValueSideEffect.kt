@@ -1,4 +1,4 @@
-package io.spherelabs.lockerkmp.components.slider
+package io.spherelabs.designsystem.slider
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

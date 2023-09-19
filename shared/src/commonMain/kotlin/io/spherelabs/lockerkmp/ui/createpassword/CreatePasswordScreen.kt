@@ -21,14 +21,14 @@ import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.designsystem.button.LKBackButton
 import io.spherelabs.designsystem.button.LKUseButton
+import io.spherelabs.designsystem.slider.LKSlider
+import io.spherelabs.designsystem.slider.LKSliderDefaults
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordEffect
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.progress.*
-import io.spherelabs.lockerkmp.components.slider.LockerSlider
-import io.spherelabs.lockerkmp.components.slider.SliderDefaults
 import io.spherelabs.lockerkmp.ui.home.CreateBoxes
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.rememberKoinInject
@@ -70,9 +70,7 @@ fun GeneratePasswordScreen(
     Column(
         modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.grey))
     ) {
-//        var progress by remember { mutableStateOf(0f) }
-//        var tissot by remember { mutableStateOf(10) }
-//
+
         Text(
             modifier = modifier.padding(start = 24.dp, top = 8.dp),
             text = "Create Unique Password",
@@ -80,7 +78,7 @@ fun GeneratePasswordScreen(
             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
             color = Color.White
         )
-//
+
         Row(
             modifier = modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -94,7 +92,7 @@ fun GeneratePasswordScreen(
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White.copy(alpha = 0.5f)
                 )
-                LockerSlider(
+                LKSlider(
                     modifier = modifier.width(100.dp),
                     value = state.value.uppercaseLength,
                     onValueChange = { value, _ ->
@@ -105,7 +103,7 @@ fun GeneratePasswordScreen(
                         )
 
                     },
-                    colors = SliderDefaults.sliderColors(
+                    colors = LKSliderDefaults.sliderColors(
                         thumbColor = colorResource(MR.colors.cinderella),
                         trackColor = colorResource(MR.colors.cinderella),
                         disabledTrackColor = colorResource(MR.colors.cinderella)
@@ -141,10 +139,10 @@ fun GeneratePasswordScreen(
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White.copy(alpha = 0.5f)
                 )
-                LockerSlider(
+                LKSlider(
                     modifier = modifier.width(100.dp),
                     value = state.value.digitLength,
-                    onValueChange = { value, offset ->
+                    onValueChange = { value, _ ->
                         wish.invoke(GeneratePasswordWish.OnDigitLengthChanged(value))
                     },
                     trackHeight = 8.dp,
@@ -178,7 +176,7 @@ fun GeneratePasswordScreen(
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White.copy(alpha = 0.5f)
                 )
-                LockerSlider(
+                LKSlider(
                     modifier = modifier.width(100.dp),
                     value = 40f,
                     onValueChange = { value, offset ->
@@ -300,7 +298,6 @@ fun GeneratePasswordScreen(
 
                 }
                 LKUseButton("Use", backgroundColor = colorResource(MR.colors.dynamic_yellow)) {
-
 
                 }
             }
