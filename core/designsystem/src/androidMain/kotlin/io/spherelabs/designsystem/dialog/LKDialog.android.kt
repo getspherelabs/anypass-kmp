@@ -17,9 +17,9 @@ internal actual fun getLayoutHeight(maxHeightPx: Int, layoutHeight: Int): Int {
 }
 
 @Composable
-internal actual fun DialogBox(
+internal actual fun LKDialog(
     onDismissRequest: () -> Unit,
-    properties: MaterialDialogProperties,
+    properties: LKDialogProperties,
     content: @Composable () -> Unit,
 ) = Dialog(
     onDismissRequest = onDismissRequest,

@@ -153,7 +153,7 @@ internal interface DropdownMenuBoxScope {
         if (expandedStates.currentState || expandedStates.targetState) {
             val transformOriginState = remember { mutableStateOf(TransformOrigin.Center) }
             val density = LocalDensity.current
-            val popupPositionProvider = DropdownMenuPositionProvider(
+            val popupPositionProvider = LKDropdownMenuPositionProvider(
                 DpOffset.Zero,
                 density
             ) { parentBounds, menuBounds ->

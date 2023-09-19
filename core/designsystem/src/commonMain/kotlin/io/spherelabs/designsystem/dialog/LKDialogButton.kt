@@ -1,22 +1,15 @@
 package io.spherelabs.designsystem.dialog
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
@@ -25,27 +18,24 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
-internal enum class MaterialDialogButtonTypes(val testTag: String) {
-    Text("text"),
+internal enum class LKDialogButtonTypes(val testTag: String) {
     Positive("positive"),
     Negative("negative"),
-    Accessibility("accessibility")
 }
 
 /**
  *  Adds buttons to the bottom of the dialog
  * @param content the buttons which should be displayed in the dialog.
- * See [MaterialDialogButtons] for more information about the content
+ * See [LKDialogButtons] for more information about the content
  */
 @Composable
-internal fun MaterialDialogScope.DialogButtonsLayout(
+internal fun LKDialogScope.DialogButtonsLayout(
     modifier: Modifier = Modifier,
-    content: @Composable MaterialDialogButtons.() -> Unit
+    content: @Composable LKDialogButtons.() -> Unit
 ) {
     val interButtonPadding = with(LocalDensity.current) { 12.dp.toPx().toInt() }
     val defaultBoxHeight = with(LocalDensity.current) { 52.dp.toPx().toInt() }
     val defaultButtonHeight = with(LocalDensity.current) { 36.dp.toPx().toInt() }
-    val accessibilityPadding = with(LocalDensity.current) { 12.dp.toPx().toInt() }
     val verticalPadding = with(LocalDensity.current) { 8.dp.toPx().toInt() }
 
     Layout(
@@ -61,7 +51,7 @@ internal fun MaterialDialogScope.DialogButtonsLayout(
             }
 
             val placeables = measurables.map {
-                (it.layoutId as MaterialDialogButtonTypes) to it.measure(
+                (it.layoutId as LKDialogButtonTypes) to it.measure(
                     constraints.copy(minWidth = 0, maxHeight = defaultButtonHeight)
                 )
             }
@@ -81,12 +71,10 @@ internal fun MaterialDialogScope.DialogButtonsLayout(
                 var currX = constraints.maxWidth
                 var currY = verticalPadding
 
-                val posButtons = placeables.buttons(MaterialDialogButtonTypes.Positive)
-                val negButtons = placeables.buttons(MaterialDialogButtonTypes.Negative)
-                val textButtons = placeables.buttons(MaterialDialogButtonTypes.Text)
-                val accButtons = placeables.buttons(MaterialDialogButtonTypes.Accessibility)
+                val posButtons = placeables.buttons(LKDialogButtonTypes.Positive)
+                val negButtons = placeables.buttons(LKDialogButtonTypes.Negative)
 
-                val buttonInOrder = posButtons + textButtons + negButtons
+                val buttonInOrder = posButtons + negButtons
 
                 buttonInOrder.forEach { button ->
                     if (column) {
@@ -98,56 +86,14 @@ internal fun MaterialDialogScope.DialogButtonsLayout(
                     }
                 }
 
-                if (accButtons.isNotEmpty()) {
-                    /* There can only be one accessibility button so take first */
-                    val button = accButtons[0]
-                    button.place(accessibilityPadding, height - button.height)
-                }
             }
         }
     )
 }
 
 
-class MaterialDialogButtons(private val scope: MaterialDialogScope) {
-    /**
-     * Adds a button which is always enabled to the bottom of the dialog. This should
-     * only be used for neutral actions.
-     *
-     * @param text the string literal text shown in the button
-     * @param res the string resource text shown in the button
-     * @param onClick a callback which is called when the button is pressed
-     */
-    @Composable
-    fun button(
-        text: String,
-        textStyle: TextStyle = MaterialTheme.typography.button,
-        colors: ButtonColors = ButtonDefaults.textButtonColors(),
-        onClick: () -> Unit = {}
-    ) {
-        val buttonText = text.uppercase()
-        TextButton(
-            onClick = {
-                onClick()
-            },
-            modifier = Modifier
-                .layoutId(MaterialDialogButtonTypes.Text)
-                .testTag(MaterialDialogButtonTypes.Text.testTag),
-            colors = colors
-        ) {
-            Text(text = buttonText, style = textStyle)
-        }
-    }
+class LKDialogButtons(private val scope: LKDialogScope) {
 
-    /**
-     * Adds a positive button to the dialog
-     *
-     * @param text the string literal text shown in the button
-     * @param res the string resource text shown in the button
-     * @param disableDismiss when true this will stop the dialog closing when the button is pressed
-     * even if autoDismissing is disabled
-     * @param onClick a callback which is called when the button is pressed
-     */
     @Composable
     fun positiveButton(
         text: String,
@@ -172,8 +118,8 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
 
                 onClick()
             },
-            modifier = Modifier.layoutId(MaterialDialogButtonTypes.Positive)
-                .testTag(MaterialDialogButtonTypes.Positive.testTag),
+            modifier = Modifier.layoutId(LKDialogButtonTypes.Positive)
+                .testTag(LKDialogButtonTypes.Positive.testTag),
             enabled = buttonEnabled,
             colors = colors
         ) {
@@ -198,34 +144,12 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
                 }
                 onClick()
             },
-            modifier = Modifier.layoutId(MaterialDialogButtonTypes.Negative)
-                .testTag(MaterialDialogButtonTypes.Negative.testTag),
+            modifier = Modifier.layoutId(LKDialogButtonTypes.Negative)
+                .testTag(LKDialogButtonTypes.Negative.testTag),
             colors = colors
         ) {
             Text(text = buttonText, style = textStyle)
         }
     }
 
-    @Composable
-    fun accessibilityButton(
-        icon: ImageVector,
-        colorFilter: ColorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-        onClick: () -> Unit
-    ) {
-        Box(
-            Modifier
-                .size(48.dp)
-                .layoutId(MaterialDialogButtonTypes.Accessibility)
-                .testTag(MaterialDialogButtonTypes.Accessibility.testTag)
-                .clickable(onClick = onClick),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                icon,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                colorFilter = colorFilter
-            )
-        }
-    }
 }
