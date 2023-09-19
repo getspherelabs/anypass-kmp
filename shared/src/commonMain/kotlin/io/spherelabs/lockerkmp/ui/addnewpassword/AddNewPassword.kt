@@ -269,10 +269,19 @@ object SocialIcons {
         return useUpdatedState(
             listOf(
                 painterResource(MR.images.behance),
-                painterResource(MR.images.behance),
-                painterResource(MR.images.behance),
-                painterResource(MR.images.behance),
-                painterResource(MR.images.behance)
+                painterResource(MR.images.linkedin),
+                painterResource(MR.images.apple_podcasts),
+                painterResource(MR.images.quora),
+                painterResource(MR.images.discord),
+                painterResource(MR.images.dribble),
+                painterResource(MR.images.facebook),
+                painterResource(MR.images.googleMeet),
+                painterResource(MR.images.medium),
+                painterResource(MR.images.messenger),
+                painterResource(MR.images.patreon),
+                painterResource(MR.images.reddit),
+                painterResource(MR.images.skype),
+                painterResource(MR.images.telegram),
             )
         )
     }
