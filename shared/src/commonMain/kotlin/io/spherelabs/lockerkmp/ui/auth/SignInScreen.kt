@@ -2,15 +2,7 @@ package io.spherelabs.lockerkmp.ui.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -36,8 +28,10 @@ import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
 fun SignInScreen(
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxSize().background(color = Color.White)) {
-        Spacer(modifier.height(32.dp))
+    Column(
+        modifier = modifier.fillMaxSize().background(color = Color.White),
+        verticalArrangement = Arrangement.Center
+    ) {
         Row(
             modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -52,7 +46,7 @@ fun SignInScreen(
 
             Image(
                 modifier = modifier.size(125.dp),
-                painter = painterResource(MR.images.locker),
+                painter = painterResource(MR.images.signin),
                 contentDescription = null
             )
         }
@@ -78,6 +72,28 @@ fun SignInScreen(
                 fontFamily = fontFamilyResource(
                     fontResource = MR.fonts.googlesans.medium
                 )
+            )
+        }
+
+        Spacer(modifier.height(24.dp))
+
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Don't have account?",
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontSize = 16.sp,
+                color = Color.Black.copy(0.5f)
+            )
+            Spacer(modifier = modifier.width(12.dp))
+            Text(
+                text = "Create new",
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontSize = 20.sp,
+                color = colorResource(MR.colors.lavender)
             )
         }
 

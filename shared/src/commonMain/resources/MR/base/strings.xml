@@ -2,4 +2,7 @@
 <resources>
     <string name="hello_world">Hello Locker!</string>
     <string name="new_item">New Item</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_account">Dont have account?</string>
+    <string name="create_new">Create new</string>
 </resources>
