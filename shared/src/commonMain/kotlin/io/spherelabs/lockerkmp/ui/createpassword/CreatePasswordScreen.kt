@@ -21,6 +21,8 @@ import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.designsystem.button.LKBackButton
 import io.spherelabs.designsystem.button.LKUseButton
+import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.meterprogress.LKMeterProgress
 import io.spherelabs.designsystem.slider.LKSlider
 import io.spherelabs.designsystem.slider.LKSliderDefaults
@@ -35,7 +37,6 @@ import org.koin.compose.rememberKoinInject
 
 @Composable
 fun GeneratePasswordRoute(
-    modifier: Modifier = Modifier,
     viewModel: GeneratePasswordViewModel = rememberKoinInject(),
     navigateToBack: () -> Unit
 ) {
@@ -62,11 +63,12 @@ fun GeneratePasswordScreen(
     navigateToBack: () -> Unit
 ) {
 
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = useSnackbar()
 
-    LaunchedEffect(true) {
+    useEffect(true) {
         wish.invoke(GeneratePasswordWish.GeneratePassword())
     }
+
     Column(
         modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.grey))
     ) {

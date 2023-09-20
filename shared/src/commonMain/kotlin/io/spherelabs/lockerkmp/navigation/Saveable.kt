@@ -9,6 +9,9 @@ fun <R : Route> R.asSavable(): Map<String, String> {
         is Route.Home -> savable<Route.Home>()
         is Route.CreatePassword -> savable<Route.CreatePassword>()
         is Route.AddNewPassword -> savable<Route.AddNewPassword>()
+        is Route.Space -> savable<Route.Space>()
+        is Route.SignUp -> savable<Route.SignUp>()
+        is Route.SignIn -> savable<Route.SignIn>()
         else -> error("Can't save state for screen: ${this@asSavable}. Reason: Undefined")
     }
 }
@@ -23,6 +26,9 @@ fun buildScreenFromSavable(savable: Map<String, String>): Route {
         routeName<Route.CreatePassword>() -> Route.CreatePassword
         routeName<Route.Home>() -> Route.Home
         routeName<Route.AddNewPassword>() -> Route.AddNewPassword
+        routeName<Route.SignUp>() -> Route.SignUp
+        routeName<Route.SignIn>() -> Route.SignIn
+        routeName<Route.Space>() -> Route.Space
         else -> error("Can't restore state for screen: $routeName. Reason: Undefined")
     }
 }

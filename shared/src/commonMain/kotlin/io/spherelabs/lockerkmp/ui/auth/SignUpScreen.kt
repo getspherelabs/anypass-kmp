@@ -4,13 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,13 +22,75 @@ import io.spherelabs.lockerkmp.MR
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import io.spherelabs.authpresentation.signup.SignUpEffect
+import io.spherelabs.authpresentation.signup.SignUpState
+import io.spherelabs.authpresentation.signup.SignUpViewModel
+import io.spherelabs.authpresentation.signup.SignUpWish
+import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useScope
+import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.lockerkmp.components.textfield.EmailTextField
 import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.compose.rememberKoinInject
+
+@Composable
+fun SignUpRoute(
+    viewModel: SignUpViewModel = rememberKoinInject(),
+    navigateToSignIn: () -> Unit,
+    navigateToAddPrivatePassword: () -> Unit
+) {
+    val uiState = viewModel.state.collectAsState()
+
+    SignUpScreen(
+        wish = { newWish ->
+            viewModel.wish(newWish)
+        },
+        state = uiState,
+        effect = viewModel.effect,
+        navigateToSignIn = {
+            navigateToSignIn.invoke()
+        },
+        navigateToAddPrivatePassword = {
+            navigateToAddPrivatePassword.invoke()
+        }
+    )
+}
 
 @Composable
 fun SignUpScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    wish: (SignUpWish) -> Unit,
+    state: State<SignUpState>,
+    effect: Flow<SignUpEffect>,
+    navigateToSignIn: () -> Unit,
+    navigateToAddPrivatePassword: () -> Unit
 ) {
+    val snackbarHostState = useSnackbar()
+    val coroutineScope = useScope()
+
+    useEffect(true) {
+        effect.collectLatest { newEffect ->
+            when (newEffect) {
+                SignUpEffect.AddPrivatePassword -> {
+                    navigateToAddPrivatePassword.invoke()
+                }
+                is SignUpEffect.Failure -> {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = newEffect.message
+                        )
+                    }
+                }
+                SignUpEffect.SignIn -> {
+                    navigateToSignIn.invoke()
+                }
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             Row(
@@ -51,10 +112,20 @@ fun SignUpScreen(
                 }
 
             }
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(Alignment.Bottom)
+            )
         }
     ) {
-        Column(modifier = modifier.fillMaxSize().background(color = Color.White),
-            verticalArrangement = Arrangement.Center) {
+        Column(
+            modifier = modifier.fillMaxSize().background(color = Color.White),
+            verticalArrangement = Arrangement.Center
+        ) {
             Row(
                 modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -73,10 +144,15 @@ fun SignUpScreen(
                     contentDescription = null
                 )
             }
-            EmailTextField("") {}
-            EmailTextField("") {}
-            PasswordTextField("") {}
-            PasswordTextField("") {}
+            EmailTextField(state.value.name) { newValue ->
+                wish.invoke(SignUpWish.OnNameChanged(newValue))
+            }
+            EmailTextField(state.value.email) { newValue ->
+                wish.invoke(SignUpWish.OnEmailChanged(newValue))
+            }
+            PasswordTextField(state.value.password) { newValue ->
+                wish.invoke(SignUpWish.OnPasswordChanged(newValue))
+            }
 
             Spacer(modifier.height(24.dp))
 
@@ -89,10 +165,10 @@ fun SignUpScreen(
                 ),
                 shape = RoundedCornerShape(24.dp),
                 onClick = {
-
+                    wish.invoke(SignUpWish.OnSignUpClick)
                 }) {
                 Text(
-                    text = "Register",
+                    text = "Sign Up",
                     color = Color.White,
                     fontSize = 18.sp,
                     fontFamily = fontFamilyResource(

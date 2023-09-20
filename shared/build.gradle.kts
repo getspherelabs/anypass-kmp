@@ -63,7 +63,9 @@ kotlin {
 
                 api(project(":data:settings"))
                 api(project(":manager:password"))
-
+                api(project(":data:firebase"))
+                api(project(":features:auth:authDomain"))
+                api(project(":features:auth:authPresentation"))
                 api(project(":features:onboarding:onboardingDomain"))
                 api(project(":features:onboarding:onboardingPresentation"))
 

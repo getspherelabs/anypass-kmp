@@ -28,6 +28,7 @@ import io.spherelabs.designsystem.spinner.LKSpinner
 import io.spherelabs.designsystem.compose.rememberStableCoroutineScope
 import io.spherelabs.designsystem.dialog.title
 import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.hooks.useUpdatedState
 import io.spherelabs.designsystem.picker.socialIconsPicker
@@ -76,7 +77,7 @@ fun AddNewPasswordScreen(
 ) {
     val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
-    val scope = rememberStableCoroutineScope()
+    val scope = useScope()
     val options = List(5) { "Item $it" }
     var expanded by remember { mutableStateOf(false) }
     var option by remember { mutableStateOf("") }

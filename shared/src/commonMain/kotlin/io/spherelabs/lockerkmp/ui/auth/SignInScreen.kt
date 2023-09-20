@@ -25,6 +25,14 @@ import io.spherelabs.lockerkmp.components.textfield.EmailTextField
 import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
 
 @Composable
+fun SignInRoute(
+    navigateToSignUp: () -> Unit,
+    navigateToConfirmPassword: () -> Unit
+) {
+    SignInScreen()
+}
+
+@Composable
 fun SignInScreen(
     modifier: Modifier = Modifier
 ) {

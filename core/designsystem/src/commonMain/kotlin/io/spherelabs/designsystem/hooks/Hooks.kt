@@ -10,39 +10,39 @@ import androidx.compose.runtime.*
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun <T> useState(defaultValue: T): Pair<T, (T) -> Unit> {
+inline fun <T> useState(defaultValue: T): Pair<T, (T) -> Unit> {
     val (state, setState) = remember { mutableStateOf(defaultValue) }
 
     return Pair(state, setState)
 }
 
 @Composable
-fun useScope(): CoroutineScope {
+inline fun useScope(): CoroutineScope {
     return rememberCoroutineScope()
 }
 
 @Composable
-fun useSnackbar(): SnackbarHostState {
+inline fun useSnackbar(): SnackbarHostState {
     return remember { SnackbarHostState() }
 }
 
 @Composable
-fun useEffect(vararg keys: Any, block: suspend CoroutineScope.() -> Unit) {
+inline fun useEffect(vararg keys: Any, noinline block: suspend CoroutineScope.() -> Unit) {
     LaunchedEffect(keys = keys, block = block)
 }
 
 @Composable
-fun useEffect(key1: Any, block: suspend CoroutineScope.() -> Unit) {
+inline fun useEffect(key1: Any, noinline block: suspend CoroutineScope.() -> Unit) {
     LaunchedEffect(key1 = key1, block = block)
 }
 
 @Composable
-fun useTransition(defaultValue: Boolean): MutableTransitionState<Boolean> {
+inline fun useTransition(defaultValue: Boolean): MutableTransitionState<Boolean> {
     return remember { MutableTransitionState(defaultValue) }
 }
 
 @Composable
-fun <T> useUpdatedState(newValue: T): State<T> = remember {
+inline fun <T> useUpdatedState(newValue: T): State<T> = remember {
     mutableStateOf(newValue)
 }.apply { value = newValue }
 

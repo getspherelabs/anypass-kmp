@@ -18,18 +18,18 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "authDomain"
+            baseName = "authPresentation"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":data:firebase"))
-                implementation(project(":data:local"))
-                implementation(project(":core:common"))
+                implementation(project(":features:auth:authDomain"))
 
-                implementation(Libs.Coroutine.core)
+                api(Libs.Coroutine.core)
+                api(Libs.Meteor.core)
+
                 implementation(Libs.Koin.core)
             }
         }
@@ -38,7 +38,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Libs.Android.viewModel)
+            }
+        }
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -62,7 +66,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.spherelabs.authdomain"
+    namespace = "io.spherelabs.authpresentation"
     compileSdk = 33
     defaultConfig {
         minSdk = 24
