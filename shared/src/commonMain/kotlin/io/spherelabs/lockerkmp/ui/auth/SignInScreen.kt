@@ -2,6 +2,7 @@ package io.spherelabs.lockerkmp.ui.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -20,7 +21,6 @@ import dev.icerock.moko.resources.compose.colorResource
 import io.spherelabs.lockerkmp.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
-import io.spherelabs.addnewpasswodpresentation.AddNewPasswordWish
 import io.spherelabs.lockerkmp.components.textfield.EmailTextField
 import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
 
@@ -29,12 +29,17 @@ fun SignInRoute(
     navigateToSignUp: () -> Unit,
     navigateToConfirmPassword: () -> Unit
 ) {
-    SignInScreen()
+    SignInScreen(
+        navigateToSignUp = {
+            navigateToSignUp.invoke()
+        }
+    )
 }
 
 @Composable
 fun SignInScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToSignUp: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize().background(color = Color.White),
@@ -98,6 +103,9 @@ fun SignInScreen(
             )
             Spacer(modifier = modifier.width(12.dp))
             Text(
+                modifier = modifier.clickable {
+                    navigateToSignUp.invoke()
+                },
                 text = "Create new",
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 fontSize = 20.sp,

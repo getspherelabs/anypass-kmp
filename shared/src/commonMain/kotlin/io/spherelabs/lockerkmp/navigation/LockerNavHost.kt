@@ -26,7 +26,7 @@ fun LockerNavHost(
 
     NavHost(navigationController, initialState = Route.Onboarding) {
         onboardingScreen {
-            navigationController.navigateToPassword()
+            navigationController.navigateSignIn()
         }
         signInScreen(
             navigateToSignUp = {

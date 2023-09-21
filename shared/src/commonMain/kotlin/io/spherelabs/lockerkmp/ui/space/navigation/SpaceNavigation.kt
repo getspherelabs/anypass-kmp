@@ -14,7 +14,7 @@ fun NavigationController<Route>.navigateSpace() {
 fun NavHostScope<Route>.spaceScreen(
     navigateToHome: () -> Unit,
 ) {
-    this.composable<Route.InputPassword> {
+    this.composable<Route.Space> {
         SpaceRoute { navigateToHome.invoke() }
     }
 }

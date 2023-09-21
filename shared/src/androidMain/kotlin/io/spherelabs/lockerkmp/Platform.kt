@@ -8,11 +8,11 @@ import io.spherelabs.lockerkmp.ui.auth.SignUpScreen
 @Preview
 @Composable
 fun ButtonPreview2() {
-    SignUpScreen()
+   //  SignUpScreen()
 }
 
 @Preview
 @Composable
 fun ButtonPreview3() {
-    SignInScreen()
+    SignInScreen {}
 }

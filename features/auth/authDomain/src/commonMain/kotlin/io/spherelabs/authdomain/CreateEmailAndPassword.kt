@@ -22,6 +22,7 @@ class DefaultCreateEmailAndPassword(
         password: String
     ): Result<String> {
         val authResult = authManager.createEmailAndPassword(email, password)
+        println("Authentication result is $authResult")
         return if (authResult.isSuccess) {
             val newId = authResult.getOrThrow().user?.uid
             if (newId != null) {

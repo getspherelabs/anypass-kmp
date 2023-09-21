@@ -14,7 +14,7 @@ fun NavHostScope<Route>.signInScreen(
     navigateToSignUp: () -> Unit,
     navigateToConfirmPassword: () -> Unit
 ) {
-    this.composable<Route.InputPassword> {
+    this.composable<Route.SignIn> {
         SignInRoute(
             navigateToSignUp = { navigateToSignUp.invoke() },
             navigateToConfirmPassword = { navigateToConfirmPassword.invoke() }

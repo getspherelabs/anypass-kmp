@@ -28,13 +28,12 @@ import androidx.compose.ui.window.PopupProperties
 import io.spherelabs.designsystem.utils.LocalScreenConfiguration
 import io.spherelabs.designsystem.utils.ScreenConfiguration
 import kotlinx.atomicfu.atomic
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import org.jetbrains.skiko.SkikoKey
 import platform.UIKit.UIScreen
 import kotlin.math.min
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 @Composable
 internal actual fun LKDialog(
     onDismissRequest: () -> Unit,
