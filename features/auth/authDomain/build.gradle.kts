@@ -22,10 +22,16 @@ kotlin {
         }
     }
 
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
+            linkerOpts.add("-lsqlite3")
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":data:firebase"))
+                implementation(project(":data:authManager"))
                 implementation(project(":data:local"))
                 implementation(project(":core:common"))
 

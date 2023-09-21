@@ -25,9 +25,11 @@ kotlin {
 
         framework {
             baseName = "shared"
-
             export("dev.icerock.moko:resources:0.22.3")
         }
+
+        pod("FirebaseAuth")
+
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
     }
@@ -35,7 +37,6 @@ kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
             linkerOpts.add("-lsqlite3")
-
         }
     }
 
@@ -63,7 +64,7 @@ kotlin {
 
                 api(project(":data:settings"))
                 api(project(":manager:password"))
-                api(project(":data:firebase"))
+                implementation(project(":data:authManager"))
                 api(project(":features:auth:authDomain"))
                 api(project(":features:auth:authPresentation"))
                 api(project(":features:onboarding:onboardingDomain"))
@@ -149,7 +150,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packagingOptions {
         resources {

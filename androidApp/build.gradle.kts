@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -17,7 +18,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packagingOptions {
         resources {
@@ -46,5 +47,6 @@ android {
         implementation("androidx.compose.foundation:foundation:1.4.0")
         implementation("androidx.compose.material:material:1.4.0")
         implementation("androidx.activity:activity-compose:1.7.0")
+        implementation(Libs.Firebase.auth)
     }
 }
