@@ -15,6 +15,7 @@ val localModule = module {
     factory { createDatabase(get()) }
     single<PasswordDao> { DefaultPasswordDao(get()) }
     single<CategoryDao> { DefaultCategoryDao(get()) }
+    single<UserDao> { DefaultUserDao(get()) }
     single<AddNewPasswordRepository> { DefaultAddNewPasswordRepository(get()) }
     single<HomeRepository> { DefaultHomeRepository(get()) }
 }

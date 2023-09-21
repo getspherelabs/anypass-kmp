@@ -28,6 +28,12 @@ kotlin {
             export("dev.icerock.moko:resources:0.22.3")
         }
 
+        targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+            binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
+                linkerOpts.add("-lsqlite3")
+            }
+        }
+
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
     }
 

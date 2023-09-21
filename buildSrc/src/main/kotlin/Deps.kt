@@ -16,6 +16,9 @@ object Version {
     const val composeAnimationVersion = "1.4.3"
     const val sqldelightVersion = "2.0.0"
     const val ktlint = "10.3.0"
+    const val firebaseAuthVersion = "19.4.0"
+    const val firebaseCoreVersion = "17.2.1"
+    const val firebaseCoroutineVersion = "1.4.1"
     const val koverVersion = "0.6.0"
 }
 
@@ -56,6 +59,8 @@ object Libs {
 
     object Coroutine {
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutineVersion}"
+        const val firebase =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Version.firebaseCoroutineVersion}"
     }
 
     object Settings {
@@ -77,6 +82,11 @@ object Libs {
         const val turbine = "app.cash.turbine:turbine:${Version.turbineVersion}"
         const val koin = "io.insert-koin:koin-test:${Version.koinCoreVersion}"
         const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Version.coroutineVersion}"
+    }
+
+    object Firebase {
+        const val auth = "com.google.firebase:firebase-auth-ktx:${Version.firebaseAuthVersion}"
+        const val core = "com.google.firebase:firebase-core:${Version.firebaseCoreVersion}"
     }
 
     object SqlDelight {

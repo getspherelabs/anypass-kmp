@@ -55,4 +55,34 @@ sealed interface Route {
             return this::class.simpleName.hashCode()
         }
     }
+
+    object SignIn : Route {
+        override fun equals(other: Any?): Boolean {
+            return other === SignIn
+        }
+
+        override fun hashCode(): Int {
+            return this::class.simpleName.hashCode()
+        }
+    }
+
+    object SignUp : Route {
+        override fun equals(other: Any?): Boolean {
+            return other === SignUp
+        }
+
+        override fun hashCode(): Int {
+            return this::class.simpleName.hashCode()
+        }
+    }
+
+    object Space : Route {
+        override fun equals(other: Any?): Boolean {
+            return other === Space
+        }
+
+        override fun hashCode(): Int {
+            return this::class.simpleName.hashCode()
+        }
+    }
 }

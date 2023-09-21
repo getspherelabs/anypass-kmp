@@ -1,0 +1,16 @@
+CREATE TABLE  IF NOT EXISTS user(
+     id TEXT NOT NULL PRIMARY KEY,
+     name TEXT DEFAULT '',
+     email TEXT DEFAULT '',
+     password TEXT DEFAULT ''
+);
+
+insertUser:
+INSERT OR REPLACE INTO user(id, name, email, password)
+VALUES(?, ?,?,?);
+
+updateUser:
+UPDATE user SET name = ?, password = ?;
+
+getUserById:
+SELECT * FROM user WHERE id = ? LIMIT 1;

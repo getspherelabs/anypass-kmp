@@ -35,6 +35,13 @@ import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.RoundedImage
 
 @Composable
+fun SpaceRoute(
+    navigateToHome: () -> Unit
+) {
+    SpaceScreen()
+}
+
+@Composable
 fun SpaceScreen(
     modifier: Modifier = Modifier
 ) {
