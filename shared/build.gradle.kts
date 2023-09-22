@@ -29,7 +29,7 @@ kotlin {
         }
 
         pod("FirebaseAuth")
-
+        pod("Sentry", "~> 8.4.0")
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
     }
@@ -69,7 +69,7 @@ kotlin {
                 api(project(":features:auth:authPresentation"))
                 api(project(":features:onboarding:onboardingDomain"))
                 api(project(":features:onboarding:onboardingPresentation"))
-
+                implementation("io.sentry:sentry-kotlin-multiplatform:0.2.1")
 
 
                 api(project(":features:generatepassword:generatePasswordDomain"))
@@ -141,21 +141,8 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 

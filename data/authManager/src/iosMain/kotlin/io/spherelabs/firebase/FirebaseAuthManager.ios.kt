@@ -31,8 +31,8 @@ actual class FirebaseAuthManager constructor(
         }
 
     actual suspend fun createEmailAndPassword(email: String, password: String): Result<AuthResult> {
-        return runCatching {
-            AuthResult(ios = firAuth.awaitResult {
+        return try {
+            val result =AuthResult(ios = firAuth.awaitResult {
                 {
                     createUserWithEmail(
                         email = email,
@@ -41,6 +41,9 @@ actual class FirebaseAuthManager constructor(
                     )
                 }
             })
+            Result.success(result)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

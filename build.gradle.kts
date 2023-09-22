@@ -18,4 +18,5 @@ plugins {
     id("org.jetbrains.kotlin.jvm").version("1.9.0").apply(false)
     id("dev.icerock.moko.kswift") version "0.6.1"
     id("com.google.gms.google-services") version "4.3.15" apply false
+
 }

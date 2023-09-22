@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import io.spherelabs.lockerkmp.ui.LockerApp
 import io.spherelabs.navigation.Finisher
 import io.spherelabs.navigation.LocalAppFinisher
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun MainView() {

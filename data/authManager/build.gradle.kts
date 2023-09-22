@@ -27,25 +27,6 @@ kotlin {
         pod("FirebaseAuth")
     }
 
-//    cocoapods {
-//        summary = "Some description for the Shared Module"
-//        homepage = "Link to the Shared Module homepage"
-//        version = "1.0"
-//        ios.deploymentTarget = "14.1"
-//
-//        framework {
-//            baseName = "authManager"
-//        }
-//        noPodspec()
-//        pod("FirebaseAuth")
-//
-//        targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-//            binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
-//                linkerOpts.add("-lsqlite3")
-//            }
-//        }
-//    }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -94,6 +75,11 @@ kotlin {
 android {
     namespace = "io.spherelabs.firebase"
     compileSdk = 33
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
     defaultConfig {
         minSdk = 24
     }

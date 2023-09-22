@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
+import io.sentry.kotlin.multiplatform.Sentry
 import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.grid.GridLayout
@@ -34,6 +35,7 @@ fun ConfirmPassword(
     val text = remember { mutableStateOf("") }
 
     val (editValue, setEditValue) = remember { mutableStateOf("") }
+    Sentry.captureMessage("Test")
     Column(
         modifier = Modifier
             .fillMaxSize()
