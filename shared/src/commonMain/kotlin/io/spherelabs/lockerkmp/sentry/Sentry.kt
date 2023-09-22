@@ -3,10 +3,10 @@ package io.spherelabs.lockerkmp.sentry
 import io.sentry.kotlin.multiplatform.Context
 import io.sentry.kotlin.multiplatform.OptionsConfiguration
 import io.sentry.kotlin.multiplatform.Sentry
+import io.spherelabs.lockerkmp.BuildKonfig
 
 private val optionsConfiguration: OptionsConfiguration = {
-    it.dsn =
-        "https://3e1eb94d0acc29f3dc2902d63199db7c@o4505921322418176.ingest.sentry.io/4505921324056576"
+    it.dsn = BuildKonfig.SENTRY_DSN
     it.attachStackTrace = true
     it.attachThreads = true
     it.attachScreenshot = true

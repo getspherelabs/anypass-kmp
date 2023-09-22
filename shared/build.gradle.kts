@@ -1,9 +1,13 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("dev.icerock.mobile.multiplatform-resources")
     kotlin("native.cocoapods")
+    id("com.codingfeline.buildkonfig")
 }
 
 kotlin {
@@ -54,7 +58,6 @@ kotlin {
                 implementation(compose.components.resources)
                 api("dev.icerock.moko:resources-compose:0.22.3")
                 api(project(":navigation"))
-
                 api(Libs.Coroutine.core)
                 api(Libs.Koin.core)
 
@@ -146,6 +149,22 @@ android {
     }
 }
 
+buildkonfig {
+    defaultConfigs {
+        packageName = "io.spherelabs.lockerkmp"
+
+        val (SENTRY_DSN, SENTRY_DSN_VALUE) = configs("SENTRY_DSN")
+
+        buildConfigField(
+            STRING,
+            SENTRY_DSN,
+            SENTRY_DSN_VALUE
+        )
+
+    }
+}
+
+
 multiplatformResources {
     multiplatformResourcesPackage = "io.spherelabs.lockerkmp"
 }
@@ -167,4 +186,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configure
             }
         }
     })
+}
+
+fun configs(name: String): Pair<String, String> {
+    val secret = System.getenv(name)
+        ?: gradleLocalProperties(rootDir).getProperty(name)
+        ?: error("No $name provided")
+    return name to secret
 }
