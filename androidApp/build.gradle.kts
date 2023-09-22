@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.gms.google-services")
+    id("io.sentry.android.gradle") version "3.12.0"
 }
 
 android {
@@ -31,22 +32,32 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
 
     dependencies {
         implementation(project(":shared"))
         implementation(project(":navigation"))
-        implementation("androidx.compose.ui:ui:1.4.0")
-        implementation("androidx.compose.ui:ui-tooling:1.4.0")
-        implementation("androidx.compose.ui:ui-tooling-preview:1.4.0")
-        implementation("androidx.compose.foundation:foundation:1.4.0")
-        implementation("androidx.compose.material:material:1.4.0")
-        implementation("androidx.activity:activity-compose:1.7.0")
+        implementation("androidx.compose.ui:ui:1.5.1")
+        implementation("androidx.compose.ui:ui-tooling:1.5.1")
+        implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
+        implementation("androidx.compose.foundation:foundation:1.5.1")
+        implementation("androidx.compose.material:material:1.5.1")
+        implementation("androidx.activity:activity-compose:1.7.2")
         implementation(Libs.Firebase.auth)
+        implementation("io.sentry:sentry-kotlin-multiplatform:0.2.1")
     }
 }
+
+//configurations {
+//    compileOnly {
+//        exclude(group = "io.sentry", module = "sentry")
+//        exclude(group = "io.sentry", module = "sentry-android")
+//    }
+//}
+//
+

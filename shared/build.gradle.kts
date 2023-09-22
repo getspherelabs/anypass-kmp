@@ -1,9 +1,13 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
     id("dev.icerock.mobile.multiplatform-resources")
     kotlin("native.cocoapods")
+    id("com.codingfeline.buildkonfig")
 }
 
 kotlin {
@@ -29,7 +33,7 @@ kotlin {
         }
 
         pod("FirebaseAuth")
-
+        pod("Sentry", "~> 8.4.0")
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
     }
@@ -54,7 +58,6 @@ kotlin {
                 implementation(compose.components.resources)
                 api("dev.icerock.moko:resources-compose:0.22.3")
                 api(project(":navigation"))
-
                 api(Libs.Coroutine.core)
                 api(Libs.Koin.core)
 
@@ -69,7 +72,7 @@ kotlin {
                 api(project(":features:auth:authPresentation"))
                 api(project(":features:onboarding:onboardingDomain"))
                 api(project(":features:onboarding:onboardingPresentation"))
-
+                implementation("io.sentry:sentry-kotlin-multiplatform:0.2.1")
 
 
                 api(project(":features:generatepassword:generatePasswordDomain"))
@@ -141,23 +144,26 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+buildkonfig {
+    defaultConfigs {
+        packageName = "io.spherelabs.lockerkmp"
+
+        val (SENTRY_DSN, SENTRY_DSN_VALUE) = configs("SENTRY_DSN")
+
+        buildConfigField(
+            STRING,
+            SENTRY_DSN,
+            SENTRY_DSN_VALUE
+        )
+
+    }
+}
+
 
 multiplatformResources {
     multiplatformResourcesPackage = "io.spherelabs.lockerkmp"
@@ -180,4 +186,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configure
             }
         }
     })
+}
+
+fun configs(name: String): Pair<String, String> {
+    val secret = System.getenv(name)
+        ?: gradleLocalProperties(rootDir).getProperty(name)
+        ?: error("No $name provided")
+    return name to secret
 }
