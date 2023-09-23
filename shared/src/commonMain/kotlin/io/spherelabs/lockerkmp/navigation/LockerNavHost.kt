@@ -25,9 +25,7 @@ fun LockerNavHost(
 ) {
 
     NavHost(navigationController, initialState = Route.Onboarding) {
-        onboardingScreen {
-            navigationController.navigateToPassword()
-        }
+        onboardingScreen { navigationController.navigateSignIn() }
         signInScreen(
             navigateToSignUp = {
                 navigationController.navigateSignUp()
@@ -44,27 +42,18 @@ fun LockerNavHost(
                 navigationController.navigateSignIn()
             }
         )
-        passwordScreen {
-            navigationController.navigateToHome()
-        }
-        homeScreen {
-            navigationController.navigateToAddNewPassword()
-        }
-        spaceScreen {
-            navigationController.navigateUp()
-        }
-        addNewPasswordScreen(
-            navigateToGeneratePassword = {
-                navigationController.navigateToCreatePassword()
-            }
-        )
+        passwordScreen { navigationController.navigateToHome() }
+        homeScreen { navigationController.navigateToAddNewPassword() }
+        spaceScreen { navigationController.navigateUp() }
+        addNewPasswordScreen { navigationController.navigateToCreatePassword() }
         createPasswordScreen(
             navigateToHome = {
                 navigationController.navigateToHome()
+            },
+            navigateToBack = {
+                navigationController.navigateUp()
             }
-        ) {
-            navigationController.navigateUp()
-        }
+        )
 
     }
 }
