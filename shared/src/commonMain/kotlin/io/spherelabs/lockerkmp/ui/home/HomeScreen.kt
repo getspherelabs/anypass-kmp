@@ -31,6 +31,7 @@ import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.usePagerEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useState
+import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.passwordcard.LKPasswordCard
 import io.spherelabs.designsystem.passwordcard.LKPasswordCardDefaults
 import io.spherelabs.designsystem.swiper.LKCardStack
@@ -38,7 +39,6 @@ import io.spherelabs.designsystem.swiper.items
 import io.spherelabs.designsystem.swiper.useLKCardStackState
 import io.spherelabs.home.homepresentation.*
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.koin.compose.rememberKoinInject
