@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.sentry.kotlin.multiplatform.Sentry
+import io.spherelabs.designsystem.grid.LKGridLayout
 import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.grid.GridLayout
 
 @Composable
 fun ConfirmPassword(
@@ -34,8 +34,8 @@ fun ConfirmPassword(
 
     val text = remember { mutableStateOf("") }
 
-    val (editValue, setEditValue) = remember { mutableStateOf("") }
     Sentry.captureMessage("Test")
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,19 +61,31 @@ fun ConfirmPassword(
                 .clip(RoundedCornerShape(topStart = 100.dp, topEnd = 100.dp))
                 .background(color = colorResource(resource = MR.colors.lavender)),
         ) {
-            GridLayout(listOf("1", "2", "3")) { newPin ->
+            LKGridLayout(
+                items = listOf("1", "2", "3"),
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            ) { newPin ->
                 if (text.value.length < 4) text.value += newPin
 
             }
-            GridLayout(listOf("4", "5", "6")) { newPin ->
+            LKGridLayout(
+                items = listOf("4", "5", "6"),
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            ) { newPin ->
                 if (text.value.length < 4) text.value += newPin
 
             }
-            GridLayout(listOf("7", "8", "9")) { newPin ->
+            LKGridLayout(
+                items = listOf("7", "8", "9"),
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            ) { newPin ->
                 if (text.value.length < 4) text.value += newPin
 
             }
-            GridLayout(listOf("0")) {
+            LKGridLayout(
+                items = listOf("0"),
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            ) {
 
             }
             Button(modifier = Modifier

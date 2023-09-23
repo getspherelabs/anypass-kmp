@@ -8,21 +8,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import io.spherelabs.lockerkmp.MR
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
-import io.spherelabs.lockerkmp.components.textfield.EmailTextField
-import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
+import io.spherelabs.designsystem.textfield.LKEmailTextField
+import io.spherelabs.designsystem.textfield.LKPasswordTextField
+
 
 @Composable
 fun SignInRoute(
@@ -64,8 +62,8 @@ fun SignInScreen(
             )
         }
 
-        EmailTextField("") {}
-        PasswordTextField("") {}
+        LKEmailTextField("", fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)) {}
+        LKPasswordTextField("", fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)) {}
         Spacer(modifier.height(24.dp))
         Button(modifier = Modifier
             .fillMaxWidth()

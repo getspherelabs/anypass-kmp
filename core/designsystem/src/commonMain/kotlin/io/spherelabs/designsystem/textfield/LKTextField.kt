@@ -1,4 +1,4 @@
-package io.spherelabs.lockerkmp.components.textfield
+package io.spherelabs.designsystem.textfield
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,15 +16,14 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import io.spherelabs.lockerkmp.MR
 
 
 @Composable
-fun TitleTextField(
+fun LKTitleTextField(
     textValue: String,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit
@@ -53,8 +52,9 @@ fun TitleTextField(
 }
 
 @Composable
-fun PasswordTextField(
+fun LKPasswordTextField(
     textValue: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit
 ) {
@@ -69,7 +69,7 @@ fun PasswordTextField(
             textAlign = TextAlign.Start,
             color = Color.Black,
             fontSize = 18.sp,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -97,8 +97,9 @@ fun PasswordTextField(
 }
 
 @Composable
-fun EmailTextField(
+fun LKEmailTextField(
     textValue: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
 ) {
@@ -113,7 +114,7 @@ fun EmailTextField(
             textAlign = TextAlign.Start,
             color = Color.Black,
             fontSize = 18.sp,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -137,9 +138,11 @@ fun EmailTextField(
     }
 }
 
+
 @Composable
-fun NotesTextField(
+fun LKNotesTextField(
     textValue: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
 ) {
@@ -150,11 +153,11 @@ fun NotesTextField(
             text = "Notes",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, top = 8.dp,bottom = 4.dp),
+                .padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
             color = Color.Black,
             fontSize = 18.sp,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -179,8 +182,9 @@ fun NotesTextField(
 }
 
 @Composable
-fun WebsiteAddressTextField(
+fun LKWebsiteAddressTextField(
     textValue: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
 ) {
@@ -195,7 +199,7 @@ fun WebsiteAddressTextField(
             textAlign = TextAlign.Start,
             color = Color.Black,
             fontSize = 18.sp,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -219,9 +223,11 @@ fun WebsiteAddressTextField(
     }
 }
 
+
 @Composable
-fun UserNameTextField(
+fun LKUserNameTextField(
     textValue: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
     textLength: Int = 0,
@@ -238,7 +244,7 @@ fun UserNameTextField(
             textAlign = TextAlign.Start,
             color = Color.Black,
             fontSize = 18.sp,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -265,27 +271,11 @@ fun UserNameTextField(
     }
 }
 
-@Composable
-private fun CloseIcon(
-    textValue: String,
-    onValueChanged: (String) -> Unit
-) {
-    if (textValue.isNotEmpty()) {
-        IconButton(onClick = {
-            onValueChanged.invoke("")
-        }) {
-            Icon(
-                imageVector = Icons.Outlined.Close,
-                contentDescription = null
-            )
-        }
-    }
-
-}
 
 @Composable
-fun PasswordTextField(
+fun LKPasswordTextField(
     textValue: String,
+    fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
     textLength: Int = 0,
@@ -302,7 +292,7 @@ fun PasswordTextField(
             textAlign = TextAlign.Start,
             color = Color.Black,
             fontSize = 18.sp,
-            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+            fontFamily = fontFamily
         )
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -327,6 +317,24 @@ fun PasswordTextField(
         )
         MaxLengthText(text = "$textLength / $maxLength")
     }
+}
+
+@Composable
+internal fun CloseIcon(
+    textValue: String,
+    onValueChanged: (String) -> Unit
+) {
+    if (textValue.isNotEmpty()) {
+        IconButton(onClick = {
+            onValueChanged.invoke("")
+        }) {
+            Icon(
+                imageVector = Icons.Outlined.Close,
+                contentDescription = null
+            )
+        }
+    }
+
 }
 
 
