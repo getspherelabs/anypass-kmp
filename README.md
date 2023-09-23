@@ -1,5 +1,9 @@
 <h1 align="center"><a href="https://github.com/getspherelabs/locker-kmp">AnyPass: Password Manager & Authenticator</a></h1></br>
 
+<p align="center">
+  <a href="https://github.com/getspherelabs/anypass-kmp"><img  alt="AnyPass Banner" src="https://github.com/getspherelabs/anypass-kmp/blob/main/media/banner.jpg?raw=true"/></a> <br>
+</p>
+
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 ![iOS](https://img.shields.io/badge/iOS-14.0%2B-green)
