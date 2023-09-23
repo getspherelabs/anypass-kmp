@@ -45,6 +45,13 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("androidx.compose.material.ExperimentalMaterialApi")
+            languageSettings.optIn("androidx.compose.material3.ExperimentalMaterial3Api")
+            languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            languageSettings.optIn("org.jetbrains.compose.resources.ExperimentalResourceApi")
+            languageSettings.optIn("androidx.compose.foundation.ExperimentalFoundationApi")
+        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)

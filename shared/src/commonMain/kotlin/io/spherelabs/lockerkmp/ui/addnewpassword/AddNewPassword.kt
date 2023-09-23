@@ -30,16 +30,16 @@ import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.hooks.useUpdatedState
+import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.picker.socialIconsPicker
+import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKNotesTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.designsystem.textfield.LKTitleTextField
 import io.spherelabs.designsystem.textfield.LKUserNameTextField
 import io.spherelabs.designsystem.textfield.LKWebsiteAddressTextField
-import io.spherelabs.lockerkmp.components.Headline
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.components.RoundedImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -125,6 +125,7 @@ fun AddNewPasswordScreen(
         ) {
             Headline(
                 text = "Add new password",
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 textColor = Color.Black
             )
 
