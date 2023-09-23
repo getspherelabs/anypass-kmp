@@ -1,4 +1,4 @@
-<h1 align="center"><a href="https://github.com/getspherelabs/locker-kmp">Locker: Password Manager</a></h1></br>
+<h1 align="center"><a href="https://github.com/getspherelabs/locker-kmp">AnyPass: Password Manager</a></h1></br>
 
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.10-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
