@@ -20,6 +20,7 @@ import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.designsystem.button.LKBackButton
 import io.spherelabs.designsystem.button.LKUseButton
+import io.spherelabs.designsystem.grid.CreateBoxes
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.meterprogress.LKMeterProgress
@@ -30,7 +31,6 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.lockerkmp.MR
-import io.spherelabs.lockerkmp.ui.home.CreateBoxes
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.rememberKoinInject
 
