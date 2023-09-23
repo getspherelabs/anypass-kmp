@@ -14,7 +14,9 @@ struct iOSApp: App {
     }
 	var body: some Scene {
 		WindowGroup {
-            ComposeView().ignoresSafeArea(.keyboard)
+            ComposeView()
+            .ignoresSafeArea(.keyboard)
+            .edgesIgnoringSafeArea(.all)
 		}
 	}
 }

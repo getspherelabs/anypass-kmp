@@ -29,8 +29,8 @@ import io.spherelabs.authpresentation.signup.SignUpWish
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
-import io.spherelabs.lockerkmp.components.textfield.EmailTextField
-import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
+import io.spherelabs.designsystem.textfield.LKEmailTextField
+import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -77,6 +77,7 @@ fun SignUpScreen(
                 SignUpEffect.AddPrivatePassword -> {
                     navigateToAddPrivatePassword.invoke()
                 }
+
                 is SignUpEffect.Failure -> {
                     coroutineScope.launch {
                         snackbarHostState.showSnackbar(
@@ -84,6 +85,7 @@ fun SignUpScreen(
                         )
                     }
                 }
+
                 SignUpEffect.SignIn -> {
                     navigateToSignIn.invoke()
                 }
@@ -144,13 +146,22 @@ fun SignUpScreen(
                     contentDescription = null
                 )
             }
-            EmailTextField(state.value.name) { newValue ->
+            LKEmailTextField(
+                state.value.name,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+            ) { newValue ->
                 wish.invoke(SignUpWish.OnNameChanged(newValue))
             }
-            EmailTextField(state.value.email) { newValue ->
+            LKEmailTextField(
+                state.value.email,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+            ) { newValue ->
                 wish.invoke(SignUpWish.OnEmailChanged(newValue))
             }
-            PasswordTextField(state.value.password) { newValue ->
+            LKPasswordTextField(
+                state.value.password,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+            ) { newValue ->
                 wish.invoke(SignUpWish.OnPasswordChanged(newValue))
             }
 

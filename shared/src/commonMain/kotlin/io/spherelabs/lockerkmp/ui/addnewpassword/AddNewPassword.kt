@@ -25,22 +25,21 @@ import io.spherelabs.addnewpasswodpresentation.AddNewPasswordViewModel
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordWish
 import io.spherelabs.designsystem.picker.LKSocialMediaPicker
 import io.spherelabs.designsystem.spinner.LKSpinner
-import io.spherelabs.designsystem.compose.rememberStableCoroutineScope
 import io.spherelabs.designsystem.dialog.title
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.hooks.useUpdatedState
 import io.spherelabs.designsystem.picker.socialIconsPicker
+import io.spherelabs.designsystem.textfield.LKEmailTextField
+import io.spherelabs.designsystem.textfield.LKNotesTextField
+import io.spherelabs.designsystem.textfield.LKPasswordTextField
+import io.spherelabs.designsystem.textfield.LKTitleTextField
+import io.spherelabs.designsystem.textfield.LKUserNameTextField
+import io.spherelabs.designsystem.textfield.LKWebsiteAddressTextField
 import io.spherelabs.lockerkmp.components.Headline
 import io.spherelabs.lockerkmp.MR
 import io.spherelabs.lockerkmp.components.RoundedImage
-import io.spherelabs.lockerkmp.components.textfield.EmailTextField
-import io.spherelabs.lockerkmp.components.textfield.NotesTextField
-import io.spherelabs.lockerkmp.components.textfield.PasswordTextField
-import io.spherelabs.lockerkmp.components.textfield.TitleTextField
-import io.spherelabs.lockerkmp.components.textfield.UserNameTextField
-import io.spherelabs.lockerkmp.components.textfield.WebsiteAddressTextField
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -144,7 +143,7 @@ fun AddNewPasswordScreen(
                     painter = painterResource(MR.images.avatar), contentDescription = null
                 )
 
-                TitleTextField(state.value.title, modifier, onValueChanged = { newValue ->
+                LKTitleTextField(state.value.title, modifier, onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnTitleChanged(newValue))
                 })
 
@@ -160,9 +159,14 @@ fun AddNewPasswordScreen(
             }
 
 
-            UserNameTextField(state.value.username, onValueChanged = { newValue ->
-                wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
-            }, textLength = state.value.username.length)
+            LKUserNameTextField(
+                state.value.username,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                onValueChanged = { newValue ->
+                    wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
+                },
+                textLength = state.value.username.length
+            )
 
             Column {
                 Text(
@@ -187,21 +191,30 @@ fun AddNewPasswordScreen(
             }
 
 
-            EmailTextField(state.value.email, onValueChanged = { newValue ->
-                wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
-            })
+            LKEmailTextField(state.value.email,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                onValueChanged = { newValue ->
+                    wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
+                })
 
-            PasswordTextField(state.value.password, onValueChanged = { newValue ->
-                wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
-            })
+            LKPasswordTextField(state.value.password,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                onValueChanged = { newValue ->
+                    wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
+                })
 
-            WebsiteAddressTextField(state.value.websiteAddress, onValueChanged = { newValue ->
-                wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
-            })
+            LKWebsiteAddressTextField(
+                state.value.websiteAddress,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                onValueChanged = { newValue ->
+                    wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
+                })
 
-            NotesTextField(state.value.notes, onValueChanged = { newValue ->
-                wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
-            })
+            LKNotesTextField(state.value.notes,
+                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                onValueChanged = { newValue ->
+                    wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
+                })
 
             Row(
                 modifier = Modifier
