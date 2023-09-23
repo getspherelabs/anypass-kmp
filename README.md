@@ -1,7 +1,7 @@
-<h1 align="center"><a href="https://github.com/getspherelabs/locker-kmp">AnyPass: Password Manager</a></h1></br>
+<h1 align="center"><a href="https://github.com/getspherelabs/locker-kmp">AnyPass: Password Manager</a></h1>
 
 <p align="center">
-  <a href="https://github.com/getspherelabs/anypass-kmp"><img  alt="AnyPass Banner" src="https://github.com/getspherelabs/anypass-kmp/blob/main/media/rounded-banner.png?raw=true"/></a> <br>
+  <a href="https://github.com/getspherelabs/anypass-kmp"><img  alt="AnyPass Banner" src="https://github.com/getspherelabs/anypass-kmp/blob/main/media/rounded-banner.png?raw=true"/></a>
 </p>
 
 
