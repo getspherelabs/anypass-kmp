@@ -11,6 +11,28 @@
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-EAEAEA.svg?style=flat)
 
+# Architecture
+
+# Technology
+
+- [Kotlin]()
+- [Compose Multiplatform]()
+- [Kotlin Coroutine]()
+- [Swift]()
+- [SqlDelight]()
+- [Koin]()
+- [Meteor]()
+- [Multiplatform Settings]()
+- [Moko Resource]()
+- [Sentry Multiplatform]()
+- [BuildKonfig]()
+- [Coil]()
+- [Meteor ViewModel]()
+- [Turbine]()
+- [Ktlint]()
+- [Spotless]()
+- [Jacoco]()
+
 # Modularization
 Modularization is the practice of breaking the concept of a monolithic, one-module codebase into loosely coupled, self contained modules.
 
@@ -83,6 +105,7 @@ graph TD;
     space-->shared;
     generatepassword-->shared;
 ```
+# Screenshots
 
 ## Project Requirements
 
