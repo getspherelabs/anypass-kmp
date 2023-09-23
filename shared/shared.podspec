@@ -10,6 +10,7 @@ Pod::Spec.new do |spec|
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'
     spec.dependency 'FirebaseAuth'
+    spec.dependency 'Sentry', '~> 8.4.0'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared',

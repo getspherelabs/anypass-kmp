@@ -5,7 +5,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import io.spherelabs.local.db.LockerDatabase
-import io.spherelabs.lockerkmp.local.MR
+import io.spherelabs.anypass.local.MR
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

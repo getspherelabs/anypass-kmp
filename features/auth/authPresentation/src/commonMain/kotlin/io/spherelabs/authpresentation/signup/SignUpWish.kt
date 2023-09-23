@@ -12,4 +12,5 @@ sealed interface SignUpWish {
     object OnNameFailed : SignUpWish
     data class SignUpFailure(val message: String) : SignUpWish
     object SignUpSuccess : SignUpWish
+    object Back: SignUpWish
 }

@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "locker-kmp"
+rootProject.name = "anypass-kmp"
 include(":androidApp")
 include(":shared")
 include(":data")
@@ -46,3 +46,4 @@ include(":features:auth")
 include(":features:auth:authDomain")
 include(":features:auth:authPresentation")
 include(":core:analytics")
+include(":features:space")

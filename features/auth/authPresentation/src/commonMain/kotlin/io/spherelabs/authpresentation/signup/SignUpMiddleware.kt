@@ -14,14 +14,12 @@ class SignUpMiddleware(
     ) {
         when (wish) {
             SignUpWish.SignUp -> {
-                println("Wish is here")
                 val result = createEmailAndPassword.execute(
                     email = state.email,
                     password = state.password,
                     name = state.name
                 )
 
-                println("Result is $result")
                 result.onSuccess {
                     next.invoke(SignUpWish.SignUpSuccess)
                 }.onFailure { newException ->

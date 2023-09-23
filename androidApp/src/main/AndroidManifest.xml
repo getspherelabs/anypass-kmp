@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".LockerApplication"
+        android:name="io.spherelabs.anypass.android.LockerApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="io.spherelabs.anypass.android.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
