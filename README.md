@@ -1,7 +1,7 @@
 <h1 align="center"><a href="https://github.com/getspherelabs/locker-kmp">AnyPass: Password Manager</a></h1></br>
 
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.10-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 ![iOS](https://img.shields.io/badge/iOS-14.0%2B-green)
 ![Swift](https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat)
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
