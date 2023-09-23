@@ -140,7 +140,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.spherelabs.lockerkmp"
+    namespace = "io.spherelabs.anypass"
     compileSdk = 33
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -151,14 +151,14 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 buildkonfig {
     defaultConfigs {
-        packageName = "io.spherelabs.lockerkmp"
+        packageName = "io.spherelabs.anypass"
 
         val (SENTRY_DSN, SENTRY_DSN_VALUE) = configs("SENTRY_DSN")
 
@@ -173,7 +173,7 @@ buildkonfig {
 
 
 multiplatformResources {
-    multiplatformResourcesPackage = "io.spherelabs.lockerkmp"
+    multiplatformResourcesPackage = "io.spherelabs.anypass"
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
@@ -185,7 +185,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configure
             val frameworkDir = File(task.destinationDir, task.frameworkName.get() + ".framework")
 
             listOf(
-                "locker-kmp:shared.bundle"
+                "anypass:shared.bundle"
             ).forEach { bundleName ->
                 val bundleDir = File(frameworkDir, bundleName)
                 bundleDir.mkdir()

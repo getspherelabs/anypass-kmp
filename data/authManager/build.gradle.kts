@@ -18,8 +18,6 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
 
-        // podfile = project.file("../../iosApp/Podfile")
-
         framework {
             baseName = "authManager"
         }
@@ -77,8 +75,8 @@ android {
     compileSdk = 33
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
         minSdk = 24

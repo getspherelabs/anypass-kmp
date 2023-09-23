@@ -32,7 +32,18 @@ actual class FirebaseAuthManager constructor(
 
     actual suspend fun createEmailAndPassword(email: String, password: String): Result<AuthResult> {
         return try {
-            val result =AuthResult(ios = firAuth.awaitResult {
+            println("Result low level")
+
+            println("${AuthResult(ios = firAuth.awaitResult {
+                {
+                    createUserWithEmail(
+                        email = email,
+                        password = password,
+                        completion = it
+                    )
+                }
+            })}")
+            val result = AuthResult(ios = firAuth.awaitResult {
                 {
                     createUserWithEmail(
                         email = email,
@@ -41,8 +52,10 @@ actual class FirebaseAuthManager constructor(
                     )
                 }
             })
+            println("Result is $result")
             Result.success(result)
         } catch (e: Exception) {
+            println("Exception is $e")
             Result.failure(e)
         }
     }
@@ -68,9 +81,11 @@ internal suspend inline fun <T, reified R> T.awaitResult(function: T.(callback: 
     val job = CompletableDeferred<R?>()
     function { result, error ->
         if (error == null) {
+            println("Result in job: $result")
             job.complete(result)
         } else {
             job.completeExceptionally(error.toThrowable())
+            println("Await result is ${error.toThrowable()}")
         }
     }
     return job.await() as R

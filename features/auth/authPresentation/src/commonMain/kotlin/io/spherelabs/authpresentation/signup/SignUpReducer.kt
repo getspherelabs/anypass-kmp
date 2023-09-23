@@ -43,6 +43,7 @@ class SignUpReducer : Reducer<SignUpState, SignUpWish, SignUpEffect> {
             SignUpWish.OnSignUpClick -> {
                 expect { state.copy(isLoading = true) }
             }
+
             is SignUpWish.SignUpFailure -> {
                 expect(
                     stateAction = {
@@ -59,11 +60,17 @@ class SignUpReducer : Reducer<SignUpState, SignUpWish, SignUpEffect> {
                     SignUpEffect.AddPrivatePassword
                 }
             }
+
             SignUpWish.TogglePasswordVisibility -> {
                 expect {
                     state.copy(isPasswordVisibility = !state.isPasswordVisibility)
                 }
             }
+
+            SignUpWish.Back -> {
+                route { SignUpEffect.Back }
+            }
+
             else -> {
                 unexpected { state }
             }
