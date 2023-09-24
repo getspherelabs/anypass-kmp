@@ -12,7 +12,19 @@
 ![badge-ios](http://img.shields.io/badge/platform-ios-EAEAEA.svg?style=flat)
 
 # Architecture
+The app architecture has three layers: a data layer, a domain layer and a UI layer. Cosmo uses Meteor KMP to create application using MVI architecture. It provides a unidirectional data flow (UDF), allowing you to handle state changes and propagate them to the UI efficiently.
 
+### Single source of truth
+
+When a new data type is defined in your app, you should assign a Single Source of Truth (SSOT) to it. The SSOT is the owner of that data, and only the SSOT can modify or mutate it. To achieve this, the SSOT exposes the data using an immutable type, and to modify the data, the SSOT exposes functions or receive events that other types can call.
+
+This pattern brings multiple benefits:
+
+- It centralizes all the changes to a particular type of data in one place.
+- It protects the data so that other types cannot tamper with it.
+- It makes changes to the data more traceable. Thus, bugs are easier to spot.
+
+In an offline-first application, the source of truth for application data is typically a database. In some other cases, the source of truth can be a ViewModel or even the UI.
 # Technology
 
 - [Kotlin]()
