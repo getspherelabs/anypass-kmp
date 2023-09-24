@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
@@ -37,19 +38,19 @@ import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.anypass.MR
 
 @Composable
-fun SpaceRoute(
+fun AccountRoute(
     navigateToBack: () -> Unit
 ) {
-    SpaceScreen(navigateToBack = { navigateToBack.invoke() })
+    AccountScreen(navigateToBack = { navigateToBack.invoke() })
 }
 
 @Composable
-fun SpaceScreen(
+fun AccountScreen(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit
 ) {
     Scaffold(
-        containerColor = colorResource(MR.colors.lavender_pink),
+        containerColor = colorResource(MR.colors.dynamic_yellow),
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),
@@ -58,11 +59,15 @@ fun SpaceScreen(
                 Box(
                     modifier = modifier.padding(start = 24.dp).size(56.dp)
                         .clip(RoundedCornerShape(24.dp))
-                        .background(color = Color.White)
+                        .background(color = Color.Black)
                         .clickable { navigateToBack.invoke() },
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        tint = Color.White,
+                        contentDescription = "Back"
+                    )
                 }
 
             }
@@ -79,7 +84,7 @@ fun SpaceScreen(
                     imageSize = 150,
                     modifier = modifier.border(
                         width = 1.dp,
-                        color = Color.White,
+                        color = Color.Black,
                         shape = CircleShape
                     ),
                     painter = painterResource(MR.images.avatar),
@@ -96,7 +101,7 @@ fun SpaceScreen(
                     "Behzod Halil",
                     textAlign = TextAlign.Center,
                     fontSize = 32.sp,
-                    color = Color.White,
+                    color = Color.Black,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 )
                 Spacer(modifier = modifier.height(8.dp))
@@ -105,7 +110,7 @@ fun SpaceScreen(
                     text = "behzoddev@gmail.com",
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
-                    color = Color.White.copy(0.5f),
+                    color = Color.Black.copy(0.5f),
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.regular)
                 )
             }
@@ -164,7 +169,7 @@ fun SpaceScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp)
-                    ).background(color = Color.White.copy(0.5f)),
+                    ).background(color = Color.Black),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -172,6 +177,7 @@ fun SpaceScreen(
                     modifier = modifier.padding(start = 24.dp),
                     text = "Fingerprint",
                     fontSize = 16.sp,
+                    color = Color.White,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 )
                 CupertinoSwitch(
@@ -187,7 +193,7 @@ fun SpaceScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp)
-                    ).background(color = Color.White.copy(0.5f)),
+                    ).background(color = Color.Black),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -196,13 +202,14 @@ fun SpaceScreen(
                     modifier = modifier.padding(start = 24.dp),
                     text = "Change password",
                     fontSize = 16.sp,
+                    color = Color.White,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 )
                 Image(
                     modifier = modifier.padding(end = 24.dp).size(20.dp),
                     painter = painterResource(MR.images.change_password),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = Color.Black)
+                    colorFilter = ColorFilter.tint(color = Color.White)
                 )
 
             }
@@ -213,7 +220,7 @@ fun SpaceScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp)
-                    ).background(color = Color.White.copy(0.5f)),
+                    ).background(color = Color.Black),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -222,18 +229,17 @@ fun SpaceScreen(
                     modifier = modifier.padding(start = 24.dp),
                     text = "Send feedback",
                     fontSize = 16.sp,
+                    color = Color.White,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 )
                 Image(
                     modifier = modifier.padding(end = 24.dp).size(20.dp),
                     painter = painterResource(MR.images.message_square),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = Color.Black)
+                    colorFilter = ColorFilter.tint(color = Color.White)
                 )
 
             }
-
-
         }
     }
 

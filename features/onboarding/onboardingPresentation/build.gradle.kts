@@ -75,11 +75,6 @@ kotlin {
         val desktopMain by creating {
             dependsOn(commonMain)
             jvmMain.dependsOn(this)
-
-            dependencies {
-                api(Libs.Coroutine.core)
-                implementation(compose.desktop.currentOs)
-            }
         }
     }
 }

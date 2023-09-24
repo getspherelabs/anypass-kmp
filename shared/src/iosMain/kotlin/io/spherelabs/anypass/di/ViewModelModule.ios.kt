@@ -7,6 +7,7 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.home.homepresentation.HomeViewModel
 import io.spherelabs.authpresentation.signup.SignUpViewModel
 import io.spherelabs.authpresentation.signin.SignInViewModel
+import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
 import org.koin.core.module.dsl.singleOf
 
 actual val viewModelModule = module {
@@ -16,4 +17,5 @@ actual val viewModelModule = module {
     singleOf(::HomeViewModel)
     singleOf(::SignInViewModel)
     singleOf(::SignUpViewModel)
+    singleOf(::MasterPasswordViewModel)
 }

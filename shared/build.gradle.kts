@@ -72,7 +72,7 @@ kotlin {
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
                 api(project(":features:addnewpassword:addNewPasswodPresentation"))
 
-                api(project(":data:settings"))
+                api(project(":data:prefs"))
                 api(project(":manager:password"))
                 implementation(project(":data:authManager"))
                 api(project(":features:auth:authDomain"))
@@ -84,6 +84,9 @@ kotlin {
 
                 api(project(":features:generatepassword:generatePasswordDomain"))
                 api(project(":features:generatepassword:generatePasswordPresentation"))
+
+                implementation(project(":features:masterpassword:masterPasswordDomain"))
+                implementation(project(":features:masterpassword:masterPasswordPresentation"))
 
                 api(project(":data:local"))
                 api(project(":manager:biometry"))
