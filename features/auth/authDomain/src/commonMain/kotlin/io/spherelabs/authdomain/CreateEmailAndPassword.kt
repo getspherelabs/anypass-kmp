@@ -27,7 +27,7 @@ class DefaultCreateEmailAndPassword(
             val newId = authResult.getOrThrow().user?.uid
             if (newId != null) {
                 runCatching {
-                    userDao.insertPassword(
+                    userDao.insertUser(
                         User(
                             id = newId,
                             name = name,

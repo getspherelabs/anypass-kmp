@@ -14,3 +14,6 @@ UPDATE user SET name = ?, password = ?;
 
 getUserById:
 SELECT * FROM user WHERE id = ? LIMIT 1;
+
+getUser:
+SELECT * FROM user LIMIT 1;

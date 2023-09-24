@@ -7,8 +7,8 @@ import io.spherelabs.anypass.ui.auth.navigation.navigateSignIn
 import io.spherelabs.anypass.ui.auth.navigation.navigateSignUp
 import io.spherelabs.anypass.ui.auth.navigation.signInScreen
 import io.spherelabs.anypass.ui.auth.navigation.signUpScreen
-import io.spherelabs.anypass.ui.confirmpassword.navigation.navigateToPassword
-import io.spherelabs.anypass.ui.confirmpassword.navigation.passwordScreen
+import io.spherelabs.anypass.ui.masterpassword.navigation.navigateToPassword
+import io.spherelabs.anypass.ui.masterpassword.navigation.passwordScreen
 import io.spherelabs.anypass.ui.createpassword.navigation.createPasswordScreen
 import io.spherelabs.anypass.ui.createpassword.navigation.navigateToCreatePassword
 import io.spherelabs.anypass.ui.home.navigation.homeScreen
@@ -43,7 +43,7 @@ fun LockerNavHost(
             }
         )
         passwordScreen { navigationController.navigateToHome() }
-        homeScreen { navigationController.navigateToAddNewPassword() }
+        homeScreen(navigationController) { navigationController.navigateToAddNewPassword() }
         spaceScreen { navigationController.navigateUp() }
         addNewPasswordScreen { navigationController.navigateToCreatePassword() }
         createPasswordScreen(

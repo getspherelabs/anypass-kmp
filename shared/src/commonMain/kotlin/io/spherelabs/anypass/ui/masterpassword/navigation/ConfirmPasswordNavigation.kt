@@ -1,7 +1,7 @@
-package io.spherelabs.anypass.ui.confirmpassword.navigation
+package io.spherelabs.anypass.ui.masterpassword.navigation
 
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.confirmpassword.ConfirmPassword
+import io.spherelabs.anypass.ui.masterpassword.ConfirmPassword
 import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable

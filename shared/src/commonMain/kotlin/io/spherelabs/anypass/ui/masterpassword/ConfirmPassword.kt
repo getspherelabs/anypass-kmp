@@ -1,4 +1,4 @@
-package io.spherelabs.anypass.ui.confirmpassword
+package io.spherelabs.anypass.ui.masterpassword
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

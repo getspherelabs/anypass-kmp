@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.designsystem.image.RoundedImage
@@ -48,7 +49,7 @@ fun SpaceScreen(
     navigateToBack: () -> Unit
 ) {
     Scaffold(
-        containerColor = Color(0xff4894fc),
+        containerColor = colorResource(MR.colors.lavender_pink),
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),

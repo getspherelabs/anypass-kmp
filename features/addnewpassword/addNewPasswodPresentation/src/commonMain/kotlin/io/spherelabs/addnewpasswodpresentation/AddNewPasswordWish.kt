@@ -16,4 +16,5 @@ sealed interface AddNewPasswordWish {
     data class InsertPassword(val password: AddNewPasswordUi) : AddNewPasswordWish
     data class InsertFailed(val message: String) : AddNewPasswordWish
     data class InsertSuccess(val message: String) : AddNewPasswordWish
+    data class GetCategories(val categories: List<AddNewCategoryUi>) : AddNewPasswordWish
 }

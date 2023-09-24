@@ -32,8 +32,6 @@ class OnboardingViewModel(
         }
     }
 
-
-
     fun wish(wish: OnboardingWish) {
         viewModelScope.launch {
             store.wish(wish)

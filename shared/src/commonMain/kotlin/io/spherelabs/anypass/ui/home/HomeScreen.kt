@@ -7,6 +7,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -39,19 +40,26 @@ import io.spherelabs.designsystem.swiper.items
 import io.spherelabs.designsystem.swiper.useLKCardStackState
 import io.spherelabs.home.homepresentation.*
 import io.spherelabs.anypass.MR
+import io.spherelabs.anypass.navigation.Route
+import io.spherelabs.anypass.ui.space.navigation.navigateSpace
+import io.spherelabs.designsystem.hooks.useSnackbar
+import io.spherelabs.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.rememberKoinInject
 import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
 
 @Composable
 fun HomeRoute(
+    navigation: NavigationController<Route>,
     viewModel: HomeViewModel = rememberKoinInject(),
     navigateToCreatePassword: () -> Unit
 ) {
     val uiState = viewModel.state.collectAsState()
 
     HomeScreen(
+        navigation = navigation,
         wish = { newWish ->
             viewModel.wish(newWish)
         },
@@ -65,28 +73,88 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
+    navigation: NavigationController<Route>,
     modifier: Modifier = Modifier,
     wish: (HomeWish) -> Unit,
     uiState: State<HomeState>,
     effect: Flow<HomeEffect>,
     navigateToCreatePassword: () -> Unit
 ) {
-    val state = rememberScrollState(0)
+
     val scaffoldState = rememberScaffoldState()
+    val coroutineScope = useScope()
+    val snackbarState = useSnackbar()
 
     useEffect(true) {
         wish.invoke(HomeWish.GetStartedCategories)
+
+        effect.collectLatest { newEffect ->
+            when (newEffect) {
+                is HomeEffect.Failure -> {
+                    coroutineScope.launch {
+
+                    }
+                }
+            }
+        }
     }
 
     Scaffold(
         scaffoldState = scaffoldState,
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(Alignment.Bottom)
+            )
+        },
         backgroundColor = colorResource(MR.colors.lavender),
+        drawerContent = {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(color = colorResource(MR.colors.lavender).copy(alpha = 0.6f))
+                    .padding(start = 8.dp, top = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                LazyColumn(modifier = modifier.weight(1f)) {
+                    item {
+                        RoundedImage(
+                            imageSize = 75,
+                            painter = mokoPainterResource(MR.images.avatar),
+                            contentDescription = null
+                        )
+
+                        Spacer(modifier.height(16.dp))
+
+                        Text(
+                            modifier = modifier.clickable {
+                                navigation.navigateSpace()
+                            },
+                            text = "behzoddev@gmail.com",
+                            fontSize = 24.sp,
+                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                        )
+                    }
+
+
+                }
+
+
+            }
+        },
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 RoundedImage(
+                    modifier = modifier.clickable {
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    },
                     painter = mokoPainterResource(MR.images.avatar),
                     contentDescription = null
                 )
@@ -155,6 +223,7 @@ fun CategoryCard(
 
 }
 
+
 @Composable
 fun DomainCard(
     modifier: Modifier = Modifier
@@ -194,52 +263,63 @@ fun DomainCard(
 
 @Composable
 fun HomeHeadline(
-    fontSize: TextUnit = 32.sp,
+    fontSize: TextUnit = 42.sp,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier.padding(start = 24.dp)
     ) {
-        Row {
-            Text(
-                text = "Keep",
-                color = colorResource(MR.colors.white),
-                fontSize = fontSize,
-                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
-            )
-            Spacer(modifier = modifier.width(12.dp))
-            RoundedImage(
-                painter = mokoPainterResource(MR.images.whale_logo), contentDescription = null
-            )
+        item {
+            Row {
+                Text(
+                    text = "Keep",
+                    color = colorResource(MR.colors.white),
+                    fontSize = fontSize,
+                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
+                )
+                Spacer(modifier = modifier.width(12.dp))
+                RoundedImage(
+                    imageSize = 56,
+                    painter = mokoPainterResource(MR.images.avatar3), contentDescription = null
+                )
 
+            }
+        }
+        item {
+            Row {
+                RoundedImage(
+                    imageSize = 56,
+                    painter = mokoPainterResource(MR.images.avatar6), contentDescription = null
+                )
+                Spacer(modifier = modifier.width(12.dp))
+                Text(
+                    text = "Your Life",
+                    color = colorResource(MR.colors.white),
+                    fontSize = fontSize,
+                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
+                )
+
+            }
         }
 
-        Row {
-            RoundedImage(
-                painter = mokoPainterResource(MR.images.whale_logo), contentDescription = null
-            )
-            Spacer(modifier = modifier.width(12.dp))
-            Text(
-                text = "Your Life",
-                color = colorResource(MR.colors.white),
-                fontSize = fontSize,
-                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
-            )
+        item {
+            Row {
+                Text(
+                    text = "Safe",
+                    color = colorResource(MR.colors.white),
+                    fontSize = fontSize,
+                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
+                )
+                Spacer(modifier = modifier.width(12.dp))
+                RoundedImage(
+                    imageSize = 56,
+                    painter = mokoPainterResource(MR.images.avatar4),
+                    contentDescription = null
+                )
 
+            }
         }
-        Row {
-            Text(
-                text = "Safe",
-                color = colorResource(MR.colors.white),
-                fontSize = fontSize,
-                fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
-            )
-            Spacer(modifier = modifier.width(12.dp))
-            RoundedImage(
-                painter = mokoPainterResource(MR.images.whale_logo), contentDescription = null
-            )
 
-        }
     }
 }
 
@@ -348,9 +428,6 @@ fun LKPager(
 }
 
 
-
-
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LKTag(
@@ -427,8 +504,14 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
 
     )
 }
+
 data class TextData(
     val id: Int,
     val color: Color,
     val text: String
 )
+
+enum class HomeDrawerState {
+    OPENED,
+    CLOSED
+}
