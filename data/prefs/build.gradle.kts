@@ -23,6 +23,9 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("com.russhwolf.settings.ExperimentalSettingsApi")
+        }
         val commonMain by getting {
             dependencies {
                 api(Libs.Settings.coroutine)
