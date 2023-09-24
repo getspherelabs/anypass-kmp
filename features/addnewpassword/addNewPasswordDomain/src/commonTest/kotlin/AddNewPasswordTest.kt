@@ -24,27 +24,19 @@ class AddNewPasswordTest {
                 id = "12345",
                 title = "Test",
                 password = "1234567891012",
-                category = null
+                category = ""
             )
         )
         assertTrue(result.isSuccess)
     }
 
-    @Test
-    fun `check the add new password use case when the password is null`() = runTest {
-        val result = usecase.execute(
-            null
-        )
-        println(result)
-        assertTrue(result.isFailure)
-    }
 
     @Test
     fun `check the add new password use case when the password length is less than 10`() = runTest {
         val result = usecase.execute(
             AddNewPasswordDomain(
                 id = "1234",
-                category = null,
+                category = "",
                 password = "1234"
             )
         )
