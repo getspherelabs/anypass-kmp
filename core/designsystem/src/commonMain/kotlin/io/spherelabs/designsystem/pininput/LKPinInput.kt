@@ -19,31 +19,25 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LKPinInput(
     modifier: Modifier = Modifier,
     cellModifier: Modifier = Modifier,
     style: LKPinStyle = LKPinDefaults.style(),
-    value: String = "",
+    value: String? = null,
     disableKeypad: Boolean = false,
     onValueChanged: (String) -> Unit
 ) {
-    val focusRequester = remember { FocusRequester() }
-    val keyboard = LocalSoftwareKeyboardController.current
-
     val length by style.cellCount()
+    val focusRequester = remember { FocusRequester() }
 
     TextField(
         readOnly = disableKeypad,
-        value = value,
+        value = value ?: "",
         onValueChange = {
             if (it.length <= length) {
                 if (it.all { c -> c in '0'..'9' }) {
                     onValueChanged(it)
-                }
-                if (it.length >= length) {
-                    keyboard?.hide()
                 }
             }
         },
@@ -64,13 +58,9 @@ fun LKPinInput(
                 modifier = cellModifier
                     .size(width = 75.dp, height = 75.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .background(color = Color.White)
-                    .clickable {
-                        focusRequester.requestFocus()
-                        keyboard?.show()
-                    },
-                value = value.getOrNull(it),
-                isCursorVisible = value.length == it,
+                    .background(color = Color.White),
+                value = value?.getOrNull(it),
+                isCursorVisible = if (value == null) false else value.length == it,
                 style.obscureText().value
             )
             if (it != length - 1)

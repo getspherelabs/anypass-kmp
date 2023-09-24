@@ -5,7 +5,7 @@ private const val KEY_ROUTE_NAME = "route_name"
 fun <R : Route> R.asSavable(): Map<String, String> {
     return when (this) {
         is Route.Onboarding -> savable<Route.Onboarding>()
-        is Route.InputPassword -> savable<Route.InputPassword>()
+        is Route.MasterPassword -> savable<Route.MasterPassword>()
         is Route.Home -> savable<Route.Home>()
         is Route.CreatePassword -> savable<Route.CreatePassword>()
         is Route.AddNewPassword -> savable<Route.AddNewPassword>()
@@ -22,7 +22,7 @@ fun <R : Route> R.asSavable(): Map<String, String> {
 fun buildScreenFromSavable(savable: Map<String, String>): Route {
     return when (val routeName = savable[KEY_ROUTE_NAME]) {
         routeName<Route.Onboarding>() -> Route.Onboarding
-        routeName<Route.InputPassword>() -> Route.InputPassword
+        routeName<Route.MasterPassword>() -> Route.MasterPassword
         routeName<Route.CreatePassword>() -> Route.CreatePassword
         routeName<Route.Home>() -> Route.Home
         routeName<Route.AddNewPassword>() -> Route.AddNewPassword

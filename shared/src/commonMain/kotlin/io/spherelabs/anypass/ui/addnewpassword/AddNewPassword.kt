@@ -113,14 +113,16 @@ fun AddNewPasswordScreen(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .wrapContentHeight(Alignment.Bottom)
             )
         }
     ) {
         Column(
-            modifier = modifier.fillMaxSize().background(color = Color.White)
+            modifier = modifier
+                .fillMaxSize()
+                .background(color = Color.White)
                 .verticalScroll(scrollState)
         ) {
             Headline(

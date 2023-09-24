@@ -28,7 +28,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":data:settings"))
+                implementation(project(":data:prefs"))
 
                 api(Libs.Coroutine.core)
                 api(Libs.Koin.core)
@@ -40,11 +40,7 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(Libs.Android.viewModel)
-            }
-        }
+        val androidMain by getting
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting

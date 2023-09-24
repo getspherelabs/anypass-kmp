@@ -8,6 +8,7 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.home.homepresentation.HomeViewModel
 import io.spherelabs.authpresentation.signup.SignUpViewModel
 import io.spherelabs.authpresentation.signin.SignInViewModel
+import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
 
 actual val viewModelModule = module {
     viewModelOf(::OnboardingViewModel)
@@ -16,4 +17,5 @@ actual val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::SignInViewModel)
     viewModelOf(::SignUpViewModel)
+    viewModelOf(::MasterPasswordViewModel)
 }
