@@ -9,18 +9,19 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 
 interface UserDao {
-    suspend fun insertPassword(password: User)
-    suspend fun updatePassword(password: User)
-    fun getFavouriteById(id: String): Flow<User>
+    suspend fun insertUser(password: User)
+    suspend fun updateUser(password: User)
+    fun getUserById(id: String): Flow<User>
+    fun getUser(): Flow<User>
 }
 
 class DefaultUserDao(
-    private val db: LockerDatabase
+    val db: LockerDatabase
 ) : UserDao {
 
     private val queries = db.userQueries
 
-    override suspend fun insertPassword(password: User) {
+    override suspend fun insertUser(password: User) {
         queries.transaction {
             queries.insertUser(
                 id = password.id,
@@ -31,7 +32,7 @@ class DefaultUserDao(
         }
     }
 
-    override suspend fun updatePassword(password: User) {
+    override suspend fun updateUser(password: User) {
         queries.transaction {
             queries.updateUser(
                 name = password.name,
@@ -40,7 +41,11 @@ class DefaultUserDao(
         }
     }
 
-    override fun getFavouriteById(id: String): Flow<User> {
+    override fun getUserById(id: String): Flow<User> {
         return queries.getUserById(id).asFlow().mapToOne(Dispatchers.IO)
+    }
+
+    override fun getUser(): Flow<User> {
+        return queries.getUser().asFlow().mapToOne(Dispatchers.IO)
     }
 }
