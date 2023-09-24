@@ -1,5 +1,3 @@
-
-
 <p align="center">
   <a href="https://github.com/getspherelabs/anypass-kmp"><img  alt="AnyPass Banner" src="https://github.com/getspherelabs/anypass-kmp/blob/main/media/rounded-banner.png?raw=true"/></a>
 </p>
@@ -10,6 +8,10 @@
 ![Swift](https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat)
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
 ![badge-ios](http://img.shields.io/badge/platform-ios-EAEAEA.svg?style=flat)
+
+# AnyPass (Work In Progress ⛏)
+
+[AnyPass]() is your one-stop solution for password management, password generation, and password health analysis.
 
 # Architecture
 The app architecture has three layers: a data layer, a domain layer and a UI layer. Cosmo uses Meteor KMP to create application using MVI architecture. It provides a unidirectional data flow (UDF), allowing you to handle state changes and propagate them to the UI efficiently.
