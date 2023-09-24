@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LKMeterProgress(
     value: Int,
+    color: Color,
     modifier: Modifier = Modifier
 ) {
 
@@ -26,7 +28,7 @@ fun LKMeterProgress(
             .aspectRatio(1f)
     ) {
         LKOuterProgress(modifier = modifier)
-        LKCircleProgress(modifier = modifier, angle = progressAngle)
+        LKCircleProgress(modifier = modifier, color = color, angle = progressAngle)
         LKDashProgress(modifier = modifier, value = value)
         LKInnerProgress(modifier = modifier)
     }

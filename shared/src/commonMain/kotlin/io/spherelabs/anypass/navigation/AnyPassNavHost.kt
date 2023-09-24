@@ -9,8 +9,8 @@ import io.spherelabs.anypass.ui.auth.navigation.signInScreen
 import io.spherelabs.anypass.ui.auth.navigation.signUpScreen
 import io.spherelabs.anypass.ui.masterpassword.navigation.navigateToPassword
 import io.spherelabs.anypass.ui.masterpassword.navigation.passwordScreen
-import io.spherelabs.anypass.ui.createpassword.navigation.createPasswordScreen
-import io.spherelabs.anypass.ui.createpassword.navigation.navigateToCreatePassword
+import io.spherelabs.anypass.ui.generatepassword.navigation.createPasswordScreen
+import io.spherelabs.anypass.ui.generatepassword.navigation.navigateToCreatePassword
 import io.spherelabs.anypass.ui.home.navigation.homeScreen
 import io.spherelabs.anypass.ui.home.navigation.navigateToHome
 import io.spherelabs.anypass.ui.onboarding.navigation.onboardingScreen
@@ -20,7 +20,7 @@ import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController
 
 @Composable
-fun LockerNavHost(
+fun AnyPassNavHost(
     navigationController: NavigationController<Route> = rememberNavController()
 ) {
 

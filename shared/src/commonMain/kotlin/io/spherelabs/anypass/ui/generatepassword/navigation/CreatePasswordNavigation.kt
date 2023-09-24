@@ -1,7 +1,7 @@
-package io.spherelabs.anypass.ui.createpassword.navigation
+package io.spherelabs.anypass.ui.generatepassword.navigation
 
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.createpassword.GeneratePasswordRoute
+import io.spherelabs.anypass.ui.generatepassword.GeneratePasswordRoute
 import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable

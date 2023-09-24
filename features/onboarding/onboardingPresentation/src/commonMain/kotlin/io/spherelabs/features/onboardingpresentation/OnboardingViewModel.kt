@@ -28,7 +28,6 @@ class OnboardingViewModel(
     init {
         viewModelScope.launch {
             store.wish(OnboardingWish.CheckFirstTime)
-
         }
     }
 

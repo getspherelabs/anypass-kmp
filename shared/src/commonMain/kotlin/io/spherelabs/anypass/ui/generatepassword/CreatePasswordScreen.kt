@@ -1,4 +1,4 @@
-package io.spherelabs.anypass.ui.createpassword
+package io.spherelabs.anypass.ui.generatepassword
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -172,14 +172,14 @@ fun GeneratePasswordScreen(
             Column {
                 Text(
                     modifier = modifier.padding(start = 24.dp),
-                    text = "Caps",
+                    text = "Special",
                     fontSize = 12.sp,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White.copy(alpha = 0.5f)
                 )
                 LKSlider(
                     modifier = modifier.width(100.dp),
-                    value = 40f,
+                    value = 0f,
                     onValueChange = { value, offset ->
 
                     },
@@ -196,7 +196,7 @@ fun GeneratePasswordScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "03",
+                            text = "0",
                             fontSize = 10.sp,
                             color = Color.Black,
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
@@ -206,9 +206,7 @@ fun GeneratePasswordScreen(
                 }
             }
         }
-//
-//
-//
+
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -216,7 +214,7 @@ fun GeneratePasswordScreen(
                 .padding(top = 24.dp)
         )
         {
-            LKMeterProgress(state.value.length)
+            LKMeterProgress(state.value.length, color = colorResource(MR.colors.lavender))
         }
 
         Text(

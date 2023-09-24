@@ -57,17 +57,18 @@ fun LKInnerProgress(
 @Composable
 fun LKCircleProgress(
     angle: Float,
+    color: Color,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier
             .fillMaxSize()
             .padding(95.dp)
-            .drawCircleProgress(angle)
+            .drawCircleProgress(angle,color)
     )
 }
 
-private fun Modifier.drawCircleProgress(angle: Float): Modifier {
+private fun Modifier.drawCircleProgress(angle: Float, color: Color): Modifier {
     return drawBehind {
         drawArc(
             color = Color.Transparent,
@@ -77,7 +78,7 @@ private fun Modifier.drawCircleProgress(angle: Float): Modifier {
             style = Stroke(width = 20f)
         )
         drawArc(
-            color = Color.Magenta,
+            color = color,
             startAngle = -90f,
             sweepAngle = angle,
             useCenter = false,

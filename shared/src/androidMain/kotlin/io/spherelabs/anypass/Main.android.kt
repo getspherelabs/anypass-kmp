@@ -6,14 +6,14 @@ import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
-import io.spherelabs.anypass.ui.LockerApp
+import io.spherelabs.anypass.ui.AnyPassApp
 import io.spherelabs.navigation.Finisher
 import io.spherelabs.navigation.LocalAppFinisher
 
 @Composable
 fun MainView() {
     CompositionLocalProvider(LocalAppFinisher provides androidAppFinisher()) {
-        LockerApp()
+        AnyPassApp()
     }
 }
 

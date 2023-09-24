@@ -5,6 +5,7 @@ import com.russhwolf.settings.coroutines.FlowSettings
 interface MasterPasswordSetting {
     suspend fun setMasterPassword(value: String)
     suspend fun isPasswordExist(): Boolean
+    suspend fun getMasterPassword(): String
 }
 
 class DefaultMasterPasswordSetting(
@@ -17,6 +18,10 @@ class DefaultMasterPasswordSetting(
 
     override suspend fun isPasswordExist(): Boolean {
         return prefs.getString(MASTER_PASSWORD, "").isNotEmpty()
+    }
+
+    override suspend fun getMasterPassword(): String {
+        return prefs.getString(MASTER_PASSWORD, "")
     }
 
     companion object {

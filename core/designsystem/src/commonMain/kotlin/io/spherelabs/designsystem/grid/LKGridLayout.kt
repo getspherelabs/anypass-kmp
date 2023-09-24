@@ -21,7 +21,7 @@ fun LKGridLayout(
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 18.dp),
         content = {
             itemsIndexed(items) { _, item ->
                 LKNumberButton(value = item, fontFamily = fontFamily) {

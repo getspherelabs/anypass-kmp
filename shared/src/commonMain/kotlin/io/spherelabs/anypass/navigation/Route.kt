@@ -15,9 +15,9 @@ sealed interface Route {
         }
     }
 
-    object InputPassword : Route {
+    object MasterPassword : Route {
         override fun equals(other: Any?): Boolean {
-            return other === InputPassword
+            return other === MasterPassword
         }
 
         override fun hashCode(): Int {
