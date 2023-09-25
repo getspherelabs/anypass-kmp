@@ -169,7 +169,7 @@ buildkonfig {
         buildConfigField(
             STRING,
             SENTRY_DSN,
-            SENTRY_DSN_VALUE
+            SENTRY_DSN_VALUE,
         )
 
     }
@@ -182,21 +182,24 @@ multiplatformResources {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
     @Suppress("ObjectLiteralToLambda")
-    doLast(object : Action<Task> {
-        override fun execute(task: Task) {
-            task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
+    doLast(
+        object : Action<Task> {
+            override fun execute(task: Task) {
+                task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
 
-            val frameworkDir = File(task.destinationDir, task.frameworkName.get() + ".framework")
+                val frameworkDir =
+                    File(task.destinationDir, task.frameworkName.get() + ".framework")
 
-            listOf(
-                "anypass:shared.bundle"
-            ).forEach { bundleName ->
-                val bundleDir = File(frameworkDir, bundleName)
-                bundleDir.mkdir()
-                File(bundleDir, "dummyFile").writeText("dummy")
+                listOf(
+                    "anypass:shared.bundle",
+                ).forEach { bundleName ->
+                    val bundleDir = File(frameworkDir, bundleName)
+                    bundleDir.mkdir()
+                    File(bundleDir, "dummyFile").writeText("dummy")
+                }
             }
-        }
-    })
+        },
+    )
 }
 
 fun configs(name: String): Pair<String, String> {
