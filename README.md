@@ -2,12 +2,27 @@
   <a href="https://github.com/getspherelabs/anypass-kmp"><img  alt="AnyPass Banner" src="https://github.com/getspherelabs/anypass-kmp/blob/main/media/rounded-banner.png?raw=true"/></a>
 </p>
 
-
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
-![iOS](https://img.shields.io/badge/iOS-14.0%2B-green)
-![Swift](https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat)
-![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
-![badge-ios](http://img.shields.io/badge/platform-ios-EAEAEA.svg?style=flat)
+<p align="center">
+<a href="">
+    <img src="https://img.shields.io/badge/Kotlin-1.9.0-blue.svg?style=flat&logo=kotlin">
+</a>
+<a href="">
+    <img src="https://img.shields.io/badge/iOS-14.0%2B-green">
+</a>    
+<a href="">
+    <img src="https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat">
+</a>   
+<a href="">
+    <img src="https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat">
+</a> 
+<a href="">
+    <img src="http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat">
+</a> 
+</a> 
+<a href="">
+    <img src="http://img.shields.io/badge/platform-ios-EAEAEA.svg?style=flat">
+</a>  
+</p>
 
 # AnyPass (Work In Progress ⛏)
 
