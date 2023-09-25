@@ -13,6 +13,7 @@ plugins {
 kotlin {
     android()
 
+
     ios()
     iosX64()
     iosArm64()

@@ -22,15 +22,38 @@ plugins {
     id("org.jetbrains.kotlin.jvm").version("1.9.0").apply(false)
     id("dev.icerock.moko.kswift").version("0.6.1")
     id("com.google.gms.google-services").version("4.3.15").apply(false)
-    id("com.diffplug.spotless").version("6.17.0")
+    id("com.diffplug.spotless").version("6.21.0")
     id("org.jlleitschuh.gradle.ktlint").version(Version.ktlint)
 }
-subprojects {
+
+allprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "com.diffplug.spotless")
 
-    // It throws :shared:iosArm64CInteropApiElements
 
+//    configure<SpotlessExtension> {
+//        kotlin {
+//            ktfmt("0.46").googleStyle()
+//            target("src/**/*.kt")
+//            targetExclude("${layout.buildDirectory}/**/*.kt")
+////            licenseHeaderFile(rootProject.file("spotless/copyright.txt"))
+////                .onlyIfContentMatches("missingString")
+//        }
+//        kotlinGradle {
+//            ktfmt("0.46").googleStyle()
+//            target("*.kts")
+//            targetExclude("${layout.buildDirectory}/**/*.kts")
+////            licenseHeaderFile(rootProject.file("spotless/copyright.txt"), "(^(?![\\/ ]\\*).*$)")
+////                .onlyIfContentMatches("missingString")
+//            toggleOffOn()
+//        }
+//        format("xml") {
+//            target("src/**/*.xml")
+//            targetExclude("**/build/", ".idea/")
+//            trimTrailingWhitespace()
+//            endWithNewline()
+//        }
+//    }
 //    configure<SpotlessExtension> {
 //        kotlin {
 //            target("**/*.kt")
@@ -48,9 +71,13 @@ subprojects {
 //            )
 //            trimTrailingWhitespace()
 //            endWithNewline()
+//            toggleOffOn()
 //        }
 //        format("xml") {
-//            target("**/*.xml")
+//            target("src/**/*.xml")
+//            targetExclude("**/build/", ".idea/")
+//            trimTrailingWhitespace()
+//            endWithNewline()
 //        }
 //    }
 
@@ -68,3 +95,6 @@ subprojects {
         }
     }
 }
+
+
+fun Project.spotless(action: SpotlessExtension.() -> Unit) = extensions.configure<SpotlessExtension>(action)
