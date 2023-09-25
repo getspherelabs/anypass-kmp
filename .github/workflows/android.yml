@@ -51,7 +51,7 @@ jobs:
         with:
           key-prefix: gradle-build
       - name: Build
-        run: ./gradlew assembleDebug
+        run: ./gradlew build
   test:
     name: Unit tests
     runs-on: ubuntu-22.04
