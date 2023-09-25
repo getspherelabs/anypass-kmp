@@ -29,59 +29,56 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SwitchDefaults.cupertinoColors(dark : Boolean) = colors(
+fun SwitchDefaults.cupertinoColors(dark: Boolean) =
+  colors(
     checkedThumbColor = Color.White,
     uncheckedThumbColor = Color.White,
-    uncheckedTrackColor =  Color(142, 142, 147)
-)
+    uncheckedTrackColor = Color(142, 142, 147)
+  )
 
 @Composable
 fun CupertinoSwitch(
-    checked : Boolean,
-    onCheckedChange : (Boolean) -> Unit,
-    modifier : Modifier = Modifier,
-    thumbContent: @Composable() (() -> Unit)? = null,
-    colors : SwitchColors = SwitchDefaults.cupertinoColors(true),
-    enabled: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+  checked: Boolean,
+  onCheckedChange: (Boolean) -> Unit,
+  modifier: Modifier = Modifier,
+  thumbContent: @Composable() (() -> Unit)? = null,
+  colors: SwitchColors = SwitchDefaults.cupertinoColors(true),
+  enabled: Boolean = true,
+  interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
 
-    val haptic = LocalHapticFeedback.current
+  val haptic = LocalHapticFeedback.current
 
+  val isPressed by interactionSource.collectIsPressedAsState()
 
-    val isPressed by interactionSource.collectIsPressedAsState()
+  val animatedAspectRatio by animateFloatAsState(if (isPressed) 1.25f else 1f)
+  val animatedBackground by animateColorAsState(colors.trackColor(enabled, checked).value)
+  val animatedAlignment by animateFloatAsState(if (checked) 1f else -1f)
 
-    val animatedAspectRatio by animateFloatAsState(if (isPressed) 1.25f else 1f)
-    val animatedBackground by animateColorAsState(colors.trackColor(enabled, checked).value)
-    val animatedAlignment by animateFloatAsState(if (checked) 1f else -1f)
-
-    Column(
-        modifier
-            .toggleable(
-                value = checked,
-                onValueChange = {
-                    onCheckedChange(it)
-                },
-                enabled = enabled,
-                role = Role.Switch,
-                interactionSource = interactionSource,
-                indication = null
-            )
-            .wrapContentSize(Alignment.Center)
-            .requiredSize(51.dp, 31.dp)
-            .clip(CircleShape)
-            .background(animatedBackground)
-            .padding(2.dp),
+  Column(
+    modifier
+      .toggleable(
+        value = checked,
+        onValueChange = { onCheckedChange(it) },
+        enabled = enabled,
+        role = Role.Switch,
+        interactionSource = interactionSource,
+        indication = null
+      )
+      .wrapContentSize(Alignment.Center)
+      .requiredSize(51.dp, 31.dp)
+      .clip(CircleShape)
+      .background(animatedBackground)
+      .padding(2.dp),
+  ) {
+    Box(
+      Modifier.fillMaxHeight()
+        .clip(CircleShape)
+        .aspectRatio(animatedAspectRatio)
+        .background(colors.thumbColor(enabled, checked).value)
+        .align(BiasAlignment.Horizontal(animatedAlignment))
     ) {
-        Box(
-            Modifier
-                .fillMaxHeight()
-                .clip(CircleShape)
-                .aspectRatio(animatedAspectRatio)
-                .background(colors.thumbColor(enabled, checked).value)
-                .align(BiasAlignment.Horizontal(animatedAlignment))
-        ){
-            thumbContent?.invoke()
-        }
+      thumbContent?.invoke()
     }
+  }
 }

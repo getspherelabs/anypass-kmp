@@ -11,35 +11,31 @@ import androidx.compose.ui.unit.Dp
 
 object LKDropdownDefaults {
 
-    @Composable
-    fun dropdownStyle(
-        elevation: Dp = LKDropdownTokens.MenuElevation,
-        verticalMargin: Dp = LKDropdownTokens.MenuVerticalMargin,
-        verticalPadding: Dp = LKDropdownTokens.MenuVerticalPadding,
-        menuItemHorizontalPadding: Dp = LKDropdownTokens.MenuItemHorizontalPadding,
-        menuItemDefaultMinWidth: Dp = LKDropdownTokens.MenuItemDefaultMinWidth,
-        menuItemDefaultMaxWidth: Dp = LKDropdownTokens.MenuItemDefaultMaxWidth,
-        menuItemDefaultMinHeight: Dp = LKDropdownTokens.MenuItemDefaultMinHeight,
-        itemContentPadding: PaddingValues = LKDropdownTokens.DropdownMenuItemContentPadding
-    ): LKDropdownStyle {
-        return LKDropdownStyle(
-            elevation = elevation,
-            verticalMargin = verticalMargin,
-            verticalPadding = verticalPadding,
-            menuItemHorizontalPadding = menuItemHorizontalPadding,
-            menuItemDefaultMinWidth = menuItemDefaultMinWidth,
-            menuItemDefaultMaxWidth = menuItemDefaultMaxWidth,
-            menuItemDefaultMinHeight = menuItemDefaultMinHeight,
-            itemContentPadding = itemContentPadding
-        )
-    }
+  @Composable
+  fun dropdownStyle(
+    elevation: Dp = LKDropdownTokens.MenuElevation,
+    verticalMargin: Dp = LKDropdownTokens.MenuVerticalMargin,
+    verticalPadding: Dp = LKDropdownTokens.MenuVerticalPadding,
+    menuItemHorizontalPadding: Dp = LKDropdownTokens.MenuItemHorizontalPadding,
+    menuItemDefaultMinWidth: Dp = LKDropdownTokens.MenuItemDefaultMinWidth,
+    menuItemDefaultMaxWidth: Dp = LKDropdownTokens.MenuItemDefaultMaxWidth,
+    menuItemDefaultMinHeight: Dp = LKDropdownTokens.MenuItemDefaultMinHeight,
+    itemContentPadding: PaddingValues = LKDropdownTokens.DropdownMenuItemContentPadding
+  ): LKDropdownStyle {
+    return LKDropdownStyle(
+      elevation = elevation,
+      verticalMargin = verticalMargin,
+      verticalPadding = verticalPadding,
+      menuItemHorizontalPadding = menuItemHorizontalPadding,
+      menuItemDefaultMinWidth = menuItemDefaultMinWidth,
+      menuItemDefaultMaxWidth = menuItemDefaultMaxWidth,
+      menuItemDefaultMinHeight = menuItemDefaultMinHeight,
+      itemContentPadding = itemContentPadding
+    )
+  }
 
-    @Composable
-    fun TrailingIcon(expanded: Boolean) {
-        Icon(
-            Icons.Filled.ArrowDropDown,
-            null,
-            Modifier.rotate(if (expanded) 180f else 0f)
-        )
-    }
+  @Composable
+  fun TrailingIcon(expanded: Boolean) {
+    Icon(Icons.Filled.ArrowDropDown, null, Modifier.rotate(if (expanded) 180f else 0f))
+  }
 }

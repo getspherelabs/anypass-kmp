@@ -4,6 +4,7 @@ import io.spherelabs.home.homedomain.model.HomeCategoryDomain
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    fun getCategories(): Flow<List<HomeCategoryDomain>>
-    fun getEmail(): Flow<String>
+  fun getCategories(): Flow<List<HomeCategoryDomain>>
+
+  fun getEmail(): Flow<String>
 }

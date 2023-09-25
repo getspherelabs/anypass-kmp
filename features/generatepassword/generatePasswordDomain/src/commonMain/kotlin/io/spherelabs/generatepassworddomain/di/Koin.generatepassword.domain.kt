@@ -5,5 +5,5 @@ import io.spherelabs.generatepassworddomain.GeneratePassword
 import org.koin.dsl.module
 
 val generatePasswordDomainModule = module {
-    single<GeneratePassword> { DefaultGeneratePassword(get()) }
+  single<GeneratePassword> { DefaultGeneratePassword(get()) }
 }

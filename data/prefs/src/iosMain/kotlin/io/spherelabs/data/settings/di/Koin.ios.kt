@@ -9,6 +9,6 @@ import platform.Foundation.NSUserDefaults
 
 @OptIn(ExperimentalSettingsApi::class)
 actual fun platformModule() = module {
-    single<ObservableSettings> { NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults) }
-    single { get<ObservableSettings>().toFlowSettings() }
+  single<ObservableSettings> { NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults) }
+  single { get<ObservableSettings>().toFlowSettings() }
 }

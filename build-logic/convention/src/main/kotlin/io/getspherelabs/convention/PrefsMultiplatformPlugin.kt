@@ -1,12 +1,12 @@
 package io.getspherelabs.convention
 
-import io.getspherelabs.convention.multiplatform.configurePresentationMultiplatform
+import io.getspherelabs.convention.multiplatform.configurePrefsMultiplatform
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-class PresentationMultiplatformPlugin : Plugin<Project> {
+class PrefsMultiplatformPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
@@ -15,7 +15,7 @@ class PresentationMultiplatformPlugin : Plugin<Project> {
         }
         configureSpotless()
         extensions.configure<KotlinMultiplatformExtension>() {
-            configurePresentationMultiplatform(this)
+            configurePrefsMultiplatform(this)
         }
     }
 }

@@ -13,8 +13,9 @@ class DesignSystemMultiplatformPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlin.multiplatform")
             apply("org.jetbrains.compose")
         }
-        configureCompose()
 
+        configureCompose()
+        configureSpotless()
         extensions.configure<KotlinMultiplatformExtension>() {
             configureDesignSystemMultiplatform(this)
         }

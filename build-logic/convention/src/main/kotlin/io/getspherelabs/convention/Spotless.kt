@@ -14,17 +14,16 @@ fun Project.configureSpotless() {
     }
 
     spotless {
-        // Workaround for https://github.com/diffplug/spotless/issues/1644
         lineEndings = LineEnding.PLATFORM_NATIVE
 
         kotlin {
             target("src/**/*.kt")
-            ktlint("0.46")
+            ktfmt("0.44").googleStyle()
         }
 
         kotlinGradle {
             target("*.kts")
-            ktlint("0.46")
+            ktfmt("0.44").googleStyle()
         }
     }
 
