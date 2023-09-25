@@ -13,9 +13,6 @@
     <img src="https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat">
 </a>   
 <a href="">
-    <img src="https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat">
-</a> 
-<a href="">
     <img src="http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat">
 </a> 
 </a> 
