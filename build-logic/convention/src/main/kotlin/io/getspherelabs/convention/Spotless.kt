@@ -7,24 +7,30 @@ import org.gradle.kotlin.dsl.configure
 
 fun Project.configureSpotless() {
 
-
-
     with(pluginManager) {
         apply("com.diffplug.spotless")
     }
 
     spotless {
-        // Workaround for https://github.com/diffplug/spotless/issues/1644
         lineEndings = LineEnding.PLATFORM_NATIVE
 
         kotlin {
             target("src/**/*.kt")
-            ktlint("0.46")
+            ktfmt("0.44").googleStyle()
+            licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"))
+                .onlyIfContentMatches("missingString")
         }
-
         kotlinGradle {
             target("*.kts")
-            ktlint("0.46")
+            ktfmt("0.44").googleStyle()
+            licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"), "(^(?![\\/ ]\\*).*$)")
+                .onlyIfContentMatches("missingString")
+        }
+        format("xml") {
+            target("src/**/*.xml")
+            targetExclude("**/build/", ".idea/")
+            trimTrailingWhitespace()
+            endWithNewline()
         }
     }
 

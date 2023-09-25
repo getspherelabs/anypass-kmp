@@ -1,8 +1,8 @@
 package io.spherelabs.addnewpassworddomain.model
 
 enum class CategoryDomain {
-    Social,
-    Browser,
-    Payment,
-    Unknown
+  Social,
+  Browser,
+  Payment,
+  Unknown
 }

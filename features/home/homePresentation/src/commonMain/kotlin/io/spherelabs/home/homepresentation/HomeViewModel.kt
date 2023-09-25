@@ -6,20 +6,22 @@ import io.spherelabs.meteor.store.createMeteor
 import io.spherelabs.meteor.viewmodel.CommonViewModel
 
 class HomeViewModel(
-    private val homeReducer: HomeReducer,
-    private val homeMiddleware: HomeMiddleware
+  private val homeReducer: HomeReducer,
+  private val homeMiddleware: HomeMiddleware
 ) : CommonViewModel<HomeState, HomeWish, HomeEffect>() {
 
-    override val store: Store<HomeState, HomeWish, HomeEffect> = viewModelScope.createMeteor(
-        configs = MeteorConfigs.build {
-            initialState = HomeState.Empty
-            storeName = HOME_STORE_NAME
-            reducer = homeReducer
-            middlewares = listOf(homeMiddleware)
+  override val store: Store<HomeState, HomeWish, HomeEffect> =
+    viewModelScope.createMeteor(
+      configs =
+        MeteorConfigs.build {
+          initialState = HomeState.Empty
+          storeName = HOME_STORE_NAME
+          reducer = homeReducer
+          middlewares = listOf(homeMiddleware)
         }
     )
 
-    companion object {
-        const val HOME_STORE_NAME = "HomeViewModel"
-    }
+  companion object {
+    const val HOME_STORE_NAME = "HomeViewModel"
+  }
 }

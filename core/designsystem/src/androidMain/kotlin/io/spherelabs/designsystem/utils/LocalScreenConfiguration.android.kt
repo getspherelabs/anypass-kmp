@@ -7,16 +7,13 @@ import androidx.compose.ui.unit.IntSize
 
 @Composable
 internal actual fun rememberScreenConfiguration(): ScreenConfiguration {
-    val config = LocalConfiguration.current
+  val config = LocalConfiguration.current
 
-    return remember(config.screenWidthDp, config.screenHeightDp) {
-        ScreenConfiguration(
-            screenWidthDp = config.screenWidthDp,
-            screenHeightDp = config.screenHeightDp,
-            size = IntSize(config.screenWidthDp, config.screenHeightDp)
-        )
-    }
+  return remember(config.screenWidthDp, config.screenHeightDp) {
+    ScreenConfiguration(
+      screenWidthDp = config.screenWidthDp,
+      screenHeightDp = config.screenHeightDp,
+      size = IntSize(config.screenWidthDp, config.screenHeightDp)
+    )
+  }
 }
-
-
-

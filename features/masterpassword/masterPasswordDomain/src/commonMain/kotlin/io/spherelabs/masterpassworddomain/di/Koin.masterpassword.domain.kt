@@ -9,7 +9,7 @@ import io.spherelabs.masterpassworddomain.SetMasterPassword
 import org.koin.dsl.module
 
 val masterPasswordDomainModule = module {
-    single<SetMasterPassword> { DefaultSetMasterPassword(get()) }
-    single<IsPasswordExist> { DefaultIsPasswordExist(get()) }
-    single<GetMasterPassword> { DefaultGetMasterPassword(get()) }
+  single<SetMasterPassword> { DefaultSetMasterPassword(get()) }
+  single<IsPasswordExist> { DefaultIsPasswordExist(get()) }
+  single<GetMasterPassword> { DefaultGetMasterPassword(get()) }
 }

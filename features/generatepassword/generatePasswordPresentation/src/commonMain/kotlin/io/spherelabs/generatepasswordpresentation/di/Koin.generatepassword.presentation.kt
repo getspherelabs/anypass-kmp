@@ -5,6 +5,6 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordReducer
 import org.koin.dsl.module
 
 val generatePasswordPresentationModule = module {
-    single { GeneratePasswordReducer() }
-    single { GeneratePasswordMiddleware(get()) }
+  single { GeneratePasswordReducer() }
+  single { GeneratePasswordMiddleware(get()) }
 }

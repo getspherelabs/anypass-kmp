@@ -8,9 +8,8 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun rememberStableCoroutineScope(): StableCoroutineScope {
-    val scope = rememberCoroutineScope()
-    return remember { StableCoroutineScope(scope) }
+  val scope = rememberCoroutineScope()
+  return remember { StableCoroutineScope(scope) }
 }
 
-@Stable
-class StableCoroutineScope(scope: CoroutineScope) : CoroutineScope by scope
+@Stable class StableCoroutineScope(scope: CoroutineScope) : CoroutineScope by scope

@@ -1,19 +1,3 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 plugins {
     `kotlin-dsl`
     id("com.diffplug.spotless").version("6.21.0")
@@ -22,19 +6,29 @@ plugins {
 group = "io.spherelabs.anypass.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 spotless {
     kotlin {
         target("src/**/*.kt")
-        ktlint("0.49.1")
+        ktfmt("0.44").googleStyle()
+        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"))
+            .onlyIfContentMatches("missingString")
     }
-
     kotlinGradle {
         target("*.kts")
-        ktlint("0.49.1")
+        ktfmt("0.44").googleStyle()
+        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"), "(^(?![\\/ ]\\*).*$)")
+            .onlyIfContentMatches("missingString")
+    }
+    format("xml") {
+        target("src/**/*.xml")
+        targetExclude("**/build/", ".idea/")
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 
@@ -61,6 +55,14 @@ gradlePlugin {
         register("presentationMultiplatform") {
             id = "anypass.multiplatform.presentation"
             implementationClass = "io.getspherelabs.convention.PresentationMultiplatformPlugin"
+        }
+        register("commonMultiplatform") {
+            id = "anypass.multiplatform.common"
+            implementationClass = "io.getspherelabs.convention.CommonMultiplatformPlugin"
+        }
+        register("prefsMultiplatform") {
+            id = "anypass.multiplatform.prefs"
+            implementationClass = "io.getspherelabs.convention.PrefsMultiplatformPlugin"
         }
     }
 }

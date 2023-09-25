@@ -1,11 +1,7 @@
-plugins {
-    id("anypass.multiplatform.domain")
-}
+plugins { id("anypass.multiplatform.domain") }
 
 android {
-    namespace = "io.spherelabs.accountdomain"
-    compileSdk = 33
-    defaultConfig {
-        minSdk = 24
-    }
+  namespace = "io.spherelabs.accountdomain"
+  compileSdk = 33
+  defaultConfig { minSdk = 24 }
 }

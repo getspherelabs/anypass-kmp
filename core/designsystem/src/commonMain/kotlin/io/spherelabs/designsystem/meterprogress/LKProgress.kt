@@ -13,76 +13,47 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LKOuterProgress(
-    modifier: Modifier = Modifier
-) {
-    val nbMarker = 180
+fun LKOuterProgress(modifier: Modifier = Modifier) {
+  val nbMarker = 180
 
-
-    Box(
-        modifier
-            .fillMaxWidth()
-            .padding(40.dp)
-    ) {
-        for (i in 0 until nbMarker) {
-            LKOuterMarker(
-                angle = i * (360 / nbMarker),
-                modifier =  modifier
-            )
-        }
-
+  Box(modifier.fillMaxWidth().padding(40.dp)) {
+    for (i in 0 until nbMarker) {
+      LKOuterMarker(angle = i * (360 / nbMarker), modifier = modifier)
     }
+  }
 }
 
 @Composable
-fun LKInnerProgress(
-    modifier: Modifier = Modifier
-) {
-    val nbMarker = 180
+fun LKInnerProgress(modifier: Modifier = Modifier) {
+  val nbMarker = 180
 
-    Box(
-        modifier
-            .fillMaxWidth()
-            .padding(85.dp)
-    ) {
-        for (i in 0 until nbMarker) {
-            LKInnerMarker(
-                angle = i * (360 / nbMarker)
-            )
-        }
-
+  Box(modifier.fillMaxWidth().padding(85.dp)) {
+    for (i in 0 until nbMarker) {
+      LKInnerMarker(angle = i * (360 / nbMarker))
     }
+  }
 }
 
 @Composable
-fun LKCircleProgress(
-    angle: Float,
-    color: Color,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier
-            .fillMaxSize()
-            .padding(95.dp)
-            .drawCircleProgress(angle,color)
-    )
+fun LKCircleProgress(angle: Float, color: Color, modifier: Modifier = Modifier) {
+  Box(modifier.fillMaxSize().padding(95.dp).drawCircleProgress(angle, color))
 }
 
 private fun Modifier.drawCircleProgress(angle: Float, color: Color): Modifier {
-    return drawBehind {
-        drawArc(
-            color = Color.Transparent,
-            startAngle = 0f,
-            sweepAngle = 360f,
-            useCenter = false,
-            style = Stroke(width = 20f)
-        )
-        drawArc(
-            color = color,
-            startAngle = -90f,
-            sweepAngle = angle,
-            useCenter = false,
-            style = Stroke(width = 30f, cap = StrokeCap.Round)
-        )
-    }
+  return drawBehind {
+    drawArc(
+      color = Color.Transparent,
+      startAngle = 0f,
+      sweepAngle = 360f,
+      useCenter = false,
+      style = Stroke(width = 20f)
+    )
+    drawArc(
+      color = color,
+      startAngle = -90f,
+      sweepAngle = angle,
+      useCenter = false,
+      style = Stroke(width = 30f, cap = StrokeCap.Round)
+    )
+  }
 }
