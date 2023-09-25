@@ -1,3 +1,5 @@
+import org.gradle.api.Project
+
 object Version {
     const val ktorVersion = "2.3.2"
     const val meteorVersion = "0.4.3"
@@ -21,6 +23,7 @@ object Version {
     const val firebaseCoroutineVersion = "1.4.1"
     const val koverVersion = "0.6.0"
 }
+
 
 object Libs {
     object Android {

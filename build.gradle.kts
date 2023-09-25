@@ -23,12 +23,10 @@ plugins {
     id("dev.icerock.moko.kswift").version("0.6.1")
     id("com.google.gms.google-services").version("4.3.15").apply(false)
     id("com.diffplug.spotless").version("6.21.0")
-    id("org.jlleitschuh.gradle.ktlint").version(Version.ktlint)
+    id("com.android.lint").version("7.4.2")
 }
 
 allprojects {
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    apply(plugin = "com.diffplug.spotless")
 
 
 //    configure<SpotlessExtension> {
@@ -80,20 +78,20 @@ allprojects {
 //            endWithNewline()
 //        }
 //    }
-
-    ktlint {
-        debug.set(false)
-        verbose.set(true)
-        version.set("0.37.2")
-        enableExperimentalRules.set(true)
-        outputToConsole.set(true)
-        ignoreFailures.set(false)
-        enableExperimentalRules.set(false)
-        additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
-        filter {
-            exclude { it.file.path.contains("build/") }
-        }
-    }
+//
+//    ktlint {
+//        debug.set(false)
+//        verbose.set(true)
+//        version.set("0.37.2")
+//        enableExperimentalRules.set(true)
+//        outputToConsole.set(true)
+//        ignoreFailures.set(false)
+//        enableExperimentalRules.set(false)
+//        additionalEditorconfigFile.set(file("$rootDir/.editorconfig"))
+//        filter {
+//            exclude { it.file.path.contains("build/") }
+//        }
+//    }
 }
 
 
