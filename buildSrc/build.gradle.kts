@@ -1,5 +1,7 @@
 repositories {
     mavenCentral()
+    // for kotlin-dsl plugin
+    gradlePluginPortal()
 }
 
 plugins {
