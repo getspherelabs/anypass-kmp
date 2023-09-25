@@ -11,42 +11,41 @@ import io.spherelabs.meteorviewmodel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 
 class MasterPasswordViewModel(
-    private val masterPasswordReducer: MasterPasswordReducer,
-    private val masterPasswordMiddleware: MasterPasswordMiddleware
+  private val masterPasswordReducer: MasterPasswordReducer,
+  private val masterPasswordMiddleware: MasterPasswordMiddleware
 ) : ViewModel() {
 
-    private val store: Store<MasterPasswordState, MasterPasswordWish, MasterPasswordEffect> =
-        viewModelScope.createMeteor(
-            configs = MeteorConfigs.build {
-                initialState = MasterPasswordState.Empty
-                storeName = MASTER_PASSWORD_STORE
-                reducer = masterPasswordReducer
-                middlewares = listOf(masterPasswordMiddleware)
-            }
-        )
-
-    init {
-        viewModelScope.launch {
-            store.wish(MasterPasswordWish.CheckMasterPassword)
+  private val store: Store<MasterPasswordState, MasterPasswordWish, MasterPasswordEffect> =
+    viewModelScope.createMeteor(
+      configs =
+        MeteorConfigs.build {
+          initialState = MasterPasswordState.Empty
+          storeName = MASTER_PASSWORD_STORE
+          reducer = masterPasswordReducer
+          middlewares = listOf(masterPasswordMiddleware)
         }
-    }
+    )
 
-    fun wish(wish: MasterPasswordWish) {
-        viewModelScope.launch {
-            store.wish(wish)
-        }
-    }
+  init {
+    viewModelScope.launch { store.wish(MasterPasswordWish.CheckMasterPassword) }
+  }
 
-    val state: NonNullCommonStateFlow<MasterPasswordState> by lazy { this.store.state.asCommonStateFlow() }
+  fun wish(wish: MasterPasswordWish) {
+    viewModelScope.launch { store.wish(wish) }
+  }
 
-    val effect: NonNullCommonFlow<MasterPasswordEffect> by lazy { this.store.effect.asCommonFlow() }
+  val state: NonNullCommonStateFlow<MasterPasswordState> by lazy {
+    this.store.state.asCommonStateFlow()
+  }
 
-    override fun onCleared() {
-        super.onCleared()
-        store.cancel()
-    }
+  val effect: NonNullCommonFlow<MasterPasswordEffect> by lazy { this.store.effect.asCommonFlow() }
 
-    companion object {
-        private const val MASTER_PASSWORD_STORE = "MasterPasswordViewModel"
-    }
+  override fun onCleared() {
+    super.onCleared()
+    store.cancel()
+  }
+
+  companion object {
+    private const val MASTER_PASSWORD_STORE = "MasterPasswordViewModel"
+  }
 }

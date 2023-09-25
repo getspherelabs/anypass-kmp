@@ -13,48 +13,45 @@ import io.spherelabs.designsystem.utils.ScreenConfiguration
 
 @Composable
 internal expect fun LKDialog(
-    onDismissRequest: () -> Unit,
-    properties: LKDialogProperties,
-    content: @Composable () -> Unit,
+  onDismissRequest: () -> Unit,
+  properties: LKDialogProperties,
+  content: @Composable () -> Unit,
 )
 
 @Immutable
 data class LKDialogProperties(
-    val dismissOnBackPress: Boolean = true,
-    val dismissOnClickOutside: Boolean = true,
-    val decorFitsSystemWindows: Boolean = true,
-    val usePlatformDefaultWidth: Boolean = false,
-    val size: DpSize = DpSize(400.dp, 300.dp),
-    val title: String = "Untitled",
-    val icon: Painter? = null,
-    val resizable: Boolean = true
+  val dismissOnBackPress: Boolean = true,
+  val dismissOnClickOutside: Boolean = true,
+  val decorFitsSystemWindows: Boolean = true,
+  val usePlatformDefaultWidth: Boolean = false,
+  val size: DpSize = DpSize(400.dp, 300.dp),
+  val title: String = "Untitled",
+  val icon: Painter? = null,
+  val resizable: Boolean = true
 )
 
 internal fun List<Pair<LKDialogButtonTypes, Placeable>>.buttons(type: LKDialogButtonTypes) =
-    this.filter { it.first == type }.map { it.second }
+  this.filter { it.first == type }.map { it.second }
 
 internal expect fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier
 
-@Composable
-internal expect fun getDialogShape(shape: Shape): Shape
+@Composable internal expect fun getDialogShape(shape: Shape): Shape
 
 internal expect fun Modifier.dialogHeight(): Modifier
 
 expect class AtomicInt() : Number {
-    constructor(initialValue: Int)
+  constructor(initialValue: Int)
 
-    fun set(newValue: Int)
-    fun getAndIncrement(): Int
+  fun set(newValue: Int)
+
+  fun getAndIncrement(): Int
 }
 
-@Composable
-internal expect fun ScreenConfiguration.getMaxHeight(): Dp
+@Composable internal expect fun ScreenConfiguration.getMaxHeight(): Dp
 
 @Composable
 internal actual fun ScreenConfiguration.getMaxHeight(): Dp {
-    return 560.dp
+  return 560.dp
 }
-
-
 
 internal expect fun getLayoutHeight(maxHeightPx: Int, layoutHeight: Int): Int

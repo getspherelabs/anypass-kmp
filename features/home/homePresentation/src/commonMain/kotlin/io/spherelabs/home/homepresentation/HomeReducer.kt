@@ -7,19 +7,15 @@ import io.spherelabs.meteor.reducer.Reducer
 
 class HomeReducer : Reducer<HomeState, HomeWish, HomeEffect> {
 
-    override fun reduce(
-        currentState: HomeState,
-        currentWish: HomeWish
-    ): Change<HomeState, HomeEffect> {
-        return when (currentWish) {
-            is HomeWish.GetCategories -> {
-                expect {
-                    currentState.copy(
-                        categories = currentWish.categories
-                    )
-                }
-            }
-            else -> unexpected { currentState }
-        }
+  override fun reduce(
+    currentState: HomeState,
+    currentWish: HomeWish
+  ): Change<HomeState, HomeEffect> {
+    return when (currentWish) {
+      is HomeWish.GetCategories -> {
+        expect { currentState.copy(categories = currentWish.categories) }
+      }
+      else -> unexpected { currentState }
     }
+  }
 }

@@ -5,6 +5,6 @@ import io.spherelabs.home.homepresentation.HomeReducer
 import org.koin.dsl.module
 
 val homePresentationModule = module {
-    single { HomeReducer() }
-    single { HomeMiddleware(get()) }
+  single { HomeReducer() }
+  single { HomeMiddleware(get()) }
 }

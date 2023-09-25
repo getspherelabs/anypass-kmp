@@ -15,33 +15,33 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun LKCell(
-    modifier: Modifier,
-    value: Char?,
-    isCursorVisible: Boolean = false,
-    obscureText: String?
+  modifier: Modifier,
+  value: Char?,
+  isCursorVisible: Boolean = false,
+  obscureText: String?
 ) {
-    val scope = useScope()
-    val (cursorSymbol, setCursorSymbol) = useState("")
+  val scope = useScope()
+  val (cursorSymbol, setCursorSymbol) = useState("")
 
-    LaunchedEffect(key1 = cursorSymbol, isCursorVisible) {
-        if (isCursorVisible) {
-            scope.launch {
-                delay(350)
-                setCursorSymbol(if (cursorSymbol.isEmpty()) "|" else "")
-            }
-        }
+  LaunchedEffect(key1 = cursorSymbol, isCursorVisible) {
+    if (isCursorVisible) {
+      scope.launch {
+        delay(350)
+        setCursorSymbol(if (cursorSymbol.isEmpty()) "|" else "")
+      }
     }
+  }
 
-    Box(
-        modifier = modifier
-    ) {
-        Text(
-            text = if (isCursorVisible) cursorSymbol else if (!obscureText.isNullOrBlank() && value?.toString()
-                    .isNullOrBlank().not()
-            ) obscureText else value?.toString() ?: "",
-            style = MaterialTheme.typography.body1,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.Center)
-        )
-    }
+  Box(modifier = modifier) {
+    Text(
+      text =
+        if (isCursorVisible) cursorSymbol
+        else if (!obscureText.isNullOrBlank() && value?.toString().isNullOrBlank().not())
+          obscureText
+        else value?.toString() ?: "",
+      style = MaterialTheme.typography.body1,
+      fontWeight = FontWeight.Bold,
+      modifier = Modifier.align(Alignment.Center)
+    )
+  }
 }

@@ -27,103 +27,103 @@ import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
 import io.spherelabs.designsystem.utils.LocalScreenConfiguration
 import io.spherelabs.designsystem.utils.ScreenConfiguration
+import kotlin.math.min
 import kotlinx.atomicfu.atomic
 import kotlinx.cinterop.useContents
 import org.jetbrains.skiko.SkikoKey
 import platform.UIKit.UIScreen
-import kotlin.math.min
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 @Composable
 internal actual fun LKDialog(
-    onDismissRequest: () -> Unit,
-    properties: LKDialogProperties,
-    content: @Composable () -> Unit,
+  onDismissRequest: () -> Unit,
+  properties: LKDialogProperties,
+  content: @Composable () -> Unit,
 ) {
-    val size = remember {
-        UIScreen.mainScreen.bounds.useContents {
-            IntSize(size.width.toInt(), size.height.toInt())
-        }
-    }
-    CompositionLocalProvider(
-        LocalScreenConfiguration provides ScreenConfiguration(
-            size.width,
-            size.height,
-            size
-        )
-    ) {
-        Popup(popupPositionProvider = IosPopupPositionProvider,
-            onDismissRequest = onDismissRequest,
-            properties = PopupProperties(focusable = true),
-            onPreviewKeyEvent = { false },
-            onKeyEvent = {
-                if (properties.dismissOnBackPress && it.type == KeyEventType.KeyDown && it.nativeKeyEvent.key == SkikoKey.KEY_ESCAPE) {
-                    onDismissRequest()
-                    true
-                } else {
-                    false
-                }
-            }
+  val size = remember {
+    UIScreen.mainScreen.bounds.useContents { IntSize(size.width.toInt(), size.height.toInt()) }
+  }
+  CompositionLocalProvider(
+    LocalScreenConfiguration provides ScreenConfiguration(size.width, size.height, size)
+  ) {
+    Popup(
+      popupPositionProvider = IosPopupPositionProvider,
+      onDismissRequest = onDismissRequest,
+      properties = PopupProperties(focusable = true),
+      onPreviewKeyEvent = { false },
+      onKeyEvent = {
+        if (
+          properties.dismissOnBackPress &&
+            it.type == KeyEventType.KeyDown &&
+            it.nativeKeyEvent.key == SkikoKey.KEY_ESCAPE
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-                    .background(DrawerDefaults.scrimColor),
-                contentAlignment = Alignment.Center
-            ) {
-                if (properties.dismissOnClickOutside) {
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                            .pointerInput(onDismissRequest) {
-                                detectTapGestures(onTap = { onDismissRequest() })
-                            }
-                    )
-                }
-                content()
-            }
+          onDismissRequest()
+          true
+        } else {
+          false
         }
+      }
+    ) {
+      Box(
+        modifier = Modifier.fillMaxSize().background(DrawerDefaults.scrimColor),
+        contentAlignment = Alignment.Center
+      ) {
+        if (properties.dismissOnClickOutside) {
+          Box(
+            modifier =
+              Modifier.fillMaxSize().pointerInput(onDismissRequest) {
+                detectTapGestures(onTap = { onDismissRequest() })
+              }
+          )
+        }
+        content()
+      }
     }
+  }
 }
 
 object IosPopupPositionProvider : PopupPositionProvider {
-    override fun calculatePosition(
-        anchorBounds: IntRect,
-        windowSize: IntSize,
-        layoutDirection: LayoutDirection,
-        popupContentSize: IntSize
-    ): IntOffset = IntOffset.Zero
+  override fun calculatePosition(
+    anchorBounds: IntRect,
+    windowSize: IntSize,
+    layoutDirection: LayoutDirection,
+    popupContentSize: IntSize
+  ): IntOffset = IntOffset.Zero
 }
 
+internal actual fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier =
+  sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
 
-internal actual fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier = sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
-
-@Composable
-internal actual fun getDialogShape(shape: Shape): Shape = shape
+@Composable internal actual fun getDialogShape(shape: Shape): Shape = shape
 
 internal actual fun Modifier.dialogHeight(): Modifier = wrapContentHeight()
 
-actual class AtomicInt actual constructor(initialValue: Int): Number() {
-    private val value = atomic(initialValue)
-    actual constructor() : this(0)
+actual class AtomicInt actual constructor(initialValue: Int) : Number() {
+  private val value = atomic(initialValue)
 
-    actual fun set(newValue: Int) {
-        value.value = newValue
-    }
-    actual fun getAndIncrement(): Int = value.getAndIncrement()
-    override fun toByte(): Byte = value.value.toByte()
+  actual constructor() : this(0)
 
-    override fun toChar(): Char = value.value.toChar()
+  actual fun set(newValue: Int) {
+    value.value = newValue
+  }
 
-    override fun toDouble(): Double = value.value.toDouble()
+  actual fun getAndIncrement(): Int = value.getAndIncrement()
 
-    override fun toFloat(): Float = value.value.toFloat()
+  override fun toByte(): Byte = value.value.toByte()
 
-    override fun toInt(): Int = value.value
+  override fun toChar(): Char = value.value.toChar()
 
-    override fun toLong(): Long = value.value.toLong()
+  override fun toDouble(): Double = value.value.toDouble()
 
-    override fun toShort(): Short = value.value.toShort()
+  override fun toFloat(): Float = value.value.toFloat()
+
+  override fun toInt(): Int = value.value
+
+  override fun toLong(): Long = value.value.toLong()
+
+  override fun toShort(): Short = value.value.toShort()
 }
 
 internal actual fun getLayoutHeight(maxHeightPx: Int, layoutHeight: Int): Int {
-    return min(maxHeightPx, layoutHeight)
+  return min(maxHeightPx, layoutHeight)
 }

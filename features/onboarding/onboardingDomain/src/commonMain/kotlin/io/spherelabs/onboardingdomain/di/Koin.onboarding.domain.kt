@@ -7,6 +7,6 @@ import io.spherelabs.onboardingdomain.SetIsFirstTime
 import org.koin.dsl.module
 
 val onboardingDomainModule = module {
-    single<SetIsFirstTime> { DefaultSetIsFirstTime(get()) }
-    single<IsFirstTime> { DefaultIsFirstTime(get()) }
+  single<SetIsFirstTime> { DefaultSetIsFirstTime(get()) }
+  single<IsFirstTime> { DefaultIsFirstTime(get()) }
 }

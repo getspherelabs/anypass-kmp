@@ -11,25 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun LKMeterProgress(
-    value: Int,
-    color: Color,
-    modifier: Modifier = Modifier
-) {
+fun LKMeterProgress(value: Int, color: Color, modifier: Modifier = Modifier) {
 
-    val progressAngle by animateFloatAsState(
-        targetValue = 180f / 15f * value,
-        animationSpec = tween(500)
-    )
+  val progressAngle by
+    animateFloatAsState(targetValue = 180f / 15f * value, animationSpec = tween(500))
 
-    Box(
-        modifier
-            .fillMaxWidth()
-            .aspectRatio(1f)
-    ) {
-        LKOuterProgress(modifier = modifier)
-        LKCircleProgress(modifier = modifier, color = color, angle = progressAngle)
-        LKDashProgress(modifier = modifier, value = value)
-        LKInnerProgress(modifier = modifier)
-    }
+  Box(modifier.fillMaxWidth().aspectRatio(1f)) {
+    LKOuterProgress(modifier = modifier)
+    LKCircleProgress(modifier = modifier, color = color, angle = progressAngle)
+    LKDashProgress(modifier = modifier, value = value)
+    LKInnerProgress(modifier = modifier)
+  }
 }

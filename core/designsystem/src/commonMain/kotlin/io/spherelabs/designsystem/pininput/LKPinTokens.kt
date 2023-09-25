@@ -11,14 +11,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 object LKPinTokens {
-    val CellModifier: Modifier = Modifier.padding(horizontal = 2.dp).size(48.dp)
-    val CellShape: Shape = RoundedCornerShape(16.dp)
-    val BackgroundColor: Color = Color.White
-    val BorderColor: Color = Color.Black
-    val BorderWidth: Dp = 1.dp
-    val TextStyle: TextStyle = androidx.compose.ui.text.TextStyle.Default
-    val PlaceHolderTextStyle: TextStyle = androidx.compose.ui.text.TextStyle.Default
-    val Elevation: Dp = 0.dp
-    val CursorColor: Color = Color.Transparent
-    const val PlaceHolder: String = ""
+  val CellModifier: Modifier = Modifier.padding(horizontal = 2.dp).size(48.dp)
+  val CellShape: Shape = RoundedCornerShape(16.dp)
+  val BackgroundColor: Color = Color.White
+  val BorderColor: Color = Color.Black
+  val BorderWidth: Dp = 1.dp
+  val TextStyle: TextStyle = androidx.compose.ui.text.TextStyle.Default
+  val PlaceHolderTextStyle: TextStyle = androidx.compose.ui.text.TextStyle.Default
+  val Elevation: Dp = 0.dp
+  val CursorColor: Color = Color.Transparent
+  const val PlaceHolder: String = ""
 }

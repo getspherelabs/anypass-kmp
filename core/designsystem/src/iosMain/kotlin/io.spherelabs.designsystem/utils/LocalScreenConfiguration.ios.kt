@@ -10,17 +10,11 @@ import platform.UIKit.UIScreen
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 @Composable
 internal actual fun rememberScreenConfiguration(): ScreenConfiguration {
-    val size =  UIScreen.mainScreen.bounds.useContents {
-        IntSize(size.width.toInt(), size.height.toInt())
-    }
+  val size =
+    UIScreen.mainScreen.bounds.useContents { IntSize(size.width.toInt(), size.height.toInt()) }
 
-    return remember {
-        ScreenConfiguration(
-            size.width,
-            size.height,
-            size = size
-        )
-    }
+  return remember { ScreenConfiguration(size.width, size.height, size = size) }
 }
 
-internal val LocalScreenConfiguration = compositionLocalOf<ScreenConfiguration>{ throw IllegalStateException("Unused") }
+internal val LocalScreenConfiguration =
+  compositionLocalOf<ScreenConfiguration> { throw IllegalStateException("Unused") }
