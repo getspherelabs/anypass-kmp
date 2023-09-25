@@ -15,11 +15,20 @@ spotless {
     kotlin {
         target("src/**/*.kt")
         ktfmt("0.44").googleStyle()
+        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"))
+            .onlyIfContentMatches("missingString")
     }
-
     kotlinGradle {
         target("*.kts")
         ktfmt("0.44").googleStyle()
+        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"), "(^(?![\\/ ]\\*).*$)")
+            .onlyIfContentMatches("missingString")
+    }
+    format("xml") {
+        target("src/**/*.xml")
+        targetExclude("**/build/", ".idea/")
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 

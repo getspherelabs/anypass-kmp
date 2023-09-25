@@ -7,6 +7,6 @@ import io.spherelabs.addnewpassworddomain.usecase.GetCategories
 import org.koin.dsl.module
 
 val addNewPasswordDomainModule = module {
-    single<AddNewPassword> { DefaultAddNewPassword(get()) }
-    single<GetCategories> { DefaultGetCategories(get()) }
+  single<AddNewPassword> { DefaultAddNewPassword(get()) }
+  single<GetCategories> { DefaultGetCategories(get()) }
 }

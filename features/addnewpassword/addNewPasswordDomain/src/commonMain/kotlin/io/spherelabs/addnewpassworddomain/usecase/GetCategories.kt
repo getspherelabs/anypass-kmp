@@ -5,14 +5,12 @@ import io.spherelabs.addnewpassworddomain.repository.AddNewPasswordRepository
 import kotlinx.coroutines.flow.Flow
 
 interface GetCategories {
-    fun execute(): Flow<List<AddNewCategoryDomain>>
+  fun execute(): Flow<List<AddNewCategoryDomain>>
 }
 
-class DefaultGetCategories(
-    private val repository: AddNewPasswordRepository
-) : GetCategories {
+class DefaultGetCategories(private val repository: AddNewPasswordRepository) : GetCategories {
 
-    override fun execute(): Flow<List<AddNewCategoryDomain>> {
-        return repository.getCategories()
-    }
+  override fun execute(): Flow<List<AddNewCategoryDomain>> {
+    return repository.getCategories()
+  }
 }
