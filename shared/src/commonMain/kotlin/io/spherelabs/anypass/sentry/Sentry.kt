@@ -17,10 +17,6 @@ private val optionsConfiguration: OptionsConfiguration = {
             event
         }
     }
-    it.beforeBreadcrumb = { breadcrumb ->
-        breadcrumb.message = "Add message before every breadcrumb"
-        breadcrumb
-    }
 }
 
 fun initializeSentry(context: Context?) {

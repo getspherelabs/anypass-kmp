@@ -16,6 +16,8 @@ jobs:
   lint:
     name: Lint
     runs-on: macos-latest
+    env:
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3.1.0
@@ -43,7 +45,7 @@ jobs:
         with:
           distribution: adopt
           java-version: 11
-      - uses: ./.github/workflows/gradle-caches
+      - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-build
       - name: Build
@@ -59,7 +61,7 @@ jobs:
         with:
           distribution: adopt
           java-version: 11
-      - uses: ./.github/workflows/gradle-caches
+      - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-test
       - name: Unit tests
