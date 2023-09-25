@@ -4,7 +4,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("anypass.compose")
+    id("org.jetbrains.compose")
     id("dev.icerock.mobile.multiplatform-resources")
     kotlin("native.cocoapods")
     id("com.codingfeline.buildkonfig")
