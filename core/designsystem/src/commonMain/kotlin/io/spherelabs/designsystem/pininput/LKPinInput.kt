@@ -47,8 +47,8 @@ fun LKPinInput(
       LKCell(
         modifier =
           cellModifier
-            .size(width = 75.dp, height = 75.dp)
-            .clip(RoundedCornerShape(24.dp))
+            .size(65.dp)
+            .clip(RoundedCornerShape(12.dp))
             .background(color = Color.White),
         value = value?.getOrNull(it),
         isCursorVisible = if (value == null) false else value.length == it,
