@@ -48,6 +48,7 @@ In an offline-first application, the source of truth for application data is typ
 - [SqlDelight]()
 - [Koin]()
 - [Meteor]()
+- [Firebase]()
 - [Multiplatform Settings]()
 - [Moko Resource]()
 - [Sentry Multiplatform]()
