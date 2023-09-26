@@ -124,7 +124,7 @@ fun LKNumberButton(
   onClick: () -> Unit
 ) {
   Box(
-    modifier = modifier.size(75.dp).clickable { onClick.invoke() },
+    modifier = modifier.size(55.dp).clickable { onClick.invoke() },
     contentAlignment = Alignment.Center
   ) {
     Text(

@@ -153,8 +153,7 @@ fun MasterPasswordScreen(
                 }
             }
 
-
-            Spacer(modifier = modifier.height(45.dp))
+            Spacer(modifier = modifier.height(25.dp))
 
             Column(
                 verticalArrangement = Arrangement.SpaceEvenly,
@@ -228,7 +227,7 @@ fun MasterPasswordScreen(
                         )
                     )
                 }
-                Spacer(modifier = modifier.height(32.dp))
+                Spacer(modifier = modifier.height(16.dp))
 
             }
         }
