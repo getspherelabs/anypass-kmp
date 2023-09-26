@@ -92,7 +92,7 @@ kotlin {
                 api(project(":data:local"))
                 api(project(":manager:biometry"))
                 api(project(":core:designsystem"))
-
+                implementation(project(":core:validation"))
                 api(project(":features:home:homeDomain"))
                 api(project(":features:home:homePresentation"))
                 api(project(":core:designsystem"))
