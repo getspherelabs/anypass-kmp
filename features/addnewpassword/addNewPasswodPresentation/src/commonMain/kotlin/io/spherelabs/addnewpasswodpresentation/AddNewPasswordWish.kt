@@ -1,7 +1,5 @@
 package io.spherelabs.addnewpasswodpresentation
 
-import io.spherelabs.addnewpassworddomain.model.CategoryDomain
-
 sealed interface AddNewPasswordWish {
   data class OnEmailChanged(val email: String) : AddNewPasswordWish
 
@@ -9,7 +7,7 @@ sealed interface AddNewPasswordWish {
 
   data class OnTitleChanged(val title: String) : AddNewPasswordWish
 
-  data class OnCategoryChanged(val category: CategoryDomain) : AddNewPasswordWish
+  data class OnCategoryChanged(val category: String) : AddNewPasswordWish
 
   data class OnUserNameChanged(val username: String) : AddNewPasswordWish
 
@@ -28,6 +26,8 @@ sealed interface AddNewPasswordWish {
   data class InsertFailed(val message: String) : AddNewPasswordWish
 
   data class InsertSuccess(val message: String) : AddNewPasswordWish
+
+  object GetCategoriesStarted : AddNewPasswordWish
 
   data class GetCategories(val categories: List<AddNewCategoryUi>) : AddNewPasswordWish
 }

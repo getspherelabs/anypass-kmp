@@ -12,10 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ImageSearch
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,7 +28,7 @@ import io.spherelabs.designsystem.dialog.useDialogState
 @Composable
 fun LKSocialMediaPicker(
   modifier: Modifier = Modifier,
-  content: @Composable LKDialogScope.() -> Unit
+  content: @Composable LKDialogScope.() -> Unit,
 ) {
 
   val dialogState = useDialogState()
@@ -42,7 +39,7 @@ fun LKSocialMediaPicker(
       negativeButton("Cancel")
       positiveButton("Ok")
     },
-    properties = LKDialogProperties()
+    properties = LKDialogProperties(),
   ) {
     content()
   }
@@ -55,10 +52,10 @@ fun LKSocialMediaPicker(
         .border(
           width = 2.dp,
           color = Color.Black.copy(alpha = 0.2f),
-          shape = RoundedCornerShape(8.dp)
+          shape = RoundedCornerShape(8.dp),
         )
         .clickable { dialogState.show() },
-    contentAlignment = Alignment.Center
+    contentAlignment = Alignment.Center,
   ) {
     Icon(imageVector = Icons.Default.ImageSearch, contentDescription = null)
   }
@@ -67,10 +64,10 @@ fun LKSocialMediaPicker(
 @ExperimentalMaterialApi
 @Composable
 fun LKDialogScope.socialIconsPicker(
-  socialIcons: List<Painter>,
+  socialIcons: List<SocialMedia>,
   initialSelection: Int = 0,
   waitForPositiveButton: Boolean = true,
-  onSocialIconSelected: (Painter) -> Unit = {}
+  onSocialIconSelected: (SocialMedia) -> Unit = {},
 ) {
   BoxWithConstraints {
     val selectedSocialIcon = remember { mutableStateOf(socialIcons[initialSelection]) }
@@ -92,7 +89,7 @@ fun LKDialogScope.socialIconsPicker(
             Modifier.width(this@BoxWithConstraints.maxWidth),
             socialIcons = socialIcons,
             selectedSocialIcon = selectedSocialIcon,
-            initialSelection = initialSelection
+            initialSelection = initialSelection,
           )
         },
       ) { measurables, constraints ->
@@ -103,7 +100,7 @@ fun LKDialogScope.socialIconsPicker(
           placeables.forEachIndexed { index, placeable ->
             placeable.place(
               x = -swipeState.offset.value.toInt() + index * constraints.maxWidth,
-              y = 0
+              y = 0,
             )
           }
         }
@@ -111,3 +108,9 @@ fun LKDialogScope.socialIconsPicker(
     }
   }
 }
+
+@Immutable
+data class SocialMedia(
+  val title: String,
+  val painter: Painter,
+)

@@ -9,8 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +31,7 @@ import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -43,13 +42,13 @@ fun SignUpRoute(
     navigateToBack: () -> Unit,
     navigateToAddPrivatePassword: () -> Unit
 ) {
-    val uiState = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     SignUpScreen(
         wish = { newWish ->
             viewModel.wish(newWish)
         },
-        state = uiState,
+        state = uiState.value,
         effect = viewModel.effect,
         navigateToBack = {
             navigateToBack.invoke()
@@ -64,7 +63,7 @@ fun SignUpRoute(
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     wish: (SignUpWish) -> Unit,
-    state: State<SignUpState>,
+    state: SignUpState,
     effect: Flow<SignUpEffect>,
     navigateToBack: () -> Unit,
     navigateToAddPrivatePassword: () -> Unit
@@ -151,19 +150,19 @@ fun SignUpScreen(
                 )
             }
             LKEmailTextField(
-                state.value.name,
+                state.name,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
             ) { newValue ->
                 wish.invoke(SignUpWish.OnNameChanged(newValue))
             }
             LKEmailTextField(
-                state.value.email,
+                state.email,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
             ) { newValue ->
                 wish.invoke(SignUpWish.OnEmailChanged(newValue))
             }
             LKPasswordTextField(
-                state.value.password,
+                state.password,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
             ) { newValue ->
                 wish.invoke(SignUpWish.OnPasswordChanged(newValue))

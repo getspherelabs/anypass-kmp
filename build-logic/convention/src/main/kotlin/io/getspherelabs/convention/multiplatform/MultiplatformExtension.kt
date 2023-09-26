@@ -132,6 +132,7 @@ internal fun Project.configureDesignSystemMultiplatform(
                     implementation("androidx.activity:activity-compose:1.7.2")
                     implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
                     implementation("androidx.compose.ui:ui-tooling:1.5.1")
+                    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
                     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
                 }
             }

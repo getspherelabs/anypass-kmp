@@ -24,6 +24,13 @@ inline fun useIntState(defaultValue: Int): Pair<Int, (Int) -> Unit> {
 }
 
 @Composable
+inline fun useBooleanState(defaultValue: Boolean): Pair<Boolean, (Boolean) -> Unit> {
+  val (state, setState) = remember { mutableStateOf(defaultValue) }
+
+  return Pair(state, setState)
+}
+
+@Composable
 inline fun useScope(): CoroutineScope {
   return rememberCoroutineScope()
 }

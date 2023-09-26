@@ -16,8 +16,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +30,7 @@ import io.spherelabs.features.onboardingpresentation.OnboardingState
 import io.spherelabs.features.onboardingpresentation.OnboardingViewModel
 import io.spherelabs.features.onboardingpresentation.OnboardingWish
 import io.spherelabs.anypass.MR
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.rememberKoinInject
@@ -42,13 +41,13 @@ fun OnboardingRoute(
     navigateToPassword: () -> Unit
 ) {
 
-    val onboardingState = viewModel.state.collectAsState()
+    val onboardingState = viewModel.state.collectAsStateWithLifecycle()
 
     OnboardingScreen(
         wish = { newWish ->
             viewModel.wish(newWish)
         },
-        state = onboardingState,
+        state = onboardingState.value,
         flow = viewModel.effect,
         navigateToPassword = {
             navigateToPassword.invoke()
@@ -60,7 +59,7 @@ fun OnboardingRoute(
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
     wish: (OnboardingWish) -> Unit,
-    state: State<OnboardingState>,
+    state: OnboardingState,
     flow: Flow<OnboardingEffect>,
     navigateToPassword: () -> Unit
 ) {
@@ -84,19 +83,19 @@ fun OnboardingScreen(
     ) {
 
         when {
-            state.value.isLogged -> {
+            state.isLogged -> {
                 LaunchedEffect(true) {
                     navigateToPassword.invoke()
                 }
             }
 
-            state.value.isLoading -> {
+            state.isLoading -> {
                 CircularProgressIndicator(
                     modifier = modifier.align(Alignment.CenterHorizontally)
                 )
             }
 
-            state.value.isFirstTime -> {
+            state.isFirstTime -> {
                 Spacer(modifier = modifier.height(24.dp))
 
                 OnboardingImage(

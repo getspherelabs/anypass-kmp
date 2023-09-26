@@ -2,15 +2,14 @@ package io.spherelabs.designsystem.picker
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun LKSocialIconGridLayout(
   modifier: Modifier = Modifier,
-  socialIcons: List<Painter>,
-  selectedSocialIcon: MutableState<Painter>,
+  socialIcons: List<SocialMedia>,
+  selectedSocialIcon: MutableState<SocialMedia>,
   initialSelection: Int
 ) {
   var mainSelectedIndex by remember { mutableStateOf(initialSelection) }
@@ -19,7 +18,7 @@ internal fun LKSocialIconGridLayout(
 
   LKGridView(modifier, itemSize = itemSize) {
     socialIcons.forEachIndexed { index, item ->
-      LKIconView(icon = item, selected = index == mainSelectedIndex) {
+      LKIconView(icon = item.painter, selected = index == mainSelectedIndex) {
         if (mainSelectedIndex != index) {
           mainSelectedIndex = index
           selectedSocialIcon.value = item

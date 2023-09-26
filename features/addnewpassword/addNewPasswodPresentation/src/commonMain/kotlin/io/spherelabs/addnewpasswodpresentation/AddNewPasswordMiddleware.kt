@@ -1,16 +1,20 @@
 package io.spherelabs.addnewpasswodpresentation
 
 import io.spherelabs.addnewpassworddomain.usecase.AddNewPassword
+import io.spherelabs.addnewpassworddomain.usecase.GetCategories
 import io.spherelabs.common.uuid4
 import io.spherelabs.meteor.middleware.Middleware
+import kotlinx.coroutines.flow.collectLatest
 
-class AddNewPasswordMiddleware(private val addNewPasswordUseCase: AddNewPassword) :
-  Middleware<AddNewPasswordState, AddNewPasswordWish> {
+class AddNewPasswordMiddleware(
+  private val addNewPasswordUseCase: AddNewPassword,
+  private val getCategories: GetCategories,
+) : Middleware<AddNewPasswordState, AddNewPasswordWish> {
 
   override suspend fun process(
     state: AddNewPasswordState,
     wish: AddNewPasswordWish,
-    next: suspend (AddNewPasswordWish) -> Unit
+    next: suspend (AddNewPasswordWish) -> Unit,
   ) {
     when (wish) {
       is AddNewPasswordWish.InsertPassword -> {
@@ -22,6 +26,8 @@ class AddNewPasswordMiddleware(private val addNewPasswordUseCase: AddNewPassword
           }
       }
       is AddNewPasswordWish.OnSubmitClicked -> {
+        val currentCategory = state.categories.find { it.title == state.currentCategory }?.id ?: "0"
+
         next.invoke(
           AddNewPasswordWish.InsertPassword(
             AddNewPasswordUi(
@@ -33,10 +39,17 @@ class AddNewPasswordMiddleware(private val addNewPasswordUseCase: AddNewPassword
               notes = state.notes,
               image = state.image,
               email = state.email,
-              category = null
-            )
-          )
+              category = currentCategory,
+            ),
+          ),
         )
+      }
+      AddNewPasswordWish.GetCategoriesStarted -> {
+        getCategories.execute().collectLatest { newCategories ->
+          if (newCategories.isNotEmpty()) {
+            next.invoke(AddNewPasswordWish.GetCategories(newCategories.map { it.asUi() }))
+          }
+        }
       }
       else -> {}
     }

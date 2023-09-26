@@ -1,4 +1,3 @@
-
 plugins { id("anypass.multiplatform.domain") }
 
 android {

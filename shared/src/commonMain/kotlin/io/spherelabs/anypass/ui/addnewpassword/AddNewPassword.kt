@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,10 +25,6 @@ import io.spherelabs.addnewpasswodpresentation.AddNewPasswordWish
 import io.spherelabs.designsystem.picker.LKSocialMediaPicker
 import io.spherelabs.designsystem.spinner.LKSpinner
 import io.spherelabs.designsystem.dialog.title
-import io.spherelabs.designsystem.hooks.useEffect
-import io.spherelabs.designsystem.hooks.useScope
-import io.spherelabs.designsystem.hooks.useSnackbar
-import io.spherelabs.designsystem.hooks.useUpdatedState
 import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.picker.socialIconsPicker
 import io.spherelabs.designsystem.text.Headline
@@ -41,6 +36,9 @@ import io.spherelabs.designsystem.textfield.LKUserNameTextField
 import io.spherelabs.designsystem.textfield.LKWebsiteAddressTextField
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.hooks.*
+import io.spherelabs.designsystem.picker.SocialMedia
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,47 +46,47 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddNewPasswordRoute(
     viewModel: AddNewPasswordViewModel = useInject(),
-    navigateToGeneratePassword: () -> Unit
+    navigateToGeneratePassword: () -> Unit,
 ) {
 
-    val uiState = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     AddNewPasswordScreen(
         wish = { newWish ->
             viewModel.wish(newWish)
         },
-        state = uiState,
+        state = uiState.value,
         flow = viewModel.effect,
         navigateToGeneratePassword = {
             navigateToGeneratePassword.invoke()
-        }
+        },
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddNewPasswordScreen(
     modifier: Modifier = Modifier,
     wish: (AddNewPasswordWish) -> Unit,
-    state: State<AddNewPasswordState>,
+    state: AddNewPasswordState,
     flow: Flow<AddNewPasswordEffect>,
-    navigateToGeneratePassword: () -> Unit
+    navigateToGeneratePassword: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
     val scope = useScope()
-    val options = List(5) { "Item $it" }
-    var expanded by remember { mutableStateOf(false) }
-    var option by remember { mutableStateOf("") }
+
+    val (expanded, setExpanded) = useBooleanState(false)
     val waitForPositiveButton by remember { mutableStateOf(false) }
 
     useEffect(true) {
+        wish.invoke(AddNewPasswordWish.GetCategoriesStarted)
+
         flow.collectLatest { effect ->
             when (effect) {
                 is AddNewPasswordEffect.Failure -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = effect.message
+                            message = effect.message,
                         )
                     }
 
@@ -101,7 +99,7 @@ fun AddNewPasswordScreen(
                 is AddNewPasswordEffect.Success -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = effect.message
+                            message = effect.message,
                         )
                     }
                 }
@@ -115,20 +113,20 @@ fun AddNewPasswordScreen(
                 hostState = snackbarHostState,
                 modifier = modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom)
+                    .wrapContentHeight(Alignment.Bottom),
             )
-        }
+        },
     ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .background(color = Color.White)
-                .verticalScroll(scrollState)
+                .verticalScroll(scrollState),
         ) {
             Headline(
                 text = "Add new password",
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                textColor = Color.Black
+                textColor = Color.Black,
             )
 
             Text(
@@ -136,39 +134,43 @@ fun AddNewPasswordScreen(
                 fontSize = 16.sp,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 color = Color.Black.copy(alpha = 0.5F),
-                modifier = modifier.padding(start = 24.dp, top = 8.dp)
+                modifier = modifier.padding(start = 24.dp, top = 8.dp),
             )
 
             Row(
                 modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
             ) {
                 RoundedImage(
-                    painter = painterResource(MR.images.avatar), contentDescription = null
+                    painter = painterResource(MR.images.avatar), contentDescription = null,
                 )
 
-                LKTitleTextField(state.value.title, modifier, onValueChanged = { newValue ->
-                    wish.invoke(AddNewPasswordWish.OnTitleChanged(newValue))
-                })
+                LKTitleTextField(
+                    state.title, modifier,
+                    onValueChanged = { newValue ->
+                        wish.invoke(AddNewPasswordWish.OnTitleChanged(newValue))
+                    },
+                )
 
                 LKSocialMediaPicker {
                     title("Select a icon")
                     socialIconsPicker(
-                        socialIcons = SocialIcons.getSocialIcons().value,
-                        waitForPositiveButton = waitForPositiveButton
+                        socialIcons = SocialIcons.getSocialMedia().value,
+                        waitForPositiveButton = waitForPositiveButton,
                     ) {
-                        println("Painter is $it")
+                        wish.invoke(AddNewPasswordWish.OnImageChanged(it.title))
+
                     }
                 }
             }
 
 
             LKUserNameTextField(
-                state.value.username,
+                state.username,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
                 },
-                textLength = state.value.username.length
+                textLength = state.username.length,
             )
 
             Column {
@@ -180,44 +182,54 @@ fun AddNewPasswordScreen(
                     textAlign = TextAlign.Start,
                     color = Color.Black,
                     fontSize = 18.sp,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 )
                 LKSpinner(
                     expanded = expanded,
                     modifier = modifier,
                     onExpandedChange = {
-                        expanded = it
-                    }, current = option, options = options, onOptionChosen = {
-                        option = it
-                    })
+                        setExpanded.invoke(it)
+                    },
+                    current = state.currentCategory,
+                    options = state.categories.map { it.title },
+                    onOptionChosen = {
+                        wish.invoke(AddNewPasswordWish.OnCategoryChanged(it))
+                    },
+                )
 
             }
 
-
-            LKEmailTextField(state.value.email,
+            LKEmailTextField(
+                state.email,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
-                })
+                },
+            )
 
-            LKPasswordTextField(state.value.password,
+            LKPasswordTextField(
+                state.password,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
-                })
+                },
+            )
 
             LKWebsiteAddressTextField(
-                state.value.websiteAddress,
+                state.websiteAddress,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
-                })
+                },
+            )
 
-            LKNotesTextField(state.value.notes,
+            LKNotesTextField(
+                state.notes,
                 fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
-                })
+                },
+            )
 
             Row(
                 modifier = Modifier
@@ -227,27 +239,27 @@ fun AddNewPasswordScreen(
 
                         wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
                     },
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "Generate password",
                     textAlign = TextAlign.Start,
                     color = Color.Black.copy(0.5f),
                     fontSize = 16.sp,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 )
                 Box(
                     modifier = modifier.size(16.dp).clip(CircleShape).border(
                         width = 1.dp,
                         color = Color.Black.copy(0.5f),
-                        shape = CircleShape
+                        shape = CircleShape,
                     ),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Icon(
                         Icons.Outlined.ArrowForward,
                         contentDescription = null,
-                        tint = Color.Black.copy(0.5f)
+                        tint = Color.Black.copy(0.5f),
                     )
                 }
             }
@@ -255,24 +267,26 @@ fun AddNewPasswordScreen(
 
             Spacer(modifier = modifier.height(32.dp))
 
-            Button(modifier = Modifier
-                .fillMaxWidth()
-                .height(65.dp)
-                .padding(start = 24.dp, end = 24.dp),
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(start = 24.dp, end = 24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorResource(MR.colors.grey)
+                    backgroundColor = colorResource(MR.colors.grey),
                 ),
                 shape = RoundedCornerShape(24.dp),
                 onClick = {
                     wish.invoke(AddNewPasswordWish.OnSubmitClicked)
-                }) {
+                },
+            ) {
                 Text(
                     text = "Save password",
                     color = Color.White,
                     fontSize = 18.sp,
                     fontFamily = fontFamilyResource(
-                        fontResource = MR.fonts.googlesans.medium
-                    )
+                        fontResource = MR.fonts.googlesans.medium,
+                    ),
                 )
             }
         }
@@ -280,27 +294,54 @@ fun AddNewPasswordScreen(
 }
 
 object SocialIcons {
-
     @Composable
-    internal fun getSocialIcons(): State<List<Painter>> {
+    fun getSocialMedia(): State<List<SocialMedia>> {
         return useUpdatedState(
             listOf(
-                painterResource(MR.images.behance),
-                painterResource(MR.images.linkedin),
-                painterResource(MR.images.apple_podcasts),
-                painterResource(MR.images.quora),
-                painterResource(MR.images.discord),
-                painterResource(MR.images.dribble),
-                painterResource(MR.images.facebook),
-                painterResource(MR.images.googleMeet),
-                painterResource(MR.images.medium),
-                painterResource(MR.images.messenger),
-                painterResource(MR.images.patreon),
-                painterResource(MR.images.reddit),
-                painterResource(MR.images.telegram),
-            )
+                SocialMedia(
+                    "Behance",
+                    painterResource(MR.images.behance),
+                ),
+                SocialMedia(
+                    "Linkedin",
+                    painterResource(MR.images.linkedin),
+                ),
+                SocialMedia(
+                    title = "Dribble",
+                    painter = painterResource(MR.images.dribble),
+                ),
+            ),
         )
     }
+
+    @Composable
+    fun get(title: String): State<SocialMedia?> {
+        val items = getSocialMedia().value
+        return useUpdatedState(
+            items.find { it.title == title },
+        )
+    }
+
+//    @Composable
+//    internal fun getSocialIcons(): State<List<Painter>> {
+//        return useUpdatedState(
+//            listOf(
+//                painterResource(MR.images.behance),
+//                painterResource(MR.images.linkedin),
+//                painterResource(MR.images.apple_podcasts),
+//                painterResource(MR.images.quora),
+//                painterResource(MR.images.discord),
+//                painterResource(MR.images.dribble),
+//                painterResource(MR.images.facebook),
+//                painterResource(MR.images.googleMeet),
+//                painterResource(MR.images.medium),
+//                painterResource(MR.images.messenger),
+//                painterResource(MR.images.patreon),
+//                painterResource(MR.images.reddit),
+//                painterResource(MR.images.telegram),
+//            ),
+//        )
+//    }
 
 }
 

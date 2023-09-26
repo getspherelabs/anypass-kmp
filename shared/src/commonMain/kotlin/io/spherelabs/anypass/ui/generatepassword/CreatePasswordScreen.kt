@@ -31,6 +31,7 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordState
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.anypass.MR
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.rememberKoinInject
 
@@ -39,13 +40,13 @@ fun GeneratePasswordRoute(
     viewModel: GeneratePasswordViewModel = rememberKoinInject(),
     navigateToBack: () -> Unit
 ) {
-    val uiState = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     GeneratePasswordScreen(
         wish = { newWish ->
             viewModel.wish(newWish)
         },
-        state = uiState,
+        state = uiState.value,
         flow = viewModel.effect,
         navigateToBack = {
             navigateToBack.invoke()
@@ -57,7 +58,7 @@ fun GeneratePasswordRoute(
 fun GeneratePasswordScreen(
     modifier: Modifier = Modifier,
     wish: (GeneratePasswordWish) -> Unit,
-    state: State<GeneratePasswordState>,
+    state: GeneratePasswordState,
     flow: Flow<GeneratePasswordEffect>,
     navigateToBack: () -> Unit
 ) {
@@ -95,7 +96,7 @@ fun GeneratePasswordScreen(
                 )
                 LKSlider(
                     modifier = modifier.width(100.dp),
-                    value = state.value.uppercaseLength,
+                    value = state.uppercaseLength,
                     onValueChange = { value, _ ->
                         wish.invoke(
                             GeneratePasswordWish.OnUppercaseLengthChanged(
@@ -122,7 +123,7 @@ fun GeneratePasswordScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${state.value.uppercaseLength.toInt()}",
+                            text = "${state.uppercaseLength.toInt()}",
                             fontSize = 10.sp,
                             color = Color.Black,
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
@@ -142,7 +143,7 @@ fun GeneratePasswordScreen(
                 )
                 LKSlider(
                     modifier = modifier.width(100.dp),
-                    value = state.value.digitLength,
+                    value = state.digitLength,
                     onValueChange = { value, _ ->
                         wish.invoke(GeneratePasswordWish.OnDigitLengthChanged(value))
                     },
@@ -159,7 +160,7 @@ fun GeneratePasswordScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "${state.value.digitLength.toInt()}",
+                            text = "${state.digitLength.toInt()}",
                             fontSize = 10.sp,
                             color = Color.Black,
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
@@ -214,7 +215,7 @@ fun GeneratePasswordScreen(
                 .padding(top = 24.dp)
         )
         {
-            LKMeterProgress(state.value.length, color = colorResource(MR.colors.lavender))
+            LKMeterProgress(state.length, color = colorResource(MR.colors.lavender))
         }
 
         Text(
@@ -247,7 +248,7 @@ fun GeneratePasswordScreen(
                 Spacer(modifier = modifier.height(24.dp))
 
                 Text(
-                    text = state.value.password,
+                    text = state.password,
                     fontSize = 24.sp,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     color = Color.White,
@@ -273,8 +274,8 @@ fun GeneratePasswordScreen(
                         .clickable {
                             wish.invoke(
                                 GeneratePasswordWish.GeneratePassword(
-                                    uppercaseLength = state.value.uppercaseLength.toInt(),
-                                    digitLength = state.value.digitLength.toInt()
+                                    uppercaseLength = state.uppercaseLength.toInt(),
+                                    digitLength = state.digitLength.toInt()
                                 )
                             )
                         },

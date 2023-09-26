@@ -54,6 +54,8 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(Libs.Testing.turbine)
+                implementation(Libs.Testing.coroutine)
             }
         }
         val androidMain by getting {
@@ -122,7 +124,7 @@ multiplatformResources {
 
 sqldelight {
     databases {
-        create("LockerDatabase") {
+        create("AnyPassDatabase") {
             packageName.set("io.spherelabs.local.db")
         }
         linkSqlite.set(true)

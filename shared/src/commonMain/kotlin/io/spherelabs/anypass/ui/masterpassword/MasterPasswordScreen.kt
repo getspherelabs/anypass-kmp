@@ -16,8 +16,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +31,7 @@ import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.masterpasswordpresentation.MasterPasswordEffect
 import io.spherelabs.masterpasswordpresentation.MasterPasswordState
 import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
@@ -46,10 +45,10 @@ fun MasterPasswordRoute(
     viewModel: MasterPasswordViewModel = useInject(),
     navigateToHome: () -> Unit
 ) {
-    val uiState = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     MasterPasswordScreen(
-        state = uiState,
+        state = uiState.value,
         wish = { newWish ->
             viewModel.wish(newWish)
         },
@@ -64,7 +63,7 @@ fun MasterPasswordRoute(
 fun MasterPasswordScreen(
     modifier: Modifier = Modifier,
     wish: (MasterPasswordWish) -> Unit,
-    state: State<MasterPasswordState>,
+    state: MasterPasswordState,
     effect: Flow<MasterPasswordEffect>,
     navigateToHome: () -> Unit
 ) {
@@ -106,7 +105,7 @@ fun MasterPasswordScreen(
             verticalArrangement = Arrangement.Center
         ) {
             when {
-                state.value.isExistPassword -> {
+                state.isExistPassword -> {
                     Text(
                         modifier = modifier.padding(start = 32.dp, top = 16.dp),
                         text = "Confirm Master Password",
@@ -118,14 +117,14 @@ fun MasterPasswordScreen(
                     Spacer(modifier = modifier.height(35.dp))
 
                     LKPinInput(
-                        value = state.value.password,
+                        value = state.password,
                         disableKeypad = true
                     ) {
                         wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
                     }
                 }
 
-                !state.value.isExistPassword -> {
+                !state.isExistPassword -> {
                     Text(
                         modifier = modifier.padding(start = 32.dp, top = 16.dp),
                         text = "Add Master Password",
@@ -137,17 +136,17 @@ fun MasterPasswordScreen(
                     Spacer(modifier = modifier.height(35.dp))
 
                     LKPinInput(
-                        value = state.value.password,
+                        value = state.password,
                         disableKeypad = true
                     ) {
                         wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
                     }
                     Spacer(modifier.height(24.dp))
                     LKPinInput(
-                        value = state.value.confirmPassword,
+                        value = state.confirmPassword,
                         disableKeypad = true
                     ) {
-                        if (state.value.isInitialPasswordExisted) {
+                        if (state.isInitialPasswordExisted) {
                             wish.invoke(MasterPasswordWish.OnConfirmPasswordCellChanged(it))
                         }
                     }
@@ -168,7 +167,7 @@ fun MasterPasswordScreen(
                     items = MasterPasswordState.row1(),
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 ) { newPin ->
-                    if (state.value.isInitialPasswordExisted) {
+                    if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
                     } else {
                         wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
@@ -178,7 +177,7 @@ fun MasterPasswordScreen(
                     items = MasterPasswordState.row2(),
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 ) { newPin ->
-                    if (state.value.isInitialPasswordExisted) {
+                    if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
                     } else {
                         wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
@@ -188,7 +187,7 @@ fun MasterPasswordScreen(
                     items = MasterPasswordState.row3(),
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
                 ) { newPin ->
-                    if (state.value.isInitialPasswordExisted) {
+                    if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
                     } else {
                         wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
@@ -201,7 +200,7 @@ fun MasterPasswordScreen(
                     if (newPin == "c") {
                         wish.invoke(MasterPasswordWish.ClearPassword)
                     } else {
-                        if (state.value.isInitialPasswordExisted) {
+                        if (state.isInitialPasswordExisted) {
                             wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
                         } else {
                             wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))

@@ -49,6 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.rememberKoinInject
 import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 
 @Composable
 fun HomeRoute(
@@ -56,14 +57,14 @@ fun HomeRoute(
     viewModel: HomeViewModel = rememberKoinInject(),
     navigateToCreatePassword: () -> Unit
 ) {
-    val uiState = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     HomeScreen(
         navigation = navigation,
         wish = { newWish ->
             viewModel.wish(newWish)
         },
-        uiState = uiState,
+        uiState = uiState.value,
         effect = viewModel.effect,
         navigateToCreatePassword = {
             navigateToCreatePassword.invoke()
@@ -76,7 +77,7 @@ fun HomeScreen(
     navigation: NavigationController<Route>,
     modifier: Modifier = Modifier,
     wish: (HomeWish) -> Unit,
-    uiState: State<HomeState>,
+    uiState: HomeState,
     effect: Flow<HomeEffect>,
     navigateToCreatePassword: () -> Unit
 ) {
@@ -179,8 +180,8 @@ fun HomeScreen(
             ) {
                 HomeHeadline()
 
-                if (uiState.value.categories.isNotEmpty()) {
-                    CategoryCard(uiState.value.categories)
+                if (uiState.categories.isNotEmpty()) {
+                    CategoryCard(uiState.categories)
                 }
             }
 

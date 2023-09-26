@@ -3,6 +3,7 @@ package io.spherelabs.data.local.mapper
 import io.spherelabs.addnewpassworddomain.model.AddNewPasswordDomain
 import io.spherelabs.addnewpassworddomain.model.CategoryDomain
 import io.spherelabs.data.local.db.Category
+import io.spherelabs.home.homedomain.model.HomePasswordDomain
 import io.spherelabs.local.db.Password
 
 fun Password.asDomain(): AddNewPasswordDomain {
@@ -49,4 +50,18 @@ fun CategoryDomain.asCategory(): Category {
         CategoryDomain.Payment -> Category.Payment
         CategoryDomain.Unknown -> Category.Unknown
     }
+}
+
+fun Password.asHomeDomain(): HomePasswordDomain {
+    return HomePasswordDomain(
+        id = this.id,
+        title = this.title ?: "",
+        category = this.category_id,
+        username = this.username ?: "",
+        email = this.email ?: "",
+        password = this.password ?: "",
+        websiteAddress = this.websiteAddress ?: "",
+        notes = this.notes ?: "",
+        image = this.image ?: ""
+    )
 }

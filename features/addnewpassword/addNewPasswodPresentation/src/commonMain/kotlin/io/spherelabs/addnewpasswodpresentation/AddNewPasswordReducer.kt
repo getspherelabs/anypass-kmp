@@ -12,7 +12,7 @@ class AddNewPasswordReducer :
 
   override fun reduce(
     currentState: AddNewPasswordState,
-    currentWish: AddNewPasswordWish
+    currentWish: AddNewPasswordWish,
   ): Change<AddNewPasswordState, AddNewPasswordEffect> {
     return when (currentWish) {
       is AddNewPasswordWish.InsertFailed -> {
@@ -22,7 +22,7 @@ class AddNewPasswordReducer :
         effect { AddNewPasswordEffect.Success(currentWish.message) }
       }
       is AddNewPasswordWish.OnCategoryChanged -> {
-        expect { currentState.copy(category = currentWish.category) }
+        expect { currentState.copy(currentCategory = currentWish.category) }
       }
       is AddNewPasswordWish.OnEmailChanged -> {
         expect { currentState.copy(email = currentWish.email) }
@@ -47,6 +47,10 @@ class AddNewPasswordReducer :
       }
       AddNewPasswordWish.OnGeneratePasswordClicked -> {
         route { AddNewPasswordEffect.GeneratePassword }
+      }
+      is AddNewPasswordWish.GetCategories -> {
+        val categories = currentWish.categories
+        expect { currentState.copy(categories = categories) }
       }
       else -> unexpected { currentState }
     }

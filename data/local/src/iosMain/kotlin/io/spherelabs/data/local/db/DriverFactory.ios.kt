@@ -4,6 +4,7 @@ import io.spherelabs.local.db.LockerDatabase
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.lockerkmp.local.MR
 import kotlinx.cinterop.ObjCObjectVar
 import kotlinx.cinterop.alloc
@@ -59,7 +60,7 @@ actual class DriverFactory {
         }
 
 
-        return NativeSqliteDriver(LockerDatabase.Schema, "locker.db").also {
+        return NativeSqliteDriver(AnyPassDatabase.Schema, "locker.db").also {
             it.execute(null,"PRAGMA foreign_keys=ON",0)
         }
     }

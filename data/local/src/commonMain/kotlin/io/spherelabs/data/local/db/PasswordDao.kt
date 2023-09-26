@@ -3,7 +3,7 @@ package io.spherelabs.data.local.db
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
-import io.spherelabs.local.db.LockerDatabase
+import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.Password
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -14,11 +14,12 @@ interface PasswordDao {
     suspend fun updatePassword(password: Password)
     suspend fun deletePassword(id: String)
     fun getAllPassword(): Flow<List<Password>>
-    fun getFavouriteById(id: String): Flow<Password>
+    fun getPasswordById(id: String): Flow<Password>
+    fun getPasswordsByCategory(id: String): Flow<List<Password>>
 }
 
 class DefaultPasswordDao(
-    database: LockerDatabase,
+    database: AnyPassDatabase,
 ) : PasswordDao {
 
     private val queries = database.passwordQueries
@@ -35,7 +36,7 @@ class DefaultPasswordDao(
                 category_id = password.category_id,
                 websiteAddress = password.websiteAddress,
                 notes = password.notes,
-                image = password.image
+                image = password.image,
             )
         }
     }
@@ -50,7 +51,7 @@ class DefaultPasswordDao(
                 email = password.email,
                 websiteAddress = password.websiteAddress,
                 notes = password.notes,
-                image = password.image
+                image = password.image,
             )
         }
     }
@@ -65,7 +66,11 @@ class DefaultPasswordDao(
         return queries.getAllPasswords().asFlow().mapToList(Dispatchers.IO)
     }
 
-    override fun getFavouriteById(id: String): Flow<Password> {
+    override fun getPasswordById(id: String): Flow<Password> {
         return queries.getPasswordById(id).asFlow().mapToOne(Dispatchers.IO)
+    }
+
+    override fun getPasswordsByCategory(id: String): Flow<List<Password>> {
+        return queries.getPasswordsByCategory(id).asFlow().mapToList(Dispatchers.IO)
     }
 }

@@ -10,8 +10,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +28,7 @@ import io.spherelabs.authpresentation.signin.SignInState
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -40,10 +39,10 @@ fun SignInRoute(
     navigateToSignUp: () -> Unit,
     navigateToMasterPassword: () -> Unit
 ) {
-    val uiState = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     SignInScreen(
-        state = uiState,
+        state = uiState.value,
         effect = viewModel.effect,
         navigateToMasterPassword = {
             navigateToMasterPassword.invoke()
@@ -57,7 +56,7 @@ fun SignInRoute(
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    state: State<SignInState>,
+    state: SignInState,
     effect: Flow<SignInEffect>,
     navigateToMasterPassword: () -> Unit,
     navigateToSignUp: () -> Unit
@@ -74,9 +73,9 @@ fun SignInScreen(
         }
     }
 
-    Scaffold() {
+    Scaffold {
         when {
-            state.value.isCurrentUserExist -> {
+            state.isCurrentUserExist -> {
                 navigateToMasterPassword.invoke()
             }
 
