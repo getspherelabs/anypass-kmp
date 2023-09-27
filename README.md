@@ -48,6 +48,7 @@ In an offline-first application, the source of truth for application data is typ
 - [SqlDelight]()
 - [Koin]()
 - [Meteor]()
+- [Firebase]()
 - [Multiplatform Settings]()
 - [Moko Resource]()
 - [Sentry Multiplatform]()
@@ -132,6 +133,11 @@ graph TD;
     generatepassword-->shared;
 ```
 # Screenshots
+
+## Contribute
+
+**Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)** [![Fork AnyPass](https://img.shields.io/github/forks/getspherelabs/anypass-kmp?logo=github&style=social)](https://github.com/getspherelabs/anypass-kmp/fork)
+
 
 ## Project Requirements
 
