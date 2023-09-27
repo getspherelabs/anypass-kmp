@@ -57,7 +57,7 @@ jobs:
           echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
           echo $GOOGLE_SERVICE_JSON | base64 --decode > ./data/authManager/google-services.json
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
   test:
     name: Unit tests
     runs-on: ubuntu-22.04
