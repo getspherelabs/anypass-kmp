@@ -55,7 +55,6 @@ jobs:
           GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
         run: |
           echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
-          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./data/authManager/google-services.json
       - name: Build
         run: ./gradlew assembleDebug
   test:
