@@ -68,5 +68,9 @@ gradlePlugin {
             id = "anypass.multiplatform.validation"
             implementationClass = "io.getspherelabs.convention.ValidationMultiplatformPlugin"
         }
+        register("resourceMultiplatform") {
+            id = "anypass.multiplatform.resource"
+            implementationClass = "io.getspherelabs.convention.ResourceMultiplatformPlugin"
+        }
     }
 }
