@@ -24,7 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +34,7 @@ fun LKPasswordCard(
   password: String,
   email: String,
   title: String,
-  icon: Painter,
+  icon:  ImageVector,
   modifier: Modifier = Modifier,
   passwordCardStyle: LKPasswordCardStyle = LKPasswordCardDefaults.passwordCardStyle(),
   passwordCardColor: LKPasswordCardColor = LKPasswordCardDefaults.passwordCardColor(),
@@ -56,7 +56,7 @@ fun LKPasswordCard(
     ) {
       Image(
         modifier = modifier.size(56.dp).clip(RoundedCornerShape(16.dp)),
-        painter = icon,
+        imageVector = icon,
         contentDescription = contentDescription
       )
       Spacer(modifier.width(16.dp))
