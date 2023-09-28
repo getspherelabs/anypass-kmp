@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import io.spherelabs.designsystem.hooks.useIntState
-import io.spherelabs.designsystem.hooks.useState
 
 @Composable
 internal fun LKSocialIconGridLayout(
@@ -20,7 +19,7 @@ internal fun LKSocialIconGridLayout(
 
     LKGridView(modifier, itemSize = itemSize) {
         socialIcons.forEachIndexed { index, item ->
-            LKIconView(icon = item.painter, selected = index == mainIndex) {
+            LKIconView(icon = item.image, selected = index == mainIndex) {
                 if (mainIndex != index) {
                     setMainIndex.invoke(index)
                     selectedSocialIcon.value = item

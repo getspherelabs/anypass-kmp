@@ -39,6 +39,21 @@ import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.resources.AnyPassIcons
+import io.spherelabs.resources.anypassicons.ApplePodcasts
+import io.spherelabs.resources.anypassicons.Behance
+import io.spherelabs.resources.anypassicons.Discord
+import io.spherelabs.resources.anypassicons.Dribble
+import io.spherelabs.resources.anypassicons.Facebook
+import io.spherelabs.resources.anypassicons.Googlemeet
+import io.spherelabs.resources.anypassicons.Linkedin
+import io.spherelabs.resources.anypassicons.Medium
+import io.spherelabs.resources.anypassicons.Messenger
+import io.spherelabs.resources.anypassicons.Pinterest
+import io.spherelabs.resources.anypassicons.Quora
+import io.spherelabs.resources.anypassicons.Reddit
+import io.spherelabs.resources.anypassicons.Skype
+import io.spherelabs.resources.anypassicons.Telegram
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -300,15 +315,59 @@ object SocialIcons {
             listOf(
                 SocialMedia(
                     "Behance",
-                    painterResource(MR.images.behance),
+                    AnyPassIcons.Behance,
                 ),
                 SocialMedia(
                     "Linkedin",
-                    painterResource(MR.images.linkedin),
+                    AnyPassIcons.Linkedin,
                 ),
                 SocialMedia(
                     title = "Dribble",
-                    painter = painterResource(MR.images.dribble),
+                    image = AnyPassIcons.Dribble,
+                ),
+                SocialMedia(
+                    title = "ApplePodcasts",
+                    image = AnyPassIcons.ApplePodcasts,
+                ),
+                SocialMedia(
+                    title = "Discord",
+                    image = AnyPassIcons.Discord,
+                ),
+                SocialMedia(
+                    title = "Facebook",
+                    image = AnyPassIcons.Facebook,
+                ),
+                SocialMedia(
+                    title = "GoogleMeet",
+                    image = AnyPassIcons.Googlemeet,
+                ),
+                SocialMedia(
+                    title = "Medium",
+                    image = AnyPassIcons.Medium,
+                ),
+                SocialMedia(
+                    title = "Messenger",
+                    image = AnyPassIcons.Messenger,
+                ),
+                SocialMedia(
+                    title = "Pinterest",
+                    image = AnyPassIcons.Pinterest,
+                ),
+                SocialMedia(
+                    title = "Quora",
+                    image = AnyPassIcons.Quora,
+                ),
+                SocialMedia(
+                    title = "Reddit",
+                    image = AnyPassIcons.Reddit,
+                ),
+                SocialMedia(
+                    title = "Skype",
+                    image = AnyPassIcons.Skype,
+                ),
+                SocialMedia(
+                    title = "Telegram",
+                    image = AnyPassIcons.Telegram,
                 ),
             ),
         )
@@ -321,27 +380,6 @@ object SocialIcons {
             items.find { it.title == title },
         )
     }
-
-//    @Composable
-//    internal fun getSocialIcons(): State<List<Painter>> {
-//        return useUpdatedState(
-//            listOf(
-//                painterResource(MR.images.behance),
-//                painterResource(MR.images.linkedin),
-//                painterResource(MR.images.apple_podcasts),
-//                painterResource(MR.images.quora),
-//                painterResource(MR.images.discord),
-//                painterResource(MR.images.dribble),
-//                painterResource(MR.images.facebook),
-//                painterResource(MR.images.googleMeet),
-//                painterResource(MR.images.medium),
-//                painterResource(MR.images.messenger),
-//                painterResource(MR.images.patreon),
-//                painterResource(MR.images.reddit),
-//                painterResource(MR.images.telegram),
-//            ),
-//        )
-//    }
 
 }
 

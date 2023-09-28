@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 import io.spherelabs.designsystem.dialog.BasicLKDialog
@@ -112,5 +112,5 @@ fun LKDialogScope.socialIconsPicker(
 @Immutable
 data class SocialMedia(
   val title: String,
-  val painter: Painter,
+  val image: ImageVector,
 )

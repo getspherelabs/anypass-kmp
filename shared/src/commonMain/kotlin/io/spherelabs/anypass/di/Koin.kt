@@ -18,6 +18,7 @@ import io.spherelabs.manager.password.di.passwordManagerModule
 import io.spherelabs.masterpassworddomain.di.masterPasswordDomainModule
 import io.spherelabs.masterpasswordpresentation.di.masterPasswordFeatureModule
 import io.spherelabs.onboardingdomain.di.onboardingDomainModule
+import io.spherelabs.validation.di.validationModule
 import org.koin.compose.LocalKoinScope
 import org.koin.core.context.startKoin
 import org.koin.core.parameter.ParametersDefinition
@@ -33,6 +34,7 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             firebaseAuthModule,
             settingModule,
             localModule,
+            validationModule,
             passwordManagerModule,
             onboardingDomainModule,
             onboardingFeatureModule,
@@ -46,7 +48,7 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             authFeatureModule,
             masterPasswordDomainModule,
             masterPasswordFeatureModule,
-            viewModelModule
+            viewModelModule,
         )
     }
 
@@ -56,7 +58,7 @@ fun initKoin() = initKoin {}
 inline fun <reified T> useInject(
     qualifier: Qualifier? = null,
     scope: Scope = LocalKoinScope.current,
-    noinline parameters: ParametersDefinition? = null
+    noinline parameters: ParametersDefinition? = null,
 ): T {
     return remember(qualifier, scope, parameters) {
         scope.get(qualifier, parameters)

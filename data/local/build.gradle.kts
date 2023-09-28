@@ -108,6 +108,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
+    }
+
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")

@@ -36,7 +36,7 @@ jobs:
         run: ./gradlew spotlessCheck
   build:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: macos-latest
     env:
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
     steps:
@@ -50,8 +50,13 @@ jobs:
       - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-build
+      - name: Create google-services.json file
+        env:
+          GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
+        run: |
+          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
   test:
     name: Unit tests
     runs-on: ubuntu-22.04
