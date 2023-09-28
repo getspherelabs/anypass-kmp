@@ -11,13 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun LKIconView(
     modifier: Modifier = Modifier,
-    icon: Painter,
+    icon: ImageVector,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -31,7 +32,7 @@ internal fun LKIconView(
     ) {
 
         Image(
-            painter = icon,
+            imageVector = icon,
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = modifier.size(tickSize).border(

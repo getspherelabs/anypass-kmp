@@ -50,6 +50,8 @@ import kotlinx.coroutines.launch
 import org.koin.compose.rememberKoinInject
 import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.resources.AnyPassIcons
+import io.spherelabs.resources.anypassicons.Behance
 
 @Composable
 fun HomeRoute(
@@ -406,7 +408,7 @@ fun LKPager(
                 LKPasswordCard(
                     password = "yesdllkdskoeroer123249lk",
                     title = "Behance",
-                    icon = painterResource(MR.images.behance),
+                    icon = AnyPassIcons.Behance,
                     email = "behzoddev@gmail.com",
                     passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
                         backgroundColor = colorResource(MR.colors.lavender_pink),
