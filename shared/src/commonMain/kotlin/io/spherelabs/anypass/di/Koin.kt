@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import io.spherelabs.addnewpasswodpresentation.di.addNewPasswordFeatureModule
 import io.spherelabs.addnewpassworddomain.di.addNewPasswordDomainModule
+import io.spherelabs.admob.di.admobModule
 import io.spherelabs.authdomain.di.authDomainModule
 import io.spherelabs.authpresentation.authFeatureModule
 import io.spherelabs.data.local.di.localModule
@@ -32,6 +33,7 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
 
         modules(
             firebaseAuthModule,
+            admobModule,
             settingModule,
             localModule,
             validationModule,
