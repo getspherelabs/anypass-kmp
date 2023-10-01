@@ -9,7 +9,8 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'
-    spec.dependency 'FirebaseAuth'
+    spec.dependency 'FirebaseAuth', '~> 10.7.0'
+    spec.dependency 'Google-Mobile-Ads-SDK', '~> 10.3.0'
     spec.dependency 'Sentry', '~> 8.4.0'
                 
     spec.pod_target_xcconfig = {
