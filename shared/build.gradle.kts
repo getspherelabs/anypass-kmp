@@ -30,19 +30,16 @@ kotlin {
 
         framework {
             baseName = "shared"
+            linkerOpts.add("-lsqlite3")
             export("dev.icerock.moko:resources:0.22.3")
         }
 
-        pod("FirebaseAuth")
+        pod("FirebaseAuth", "~> 10.7.0")
+        pod("Google-Mobile-Ads-SDK", "~> 10.3.0", moduleName = "GoogleMobileAds")
         pod("Sentry", "~> 8.4.0")
+
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
-    }
-
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
-            linkerOpts.add("-lsqlite3")
-        }
     }
 
     sourceSets {
@@ -55,12 +52,12 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
                 implementation(compose.material3)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.material)
 
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
@@ -76,6 +73,7 @@ kotlin {
                 api(project(":data:prefs"))
                 api(project(":manager:password"))
                 implementation(project(":data:authManager"))
+                implementation(project(":core:admob"))
                 api(project(":features:auth:authDomain"))
                 api(project(":features:auth:authPresentation"))
                 api(project(":features:onboarding:onboardingDomain"))
@@ -95,7 +93,6 @@ kotlin {
                 implementation(project(":core:validation"))
                 api(project(":features:home:homeDomain"))
                 api(project(":features:home:homePresentation"))
-                api(project(":core:designsystem"))
                 implementation(Libs.Koin.compose)
 
             }
@@ -114,6 +111,7 @@ kotlin {
                 implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
                 implementation("androidx.compose.material:material:1.5.0")
                 implementation("androidx.compose.ui:ui-tooling:1.5.0")
+                // implementation ("com.google.android.gms:play-services-ads:22.4.0")
             }
         }
         val androidUnitTest by getting
@@ -155,28 +153,32 @@ android {
         minSdk = 24
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
-        }
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 buildkonfig {
+    packageName = "io.spherelabs.anypass"
+
+    val (SENTRY_DSN, SENTRY_DSN_VALUE) = configs("SENTRY_DSN")
+    val ANDROID_AD_ID_VALUE = config("ANDROID_AD_ID")
+    val IOS_AD_ID_VALUE = config("IOS_AD_ID")
+    val (AD_ID, DEFAULT_AD_ID_VALUE) = configs("AD_ID")
+
     defaultConfigs {
-        packageName = "io.spherelabs.anypass"
+        buildConfigField(STRING, SENTRY_DSN, SENTRY_DSN_VALUE)
+        buildConfigField(STRING, AD_ID, DEFAULT_AD_ID_VALUE)
+    }
 
-        val (SENTRY_DSN, SENTRY_DSN_VALUE) = configs("SENTRY_DSN")
+    targetConfigs {
+        create("android") {
+            buildConfigField(STRING, AD_ID, ANDROID_AD_ID_VALUE)
+        }
 
-        buildConfigField(
-            STRING,
-            SENTRY_DSN,
-            SENTRY_DSN_VALUE,
-        )
-
+        create("ios") {
+            buildConfigField(STRING, AD_ID, IOS_AD_ID_VALUE)
+        }
     }
 }
 
@@ -212,4 +214,12 @@ fun configs(name: String): Pair<String, String> {
         ?: gradleLocalProperties(rootDir).getProperty(name)
         ?: error("No $name provided")
     return name to secret
+}
+
+fun config(name: String): String {
+    val value = System.getenv(name)
+        ?: gradleLocalProperties(rootDir).getProperty(name)
+        ?: error("No $name provided")
+
+    return value
 }
