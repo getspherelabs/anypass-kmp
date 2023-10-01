@@ -2,35 +2,37 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    id("anypass.compose")
 }
 
 kotlin {
-    android()
-
-    ios()
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     cocoapods {
-        version = "1.0.0"
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
+        version = "1.0"
         ios.deploymentTarget = "14.1"
-
-        framework {
-            baseName = "authManager"
-        }
         noPodspec()
-        pod("FirebaseAuth", "~> 10.7.0")
+        framework {
+            baseName = "admob"
+        }
+        pod("Google-Mobile-Ads-SDK","~> 10.3.0", moduleName  =  "GoogleMobileAds")
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.ui)
                 api(Libs.Koin.core)
                 api(Libs.Coroutine.core)
-
             }
         }
         val commonTest by getting {
@@ -38,13 +40,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
         val androidMain by getting {
             dependencies {
                 implementation(Libs.Koin.android)
-                implementation(Libs.Koin.compose)
-                implementation(Libs.Firebase.core)
-                implementation(Libs.Firebase.auth)
-                implementation(Libs.Coroutine.firebase)
+                implementation ("com.google.android.gms:play-services-ads:22.4.0")
             }
         }
         val androidUnitTest by getting
@@ -52,7 +52,7 @@ kotlin {
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
 
-        val iosMain by getting {
+        val iosMain by creating {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -61,7 +61,7 @@ kotlin {
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by getting {
+        val iosTest by creating {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
@@ -71,7 +71,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.spherelabs.firebase"
+    namespace = "io.spherelabs.admob"
     compileSdk = 33
 
     compileOptions {

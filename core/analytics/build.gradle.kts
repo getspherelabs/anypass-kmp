@@ -7,14 +7,8 @@ plugins {
 kotlin {
     targetHierarchy.default()
 
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
-    
+    androidTarget()
+
     listOf(
         iosX64(),
         iosArm64(),
