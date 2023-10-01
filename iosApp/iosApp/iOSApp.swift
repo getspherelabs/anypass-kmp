@@ -1,15 +1,15 @@
 import SwiftUI
 import shared
 import FirebaseCore
-
+import GoogleMobileAds
 
 @main
 struct iOSApp: App {
 
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
     init() {
-        KoinKt.doInitKoin()
+        initializeKoin()
+        initializeFirebase()
+        initializeGADMobileAds()
     }
 	var body: some Scene {
 		WindowGroup {
@@ -20,11 +20,14 @@ struct iOSApp: App {
 	}
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    return true
-  }
+func initializeKoin() {
+    KoinKt.doInitKoin()
+}
 
+func initializeFirebase() {
+    FirebaseApp.configure()
+}
+
+func initializeGADMobileAds() {
+    GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ GADSimulatorID ]
 }
