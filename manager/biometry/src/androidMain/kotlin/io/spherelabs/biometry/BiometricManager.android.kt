@@ -10,14 +10,14 @@ import androidx.biometric.BiometricPrompt
 import kotlin.coroutines.suspendCoroutine
 
 actual class BiometricManager(
-    private val context: Context
+    private val context: Context,
 ) {
     actual suspend fun biometricAuthentication(
         title: String,
         description: String,
         failureContext: String,
         isDeviceAllowed: Boolean,
-        callback: (Result<Boolean>) -> Unit
+        callback: (Result<Boolean>) -> Unit,
     ): Boolean {
         return suspendCoroutine { continuation ->
             var resumed = false
@@ -31,7 +31,7 @@ actual class BiometricManager(
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationError(
                         errorCode: Int,
-                        errString: CharSequence
+                        errString: CharSequence,
                     ) {
                         super.onAuthenticationError(errorCode, errString)
                         if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON ||
@@ -44,7 +44,7 @@ actual class BiometricManager(
                     }
 
                     override fun onAuthenticationSucceeded(
-                        result: BiometricPrompt.AuthenticationResult
+                        result: BiometricPrompt.AuthenticationResult,
                     ) {
                         super.onAuthenticationSucceeded(result)
                         callback.invoke(Result.success(true))
@@ -54,7 +54,7 @@ actual class BiometricManager(
                         super.onAuthenticationFailed()
                         callback.invoke(Result.failure(Exception("Auth failed")))
                     }
-                }
+                },
             )
 
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
@@ -66,11 +66,11 @@ actual class BiometricManager(
 
             biometricPrompt.authenticate(promptInfo)
 
+        }
     }
-}
 
-actual fun hasBiometricCapabilities(): Boolean {
-    val manager: BiometricManager = BiometricManager.from(context)
-    return manager.canAuthenticate(BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
-}
+    actual fun hasBiometricCapabilities(): Boolean {
+        val manager: BiometricManager = BiometricManager.from(context)
+        return manager.canAuthenticate(BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS
+    }
 }

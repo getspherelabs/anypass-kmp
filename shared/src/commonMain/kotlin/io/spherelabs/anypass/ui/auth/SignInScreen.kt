@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun SignInRoute(
     viewModel: SignInViewModel = useInject(),
     navigateToSignUp: () -> Unit,
-    navigateToMasterPassword: () -> Unit
+    navigateToMasterPassword: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -49,7 +49,7 @@ fun SignInRoute(
         },
         navigateToSignUp = {
             navigateToSignUp.invoke()
-        }
+        },
     )
 }
 
@@ -59,7 +59,7 @@ fun SignInScreen(
     state: SignInState,
     effect: Flow<SignInEffect>,
     navigateToMasterPassword: () -> Unit,
-    navigateToSignUp: () -> Unit
+    navigateToSignUp: () -> Unit,
 ) {
     val snackbarState = useSnackbar()
     val scope = useScope()
@@ -82,54 +82,56 @@ fun SignInScreen(
             else -> {
                 Column(
                     modifier = modifier.fillMaxSize().background(color = Color.White),
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Row(
                         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
                             text = " Hey,\n Login Now!",
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                             fontSize = 32.sp,
-                            color = Color.Black
+                            color = Color.Black,
                         )
 
                         Image(
                             modifier = modifier.size(125.dp),
                             painter = painterResource(MR.images.signin),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
 
                     LKEmailTextField(
                         "",
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     ) {}
                     LKPasswordTextField(
                         "",
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     ) {}
                     Spacer(modifier.height(24.dp))
-                    Button(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(65.dp)
-                        .padding(start = 24.dp, end = 24.dp),
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(65.dp)
+                            .padding(start = 24.dp, end = 24.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = colorResource(MR.colors.grey)
+                            backgroundColor = colorResource(MR.colors.grey),
                         ),
                         shape = RoundedCornerShape(24.dp),
                         onClick = {
 
-                        }) {
+                        },
+                    ) {
                         Text(
                             text = "Login",
                             color = Color.White,
                             fontSize = 18.sp,
                             fontFamily = fontFamilyResource(
-                                fontResource = MR.fonts.googlesans.medium
-                            )
+                                fontResource = MR.fonts.googlesans.medium,
+                            ),
                         )
                     }
 
@@ -138,13 +140,13 @@ fun SignInScreen(
                     Row(
                         modifier = modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                        horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
                             text = "Don't have account?",
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                             fontSize = 16.sp,
-                            color = Color.Black.copy(0.5f)
+                            color = Color.Black.copy(0.5f),
                         )
                         Spacer(modifier = modifier.width(12.dp))
                         Text(
@@ -154,7 +156,7 @@ fun SignInScreen(
                             text = "Create new",
                             fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                             fontSize = 20.sp,
-                            color = colorResource(MR.colors.lavender)
+                            color = colorResource(MR.colors.lavender),
                         )
                     }
 
