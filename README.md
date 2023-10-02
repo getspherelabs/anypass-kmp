@@ -85,9 +85,12 @@ graph TD;
 graph TD;
     manager-->password;
     manager-->biometry;
+
+    password-->features;
+    biometry-->features;
+
     features-->generatepassword;
-    password-->generatepassword;
-    biometry-->shared;
+    features-->account;
 ```
 
 ### Data Module:
@@ -96,21 +99,16 @@ graph TD;
 graph TD;
     data-->local;
     data-->authManager;
-    data-->settings;
+    data-->prefs;
 
     features-->onboarding;
     features-->auth;
     features-->addnewpassword;
     features-->home;
-    features-->auth;
 
-    settings--> features;
+    prefs--> features;
     local-->features;
     authManager-->features;
-    onboarding-->shared;
-    auth-->shared;
-    home-->shared;
-    addnewpassword-->shared;
 ```
 
 ### Feature Module:
@@ -122,14 +120,14 @@ graph TD;
     features-->addnewpassword;
     features-->home;
     features-->auth;
-    features-->space;
+    features-->account;
     features-->generatepassword;
    
     onboarding-->shared;
     auth-->shared;
     home-->shared;
     addnewpassword-->shared;
-    space-->shared;
+    account-->shared;
     generatepassword-->shared;
 ```
 
