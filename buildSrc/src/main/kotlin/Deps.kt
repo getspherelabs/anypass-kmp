@@ -18,8 +18,8 @@ object Version {
     const val composeAnimationVersion = "1.4.3"
     const val sqldelightVersion = "2.0.0"
     const val ktlint = "10.3.0"
-    const val firebaseAuthVersion = "19.4.0"
-    const val firebaseCoreVersion = "17.2.1"
+    const val firebaseAuthVersion = "22.1.2"
+    const val firebaseCoreVersion = "21.1.1"
     const val firebaseCoroutineVersion = "1.4.1"
     const val koverVersion = "0.6.0"
 }

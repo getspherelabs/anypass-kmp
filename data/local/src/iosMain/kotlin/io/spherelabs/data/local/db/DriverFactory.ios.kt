@@ -1,15 +1,14 @@
 package io.spherelabs.data.local.db
 
-import io.spherelabs.local.db.LockerDatabase
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import io.spherelabs.local.db.AnyPassDatabase
-import io.spherelabs.lockerkmp.local.MR
 import kotlinx.cinterop.ObjCObjectVar
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
+import io.spherelabs.anypass.local.MR
 import platform.Foundation.NSApplicationSupportDirectory
 import platform.Foundation.NSError
 import platform.Foundation.NSFileManager

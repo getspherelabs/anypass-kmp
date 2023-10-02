@@ -57,7 +57,7 @@ import io.spherelabs.resources.anypassicons.Behance
 fun HomeRoute(
     navigation: NavigationController<Route>,
     viewModel: HomeViewModel = rememberKoinInject(),
-    navigateToCreatePassword: () -> Unit
+    navigateToCreatePassword: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -70,7 +70,7 @@ fun HomeRoute(
         effect = viewModel.effect,
         navigateToCreatePassword = {
             navigateToCreatePassword.invoke()
-        }
+        },
     )
 }
 
@@ -81,7 +81,7 @@ fun HomeScreen(
     wish: (HomeWish) -> Unit,
     uiState: HomeState,
     effect: Flow<HomeEffect>,
-    navigateToCreatePassword: () -> Unit
+    navigateToCreatePassword: () -> Unit,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -109,7 +109,7 @@ fun HomeScreen(
                 hostState = snackbarState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom)
+                    .wrapContentHeight(Alignment.Bottom),
             )
         },
         backgroundColor = colorResource(MR.colors.lavender),
@@ -126,7 +126,7 @@ fun HomeScreen(
                         RoundedImage(
                             imageSize = 75,
                             painter = mokoPainterResource(MR.images.avatar),
-                            contentDescription = null
+                            contentDescription = null,
                         )
 
                         Spacer(modifier.height(16.dp))
@@ -137,7 +137,7 @@ fun HomeScreen(
                             },
                             text = "behzoddev@gmail.com",
                             fontSize = 24.sp,
-                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                         )
                     }
 
@@ -150,7 +150,7 @@ fun HomeScreen(
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 RoundedImage(
                     modifier = modifier.clickable {
@@ -159,13 +159,13 @@ fun HomeScreen(
                         }
                     },
                     painter = mokoPainterResource(MR.images.avatar),
-                    contentDescription = null
+                    contentDescription = null,
                 )
 
                 LKNewItemButton(
                     contentText = stringResource(MR.strings.new_item),
                     borderColor = colorResource(MR.colors.cinderella),
-                    contentFontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    contentFontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 ) {
                     navigateToCreatePassword.invoke()
 
@@ -177,8 +177,8 @@ fun HomeScreen(
             Column(
                 modifier = modifier.fillMaxSize().background(
                     color =
-                    colorResource(MR.colors.lavender)
-                )
+                    colorResource(MR.colors.lavender),
+                ),
             ) {
                 HomeHeadline()
 
@@ -188,14 +188,15 @@ fun HomeScreen(
             }
 
 
-        })
+        },
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryCard(
     categories: List<HomeCategoryUi>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState { categories.size }
 
@@ -203,7 +204,7 @@ fun CategoryCard(
         LKIndicator(tabPositions, pagerState)
     }
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         ScrollableTabRow(
             modifier = Modifier
@@ -215,7 +216,7 @@ fun CategoryCard(
             edgePadding = 0.dp,
             divider = {
                 Divider(color = Color.Transparent)
-            }
+            },
         ) {
             categories.forEachIndexed { index, category ->
                 LKTag(index, category = category.title, pagerState = pagerState)
@@ -229,7 +230,7 @@ fun CategoryCard(
 
 @Composable
 fun DomainCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
@@ -237,7 +238,7 @@ fun DomainCard(
             .fillMaxWidth()
             .height(100.dp),
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = Color.White
+        backgroundColor = Color.White,
     ) {
         Row(
             modifier = modifier.fillMaxSize(),
@@ -247,7 +248,7 @@ fun DomainCard(
             RoundedImage(
                 modifier = modifier.padding(start = 24.dp),
                 painter = painterResource(MR.images.whale_logo),
-                contentDescription = null
+                contentDescription = null,
             )
             Spacer(modifier = modifier.width(12.dp))
             Column {
@@ -258,7 +259,7 @@ fun DomainCard(
             RoundedImage(
                 modifier = modifier.padding(end = 24.dp),
                 painter = painterResource(MR.images.whale_logo),
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }
@@ -270,7 +271,7 @@ fun HomeHeadline(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = modifier.padding(start = 24.dp)
+        modifier = modifier.padding(start = 24.dp),
     ) {
         item {
             Row {
@@ -278,12 +279,12 @@ fun HomeHeadline(
                     text = "Keep",
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
-                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
                 )
                 Spacer(modifier = modifier.width(12.dp))
                 RoundedImage(
                     imageSize = 56,
-                    painter = mokoPainterResource(MR.images.avatar3), contentDescription = null
+                    painter = mokoPainterResource(MR.images.avatar3), contentDescription = null,
                 )
 
             }
@@ -292,14 +293,14 @@ fun HomeHeadline(
             Row {
                 RoundedImage(
                     imageSize = 56,
-                    painter = mokoPainterResource(MR.images.avatar6), contentDescription = null
+                    painter = mokoPainterResource(MR.images.avatar6), contentDescription = null,
                 )
                 Spacer(modifier = modifier.width(12.dp))
                 Text(
                     text = "Your Life",
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
-                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
                 )
 
             }
@@ -311,13 +312,13 @@ fun HomeHeadline(
                     text = "Safe",
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
-                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
                 )
                 Spacer(modifier = modifier.width(12.dp))
                 RoundedImage(
                     imageSize = 56,
                     painter = mokoPainterResource(MR.images.avatar4),
-                    contentDescription = null
+                    contentDescription = null,
                 )
 
             }
@@ -345,19 +346,19 @@ fun LKPager(
                 TextData(
                     id = 1,
                     color = Color.Yellow,
-                    "1"
+                    "1",
                 ),
                 TextData(
                     id = 2,
                     color = Color.Red,
-                    text = "2"
+                    text = "2",
                 ),
                 TextData(
                     id = 3,
                     color = Color.Red,
-                    text = "3"
-                )
-            )
+                    text = "3",
+                ),
+            ),
         )
     }
 
@@ -394,7 +395,7 @@ fun LKPager(
         modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.lavender)),
         verticalAlignment = Alignment.Top,
         state = pagerState,
-        userScrollEnabled = false
+        userScrollEnabled = false,
     ) {
 
         LKCardStack(
@@ -413,16 +414,16 @@ fun LKPager(
                     passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
                         backgroundColor = colorResource(MR.colors.lavender_pink),
                         titleColor = colorResource(resource = MR.colors.white),
-                        emailColor = colorResource(resource = MR.colors.white).copy(0.5f)
+                        emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
                     ),
                     passwordCardStyle = LKPasswordCardDefaults.passwordCardStyle(
                         titleFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
                         passwordFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
                         emailFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                        copyFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium)
-                    )
+                        copyFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
+                    ),
 
-                )
+                    )
             }
         }
 
@@ -437,13 +438,13 @@ fun LKTag(
     index: Int,
     modifier: Modifier = Modifier,
     category: String,
-    pagerState: PagerState
+    pagerState: PagerState,
 ) {
     val scope = useScope()
     val isSelected = pagerState.currentPage == index
 
     val color: Color by animateColorAsState(
-        if (isSelected) colorResource(MR.colors.white) else Color.Black
+        if (isSelected) colorResource(MR.colors.white) else Color.Black,
     )
 
     Tab(
@@ -452,7 +453,7 @@ fun LKTag(
         text = {
             Text(
                 text = category,
-                color = color
+                color = color,
             )
         },
         selected = isSelected,
@@ -460,7 +461,7 @@ fun LKTag(
             scope.launch {
                 pagerState.animateScrollToPage(index, pagerState.currentPageOffsetFraction)
             }
-        }
+        },
     )
 
 }
@@ -477,7 +478,8 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
             } else {
                 spring(dampingRatio = 1f, stiffness = 1000f)
             }
-        }, label = ""
+        },
+        label = "",
     ) {
         tabPositions[it].left
     }
@@ -489,7 +491,8 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
             } else {
                 spring(dampingRatio = 1f, stiffness = 50f)
             }
-        }, label = ""
+        },
+        label = "",
     ) {
         tabPositions[it].right
     }
@@ -503,15 +506,15 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
             .padding(2.dp)
             .fillMaxSize()
             .background(color = Color.Black, RoundedCornerShape(50))
-            .zIndex(1f)
+            .zIndex(1f),
 
-    )
+        )
 }
 
 data class TextData(
     val id: Int,
     val color: Color,
-    val text: String
+    val text: String,
 )
 
 enum class HomeDrawerState {
