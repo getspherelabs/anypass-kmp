@@ -163,7 +163,7 @@ graph TD;
 
 4. Build and run the app on your **Android / iOS** device or simulator.
 
-> :warning: Running the Android application is currently not possible due to issues with the google-services.json file. Launching the app in its current state might lead to crashes. To proceed with the Android application, kindly consider modifying the package name and setting up a Firebase app.
+> :warning: Make fake `google-services`.json for building properly.
 
 5. We recommend including linkers from Xcode. To include linkers from Xcode, follow these steps:
    
