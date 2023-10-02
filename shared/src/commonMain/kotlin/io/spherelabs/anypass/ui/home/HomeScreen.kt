@@ -49,6 +49,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.rememberKoinInject
 import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.resources.AnyPassIcons
 import io.spherelabs.resources.anypassicons.Behance
@@ -95,7 +98,17 @@ fun HomeScreen(
             when (newEffect) {
                 is HomeEffect.Failure -> {
                     coroutineScope.launch {
+                        snackbarState.showSnackbar(
+                            message = newEffect.message,
+                        )
+                    }
+                }
 
+                is HomeEffect.CopyClipboard -> {
+                    coroutineScope.launch {
+                        snackbarState.showSnackbar(
+                            message = newEffect.message,
+                        )
                     }
                 }
             }
@@ -183,7 +196,18 @@ fun HomeScreen(
                 HomeHeadline()
 
                 if (uiState.categories.isNotEmpty()) {
-                    CategoryCard(uiState.categories)
+                    CategoryCard(
+                        uiState.categories, uiState.passwords,
+                        onPasswordChanged = { newWish ->
+                            wish.invoke(newWish)
+                        },
+                        onGetStartingPasswordByCategory = { newWish ->
+                            wish.invoke(newWish)
+                        },
+                        onCopyClick = { newPassword ->
+                            wish.invoke(HomeWish.OnCopyClipboardChanged(newPassword))
+                        },
+                    )
                 }
             }
 
@@ -196,13 +220,19 @@ fun HomeScreen(
 @Composable
 fun CategoryCard(
     categories: List<HomeCategoryUi>,
+    passwords: List<HomePasswordUi>,
     modifier: Modifier = Modifier,
+    onPasswordChanged: (HomeWish) -> Unit,
+    onGetStartingPasswordByCategory: (HomeWish) -> Unit,
+    onCopyClick: (String) -> Unit,
 ) {
     val pagerState = rememberPagerState { categories.size }
 
     val indicator = @Composable { tabPositions: List<TabPosition> ->
         LKIndicator(tabPositions, pagerState)
     }
+
+
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -222,7 +252,21 @@ fun CategoryCard(
                 LKTag(index, category = category.title, pagerState = pagerState)
             }
         }
-        LKPager(modifier = modifier, category = categories, pagerState = pagerState)
+        LKPager(
+            modifier = modifier,
+            category = categories,
+            pagerState = pagerState,
+            passwords = passwords,
+            onPasswordChanged = { newWish ->
+                onPasswordChanged.invoke(newWish)
+            },
+            onGetStartingPasswordByCategory = { newWish ->
+                onGetStartingPasswordByCategory.invoke(newWish)
+            },
+            onCopyClick = { newPassword ->
+                onCopyClick.invoke(newPassword)
+            },
+        )
     }
 
 }
@@ -333,44 +377,24 @@ fun LKPager(
     modifier: Modifier = Modifier.animateContentSize(),
     pagerState: PagerState,
     category: List<HomeCategoryUi>,
+    passwords: List<HomePasswordUi>,
+    onPasswordChanged: (HomeWish) -> Unit,
+    onGetStartingPasswordByCategory: (HomeWish) -> Unit,
+    onCopyClick: (String) -> Unit,
 ) {
 
-    val (currentItem, setCurrentItem) = useState(1)
-
+    val (currentItem, setCurrentItem) = useState("1")
+    val scope = useScope()
     val cardStackState = useLKCardStackState()
     val previousTotalItemCount = rememberSaveable(cardStackState) { mutableIntStateOf(0) }
-
-    val list = remember {
-        mutableStateOf(
-            listOf(
-                TextData(
-                    id = 1,
-                    color = Color.Yellow,
-                    "1",
-                ),
-                TextData(
-                    id = 2,
-                    color = Color.Red,
-                    text = "2",
-                ),
-                TextData(
-                    id = 3,
-                    color = Color.Red,
-                    text = "3",
-                ),
-            ),
-        )
-    }
-
-
-
-
-
+    val clipboardManager = LocalClipboardManager.current
 
     usePagerEffect(pagerState) {
-        setCurrentItem(category[it].id.toInt())
-    }
+        scope.launch {
+            onGetStartingPasswordByCategory.invoke(HomeWish.GetStartedPasswordByCategory(category[it].id))
+        }
 
+    }
 
     LaunchedEffect(cardStackState) {
         snapshotFlow { cardStackState.visibleItemIndex }
@@ -379,14 +403,12 @@ fun LKPager(
                 val countHasChanged = previousTotalItemCount.intValue != cardStackState.itemsCount
                 if (countHasChanged && firstIndex + 3 > cardStackState.itemsCount) {
                     previousTotalItemCount.intValue = cardStackState.itemsCount
-                    val lastValue = list.value.last()
+                    val lastValue = passwords.last()
                     val newList = buildList {
-                        repeat(20) { index -> add(lastValue.copy(id = index)) }
+                        repeat(20) { index -> add(lastValue.copy(id = index.toString())) }
                     }
-                    list.value += newList
+                    onPasswordChanged.invoke(HomeWish.OnPasswordsChanged(newList))
                 }
-
-
             }
     }
 
@@ -398,34 +420,41 @@ fun LKPager(
         userScrollEnabled = false,
     ) {
 
-        LKCardStack(
-            modifier = Modifier
-                .padding(24.dp)
-                .fillMaxSize(),
-            state = cardStackState,
-        ) {
-            items(items = list.value, key = { it.hashCode() }) { newData ->
+        if (passwords.isNotEmpty()) {
+            LKCardStack(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxSize(),
+                state = cardStackState,
+            ) {
+                items(items = passwords, key = { it.id.hashCode() }) { newData ->
+                    val img = SocialIcons.get(newData.image).value?.image ?: AnyPassIcons.Behance
 
-                LKPasswordCard(
-                    password = "yesdllkdskoeroer123249lk",
-                    title = "Behance",
-                    icon = AnyPassIcons.Behance,
-                    email = "behzoddev@gmail.com",
-                    passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
-                        backgroundColor = colorResource(MR.colors.lavender_pink),
-                        titleColor = colorResource(resource = MR.colors.white),
-                        emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
-                    ),
-                    passwordCardStyle = LKPasswordCardDefaults.passwordCardStyle(
-                        titleFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                        passwordFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                        emailFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                        copyFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                    ),
-
+                    LKPasswordCard(
+                        password = newData.password,
+                        title = newData.title,
+                        icon = img,
+                        email = newData.email,
+                        passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
+                            backgroundColor = colorResource(MR.colors.lavender_pink),
+                            titleColor = colorResource(resource = MR.colors.white),
+                            emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
+                        ),
+                        passwordCardStyle = LKPasswordCardDefaults.passwordCardStyle(
+                            titleFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
+                            passwordFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
+                            emailFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
+                            copyFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
+                        ),
+                        onCopyClick = {
+                            onCopyClick.invoke(newData.password)
+                            clipboardManager.setText(AnnotatedString(newData.password))
+                        },
                     )
+                }
             }
         }
+
 
     }
 
@@ -510,12 +539,6 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
 
         )
 }
-
-data class TextData(
-    val id: Int,
-    val color: Color,
-    val text: String,
-)
 
 enum class HomeDrawerState {
     OPENED,
