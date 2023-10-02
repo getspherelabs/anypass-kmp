@@ -132,6 +132,39 @@ graph TD;
     space-->shared;
     generatepassword-->shared;
 ```
+
+# Setup
+
+1. Check your **Xcode** version is 14.1 or newer. Additionally, check your **Android Studio** version is Flamingo or newer. 
+
+2. Clone the repository using the following command:
+
+    ```
+    https://github.com/getspherelabs/anypass-kmp.git
+    ```
+
+3. When building the iOS app, you may face common issues:
+
+    - **Issue**: ```Unicode Normalization not appropriate for ASCII-8BIT```
+    - **Solution**: Try add your `~/.zprofile`, `~/.zshrc` files:
+      
+      ```
+       LANG=en_US.UTF-8
+       LANGUAGE=en_US.UFT-8
+       LC_ALL=en_US.UFT-8
+      ```
+    - **Issue**: Sometimes you can not build your iOS app from Xcode 
+    - **Solution**: Follow these steps after executing the cleanup script:
+      
+      1. `pod deintegrate`
+      2. `pod init`
+      3. Copy the `pod` modules
+      4. `pod install`
+
+4. Build and run the app on your **Android / iOS** device or simulator.
+
+> :warning: Running the Android application is currently not possible due to issues with the google-services.json file. Launching the app in its current state might lead to crashes. To proceed with the Android application, kindly consider modifying the package name and setting up a Firebase app.
+
 # Screenshots
 
 ## Contribute
