@@ -261,6 +261,7 @@ internal fun Project.configureCommonMultiplatform(
             val commonTest by getting {
                 dependencies {
                     implementation(kotlin("test"))
+                    implementation("com.willowtreeapps.assertk:assertk:0.27.0")
                 }
             }
             val androidMain by getting
