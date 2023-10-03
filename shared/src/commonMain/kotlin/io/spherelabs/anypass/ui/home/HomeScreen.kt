@@ -399,9 +399,9 @@ fun LKPager(
     LaunchedEffect(cardStackState) {
         snapshotFlow { cardStackState.visibleItemIndex }
             .collect { firstIndex ->
-                if (cardStackState.itemsCount < 3) return@collect
+                if (cardStackState.itemsCount < 1) return@collect
                 val countHasChanged = previousTotalItemCount.intValue != cardStackState.itemsCount
-                if (countHasChanged && firstIndex + 3 > cardStackState.itemsCount) {
+                if (countHasChanged && firstIndex + 1 > cardStackState.itemsCount) {
                     previousTotalItemCount.intValue = cardStackState.itemsCount
                     val lastValue = passwords.last()
                     val newList = buildList {

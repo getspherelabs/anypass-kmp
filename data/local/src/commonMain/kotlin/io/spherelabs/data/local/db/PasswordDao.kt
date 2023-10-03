@@ -8,6 +8,7 @@ import io.spherelabs.local.db.Password
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 interface PasswordDao {
@@ -17,7 +18,8 @@ interface PasswordDao {
     fun getAllPassword(): Flow<List<Password>>
     fun getPasswordById(id: String): Flow<Password>
     fun getPasswordsByCategory(id: String): Flow<List<Password>>
-    fun getAllPasswordsSize(): Flow<Int>
+    fun getSizeOfStrongPasswords(): Flow<Int>
+    fun getSizeOfWeakPasswords(): Flow<Int>
 }
 
 class DefaultPasswordDao(
@@ -76,7 +78,25 @@ class DefaultPasswordDao(
         return queries.getPasswordsByCategory(id).asFlow().mapToList(Dispatchers.IO)
     }
 
-    override fun getAllPasswordsSize(): Flow<Int> {
-        return queries.getAllPasswords().asFlow().mapToList(Dispatchers.IO).map { it.size }
+    override fun getSizeOfStrongPasswords(): Flow<Int> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPassword ->
+                currentPassword.filter {
+                    it.isStrongPassword()
+                }.size
+            }
+    }
+
+    override fun getSizeOfWeakPasswords(): Flow<Int> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPassword ->
+                currentPassword.filterNot {
+                    it.isStrongPassword()
+                }.size
+            }
     }
 }
