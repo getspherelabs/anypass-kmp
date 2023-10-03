@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val homePresentationModule = module {
   single { HomeReducer() }
-  single { HomeMiddleware(get(),get()) }
+  single { HomeMiddleware(get(), get()) }
 }

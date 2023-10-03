@@ -17,7 +17,7 @@ interface PasswordDao {
     fun getAllPassword(): Flow<List<Password>>
     fun getPasswordById(id: String): Flow<Password>
     fun getPasswordsByCategory(id: String): Flow<List<Password>>
-    suspend fun getAllPasswordsSize(): Flow<Int>
+    fun getAllPasswordsSize(): Flow<Int>
 }
 
 class DefaultPasswordDao(
@@ -76,7 +76,7 @@ class DefaultPasswordDao(
         return queries.getPasswordsByCategory(id).asFlow().mapToList(Dispatchers.IO)
     }
 
-    override suspend fun getAllPasswordsSize(): Flow<Int> {
+    override fun getAllPasswordsSize(): Flow<Int> {
         return queries.getAllPasswords().asFlow().mapToList(Dispatchers.IO).map { it.size }
     }
 }

@@ -9,7 +9,7 @@ class DefaultAccountRepository(
     private val passwordDao: PasswordDao,
 ) : AccountRepository {
 
-    override suspend fun getPasswordSize(): Flow<Int> {
+    override fun getPasswordSize(): Flow<Int> {
         return passwordDao.getAllPasswordsSize()
     }
 }

@@ -1,48 +1,18 @@
-plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-}
+plugins { id("anypass.multiplatform.presentation") }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
+  sourceSets {
+    val commonMain by getting {
+      dependencies {
+        implementation(project(":features:account:accountDomain"))
+        implementation(project(":core:common"))
+      }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "accountPresentation"
-        }
-    }
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                //put your multiplatform dependencies here
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-    }
+  }
 }
 
 android {
-    namespace = "io.spherelabs.accountpresentation"
-    compileSdk = 33
-    defaultConfig {
-        minSdk = 24
-    }
+  namespace = "io.spherelabs.accountpresentation"
+  compileSdk = 33
+  defaultConfig { minSdk = 24 }
 }
