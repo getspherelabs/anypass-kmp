@@ -29,6 +29,7 @@ kotlin {
         }
         noPodspec()
         pod("FirebaseAuth", "~> 10.7.0")
+        pod("FirebaseCore")
     }
 
     sourceSets {
@@ -36,7 +37,6 @@ kotlin {
             dependencies {
                 api(Libs.Koin.core)
                 api(Libs.Coroutine.core)
-
             }
         }
         val commonTest by getting {
