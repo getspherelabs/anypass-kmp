@@ -55,6 +55,7 @@ kotlin {
 
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
                 api(project(":features:home:homeDomain"))
+                api(project(":features:account:accountDomain"))
                 api("dev.icerock.moko:resources:0.22.3")
             }
         }
