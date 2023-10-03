@@ -63,6 +63,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(Libs.Testing.turbine)
                 implementation(Libs.Testing.coroutine)
+                implementation("com.willowtreeapps.assertk:assertk:0.27.0")
             }
         }
         val androidMain by getting {
