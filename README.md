@@ -49,6 +49,8 @@ In an offline-first application, the source of truth for application data is typ
 - [Koin]()
 - [Meteor]()
 - [Firebase]()
+- [Sentry]()
+- [Google Admob]()
 - [Multiplatform Settings]()
 - [Moko Resource]()
 - [Sentry Multiplatform]()
