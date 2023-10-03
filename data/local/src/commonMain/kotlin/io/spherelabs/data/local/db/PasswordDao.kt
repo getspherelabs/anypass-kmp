@@ -8,6 +8,7 @@ import io.spherelabs.local.db.Password
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 interface PasswordDao {
     suspend fun insertPassword(password: Password)
@@ -16,6 +17,7 @@ interface PasswordDao {
     fun getAllPassword(): Flow<List<Password>>
     fun getPasswordById(id: String): Flow<Password>
     fun getPasswordsByCategory(id: String): Flow<List<Password>>
+    suspend fun getAllPasswordsSize(): Flow<Int>
 }
 
 class DefaultPasswordDao(
@@ -72,5 +74,9 @@ class DefaultPasswordDao(
 
     override fun getPasswordsByCategory(id: String): Flow<List<Password>> {
         return queries.getPasswordsByCategory(id).asFlow().mapToList(Dispatchers.IO)
+    }
+
+    override suspend fun getAllPasswordsSize(): Flow<Int> {
+        return queries.getAllPasswords().asFlow().mapToList(Dispatchers.IO).map { it.size }
     }
 }
