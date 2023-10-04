@@ -36,24 +36,25 @@ import io.spherelabs.designsystem.textfield.LKUserNameTextField
 import io.spherelabs.designsystem.textfield.LKWebsiteAddressTextField
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.anypass.ui.account.BackButton
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
-import io.spherelabs.resources.AnyPassIcons
-import io.spherelabs.resources.anypassicons.ApplePodcasts
-import io.spherelabs.resources.anypassicons.Behance
-import io.spherelabs.resources.anypassicons.Discord
-import io.spherelabs.resources.anypassicons.Dribble
-import io.spherelabs.resources.anypassicons.Facebook
-import io.spherelabs.resources.anypassicons.Googlemeet
-import io.spherelabs.resources.anypassicons.Linkedin
-import io.spherelabs.resources.anypassicons.Medium
-import io.spherelabs.resources.anypassicons.Messenger
-import io.spherelabs.resources.anypassicons.Pinterest
-import io.spherelabs.resources.anypassicons.Quora
-import io.spherelabs.resources.anypassicons.Reddit
-import io.spherelabs.resources.anypassicons.Skype
-import io.spherelabs.resources.anypassicons.Telegram
+import io.spherelabs.resource.icons.AnyPassIcons
+import io.spherelabs.resource.icons.anypassicons.ApplePodcasts
+import io.spherelabs.resource.icons.anypassicons.Behance
+import io.spherelabs.resource.icons.anypassicons.Discord
+import io.spherelabs.resource.icons.anypassicons.Dribble
+import io.spherelabs.resource.icons.anypassicons.Facebook
+import io.spherelabs.resource.icons.anypassicons.Googlemeet
+import io.spherelabs.resource.icons.anypassicons.Linkedin
+import io.spherelabs.resource.icons.anypassicons.Medium
+import io.spherelabs.resource.icons.anypassicons.Messenger
+import io.spherelabs.resource.icons.anypassicons.Pinterest
+import io.spherelabs.resource.icons.anypassicons.Quora
+import io.spherelabs.resource.icons.anypassicons.Reddit
+import io.spherelabs.resource.icons.anypassicons.Skype
+import io.spherelabs.resource.icons.anypassicons.Telegram
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,6 +63,7 @@ import kotlinx.coroutines.launch
 fun AddNewPasswordRoute(
     viewModel: AddNewPasswordViewModel = useInject(),
     navigateToGeneratePassword: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
 
     val uiState = viewModel.state.collectAsStateWithLifecycle()
@@ -75,6 +77,9 @@ fun AddNewPasswordRoute(
         navigateToGeneratePassword = {
             navigateToGeneratePassword.invoke()
         },
+        navigateToBack = {
+            navigateToBack.invoke()
+        },
     )
 }
 
@@ -85,6 +90,7 @@ fun AddNewPasswordScreen(
     state: AddNewPasswordState,
     flow: Flow<AddNewPasswordEffect>,
     navigateToGeneratePassword: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
@@ -123,6 +129,27 @@ fun AddNewPasswordScreen(
     }
 
     Scaffold(
+        topBar = {
+            Row(
+                modifier = modifier.padding(top = 16.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                BackButton(
+                    modifier = modifier,
+                    backgroundColor = Color(0xffd8e6ff),
+                    iconColor = Color.Black,
+                    navigateToBack = {
+                        navigateToBack.invoke()
+                    },
+                )
+                Headline(
+                    text = "Add new password",
+                    modifier = modifier,
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    textColor = Color.Black,
+                )
+            }
+        },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
@@ -138,11 +165,7 @@ fun AddNewPasswordScreen(
                 .background(color = Color.White)
                 .verticalScroll(scrollState),
         ) {
-            Headline(
-                text = "Add new password",
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                textColor = Color.Black,
-            )
+
 
             Text(
                 text = "Add new password to your records",
