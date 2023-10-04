@@ -76,6 +76,9 @@ kotlin {
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
                 api(project(":features:addnewpassword:addNewPasswodPresentation"))
 
+                api(project(":features:account:accountDomain"))
+                api(project(":features:account:accountPresentation"))
+
                 api(project(":data:prefs"))
                 api(project(":manager:password"))
                 implementation(project(":data:authManager"))

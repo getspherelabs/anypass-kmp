@@ -1,4 +1,4 @@
-package io.spherelabs.anypass.ui.space
+package io.spherelabs.anypass.ui.account
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,24 +33,49 @@ import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
+import io.spherelabs.accountpresentation.AccountEffect
+import io.spherelabs.accountpresentation.AccountState
+import io.spherelabs.accountpresentation.AccountViewModel
+import io.spherelabs.accountpresentation.AccountWish
 import io.spherelabs.admob.GADBannerView
 import io.spherelabs.anypass.BuildKonfig
 import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.anypass.MR
+import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun AccountRoute(
+    viewModel: AccountViewModel = useInject(),
     navigateToBack: () -> Unit,
 ) {
-    AccountScreen(navigateToBack = { navigateToBack.invoke() })
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
+
+    AccountScreen(
+        state = uiState.value,
+        effect = viewModel.effect,
+        navigateToBack = { navigateToBack.invoke() },
+        wish = { newWish ->
+            viewModel.wish(newWish)
+        },
+    )
 }
 
 @Composable
 fun AccountScreen(
     modifier: Modifier = Modifier,
+    state: AccountState,
+    effect: Flow<AccountEffect>,
+    wish: (AccountWish) -> Unit,
     navigateToBack: () -> Unit,
 ) {
+    useEffect(true) {
+        wish.invoke(AccountWish.GetStartedSizeOfStrongPassword)
+        wish.invoke(AccountWish.GetStartedSizeOfWeakPassword)
+    }
     Scaffold(
         containerColor = colorResource(MR.colors.dynamic_yellow),
         topBar = {
@@ -141,7 +166,7 @@ fun AccountScreen(
 
                 Column {
                     Text(
-                        text = "56",
+                        text = "${state.sizeOfStrongPassword}",
                         fontSize = 32.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     )
@@ -154,13 +179,13 @@ fun AccountScreen(
                 }
                 Column {
                     Text(
-                        text = "56",
+                        text = "${state.sizeOfWeakPassword}",
                         fontSize = 32.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     )
 
                     Text(
-                        text = "Strong",
+                        text = "Weak",
                         fontSize = 12.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     )

@@ -5,5 +5,6 @@ sealed interface AccountWish {
 
   data class GetSizeOfWeakPassword(val size: Int) : AccountWish
 
-  object GetStartedSizeOfPassword : AccountWish
+  object GetStartedSizeOfWeakPassword : AccountWish
+  object GetStartedSizeOfStrongPassword : AccountWish
 }

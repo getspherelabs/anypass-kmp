@@ -2,6 +2,8 @@ package io.spherelabs.anypass.di
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import io.spherelabs.accountdomain.repository.di.accountDomainModule
+import io.spherelabs.accountpresentation.di.accountPresentationModule
 import io.spherelabs.addnewpasswodpresentation.di.addNewPasswordFeatureModule
 import io.spherelabs.addnewpassworddomain.di.addNewPasswordDomainModule
 import io.spherelabs.admob.di.admobModule
@@ -50,6 +52,8 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             authFeatureModule,
             masterPasswordDomainModule,
             masterPasswordFeatureModule,
+            accountDomainModule,
+            accountPresentationModule,
             viewModelModule,
         )
     }

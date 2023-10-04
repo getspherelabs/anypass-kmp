@@ -1,7 +1,7 @@
-package io.spherelabs.anypass.ui.space.navigation
+package io.spherelabs.anypass.ui.account.navigation
 
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.space.AccountRoute
+import io.spherelabs.anypass.ui.account.AccountRoute
 import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable

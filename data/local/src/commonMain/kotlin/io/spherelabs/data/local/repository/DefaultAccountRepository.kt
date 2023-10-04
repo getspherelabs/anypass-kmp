@@ -9,7 +9,15 @@ class DefaultAccountRepository(
     private val passwordDao: PasswordDao,
 ) : AccountRepository {
 
-    override fun getPasswordSize(): Flow<Int> {
-        return passwordDao.getAllPasswordsSize()
+    override fun getSizeOfStrongPasswords(): Flow<Int> {
+        return passwordDao.getSizeOfStrongPasswords()
+    }
+
+    override fun getSizeOfWeakPasswords(): Flow<Int> {
+        return passwordDao.getSizeOfWeakPasswords()
+    }
+
+    override fun getTotalPasswords(): Flow<Int> {
+        return passwordDao.getTotalPasswords()
     }
 }

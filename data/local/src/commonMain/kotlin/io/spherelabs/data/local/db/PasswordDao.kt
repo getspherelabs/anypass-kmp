@@ -20,6 +20,7 @@ interface PasswordDao {
     fun getPasswordsByCategory(id: String): Flow<List<Password>>
     fun getSizeOfStrongPasswords(): Flow<Int>
     fun getSizeOfWeakPasswords(): Flow<Int>
+    fun getTotalPasswords(): Flow<Int>
 }
 
 class DefaultPasswordDao(
@@ -97,6 +98,16 @@ class DefaultPasswordDao(
                 currentPassword.filterNot {
                     it.isStrongPassword()
                 }.size
+            }
+    }
+
+    override fun getTotalPasswords(): Flow<Int> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPasswords ->
+                println("Current passwords :$currentPasswords")
+                currentPasswords.size
             }
     }
 }

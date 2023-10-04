@@ -41,7 +41,7 @@ import io.spherelabs.designsystem.swiper.useLKCardStackState
 import io.spherelabs.home.homepresentation.*
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.space.navigation.navigateSpace
+import io.spherelabs.anypass.ui.account.navigation.navigateSpace
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow

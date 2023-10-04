@@ -14,7 +14,7 @@ import io.spherelabs.anypass.ui.generatepassword.navigation.navigateToCreatePass
 import io.spherelabs.anypass.ui.home.navigation.homeScreen
 import io.spherelabs.anypass.ui.home.navigation.navigateToHome
 import io.spherelabs.anypass.ui.onboarding.navigation.onboardingScreen
-import io.spherelabs.anypass.ui.space.navigation.spaceScreen
+import io.spherelabs.anypass.ui.account.navigation.spaceScreen
 import io.spherelabs.navigation.NavHost
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController

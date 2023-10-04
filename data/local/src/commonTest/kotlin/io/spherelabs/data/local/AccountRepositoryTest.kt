@@ -69,10 +69,57 @@ class AccountRepositoryTest {
         dao.insertPassword(password2)
         dao.insertPassword(password3)
 
-        val result = repository.getPasswordSize()
+        val result = repository.getSizeOfWeakPasswords()
 
         result.test {
-            assertThat(awaitItem()).isEqualTo(3)
+            assertThat(awaitItem()).isEqualTo(2)
+        }
+    }
+
+    @Test
+    fun `check the fetching total passwords`() = runTest {
+        val password1 = Password(
+            id = "1",
+            category_id = "1",
+            email = "test@gmail.com",
+            image = "test_2_image",
+            title = "Behance",
+            notes = "test_notes",
+            password = "12345",
+            username = "Test1",
+            websiteAddress = "Behance.com",
+        )
+        val password2 = Password(
+            id = "2",
+            category_id = "1",
+            email = "test@gmail.com",
+            image = "test_2_image",
+            title = "Linkedin",
+            notes = "test_notes",
+            password = "Strong@2023",
+            username = "Test2",
+            websiteAddress = "Linkedin.com",
+        )
+        val password3 = Password(
+            id = "3",
+            category_id = "1",
+            email = "test@gmail.com",
+            image = "test_2_image",
+            title = "Quora",
+            notes = "test_notes",
+            password = "AbCdEfG1",
+            username = "Test3",
+            websiteAddress = "Quora.com",
+        )
+        dao.insertPassword(password1)
+        dao.insertPassword(password2)
+        dao.insertPassword(password3)
+
+        val result = repository.getTotalPasswords()
+
+        println(result)
+        result.test {
+            assertThat(result).isEqualTo(3)
         }
     }
 }
