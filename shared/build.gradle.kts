@@ -59,10 +59,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.ui)
+                implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
                 implementation(compose.materialIconsExtended)
 
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -95,7 +95,7 @@ kotlin {
 
                 implementation(project(":features:masterpassword:masterPasswordDomain"))
                 implementation(project(":features:masterpassword:masterPasswordPresentation"))
-                implementation(project(":resource"))
+                implementation(project(":resource:icons"))
                 api(project(":data:local"))
                 api(project(":manager:biometry"))
                 api(project(":core:designsystem"))

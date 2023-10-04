@@ -106,7 +106,6 @@ class DefaultPasswordDao(
             .asFlow()
             .mapToList(Dispatchers.IO)
             .map { currentPasswords ->
-                println("Current passwords :$currentPasswords")
                 currentPasswords.size
             }
     }
