@@ -6,7 +6,7 @@ interface PasswordManager {
         digitLength: Int = 0,
         lowercaseLength: Int = 0,
         specialLength: Int = 0,
-        length: Int = 10
+        length: Int = 10,
     ): String
 }
 
@@ -14,22 +14,22 @@ class DefaultPasswordManager(
     private val digitRandom: DigitRandom,
     private val lowercaseRandom: LowercaseRandom,
     private val specialRandom: SpecialRandom,
-    private val uppercaseRandom: UppercaseRandom
+    private val uppercaseRandom: UppercaseRandom,
 ) : PasswordManager {
     override suspend fun generate(
         uppercaseLength: Int,
         digitLength: Int,
         lowercaseLength: Int,
         specialLength: Int,
-        length: Int
+        length: Int,
     ): String {
-        var password = ""
+        val password = buildString {
+            append(digitRandom.generate(digitLength))
+            append(uppercaseRandom.generate(uppercaseLength))
+            append(lowercaseRandom.generate())
+            append(specialRandom.generate(specialLength))
+        }
 
-        password += digitRandom.generate(digitLength)
-        password += uppercaseRandom.generate(uppercaseLength)
-        password += lowercaseRandom.generate()
-        password += specialRandom.generate(specialLength)
-
-        return password
+        return password.toList().shuffled().joinToString("")
     }
 }

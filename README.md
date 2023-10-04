@@ -49,6 +49,8 @@ In an offline-first application, the source of truth for application data is typ
 - [Koin]()
 - [Meteor]()
 - [Firebase]()
+- [Sentry]()
+- [Google Admob]()
 - [Multiplatform Settings]()
 - [Moko Resource]()
 - [Sentry Multiplatform]()
@@ -85,9 +87,12 @@ graph TD;
 graph TD;
     manager-->password;
     manager-->biometry;
+
+    password-->features;
+    biometry-->features;
+
     features-->generatepassword;
-    password-->generatepassword;
-    biometry-->shared;
+    features-->account;
 ```
 
 ### Data Module:
@@ -96,21 +101,16 @@ graph TD;
 graph TD;
     data-->local;
     data-->authManager;
-    data-->settings;
+    data-->prefs;
 
     features-->onboarding;
     features-->auth;
     features-->addnewpassword;
     features-->home;
-    features-->auth;
 
-    settings--> features;
+    prefs--> features;
     local-->features;
     authManager-->features;
-    onboarding-->shared;
-    auth-->shared;
-    home-->shared;
-    addnewpassword-->shared;
 ```
 
 ### Feature Module:
@@ -122,16 +122,56 @@ graph TD;
     features-->addnewpassword;
     features-->home;
     features-->auth;
-    features-->space;
+    features-->account;
     features-->generatepassword;
    
     onboarding-->shared;
     auth-->shared;
     home-->shared;
     addnewpassword-->shared;
-    space-->shared;
+    account-->shared;
     generatepassword-->shared;
 ```
+
+# Setup
+
+1. Check your **Xcode** version is 14.1 or newer. Additionally, check your **Android Studio** version is Flamingo or newer. 
+
+2. Clone the repository using the following command:
+
+    ```
+    https://github.com/getspherelabs/anypass-kmp.git
+    ```
+
+3. When building the iOS app, you may face common issues:
+
+    - **Issue**: ```Unicode Normalization not appropriate for ASCII-8BIT```
+    - **Solution**: Try add your `~/.zprofile`, `~/.zshrc` files:
+      
+      ```
+       LANG=en_US.UTF-8
+       LANGUAGE=en_US.UFT-8
+       LC_ALL=en_US.UFT-8
+      ```
+    - **Issue**: Sometimes you can not build your iOS app from Xcode 
+    - **Solution**: Follow these steps after executing the cleanup script:
+      
+      1. `pod deintegrate`
+      2. `pod init`
+      3. Copy the `pod` modules
+      4. `pod install`
+
+4. Build and run the app on your **Android / iOS** device or simulator.
+
+> :warning: Make fake `google-services`.json for building properly.
+
+5. We recommend including linkers from Xcode. To include linkers from Xcode, follow these steps:
+   
+    1. Navigate to **iosApp/Build Settings/Linking**.
+    2. Add the following linkers to your **Other Linking Flags**:
+        - `lsqlite3`
+        - `ObjC`
+       
 # Screenshots
 
 ## Contribute

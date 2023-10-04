@@ -55,6 +55,7 @@ kotlin {
 
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
                 api(project(":features:home:homeDomain"))
+                api(project(":features:account:accountDomain"))
                 api("dev.icerock.moko:resources:0.22.3")
             }
         }
@@ -63,6 +64,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(Libs.Testing.turbine)
                 implementation(Libs.Testing.coroutine)
+                implementation("com.willowtreeapps.assertk:assertk:0.27.0")
             }
         }
         val androidMain by getting {

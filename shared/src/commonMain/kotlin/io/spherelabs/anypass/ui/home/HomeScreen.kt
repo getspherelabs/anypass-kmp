@@ -41,7 +41,7 @@ import io.spherelabs.designsystem.swiper.useLKCardStackState
 import io.spherelabs.home.homepresentation.*
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.space.navigation.navigateSpace
+import io.spherelabs.anypass.ui.account.navigation.navigateSpace
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
@@ -53,8 +53,8 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
-import io.spherelabs.resources.AnyPassIcons
-import io.spherelabs.resources.anypassicons.Behance
+import io.spherelabs.resource.icons.AnyPassIcons
+import io.spherelabs.resource.icons.anypassicons.Behance
 
 @Composable
 fun HomeRoute(
@@ -399,9 +399,9 @@ fun LKPager(
     LaunchedEffect(cardStackState) {
         snapshotFlow { cardStackState.visibleItemIndex }
             .collect { firstIndex ->
-                if (cardStackState.itemsCount < 3) return@collect
+                if (cardStackState.itemsCount < 1) return@collect
                 val countHasChanged = previousTotalItemCount.intValue != cardStackState.itemsCount
-                if (countHasChanged && firstIndex + 3 > cardStackState.itemsCount) {
+                if (countHasChanged && firstIndex + 1 > cardStackState.itemsCount) {
                     previousTotalItemCount.intValue = cardStackState.itemsCount
                     val lastValue = passwords.last()
                     val newList = buildList {

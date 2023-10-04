@@ -10,7 +10,7 @@ You can do that by cliking this badge: 👉 [![Fork AnyPass](https://img.shields
 
 ## 2. Pick an issue
 
-What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-wallet/issues) that you'd like to contribute to.
+What do you want to work on? [Choose an issue](https://github.com/getspherelabs/anypass-kmp/issues)) that you'd like to contribute to.
 
 ### Workflow:
 
@@ -20,11 +20,11 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 
  ## 3. Create a feature branch in your fork
 
-Once you've decided on what you want to work, it's time to create a feature branch in your forked ivy-wallet repository.
+Once you've decided on what you want to work, it's time to create a feature branch in your forked anypass-kmp repository.
 
 ### Create a new branch
 
-Open a terminal in your cloned forked ivy-wallet repo and run: 
+Open a terminal in your cloned forked anypass-kmp repo and run: 
 ```
 git checkout -b fix-issue-YOUR_ISSUE_NUMBER
 ```

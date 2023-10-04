@@ -42,6 +42,7 @@ kotlin {
         pod("FirebaseAuth", "~> 10.7.0")
         pod("Google-Mobile-Ads-SDK", "~> 10.3.0", moduleName = "GoogleMobileAds")
         pod("Sentry", "~> 8.4.0")
+        pod("FirebaseCore")
 
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
 
@@ -58,11 +59,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.ui)
+                implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.materialIconsExtended)
-                implementation(compose.material)
 
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
@@ -74,6 +75,9 @@ kotlin {
                 api(project(":core:common"))
                 api(project(":features:addnewpassword:addNewPasswordDomain"))
                 api(project(":features:addnewpassword:addNewPasswodPresentation"))
+
+                api(project(":features:account:accountDomain"))
+                api(project(":features:account:accountPresentation"))
 
                 api(project(":data:prefs"))
                 api(project(":manager:password"))
@@ -91,7 +95,7 @@ kotlin {
 
                 implementation(project(":features:masterpassword:masterPasswordDomain"))
                 implementation(project(":features:masterpassword:masterPasswordPresentation"))
-                implementation(project(":resource"))
+                implementation(project(":resource:icons"))
                 api(project(":data:local"))
                 api(project(":manager:biometry"))
                 api(project(":core:designsystem"))

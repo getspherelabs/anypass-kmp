@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.gms.google-services")
-    id("io.sentry.android.gradle") version "3.12.0"
+    id("io.sentry.android.gradle")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 

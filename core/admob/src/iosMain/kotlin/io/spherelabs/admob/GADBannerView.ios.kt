@@ -32,6 +32,7 @@ actual fun GADBannerView(
             adSize = bannerSize
             adUnitID = adId
             rootViewController = uiViewController
+            loadRequest(GADRequest())
         }
     }
 
@@ -40,9 +41,6 @@ actual fun GADBannerView(
             bannerView
         },
         modifier = modifier.fillMaxWidth(),
-        update = { _bannerView ->
-            _bannerView.loadRequest(GADRequest())
-        },
     )
 
 }
