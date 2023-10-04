@@ -4,16 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -45,6 +36,7 @@ import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.designsystem.text.Headline
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -72,10 +64,14 @@ fun AccountScreen(
     wish: (AccountWish) -> Unit,
     navigateToBack: () -> Unit,
 ) {
+
     useEffect(true) {
         wish.invoke(AccountWish.GetStartedSizeOfStrongPassword)
         wish.invoke(AccountWish.GetStartedSizeOfWeakPassword)
+        wish.invoke(AccountWish.GetStartedTotalPassword)
+        wish.invoke(AccountWish.GetStartedFingerPrint)
     }
+
     Scaffold(
         containerColor = colorResource(MR.colors.dynamic_yellow),
         topBar = {
@@ -83,22 +79,19 @@ fun AccountScreen(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    modifier = modifier.padding(start = 24.dp).size(56.dp)
-                        .clip(RoundedCornerShape(24.dp))
-                        .background(color = Color.Black)
-                        .clickable { navigateToBack.invoke() },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        tint = Color.White,
-                        contentDescription = "Back",
-                    )
-                }
-
+                BackButton(
+                    modifier,
+                    navigateToBack = {
+                        navigateToBack.invoke()
+                    },
+                )
+                Headline(
+                    text = "Account",
+                    modifier = modifier,
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    textColor = Color.Black,
+                )
             }
-
         },
     ) { padding ->
         Column(
@@ -110,7 +103,7 @@ fun AccountScreen(
             ) {
                 RoundedImage(
                     imageSize = 150,
-                    modifier = modifier.border(
+                    modifier = modifier.padding(top = 16.dp).border(
                         width = 1.dp,
                         color = Color.Black,
                         shape = CircleShape,
@@ -152,7 +145,7 @@ fun AccountScreen(
             ) {
                 Row {
                     Text(
-                        text = "166",
+                        text = "${state.sizeOfTotalPassword}",
                         fontSize = 45.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     )
@@ -191,6 +184,7 @@ fun AccountScreen(
                     )
                 }
             }
+
             Spacer(modifier = modifier.height(36.dp))
 
             Row(
@@ -209,8 +203,10 @@ fun AccountScreen(
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 )
                 CupertinoSwitch(
-                    false,
-                    onCheckedChange = {},
+                    state.isFingerPrintEnabled,
+                    onCheckedChange = { newChecked ->
+                        wish.invoke(AccountWish.SetFingerPrint(newChecked))
+                    },
                     modifier = modifier.padding(end = 24.dp),
                 )
             }
@@ -248,7 +244,10 @@ fun AccountScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp),
-                    ).background(color = Color.Black),
+                    ).background(color = Color.Black)
+                    .clickable {
+                        wish.invoke(AccountWish.OpenUrl("https://github.com/getspherelabs/anypass-kmp/issues/new/choose"))
+                    },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -273,4 +272,26 @@ fun AccountScreen(
         }
     }
 
+}
+
+@Composable
+fun RowScope.BackButton(
+    modifier: Modifier,
+    backgroundColor: Color = Color.Black,
+    iconColor: Color = Color.White,
+    navigateToBack: () -> Unit,
+) {
+    Box(
+        modifier = modifier.padding(start = 24.dp).size(42.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = backgroundColor)
+            .clickable { navigateToBack.invoke() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            tint = iconColor,
+            contentDescription = "Back",
+        )
+    }
 }
