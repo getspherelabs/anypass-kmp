@@ -1,8 +1,7 @@
-package io.spherelabs.anypass.ui.masterpassword.navigation
+package io.spherelabs.anypass.ui.passphrase.navigation
 
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.masterpassword.MasterPasswordRoute
-import io.spherelabs.anypass.ui.masterpassword.MasterPasswordScreen
+import io.spherelabs.anypass.ui.passphrase.MasterPasswordRoute
 import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable

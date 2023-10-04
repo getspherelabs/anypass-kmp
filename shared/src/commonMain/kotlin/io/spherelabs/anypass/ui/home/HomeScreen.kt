@@ -53,8 +53,8 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
-import io.spherelabs.resources.AnyPassIcons
-import io.spherelabs.resources.anypassicons.Behance
+import io.spherelabs.resource.icons.AnyPassIcons
+import io.spherelabs.resource.icons.anypassicons.Behance
 
 @Composable
 fun HomeRoute(

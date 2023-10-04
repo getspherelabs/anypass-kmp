@@ -51,7 +51,11 @@ internal fun Project.configureDomainMultiplatform(
                     implementation("app.cash.turbine:turbine:1.0.0")
                 }
             }
-            val androidMain by getting
+            val androidMain by getting {
+                dependencies {
+                    implementation("io.insert-koin:koin-android:3.3.1")
+                }
+            }
             val androidUnitTest by getting
             val iosX64Main by getting
             val iosArm64Main by getting
