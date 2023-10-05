@@ -14,19 +14,12 @@ import kotlinx.coroutines.flow.map
 
 class DefaultHomeRepository(
     private val categoryDao: CategoryDao,
-    private val userDao: UserDao,
     private val passwordDao: PasswordDao,
 ) : HomeRepository {
 
     override fun getCategories(): Flow<List<HomeCategoryDomain>> {
         return categoryDao.getAllCategory()
             .map { categories -> categories.map { category -> category.asDomain() } }
-    }
-
-    override fun getEmail(): Flow<String> {
-        return userDao.getUser().map {
-            requireNotNull(it.email)
-        }
     }
 
     override fun getPasswordsByCategory(id: String): Flow<List<HomePasswordDomain>> {
