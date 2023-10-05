@@ -11,61 +11,61 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 inline fun <T> useState(defaultValue: T): Pair<T, (T) -> Unit> {
-    val (state, setState) = remember { mutableStateOf(defaultValue) }
+  val (state, setState) = remember { mutableStateOf(defaultValue) }
 
-    return Pair(state, setState)
+  return Pair(state, setState)
 }
 
 @Composable
 inline fun useIntState(defaultValue: Int): Pair<Int, (Int) -> Unit> {
-    val (state, setState) = remember { mutableIntStateOf(defaultValue) }
+  val (state, setState) = remember { mutableIntStateOf(defaultValue) }
 
-    return Pair(state, setState)
+  return Pair(state, setState)
 }
 
 @Composable
 inline fun useBooleanState(defaultValue: Boolean): Pair<Boolean, (Boolean) -> Unit> {
-    val (state, setState) = remember { mutableStateOf(defaultValue) }
+  val (state, setState) = remember { mutableStateOf(defaultValue) }
 
-    return Pair(state, setState)
+  return Pair(state, setState)
 }
 
 @Composable
 inline fun useScope(): CoroutineScope {
-    return rememberCoroutineScope()
+  return rememberCoroutineScope()
 }
 
 @Composable
 inline fun useSnackbar(): SnackbarHostState {
-    return remember { SnackbarHostState() }
+  return remember { SnackbarHostState() }
 }
 
 @Composable
 inline fun useEffect(vararg keys: Any, noinline block: suspend CoroutineScope.() -> Unit) {
-    LaunchedEffect(keys = keys, block = block)
+  LaunchedEffect(keys = keys, block = block)
 }
 
 @Composable
 inline fun useEffect(key1: Any, noinline block: suspend CoroutineScope.() -> Unit) {
-    LaunchedEffect(key1 = key1, block = block)
+  LaunchedEffect(key1 = key1, block = block)
 }
 
 @Composable
 inline fun useTransition(defaultValue: Boolean): MutableTransitionState<Boolean> {
-    return remember { MutableTransitionState(defaultValue) }
+  return remember { MutableTransitionState(defaultValue) }
 }
 
 @Composable
 inline fun <T> useUpdatedState(newValue: T): State<T> =
-    remember { mutableStateOf(newValue) }.apply { value = newValue }
+  remember { mutableStateOf(newValue) }.apply { value = newValue }
 
 @Composable
 fun useScroll(initialValue: Int = 0): ScrollState {
-    return rememberScrollState(initialValue)
+  return rememberScrollState(initialValue)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun usePagerEffect(state: PagerState, action: (Int) -> Unit) {
-    LaunchedEffect(state) { snapshotFlow { state.currentPage }.collect { action.invoke(it) } }
+  LaunchedEffect(state) { snapshotFlow { state.currentPage }.collect { action.invoke(it) } }
 }

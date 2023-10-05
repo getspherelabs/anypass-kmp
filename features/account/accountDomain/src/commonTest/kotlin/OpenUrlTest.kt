@@ -6,20 +6,17 @@ import kotlinx.coroutines.test.runTest
 
 class OpenUrlTest {
 
-    private lateinit var openUrl: OpenUrl
+  private lateinit var openUrl: OpenUrl
 
-    @BeforeTest
-    fun setup() {
-        openUrl = FakeOpenUrl()
-    }
+  @BeforeTest
+  fun setup() {
+    openUrl = FakeOpenUrl()
+  }
 
-    @Test
-    fun `check the open url is working properly`() = runTest {
-        kotlin.runCatching {
-            openUrl.execute(url = "")
-        }.onFailure {
-            assertEquals("Url is empty.", it.message)
-        }
-    }
+  @Test
+  fun `check the open url is working properly`() = runTest {
+    kotlin
+      .runCatching { openUrl.execute(url = "") }
+      .onFailure { assertEquals("Url is empty.", it.message) }
+  }
 }
-

@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.accountpresentation.AccountEffect
 import io.spherelabs.accountpresentation.AccountState
@@ -37,6 +37,7 @@ import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -88,7 +89,8 @@ fun AccountScreen(
                 Headline(
                     text = "Account",
                     modifier = modifier,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                     textColor = Color.Black,
                 )
             }
@@ -123,7 +125,8 @@ fun AccountScreen(
                     textAlign = TextAlign.Center,
                     fontSize = 32.sp,
                     color = Color.Black,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
                 Spacer(modifier = modifier.height(8.dp))
 
@@ -132,7 +135,8 @@ fun AccountScreen(
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     color = Color.Black.copy(0.5f),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.regular),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
                 )
             }
 
@@ -147,13 +151,15 @@ fun AccountScreen(
                     Text(
                         text = "${state.sizeOfTotalPassword}",
                         fontSize = 45.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                     )
 
                     Text(
                         text = "passwords",
                         fontSize = 12.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                     )
                 }
 
@@ -161,26 +167,30 @@ fun AccountScreen(
                     Text(
                         text = "${state.sizeOfStrongPassword}",
                         fontSize = 32.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                     )
 
                     Text(
                         text = "Strong",
                         fontSize = 12.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                     )
                 }
                 Column {
                     Text(
                         text = "${state.sizeOfWeakPassword}",
                         fontSize = 32.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                     )
 
                     Text(
                         text = "Weak",
                         fontSize = 12.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                     )
                 }
             }
@@ -200,7 +210,8 @@ fun AccountScreen(
                     text = "Fingerprint",
                     fontSize = 16.sp,
                     color = Color.White,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
                 CupertinoSwitch(
                     state.isFingerPrintEnabled,
@@ -227,7 +238,8 @@ fun AccountScreen(
                     text = "Change password",
                     fontSize = 16.sp,
                     color = Color.White,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
                 Image(
                     modifier = modifier.padding(end = 24.dp).size(20.dp),
@@ -257,7 +269,8 @@ fun AccountScreen(
                     text = "Send feedback",
                     fontSize = 16.sp,
                     color = Color.White,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
                 Image(
                     modifier = modifier.padding(end = 24.dp).size(20.dp),

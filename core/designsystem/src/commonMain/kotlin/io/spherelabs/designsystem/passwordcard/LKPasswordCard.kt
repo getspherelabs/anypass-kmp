@@ -67,7 +67,7 @@ fun LKPasswordCard(
           text = title,
           color = passwordCardColor.titleColor().value,
           fontFamily = passwordCardStyle.titleFontFamily().value,
-          fontWeight = FontWeight.Bold,
+          fontWeight = FontWeight.Medium,
           fontSize = passwordCardStyle.titleFontSize().value,
         )
         Spacer(modifier.height(4.dp))
@@ -76,6 +76,7 @@ fun LKPasswordCard(
           color = passwordCardColor.emailColor().value,
           fontFamily = passwordCardStyle.emailFontFamily().value,
           fontSize = passwordCardStyle.emailFontSize().value,
+          fontWeight = FontWeight.Medium,
         )
       }
     }
@@ -86,6 +87,7 @@ fun LKPasswordCard(
       modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
       text = password,
       fontFamily = passwordCardStyle.passwordFontFamily().value,
+      fontWeight = FontWeight.Medium,
       fontSize = passwordCardStyle.passwordFontSize().value,
       color = passwordCardColor.passwordColor().value,
     )
@@ -115,7 +117,7 @@ fun LKPasswordCard(
           Text(
             text = "Copy",
             fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Normal,
             fontFamily = passwordCardStyle.copyFontFamily().value,
           )
           Image(imageVector = Icons.Default.ArrowOutward, contentDescription = null)

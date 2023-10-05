@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
@@ -36,6 +37,7 @@ import io.spherelabs.anypass.di.useInject
 import io.spherelabs.anypass.ui.account.BackButton
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -82,7 +84,8 @@ fun GeneratePasswordScreen(
                 Headline(
                     text = "Generate Password",
                     modifier = modifier,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                     textColor = Color.White,
                 )
             }
@@ -226,12 +229,19 @@ fun GeneratePasswordScreen(
                     .padding(top = 24.dp),
             )
             {
-                LKMeterProgress(state.length, color = colorResource(MR.colors.lavender))
+                LKMeterProgress(
+                    state.length,
+                    color = colorResource(MR.colors.lavender),
+                    valueFontWeight = FontWeight.Bold,
+                    valueFontFamily = GoogleSansFontFamily,
+                    valueColor = colorResource(MR.colors.grey),
+                )
             }
 
             Text(
                 "Maximum limit character: 30",
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
                 color = Color.White.copy(alpha = 0.5f),
                 fontSize = 18.sp,
                 modifier = modifier.align(Alignment.CenterHorizontally).padding(top = 32.dp),
@@ -253,7 +263,8 @@ fun GeneratePasswordScreen(
                         modifier = modifier.padding(top = 12.dp),
                         text = "Random password",
                         fontSize = 14.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = Color.White.copy(0.3f),
                     )
                     Spacer(modifier = modifier.height(24.dp))
@@ -261,7 +272,8 @@ fun GeneratePasswordScreen(
                     Text(
                         text = state.password,
                         fontSize = 24.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = Color.White,
                         modifier = modifier.align(Alignment.CenterHorizontally),
                     )

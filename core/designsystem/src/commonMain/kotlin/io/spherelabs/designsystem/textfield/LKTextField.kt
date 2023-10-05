@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +26,7 @@ import androidx.compose.ui.unit.sp
 fun LKTitleTextField(
   textValue: String,
   modifier: Modifier = Modifier,
-  onValueChanged: (String) -> Unit
+  onValueChanged: (String) -> Unit,
 ) {
   Column {
     val lightBlue = Color(0xffd8e6ff)
@@ -40,11 +41,11 @@ fun LKTitleTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue -> onValueChanged.invoke(newValue) },
       shape = RoundedCornerShape(8.dp),
-      singleLine = true
+      singleLine = true,
     )
   }
 }
@@ -54,7 +55,7 @@ fun LKPasswordTextField(
   textValue: String,
   fontFamily: FontFamily,
   modifier: Modifier = Modifier,
-  onValueChanged: (String) -> Unit
+  onValueChanged: (String) -> Unit,
 ) {
   Column {
     val lightBlue = Color(0xffd8e6ff)
@@ -65,7 +66,8 @@ fun LKPasswordTextField(
       textAlign = TextAlign.Start,
       color = Color.Black,
       fontSize = 18.sp,
-      fontFamily = fontFamily
+      fontWeight = FontWeight.Medium,
+      fontFamily = fontFamily,
     )
     TextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -76,13 +78,13 @@ fun LKPasswordTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue -> onValueChanged.invoke(newValue) },
       shape = RoundedCornerShape(8.dp),
       singleLine = true,
       leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
-      trailingIcon = { CloseIcon(textValue, onValueChanged) }
+      trailingIcon = { CloseIcon(textValue, onValueChanged) },
     )
   }
 }
@@ -103,7 +105,8 @@ fun LKEmailTextField(
       textAlign = TextAlign.Start,
       color = Color.Black,
       fontSize = 18.sp,
-      fontFamily = fontFamily
+      fontFamily = fontFamily,
+      fontWeight = FontWeight.Medium,
     )
     TextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -114,12 +117,12 @@ fun LKEmailTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue -> onValueChanged.invoke(newValue) },
       shape = RoundedCornerShape(8.dp),
       singleLine = true,
-      trailingIcon = { CloseIcon(textValue, onValueChanged) }
+      trailingIcon = { CloseIcon(textValue, onValueChanged) },
     )
   }
 }
@@ -140,7 +143,8 @@ fun LKNotesTextField(
       textAlign = TextAlign.Start,
       color = Color.Black,
       fontSize = 18.sp,
-      fontFamily = fontFamily
+      fontWeight = FontWeight.Medium,
+      fontFamily = fontFamily,
     )
     TextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -151,12 +155,12 @@ fun LKNotesTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue -> onValueChanged.invoke(newValue) },
       shape = RoundedCornerShape(8.dp),
       singleLine = true,
-      trailingIcon = { CloseIcon(textValue, onValueChanged) }
+      trailingIcon = { CloseIcon(textValue, onValueChanged) },
     )
   }
 }
@@ -177,7 +181,8 @@ fun LKWebsiteAddressTextField(
       textAlign = TextAlign.Start,
       color = Color.Black,
       fontSize = 18.sp,
-      fontFamily = fontFamily
+      fontWeight = FontWeight.Medium,
+      fontFamily = fontFamily,
     )
     TextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -188,12 +193,12 @@ fun LKWebsiteAddressTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue -> onValueChanged.invoke(newValue) },
       shape = RoundedCornerShape(8.dp),
       singleLine = true,
-      trailingIcon = { CloseIcon(textValue, onValueChanged) }
+      trailingIcon = { CloseIcon(textValue, onValueChanged) },
     )
   }
 }
@@ -205,7 +210,7 @@ fun LKUserNameTextField(
   modifier: Modifier = Modifier,
   onValueChanged: (String) -> Unit,
   textLength: Int = 0,
-  maxLength: Int = 18
+  maxLength: Int = 18,
 ) {
   Column {
     val lightBlue = Color(0xffd8e6ff)
@@ -215,8 +220,9 @@ fun LKUserNameTextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
       textAlign = TextAlign.Start,
       color = Color.Black,
+      fontWeight = FontWeight.Medium,
       fontSize = 18.sp,
-      fontFamily = fontFamily
+      fontFamily = fontFamily,
     )
     TextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -227,7 +233,7 @@ fun LKUserNameTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue ->
         if (newValue.length <= maxLength) {
@@ -236,7 +242,7 @@ fun LKUserNameTextField(
       },
       shape = RoundedCornerShape(8.dp),
       singleLine = true,
-      trailingIcon = { CloseIcon(textValue, onValueChanged) }
+      trailingIcon = { CloseIcon(textValue, onValueChanged) },
     )
     MaxLengthText(text = "$textLength / $maxLength")
   }
@@ -249,7 +255,7 @@ fun LKPasswordTextField(
   modifier: Modifier = Modifier,
   onValueChanged: (String) -> Unit,
   textLength: Int = 0,
-  maxLength: Int = 10
+  maxLength: Int = 10,
 ) {
   Column {
     val lightBlue = Color(0xffd8e6ff)
@@ -260,7 +266,8 @@ fun LKPasswordTextField(
       textAlign = TextAlign.Start,
       color = Color.Black,
       fontSize = 18.sp,
-      fontFamily = fontFamily
+      fontWeight = FontWeight.Medium,
+      fontFamily = fontFamily,
     )
     TextField(
       modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
@@ -271,7 +278,7 @@ fun LKPasswordTextField(
           cursorColor = Color.Black,
           disabledLabelColor = lightBlue,
           focusedIndicatorColor = Color.Transparent,
-          unfocusedIndicatorColor = Color.Transparent
+          unfocusedIndicatorColor = Color.Transparent,
         ),
       onValueChange = { newValue ->
         if (newValue.length <= maxLength) {
@@ -280,7 +287,7 @@ fun LKPasswordTextField(
       },
       shape = RoundedCornerShape(8.dp),
       singleLine = true,
-      trailingIcon = { CloseIcon(textValue, onValueChanged) }
+      trailingIcon = { CloseIcon(textValue, onValueChanged) },
     )
     MaxLengthText(text = "$textLength / $maxLength")
   }
@@ -299,12 +306,12 @@ internal fun CloseIcon(textValue: String, onValueChanged: (String) -> Unit) {
 private fun MaxLengthText(
   text: String,
   modifier: Modifier = Modifier,
-  color: Color = Color.Black.copy(alpha = 0.5f)
+  color: Color = Color.Black.copy(alpha = 0.5f),
 ) {
   Text(
     text = text,
     modifier = modifier.fillMaxWidth().padding(top = 4.dp, end = 24.dp),
     textAlign = TextAlign.End,
-    color = color
+    color = color,
   )
 }

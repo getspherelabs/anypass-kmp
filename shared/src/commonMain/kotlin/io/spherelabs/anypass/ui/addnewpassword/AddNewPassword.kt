@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,7 @@ import io.spherelabs.anypass.ui.account.BackButton
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.ApplePodcasts
 import io.spherelabs.resource.icons.anypassicons.Behance
@@ -145,7 +147,8 @@ fun AddNewPasswordScreen(
                 Headline(
                     text = "Add new password",
                     modifier = modifier,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                     textColor = Color.Black,
                 )
             }
@@ -170,7 +173,8 @@ fun AddNewPasswordScreen(
             Text(
                 text = "Add new password to your records",
                 fontSize = 16.sp,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
                 color = Color.Black.copy(alpha = 0.5F),
                 modifier = modifier.padding(start = 24.dp, top = 8.dp),
             )
@@ -204,7 +208,7 @@ fun AddNewPasswordScreen(
 
             LKUserNameTextField(
                 state.username,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
                 },
@@ -239,7 +243,7 @@ fun AddNewPasswordScreen(
 
             LKEmailTextField(
                 state.email,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
                 },
@@ -247,7 +251,7 @@ fun AddNewPasswordScreen(
 
             LKPasswordTextField(
                 state.password,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
                 },
@@ -255,7 +259,7 @@ fun AddNewPasswordScreen(
 
             LKWebsiteAddressTextField(
                 state.websiteAddress,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
                 },
@@ -263,7 +267,7 @@ fun AddNewPasswordScreen(
 
             LKNotesTextField(
                 state.notes,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
                 },
@@ -284,7 +288,8 @@ fun AddNewPasswordScreen(
                     textAlign = TextAlign.Start,
                     color = Color.Black.copy(0.5f),
                     fontSize = 16.sp,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
                 Box(
                     modifier = modifier.size(16.dp).clip(CircleShape).border(
@@ -322,9 +327,8 @@ fun AddNewPasswordScreen(
                     text = "Save password",
                     color = Color.White,
                     fontSize = 18.sp,
-                    fontFamily = fontFamilyResource(
-                        fontResource = MR.fonts.googlesans.medium,
-                    ),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }

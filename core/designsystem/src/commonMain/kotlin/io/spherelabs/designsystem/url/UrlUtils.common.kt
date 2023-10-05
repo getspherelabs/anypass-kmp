@@ -1,6 +1,5 @@
 package io.spherelabs.designsystem.url
 
-
 expect class BrowserNavigator {
-    fun openUrl(url: String)
+  fun openUrl(url: String)
 }
