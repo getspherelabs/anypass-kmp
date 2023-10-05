@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import io.spherelabs.anypass.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.authpresentation.signin.SignInViewModel
 import io.spherelabs.designsystem.textfield.LKEmailTextField
@@ -26,6 +25,7 @@ import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.authpresentation.signin.SignInEffect
 import io.spherelabs.authpresentation.signin.SignInState
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
@@ -66,6 +66,8 @@ fun SignInScreen(
     val snackbarState = useSnackbar()
     val scope = useScope()
 
+    val strings = LocalStrings.current
+
     useEffect(true) {
         effect.collectLatest { newEffect ->
             when (newEffect) {
@@ -92,7 +94,7 @@ fun SignInScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = " Hey,\n Login Now!",
+                            text = strings.loginNow,
                             fontFamily = GoogleSansFontFamily,
                             fontWeight = FontWeight.Medium,
                             fontSize = 32.sp,
@@ -113,7 +115,9 @@ fun SignInScreen(
                     LKPasswordTextField(
                         "",
                         fontFamily = GoogleSansFontFamily,
-                    ) {}
+                    ) {
+
+                    }
                     Spacer(modifier.height(24.dp))
                     Button(
                         modifier = Modifier
@@ -129,7 +133,7 @@ fun SignInScreen(
                         },
                     ) {
                         Text(
-                            text = "Login",
+                            text = strings.login,
                             color = Color.White,
                             fontSize = 18.sp,
                             fontFamily = GoogleSansFontFamily,
@@ -145,10 +149,10 @@ fun SignInScreen(
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = "Don't have account?",
+                            text = strings.doNotHaveAccount,
                             fontFamily = GoogleSansFontFamily,
                             fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp,
+                            fontSize = 16.sp,
                             color = Color.Black.copy(0.5f),
                         )
                         Spacer(modifier = modifier.width(12.dp))
@@ -156,7 +160,7 @@ fun SignInScreen(
                             modifier = modifier.clickable {
                                 navigateToSignUp.invoke()
                             },
-                            text = "Create new",
+                            text = strings.createNew,
                             fontFamily = GoogleSansFontFamily,
                             fontWeight = FontWeight.Medium,
                             fontSize = 20.sp,

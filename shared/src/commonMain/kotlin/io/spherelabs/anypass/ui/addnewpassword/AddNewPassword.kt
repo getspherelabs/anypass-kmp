@@ -38,6 +38,7 @@ import io.spherelabs.designsystem.textfield.LKWebsiteAddressTextField
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.anypass.ui.account.BackButton
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
@@ -97,6 +98,7 @@ fun AddNewPasswordScreen(
     val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
     val scope = useScope()
+    val strings = LocalStrings.current
 
     val (expanded, setExpanded) = useBooleanState(false)
     val waitForPositiveButton by remember { mutableStateOf(false) }
@@ -145,7 +147,7 @@ fun AddNewPasswordScreen(
                     },
                 )
                 Headline(
-                    text = "Add new password",
+                    text = strings.addNewPassword,
                     modifier = modifier,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
@@ -171,7 +173,7 @@ fun AddNewPasswordScreen(
 
 
             Text(
-                text = "Add new password to your records",
+                text = strings.newPasswordRecord,
                 fontSize = 16.sp,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
@@ -194,7 +196,7 @@ fun AddNewPasswordScreen(
                 )
 
                 LKSocialMediaPicker {
-                    title("Select a icon")
+                    title(strings.selectIcon)
                     socialIconsPicker(
                         socialIcons = SocialIcons.getSocialMedia().value,
                         waitForPositiveButton = waitForPositiveButton,
@@ -217,7 +219,7 @@ fun AddNewPasswordScreen(
 
             Column {
                 Text(
-                    text = "Category",
+                    text = strings.category,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 24.dp, bottom = 4.dp),
@@ -284,7 +286,7 @@ fun AddNewPasswordScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Generate password",
+                    text = strings.generatePassword,
                     textAlign = TextAlign.Start,
                     color = Color.Black.copy(0.5f),
                     fontSize = 16.sp,
@@ -324,7 +326,7 @@ fun AddNewPasswordScreen(
                 },
             ) {
                 Text(
-                    text = "Save password",
+                    text = strings.savePassword,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontFamily = GoogleSansFontFamily,

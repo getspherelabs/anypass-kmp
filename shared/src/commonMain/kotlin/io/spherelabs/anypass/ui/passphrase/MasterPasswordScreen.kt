@@ -29,6 +29,7 @@ import io.spherelabs.designsystem.grid.LKGridLayout
 import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
@@ -45,7 +46,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MasterPasswordRoute(
     viewModel: MasterPasswordViewModel = useInject(),
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -57,7 +58,7 @@ fun MasterPasswordRoute(
         navigateToHome = {
             navigateToHome.invoke()
         },
-        effect = viewModel.effect
+        effect = viewModel.effect,
     )
 }
 
@@ -67,11 +68,12 @@ fun MasterPasswordScreen(
     wish: (MasterPasswordWish) -> Unit,
     state: MasterPasswordState,
     effect: Flow<MasterPasswordEffect>,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
 ) {
 
     val snackbarState = useSnackbar()
     val coroutineScope = useScope()
+    val strings = LocalStrings.current
 
     useEffect(true) {
         effect.collectLatest { newEffect ->
@@ -79,7 +81,7 @@ fun MasterPasswordScreen(
                 is MasterPasswordEffect.Failure -> {
                     coroutineScope.launch {
                         snackbarState.showSnackbar(
-                            message = newEffect.message
+                            message = newEffect.message,
                         )
                     }
                 }
@@ -98,29 +100,29 @@ fun MasterPasswordScreen(
                 hostState = snackbarState,
                 modifier = modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom)
+                    .wrapContentHeight(Alignment.Bottom),
             )
-        }
+        },
     ) {
         Column(
             modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             when {
                 state.isExistPassword -> {
                     Text(
                         modifier = modifier.padding(start = 32.dp, top = 16.dp),
-                        text = "Confirm Master Password",
+                        text = strings.confirmPassphrase,
                         fontSize = 32.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                        color = Color.White
+                        color = Color.White,
                     )
 
                     Spacer(modifier = modifier.height(35.dp))
 
                     LKPinInput(
                         value = state.password,
-                        disableKeypad = true
+                        disableKeypad = true,
                     ) {
                         wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
                     }
@@ -129,25 +131,25 @@ fun MasterPasswordScreen(
                 !state.isExistPassword -> {
                     Text(
                         modifier = modifier.padding(start = 32.dp, top = 16.dp),
-                        text = "Add Master Password",
+                        text = strings.addPassphrase,
                         fontSize = 32.sp,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
-                        color = Color.White
+                        color = Color.White,
                     )
 
                     Spacer(modifier = modifier.height(35.dp))
 
                     LKPinInput(
                         value = state.password,
-                        disableKeypad = true
+                        disableKeypad = true,
                     ) {
                         wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
                     }
                     Spacer(modifier.height(24.dp))
                     LKPinInput(
                         value = state.confirmPassword,
-                        disableKeypad = true
+                        disableKeypad = true,
                     ) {
                         if (state.isInitialPasswordExisted) {
                             wish.invoke(MasterPasswordWish.OnConfirmPasswordCellChanged(it))
@@ -167,7 +169,7 @@ fun MasterPasswordScreen(
             ) {
                 LKGridLayout(
                     items = MasterPasswordState.row1(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 ) { newPin ->
                     if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
@@ -177,7 +179,7 @@ fun MasterPasswordScreen(
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row2(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 ) { newPin ->
                     if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
@@ -187,7 +189,7 @@ fun MasterPasswordScreen(
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row3(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 ) { newPin ->
                     if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
@@ -197,7 +199,7 @@ fun MasterPasswordScreen(
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row4(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium)
+                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                 ) { newPin ->
                     if (newPin == "c") {
                         wish.invoke(MasterPasswordWish.ClearPassword)
@@ -210,19 +212,21 @@ fun MasterPasswordScreen(
                     }
 
                 }
-                Button(modifier = modifier
-                    .fillMaxWidth()
-                    .height(65.dp)
-                    .padding(start = 24.dp, end = 24.dp),
+                Button(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .height(65.dp)
+                        .padding(start = 24.dp, end = 24.dp),
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = colorResource(MR.colors.grey)
+                        backgroundColor = colorResource(MR.colors.grey),
                     ),
                     shape = RoundedCornerShape(24.dp),
                     onClick = {
                         wish.invoke(MasterPasswordWish.SubmitClicked)
-                    }) {
+                    },
+                ) {
                     Text(
-                        text = "Submit",
+                        text = strings.submit,
                         color = Color.White,
                         fontSize = 18.sp,
                         fontFamily = GoogleSansFontFamily,

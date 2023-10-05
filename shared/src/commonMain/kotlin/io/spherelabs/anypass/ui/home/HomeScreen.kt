@@ -53,6 +53,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
@@ -279,13 +280,16 @@ fun HomeHeadline(
     fontSize: TextUnit = 42.sp,
     modifier: Modifier = Modifier,
 ) {
+
+    val strings = LocalStrings.current
+
     LazyColumn(
         modifier = modifier.padding(start = 24.dp),
     ) {
         item {
             Row {
                 Text(
-                    text = "Keep",
+                    text = strings.keep,
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
                     fontFamily = GoogleSansFontFamily,
@@ -307,7 +311,7 @@ fun HomeHeadline(
                 )
                 Spacer(modifier = modifier.width(12.dp))
                 Text(
-                    text = "Your Life",
+                    text = strings.yourLife,
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
                     fontFamily = GoogleSansFontFamily,
@@ -320,7 +324,7 @@ fun HomeHeadline(
         item {
             Row {
                 Text(
-                    text = "Safe",
+                    text = strings.safe,
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
                     fontFamily = GoogleSansFontFamily,

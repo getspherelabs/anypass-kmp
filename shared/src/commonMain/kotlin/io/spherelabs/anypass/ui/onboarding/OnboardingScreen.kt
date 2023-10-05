@@ -32,6 +32,8 @@ import io.spherelabs.features.onboardingpresentation.OnboardingViewModel
 import io.spherelabs.features.onboardingpresentation.OnboardingWish
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.fonts.LocalStrings
+import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
@@ -87,8 +89,9 @@ fun OnboardingScreen(
 
         when {
             state.isLogged -> {
-                LaunchedEffect(true) {
+                useEffect(true) {
                     navigateToPassword.invoke()
+
                 }
             }
 
@@ -135,10 +138,10 @@ private fun OnboardingImage(
 @Composable
 private fun OnboardingHeadline() {
     Text(
-        "Password Manager \n From Anywhere",
+        text = LocalStrings.current.onboardingHeadline,
         fontSize = 32.sp,
         fontFamily = GoogleSansFontFamily,
-        fontWeight = FontWeight.Medium
+        fontWeight = FontWeight.Medium,
     )
 }
 
@@ -148,7 +151,7 @@ private fun OnboardingDescription(
 ) {
     Text(
         modifier = modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
-        text = "Keep your passwords in a secure private vault-and simply access them with one click from all your devices.",
+        text = LocalStrings.current.onboardingDescription(),
         fontSize = 18.sp,
         fontFamily = GoogleSansFontFamily,
         fontWeight = FontWeight.Medium,
@@ -180,7 +183,7 @@ private fun GetStartedButton(
 @Composable
 private fun GetStartedText() {
     Text(
-        text = "Get Started",
+        text = LocalStrings.current.getStarted,
         fontFamily = GoogleSansFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
