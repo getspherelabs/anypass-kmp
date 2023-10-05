@@ -6,12 +6,16 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.spherelabs.accountdomain.repository.AccountRepository
 import io.spherelabs.data.local.db.DefaultPasswordDao
+import io.spherelabs.data.local.db.DefaultUserDao
 import io.spherelabs.data.local.db.PasswordDao
+import io.spherelabs.data.local.db.UserDao
 import io.spherelabs.data.local.repository.DefaultAccountRepository
 import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.Password
+import io.spherelabs.local.db.User
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
 
 class AccountRepositoryTest {
@@ -19,6 +23,7 @@ class AccountRepositoryTest {
     private lateinit var sqlDriverFactory: SqlDriver
     private lateinit var database: AnyPassDatabase
     private lateinit var dao: PasswordDao
+    private lateinit var userDao: UserDao
     private lateinit var repository: AccountRepository
 
 
@@ -27,7 +32,8 @@ class AccountRepositoryTest {
         sqlDriverFactory = TestSqlDriverFactory().createDriver()
         database = AnyPassDatabase.invoke(sqlDriverFactory)
         dao = DefaultPasswordDao(database)
-        repository = DefaultAccountRepository(dao)
+        userDao = DefaultUserDao(database)
+        repository = DefaultAccountRepository(dao, userDao)
     }
 
     @Test
@@ -119,6 +125,23 @@ class AccountRepositoryTest {
 
         result.test {
             assertThat(awaitItem()).isEqualTo(3)
+        }
+    }
+
+    @Test
+    fun `check insert user and get user`() = runTest {
+        val user = User(
+            id = "1",
+            name = "test",
+            email = "test",
+            password = "",
+        )
+
+        userDao.insertUser(user)
+        val result = repository.getUser()
+
+        result.test {
+            assertEquals("1", awaitItem().id)
         }
     }
 }
