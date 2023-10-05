@@ -34,6 +34,7 @@ import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
@@ -66,6 +67,8 @@ fun AccountScreen(
     navigateToBack: () -> Unit,
 ) {
 
+    val strings = LocalStrings.current
+
     useEffect(true) {
         wish.invoke(AccountWish.GetStartedSizeOfStrongPassword)
         wish.invoke(AccountWish.GetStartedSizeOfWeakPassword)
@@ -87,7 +90,7 @@ fun AccountScreen(
                     },
                 )
                 Headline(
-                    text = "Account",
+                    text = strings.account,
                     modifier = modifier,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
@@ -172,7 +175,7 @@ fun AccountScreen(
                     )
 
                     Text(
-                        text = "Strong",
+                        text = strings.strong,
                         fontSize = 12.sp,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -187,7 +190,7 @@ fun AccountScreen(
                     )
 
                     Text(
-                        text = "Weak",
+                        text = strings.weak,
                         fontSize = 12.sp,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -207,7 +210,7 @@ fun AccountScreen(
             ) {
                 Text(
                     modifier = modifier.padding(start = 24.dp),
-                    text = "Fingerprint",
+                    text = strings.fingerPrint,
                     fontSize = 16.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,
@@ -235,7 +238,7 @@ fun AccountScreen(
 
                 Text(
                     modifier = modifier.padding(start = 24.dp),
-                    text = "Change password",
+                    text = strings.changePassword,
                     fontSize = 16.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,
@@ -266,7 +269,7 @@ fun AccountScreen(
 
                 Text(
                     modifier = modifier.padding(start = 24.dp),
-                    text = "Send feedback",
+                    text = strings.sendFeedback,
                     fontSize = 16.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,

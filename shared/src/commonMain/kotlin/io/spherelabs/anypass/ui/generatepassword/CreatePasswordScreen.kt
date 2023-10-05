@@ -35,6 +35,7 @@ import io.spherelabs.generatepasswordpresentation.GeneratePasswordWish
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.anypass.ui.account.BackButton
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
@@ -69,6 +70,7 @@ fun GeneratePasswordScreen(
 ) {
 
     val snackbarHostState = useSnackbar()
+    val strings = LocalStrings.current
 
     useEffect(true) {
         wish.invoke(GeneratePasswordWish.GeneratePassword())
@@ -82,7 +84,7 @@ fun GeneratePasswordScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Headline(
-                    text = "Generate Password",
+                    text = strings.generatePassword,
                     modifier = modifier,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
@@ -103,7 +105,7 @@ fun GeneratePasswordScreen(
                 Column {
                     Text(
                         modifier = modifier,
-                        text = "Uppercase",
+                        text = strings.uppercase,
                         fontSize = 12.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                         color = Color.White.copy(alpha = 0.5f),
@@ -150,7 +152,7 @@ fun GeneratePasswordScreen(
                 Column {
                     Text(
                         modifier = modifier.padding(start = 24.dp),
-                        text = "Digits",
+                        text = strings.digits,
                         fontSize = 12.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                         color = Color.White.copy(alpha = 0.5f),
@@ -187,7 +189,7 @@ fun GeneratePasswordScreen(
                 Column {
                     Text(
                         modifier = modifier.padding(start = 24.dp),
-                        text = "Special",
+                        text = strings.special,
                         fontSize = 12.sp,
                         fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                         color = Color.White.copy(alpha = 0.5f),
@@ -239,7 +241,7 @@ fun GeneratePasswordScreen(
             }
 
             Text(
-                "Maximum limit character: 30",
+                text = strings.maximumLimitCharacter.invoke("30"),
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
                 color = Color.White.copy(alpha = 0.5f),
@@ -261,7 +263,7 @@ fun GeneratePasswordScreen(
                 ) {
                     Text(
                         modifier = modifier.padding(top = 12.dp),
-                        text = "Random password",
+                        text = strings.randomPassword,
                         fontSize = 14.sp,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -286,7 +288,7 @@ fun GeneratePasswordScreen(
             ) {
                 CreateBoxes(modifier = modifier.fillMaxWidth().align(Alignment.CenterVertically)) {
                     LKBackButton(
-                        "Back",
+                        text = strings.back,
                         backgroundColor = colorResource(MR.colors.dynamic_yellow),
                     ) {
                         navigateToBack.invoke()
@@ -323,7 +325,10 @@ fun GeneratePasswordScreen(
                         }
 
                     }
-                    LKUseButton("Use", backgroundColor = colorResource(MR.colors.dynamic_yellow)) {
+                    LKUseButton(
+                        text = strings.use,
+                        backgroundColor = colorResource(MR.colors.dynamic_yellow),
+                    ) {
 
                     }
                 }
