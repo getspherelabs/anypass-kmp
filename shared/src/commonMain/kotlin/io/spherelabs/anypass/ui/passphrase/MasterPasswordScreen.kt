@@ -29,6 +29,8 @@ import io.spherelabs.designsystem.grid.LKGridLayout
 import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.biometry.BiometryAuthenticatorFactory
+import io.spherelabs.biometry.rememberBiometricManager
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
@@ -74,6 +76,8 @@ fun MasterPasswordScreen(
     val snackbarState = useSnackbar()
     val coroutineScope = useScope()
     val strings = LocalStrings.current
+    val biometryAuthenticatorFactory: BiometryAuthenticatorFactory =
+        rememberBiometricManager()
 
     useEffect(true) {
         effect.collectLatest { newEffect ->
@@ -87,6 +91,20 @@ fun MasterPasswordScreen(
                 }
 
                 MasterPasswordEffect.Home -> {
+                    navigateToHome.invoke()
+                }
+            }
+        }
+    }
+
+    useEffect(true) {
+        if (state.isFingerprintEnabled) {
+            biometryAuthenticatorFactory.createBiometryAuthenticator().biometricAuthentication(
+                title = "Fingerprint",
+                description = "Test",
+                failureContext = "Failed test",
+            ) { result ->
+                if (result.isSuccess) {
                     navigateToHome.invoke()
                 }
             }

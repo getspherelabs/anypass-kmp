@@ -1,4 +1,6 @@
-plugins { id("anypass.multiplatform.designsystem") }
+plugins {
+    id("anypass.multiplatform.designsystem")
+}
 
 kotlin {
     sourceSets {

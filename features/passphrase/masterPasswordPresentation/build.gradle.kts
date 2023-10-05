@@ -3,7 +3,7 @@ plugins { id("anypass.multiplatform.presentation") }
 kotlin {
   sourceSets {
     val commonMain by getting {
-      dependencies { implementation(project(":features:masterpassword:masterPasswordDomain")) }
+      dependencies { implementation(project(":features:passphrase:masterPasswordDomain")) }
     }
   }
 }

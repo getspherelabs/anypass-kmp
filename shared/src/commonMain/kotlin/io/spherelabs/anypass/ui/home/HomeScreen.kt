@@ -180,7 +180,7 @@ fun HomeScreen(
                 )
 
                 LKNewItemButton(
-                    contentText = stringResource(MR.strings.new_item),
+                    contentText = "New Item",
                     borderColor = colorResource(MR.colors.cinderella),
                     contentFontFamily = GoogleSansFontFamily,
                 ) {
