@@ -10,6 +10,8 @@ class DefaultHasCurrentUserExist(private val firebaseAuthManager: FirebaseAuthMa
   HasCurrentUserExist {
 
   override fun execute(): Boolean {
-    return firebaseAuthManager.currentUser?.let { true } ?: false
+    return firebaseAuthManager.currentUser?.let {
+        it.currentName?.let { true }
+    } ?: false
   }
 }
