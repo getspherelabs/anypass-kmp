@@ -51,8 +51,10 @@ import org.koin.compose.rememberKoinInject
 import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.Behance
 
@@ -150,7 +152,8 @@ fun HomeScreen(
                             },
                             text = "behzoddev@gmail.com",
                             fontSize = 24.sp,
-                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                            fontFamily = GoogleSansFontFamily,
+                            fontWeight = FontWeight.Bold,
                         )
                     }
 
@@ -178,7 +181,7 @@ fun HomeScreen(
                 LKNewItemButton(
                     contentText = stringResource(MR.strings.new_item),
                     borderColor = colorResource(MR.colors.cinderella),
-                    contentFontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    contentFontFamily = GoogleSansFontFamily,
                 ) {
                     navigateToCreatePassword.invoke()
 
@@ -271,44 +274,6 @@ fun CategoryCard(
 
 }
 
-
-@Composable
-fun DomainCard(
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = modifier
-            .padding(start = 24.dp, end = 24.dp)
-            .fillMaxWidth()
-            .height(100.dp),
-        shape = RoundedCornerShape(16.dp),
-        backgroundColor = Color.White,
-    ) {
-        Row(
-            modifier = modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            RoundedImage(
-                modifier = modifier.padding(start = 24.dp),
-                painter = painterResource(MR.images.whale_logo),
-                contentDescription = null,
-            )
-            Spacer(modifier = modifier.width(12.dp))
-            Column {
-                Text("Site", color = Color.Black)
-                Text("Site2", color = Color.Black)
-            }
-            Spacer(modifier = modifier.weight(1f))
-            RoundedImage(
-                modifier = modifier.padding(end = 24.dp),
-                painter = painterResource(MR.images.whale_logo),
-                contentDescription = null,
-            )
-        }
-    }
-}
-
 @Composable
 fun HomeHeadline(
     fontSize: TextUnit = 42.sp,
@@ -323,7 +288,8 @@ fun HomeHeadline(
                     text = "Keep",
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
-                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = modifier.width(12.dp))
                 RoundedImage(
@@ -344,7 +310,8 @@ fun HomeHeadline(
                     text = "Your Life",
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
-                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Bold,
                 )
 
             }
@@ -356,7 +323,8 @@ fun HomeHeadline(
                     text = "Safe",
                     color = colorResource(MR.colors.white),
                     fontSize = fontSize,
-                    fontFamily = fontFamilyResource(MR.fonts.hiraginosans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = modifier.width(12.dp))
                 RoundedImage(
@@ -441,10 +409,10 @@ fun LKPager(
                             emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
                         ),
                         passwordCardStyle = LKPasswordCardDefaults.passwordCardStyle(
-                            titleFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                            passwordFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                            emailFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
-                            copyFontFamily = fontFamilyResource(fontResource = MR.fonts.googlesans.medium),
+                            titleFontFamily = GoogleSansFontFamily,
+                            passwordFontFamily = GoogleSansFontFamily,
+                            emailFontFamily = GoogleSansFontFamily,
+                            copyFontFamily = GoogleSansFontFamily,
                         ),
                         onCopyClick = {
                             onCopyClick.invoke(newData.password)

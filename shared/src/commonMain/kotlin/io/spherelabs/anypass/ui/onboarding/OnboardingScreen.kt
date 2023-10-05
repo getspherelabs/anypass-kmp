@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +33,7 @@ import io.spherelabs.features.onboardingpresentation.OnboardingWish
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.rememberKoinInject
@@ -135,7 +137,8 @@ private fun OnboardingHeadline() {
     Text(
         "Password Manager \n From Anywhere",
         fontSize = 32.sp,
-        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium
     )
 }
 
@@ -147,7 +150,8 @@ private fun OnboardingDescription(
         modifier = modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
         text = "Keep your passwords in a secure private vault-and simply access them with one click from all your devices.",
         fontSize = 18.sp,
-        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium,
         color = Color.Black.copy(0.5F),
         textAlign = TextAlign.Center,
     )
@@ -177,7 +181,8 @@ private fun GetStartedButton(
 private fun GetStartedText() {
     Text(
         text = "Get Started",
-        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
         color = Color.White,
     )

@@ -92,7 +92,7 @@ kotlin {
 
                 api(project(":features:generatepassword:generatePasswordDomain"))
                 api(project(":features:generatepassword:generatePasswordPresentation"))
-
+                implementation(project(":resource:fonts"))
                 implementation(project(":features:masterpassword:masterPasswordDomain"))
                 implementation(project(":features:masterpassword:masterPasswordPresentation"))
                 implementation(project(":resource:icons"))

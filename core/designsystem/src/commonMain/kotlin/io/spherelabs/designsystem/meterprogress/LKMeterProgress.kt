@@ -9,17 +9,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
-fun LKMeterProgress(value: Int, color: Color, modifier: Modifier = Modifier) {
+fun LKMeterProgress(
+    value: Int,
+    color: Color,
+    modifier: Modifier = Modifier,
+    valueColor: Color,
+    valueFontFamily: FontFamily,
+    valueFontWeight: FontWeight,
+) {
 
-  val progressAngle by
+    val progressAngle by
     animateFloatAsState(targetValue = 180f / 15f * value, animationSpec = tween(500))
 
-  Box(modifier.fillMaxWidth().aspectRatio(1f)) {
-    LKOuterProgress(modifier = modifier)
-    LKCircleProgress(modifier = modifier, color = color, angle = progressAngle)
-    LKDashProgress(modifier = modifier, value = value)
-    LKInnerProgress(modifier = modifier)
-  }
+    Box(modifier.fillMaxWidth().aspectRatio(1f)) {
+        LKOuterProgress(modifier = modifier)
+        LKCircleProgress(modifier = modifier, color = color, angle = progressAngle)
+        LKDashProgress(
+            modifier = modifier,
+            value = value,
+            valueColor = valueColor,
+            valueFontFamily = valueFontFamily,
+            valueFontWeight = valueFontWeight,
+        )
+        LKInnerProgress(modifier = modifier)
+    }
 }

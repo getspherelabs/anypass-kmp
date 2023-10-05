@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.sp
 fun Headline(
     text: String,
     fontFamily: FontFamily,
+    fontWeight: FontWeight,
     modifier: Modifier = Modifier,
     textColor: Color = Color.White,
 ) {
@@ -23,6 +25,7 @@ fun Headline(
         fontSize = 26.sp,
         fontFamily = fontFamily,
         color = textColor,
+        fontWeight = fontWeight,
         textAlign = TextAlign.Center,
     )
 }
