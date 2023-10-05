@@ -17,25 +17,24 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun LKDashProgress(
-    value: Int,
-    modifier: Modifier = Modifier,
-    valueFontWeight: FontWeight,
-    valueFontFamily: FontFamily,
-    valueColor: Color,
+  value: Int,
+  modifier: Modifier = Modifier,
+  valueFontWeight: FontWeight,
+  valueFontFamily: FontFamily,
+  valueColor: Color,
 ) {
 
-    Box(
-        modifier =
-        modifier.fillMaxSize().padding(105.dp)
-            .background(color = Color.Yellow, shape = CircleShape),
-    ) {
-        Text(
-            text = "$value",
-            fontSize = 42.sp,
-            fontFamily = valueFontFamily,
-            fontWeight = valueFontWeight,
-            color = valueColor,
-            modifier = Modifier.align(alignment = Alignment.Center),
-        )
-    }
+  Box(
+    modifier =
+      modifier.fillMaxSize().padding(105.dp).background(color = Color.Yellow, shape = CircleShape),
+  ) {
+    Text(
+      text = "$value",
+      fontSize = 42.sp,
+      fontFamily = valueFontFamily,
+      fontWeight = valueFontWeight,
+      color = valueColor,
+      modifier = Modifier.align(alignment = Alignment.Center),
+    )
+  }
 }

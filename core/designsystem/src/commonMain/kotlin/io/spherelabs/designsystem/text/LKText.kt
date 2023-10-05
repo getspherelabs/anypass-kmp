@@ -13,19 +13,19 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun Headline(
-    text: String,
-    fontFamily: FontFamily,
-    fontWeight: FontWeight,
-    modifier: Modifier = Modifier,
-    textColor: Color = Color.White,
+  text: String,
+  fontFamily: FontFamily,
+  fontWeight: FontWeight,
+  modifier: Modifier = Modifier,
+  textColor: Color = Color.White,
 ) {
-    Text(
-        modifier = modifier.padding(start = 16.dp),
-        text = text,
-        fontSize = 26.sp,
-        fontFamily = fontFamily,
-        color = textColor,
-        fontWeight = fontWeight,
-        textAlign = TextAlign.Center,
-    )
+  Text(
+    modifier = modifier.padding(start = 16.dp),
+    text = text,
+    fontSize = 26.sp,
+    fontFamily = fontFamily,
+    color = textColor,
+    fontWeight = fontWeight,
+    textAlign = TextAlign.Center,
+  )
 }
