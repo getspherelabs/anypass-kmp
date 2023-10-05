@@ -39,7 +39,7 @@ fun AnyPassNavHost(
                 navigationController.navigateToPassword()
             },
             navigateToSignIn = {
-                navigationController.navigateSignIn()
+                navigationController.navigateUp()
             }
         )
         passwordScreen { navigationController.navigateToHome() }
