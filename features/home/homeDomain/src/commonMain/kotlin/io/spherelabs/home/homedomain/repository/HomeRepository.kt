@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface HomeRepository {
   fun getCategories(): Flow<List<HomeCategoryDomain>>
 
-  fun getEmail(): Flow<String>
 
   fun getPasswordsByCategory(id: String): Flow<List<HomePasswordDomain>>
 }

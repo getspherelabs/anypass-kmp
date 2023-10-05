@@ -70,9 +70,7 @@ fun AccountScreen(
     val strings = LocalStrings.current
 
     useEffect(true) {
-        wish.invoke(AccountWish.GetStartedSizeOfStrongPassword)
-        wish.invoke(AccountWish.GetStartedSizeOfWeakPassword)
-        wish.invoke(AccountWish.GetStartedTotalPassword)
+        wish.invoke(AccountWish.GetAccount)
         wish.invoke(AccountWish.GetStartedFingerPrint)
     }
 
@@ -123,8 +121,11 @@ fun AccountScreen(
                 modifier = modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                val name = state.user?.name ?: "Unknown"
+                val email = state.user?.email ?: "Unknown"
+
                 Text(
-                    "Behzod Halil",
+                    text = name,
                     textAlign = TextAlign.Center,
                     fontSize = 32.sp,
                     color = Color.Black,
@@ -134,7 +135,7 @@ fun AccountScreen(
                 Spacer(modifier = modifier.height(8.dp))
 
                 Text(
-                    text = "behzoddev@gmail.com",
+                    text = email,
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     color = Color.Black.copy(0.5f),
