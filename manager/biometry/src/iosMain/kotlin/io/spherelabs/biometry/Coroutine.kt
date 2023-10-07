@@ -28,18 +28,24 @@ internal fun NSError?.toException(): Exception {
     return this?.run { Exception(description()) } ?: NullPointerException("NSError is null")
 }
 
+internal object MainRunDispatcher : CoroutineDispatcher() {
+    override fun dispatch(context: CoroutineContext, block: Runnable) =
+        NSRunLoop.mainRunLoop.performBlock {
+            block.run() }
+}
+
+
 internal inline fun <T1, T2> mainContinuation(
     crossinline block: (T1, T2) -> Unit
 ): (T1, T2) -> Unit = { arg1, arg2 ->
     if (NSThread.isMainThread()) {
         block(arg1, arg2)
     } else {
-        MainRunDispatcher.dispatch { block(arg1, arg2) }
+        MainRunDispatcher.run {
+            block(arg1, arg2)
+        }
     }
 }
 
 
-internal object MainRunDispatcher : CoroutineDispatcher() {
-    override fun dispatch(context: CoroutineContext, block: Runnable) =
-        NSRunLoop.mainRunLoop.performBlock { block.run() }
-}
+
