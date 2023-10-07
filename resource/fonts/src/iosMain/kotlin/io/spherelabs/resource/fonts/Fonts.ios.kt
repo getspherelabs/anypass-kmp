@@ -1,10 +1,11 @@
+@file:OptIn(ExperimentalForeignApi::class)
+
 package io.spherelabs.resource.fonts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.platform.Font as IosFont
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
@@ -16,27 +17,35 @@ import platform.posix.memcpy
 private val cache: MutableMap<String, Font> = mutableMapOf()
 
 @Composable
-actual fun font(fontName: String, resourceId: String, weight: FontWeight, style: FontStyle): Font {
-  return cache.getOrPut(resourceId) {
-    IosFont(
-      identity = resourceId,
-      data = readBundleFile("$resourceId.ttf"),
-      weight = weight,
-      style = style,
-    )
-  }
+actual fun font(resourceId: String, weight: FontWeight, style: FontStyle): Font {
+    return cache.getOrPut(resourceId) {
+        androidx.compose.ui.text.platform.Font(
+            identity = resourceId,
+            data = readBundleFile("$resourceId.ttf"),
+            weight = weight,
+            style = style,
+        )
+    }
 }
 
-@OptIn(ExperimentalForeignApi::class)
 private fun readBundleFile(path: String): ByteArray {
-  val fileManager = NSFileManager.defaultManager()
-  val composeResourcesPath = NSBundle.mainBundle.resourcePath + "/" + path
-  val contentsAtPath: NSData? = fileManager.contentsAtPath(composeResourcesPath)
-  if (contentsAtPath != null) {
-    val byteArray = ByteArray(contentsAtPath.length.toInt())
-    byteArray.usePinned { memcpy(it.addressOf(0), contentsAtPath.bytes, contentsAtPath.length) }
+    val fileManager = NSFileManager.defaultManager()
+    val nsContent: NSData? = fileManager.contentsAtPath(findResourcePath(path))
+    if (nsContent != null) {
+        return nsContent.toByteArray()
+    } else {
+        error("File $path not found in Bundle")
+    }
+}
+
+private fun findResourcePath(path: String): String {
+    return NSBundle.mainBundle.resourcePath + "/" + path
+}
+
+internal fun NSData.toByteArray(): ByteArray {
+    val byteArray = ByteArray(this.length.toInt())
+    byteArray.usePinned {
+        memcpy(it.addressOf(0), this.bytes, this.length)
+    }
     return byteArray
-  } else {
-    error("File $path not found in Bundle")
-  }
 }

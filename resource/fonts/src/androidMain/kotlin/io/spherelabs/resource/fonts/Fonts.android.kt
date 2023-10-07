@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 private val idCache = mutableMapOf<String, Int>()
 
 @Composable
-actual fun font(fontName: String, resourceId: String, weight: FontWeight, style: FontStyle): Font {
+actual fun font(resourceId: String, weight: FontWeight, style: FontStyle): Font {
   val context = LocalContext.current
   val id = idCache.getOrPut(resourceId) { context.getFont(resourceId) }
   return Font(resId = id, weight = weight, style = style)
