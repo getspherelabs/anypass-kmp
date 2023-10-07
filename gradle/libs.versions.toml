@@ -24,7 +24,7 @@ gms = "22.4.0"
 
 [libraries]
 androidx-savedstate-ktx = { group = "androidx.savedstate", name = "savedstate-ktx", version.ref = "savedstate-ktx" }
-androidx-lifecycle-runtime = { group = "android.lifecycle", name = "lifecycle-runtime", version.ref = "compose-lifecycle" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "compose-lifecycle" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "compose-lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "compose-lifecycle" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation-core", version.ref = "compose-ui" }
