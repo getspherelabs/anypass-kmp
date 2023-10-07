@@ -53,6 +53,9 @@ android {
         implementation(libs.androidx.compose.foundation)
         implementation(libs.firebase.auth)
         implementation(libs.sentry)
+
+        implementation(libs.app.update)
+        implementation(libs.app.update.ktx)
     }
 }
 

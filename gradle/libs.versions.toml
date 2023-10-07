@@ -34,6 +34,7 @@ sentry-plugin = "3.13.0"
 buildkonfig = "0.14.0"
 sqldelight-plugin = "2.0.0"
 secrets = "2.0.1"
+app-update = "2.1.0"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -84,6 +85,8 @@ sentry = { group = "io.sentry", name = "sentry-kotlin-multiplatform", version.re
 gms = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "gms" }
 assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref = "assertk" }
 lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "lyricist" }
+app-update = { group = "com.google.android.play", name = "app-update", version.ref = "app-update"}
+app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
