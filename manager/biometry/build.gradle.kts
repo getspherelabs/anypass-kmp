@@ -28,8 +28,9 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                api(Libs.Coroutine.core)
+
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
+                api(Libs.Coroutine.core)
             }
         }
         val commonTest by getting {

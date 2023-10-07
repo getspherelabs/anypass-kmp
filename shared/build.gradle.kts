@@ -95,7 +95,7 @@ kotlin {
                 implementation(project(":resource:fonts"))
                 implementation(project(":features:passphrase:masterPasswordDomain"))
                 implementation(project(":features:passphrase:masterPasswordPresentation"))
-                implementation(project(":resource:icons"))
+               implementation(project(":resource:icons"))
                 api(project(":data:local"))
                 api(project(":core:analytics"))
                 api(project(":manager:biometry"))
