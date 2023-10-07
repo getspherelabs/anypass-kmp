@@ -52,6 +52,9 @@ android {
         implementation("androidx.activity:activity-compose:1.7.2")
         implementation(Libs.Firebase.auth)
         implementation("io.sentry:sentry-kotlin-multiplatform:0.2.1")
+//        In-App update dependencies
+        implementation("com.google.android.play:app-update:2.0.1")
+        implementation("com.google.android.play:app-update-ktx:2.0.1")
     }
 }
 
