@@ -1,1 +1,108 @@
+[versions]
+appcompat = "1.6.1"
+meteor = "0.4.3"
+coroutine = "1.7.2"
+settings = "1.0.0"
+koin-core = "3.3.0"
+koin-android = "3.3.1"
+koin-compose = "1.0.4"
+ktlint = "10.3.0"
+firebase-auth = "22.1.2"
+firebase-core = "21.1.1"
+firebase-coroutine = "1.4.1"
+datastore = "1.1.0-alpha04"
+turbine = "1.0.0"
+sqldelight = "2.0.0"
+atomicfu = "0.17.3"
+savedstate-ktx = "1.2.1"
+compose-ui = "1.5.1"
+compose-activty = "1.7.2"
+compose-lifecycle = "2.6.1"
+assertk = "0.27.0"
+lifecycle-java = "2.6.2"
+moko = "0.22.3"
+sentry = "0.2.1"
+gms = "22.4.0"
+lyricist = "1.4.2"
+biometric = "1.1.0"
+agp = "7.4.2"
+kotlin = "1.9.0"
+compose-multiplatform = "1.5.0"
+spotless-plugin = "6.21.0"
+gms-service = "4.3.15"
+sentry-plugin = "3.13.0"
+buildkonfig = "0.14.0"
+sqldelight-plugin = "2.0.0"
+secrets = "2.0.1"
 
+[libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
+androidx-savedstate-ktx = { group = "androidx.savedstate", name = "savedstate-ktx", version.ref = "savedstate-ktx" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "compose-lifecycle" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "compose-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "compose-lifecycle" }
+androidx-compose-animation = { group = "androidx.compose.animation", name = "animation-core", version.ref = "compose-ui" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-ui" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-ui" }
+androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "compose-ui" }
+androidx-compose-material-ripple = { group = "androidx.compose.material", name = "material-ripple", version.ref = "compose-ui" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose-ui" }
+androidx-compose-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "compose-ui" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose-ui" }
+androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "compose-ui" }
+androidx-compose-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "compose-ui" }
+androidx-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activty" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose-ui" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose-ui" }
+androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "compose-ui" }
+androidx-lifecycle-java = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle-java" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+androidx-datastore-pref = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "atomicfu" }
+coroutine = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
+coroutine-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine" }
+coroutine-firebase = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "firebase-coroutine" }
+meteor = { group = "io.github.behzodhalil", name = "meteor-mvi", version.ref = "meteor" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin-core" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin-core" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-compose" }
+sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
+sqldelight-ext = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-adapter = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
+sqldelight-test = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebase-auth" }
+firebase-core = { group = "com.google.firebase", name = "firebase-core", version.ref = "firebase-core" }
+settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "settings" }
+settings-coroutine = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "settings" }
+settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "settings" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+moko-resource = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko" }
+sentry = { group = "io.sentry", name = "sentry-kotlin-multiplatform", version.ref = "sentry" }
+gms = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "gms" }
+assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref = "assertk" }
+lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "lyricist" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+gms = { id = "com.google.gms.google-services", version.ref = "gms-service" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless-plugin" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight-plugin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+sentry = { id = "io.sentry.android.gradle", version.ref = "sentry-plugin" }
+
+anypass-compose ={ id = "anypass.compose", version = "unspecified" }
+anypass-designsystem = { id = "anypass.multiplatform.designsystem", version = "unspecified" }
+anypass-common = { id = "anypass.multiplatform.common", version = "unspecified" }
+anypass-domain = { id = "anypass.multiplatform.domain", version = "unspecified"}
+anypass-presentation = { id = "anypass.multiplatform.presentation", version = "unspecified"}
+anypass-validation = { id = "anypass.multiplatform.validation", version = "unspecified"}
+anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified"}
+anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified"}

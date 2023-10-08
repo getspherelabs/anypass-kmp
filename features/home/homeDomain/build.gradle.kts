@@ -1,4 +1,8 @@
-plugins { id("anypass.multiplatform.domain") }
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
+plugins {
+    alias(libs.plugins.anypass.domain)
+}
 
 android {
   namespace = "io.spherelabs.home.homedomain"

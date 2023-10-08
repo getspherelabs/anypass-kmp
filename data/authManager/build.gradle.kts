@@ -35,8 +35,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(Libs.Koin.core)
-                api(Libs.Coroutine.core)
+                api(libs.koin.core)
+                api(libs.coroutine)
             }
         }
         val commonTest by getting {
@@ -46,11 +46,10 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(Libs.Koin.android)
-                implementation(Libs.Koin.compose)
-                implementation(Libs.Firebase.core)
-                implementation(Libs.Firebase.auth)
-                implementation(Libs.Coroutine.firebase)
+                implementation(libs.koin.android)
+                implementation(libs.firebase.auth)
+                implementation(libs.firebase.core)
+                implementation(libs.coroutine.firebase)
             }
         }
         val androidUnitTest by getting

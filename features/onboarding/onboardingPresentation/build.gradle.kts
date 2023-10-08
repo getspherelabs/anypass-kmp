@@ -1,12 +1,15 @@
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-  id("anypass.multiplatform.presentation")
-  id("anypass.compose")
+    alias(libs.plugins.anypass.presentation)
+    alias(libs.plugins.anypass.compose)
 }
 
 kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
+          implementation(projects.features.onboarding.onboardingDomain)
         implementation(project(":features:onboarding:onboardingDomain"))
         implementation(compose.runtime)
       }

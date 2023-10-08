@@ -1,11 +1,14 @@
-plugins { id("anypass.multiplatform.presentation") }
+@file:Suppress("DSL_SCOPE_VIOLATION")
 
+plugins {
+    alias(libs.plugins.anypass.presentation)
+}
 kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(project(":features:addnewpassword:addNewPasswordDomain"))
-        implementation(project(":core:common"))
+          implementation(projects.features.addnewpassword.addNewPasswordDomain)
+          implementation(projects.core.common)
       }
     }
   }

@@ -26,11 +26,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.coroutine)
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-
-                implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
-                api(Libs.Coroutine.core)
+                implementation(libs.atomicfu)
             }
         }
         val commonTest by getting {
@@ -40,8 +40,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.appcompat:appcompat:1.6.1")
-                implementation("androidx.biometric:biometric:1.1.0")
+                implementation(libs.androidx.appcompat)
+                implementation(libs.androidx.biometric)
             }
         }
         val androidUnitTest by getting

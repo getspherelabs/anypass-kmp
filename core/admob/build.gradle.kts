@@ -26,19 +26,20 @@ kotlin {
         framework {
             baseName = "admob"
         }
-        pod("Google-Mobile-Ads-SDK","~> 10.3.0", moduleName  =  "GoogleMobileAds")
+        pod("Google-Mobile-Ads-SDK", "~> 10.3.0", moduleName = "GoogleMobileAds")
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.koin.core)
+                api(libs.coroutine)
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
-                api(Libs.Koin.core)
-                api(Libs.Coroutine.core)
             }
         }
         val commonTest by getting {
@@ -49,8 +50,8 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Libs.Koin.android)
-                implementation ("com.google.android.gms:play-services-ads:22.4.0")
+                implementation(libs.koin.android)
+                implementation(libs.gms)
             }
         }
         val androidUnitTest by getting
