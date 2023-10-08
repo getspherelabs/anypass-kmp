@@ -40,12 +40,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.coroutine)
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
                 implementation(compose.material)
-                api(Libs.Coroutine.core)
             }
         }
         val commonTest by getting {
@@ -56,7 +57,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation("androidx.activity:activity-compose:1.7.2")
+                implementation(libs.androidx.compose.activity)
             }
         }
         val androidUnitTest by getting

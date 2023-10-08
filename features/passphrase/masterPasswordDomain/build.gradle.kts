@@ -1,8 +1,13 @@
-plugins { id("anypass.multiplatform.domain") }
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
+plugins {
+    alias(libs.plugins.anypass.domain)
+}
 
 kotlin {
   sourceSets {
-    val commonMain by getting { dependencies { implementation(project(":data:prefs")) } }
+    val commonMain by getting { dependencies {
+        implementation(projects.data.prefs) } }
   }
 }
 

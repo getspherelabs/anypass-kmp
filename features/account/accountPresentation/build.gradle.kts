@@ -1,11 +1,15 @@
-plugins { id("anypass.multiplatform.presentation") }
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
+plugins {
+    alias(libs.plugins.anypass.presentation)
+}
 
 kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(project(":features:account:accountDomain"))
-        implementation(project(":core:common"))
+        implementation(projects.features.account.accountDomain)
+        implementation(projects.core.common)
       }
     }
   }

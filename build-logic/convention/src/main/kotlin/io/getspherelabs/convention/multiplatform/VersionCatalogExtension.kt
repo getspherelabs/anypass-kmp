@@ -15,6 +15,6 @@ internal fun Project.findLibrary(name: String): Provider<MinimalExternalModuleDe
     return libs.findLibrary(name).get()
 }
 
-internal fun Project.getPlugin(name: String) {
-
+internal fun Project.findPlugin(name: String): String {
+    return libs.findPlugin(name).get().get().pluginId
 }

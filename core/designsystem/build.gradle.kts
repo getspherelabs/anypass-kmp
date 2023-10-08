@@ -1,19 +1,21 @@
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    id("anypass.multiplatform.designsystem")
+    alias(libs.plugins.anypass.designsystem)
 }
 
 kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(projects.resource.strings)
+                api(libs.lyricist)
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
-                api("cafe.adriel.lyricist:lyricist:1.4.2")
-                api(project(":resource:strings"))
-
             }
         }
         val androidMain by getting {
