@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.gms.google-services")
-    id("io.sentry.android.gradle") version "3.12.0"
+    id("io.sentry.android.gradle")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
@@ -42,16 +42,17 @@ android {
     }
 
     dependencies {
-        implementation(project(":shared"))
-        implementation(project(":navigation"))
-        implementation("androidx.compose.ui:ui:1.5.1")
-        implementation("androidx.compose.ui:ui-tooling:1.5.1")
-        implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
-        implementation("androidx.compose.foundation:foundation:1.5.1")
-        implementation("androidx.compose.material:material:1.5.1")
-        implementation("androidx.activity:activity-compose:1.7.2")
-        implementation(Libs.Firebase.auth)
-        implementation("io.sentry:sentry-kotlin-multiplatform:0.2.1")
+        implementation(projects.shared)
+        implementation(projects.navigation)
+
+        implementation(libs.androidx.compose.ui)
+        implementation(libs.androidx.compose.ui.tooling)
+        implementation(libs.androidx.compose.ui.tooling.preview)
+        implementation(libs.androidx.compose.activity)
+        implementation(libs.androidx.compose.material)
+        implementation(libs.androidx.compose.foundation)
+        implementation(libs.firebase.auth)
+        implementation(libs.sentry)
     }
 }
 

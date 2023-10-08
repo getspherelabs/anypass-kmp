@@ -1,5 +1,7 @@
 package io.spherelabs.data.settings.di
 
+import io.spherelabs.data.settings.fingerprint.DefaultFingerPrintSetting
+import io.spherelabs.data.settings.fingerprint.FingerPrintSetting
 import io.spherelabs.data.settings.masterpassword.DefaultMasterPasswordSetting
 import io.spherelabs.data.settings.masterpassword.MasterPasswordSetting
 import io.spherelabs.data.settings.onboarding.DefaultOnboardingSetting
@@ -13,4 +15,5 @@ val settingModule = module {
   includes(platformModule())
   factory<OnboardingSetting> { DefaultOnboardingSetting(get()) }
   factory<MasterPasswordSetting> { DefaultMasterPasswordSetting(get()) }
+  factory<FingerPrintSetting> { DefaultFingerPrintSetting(get()) }
 }

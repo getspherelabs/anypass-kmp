@@ -10,6 +10,7 @@ Pod::Spec.new do |spec|
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'
     spec.dependency 'FirebaseAuth', '~> 10.7.0'
+    spec.dependency 'FirebaseCore'
     spec.dependency 'Google-Mobile-Ads-SDK', '~> 10.3.0'
     spec.dependency 'Sentry', '~> 8.4.0'
                 

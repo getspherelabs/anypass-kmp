@@ -40,29 +40,30 @@ kotlin {
             }
         }
 
-        extraSpecAttributes["resources"] =
-            "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+
     }
 
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Libs.Koin.core)
-                implementation(Libs.SqlDelight.runtime)
-                implementation(Libs.SqlDelight.extension)
-                implementation(Libs.SqlDelight.primitiveAdapter)
+                api(projects.features.addnewpassword.addNewPasswordDomain)
+                api(projects.features.home.homeDomain)
+                api(projects.features.account.accountDomain)
+                api(libs.moko.resource)
 
-                api(project(":features:addnewpassword:addNewPasswordDomain"))
-                api(project(":features:home:homeDomain"))
-                api("dev.icerock.moko:resources:0.22.3")
+                implementation(libs.koin.core)
+                implementation(libs.sqldelight.runtime)
+                implementation(libs.sqldelight.ext)
+                implementation(libs.sqldelight.adapter)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(Libs.Testing.turbine)
-                implementation(Libs.Testing.coroutine)
+                implementation(libs.turbine)
+                implementation(libs.coroutine.test)
+                implementation(libs.assertk)
             }
         }
         val androidMain by getting {

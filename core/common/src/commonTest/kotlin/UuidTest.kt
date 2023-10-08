@@ -6,11 +6,11 @@ import kotlin.test.Test
 
 class UuidTest {
 
-    @Test
-    fun `check the uuid works properly`() {
-        val uuid = uuid4()
+  @Test
+  fun `check the uuid works properly`() {
+    val uuid = uuid4()
 
-        assertThat(uuid).isNotEmpty()
-        assertThat(uuid.length).isGreaterThan(10)
-    }
+    assertThat(uuid).isNotEmpty()
+    assertThat(uuid.length).isGreaterThan(10)
+  }
 }

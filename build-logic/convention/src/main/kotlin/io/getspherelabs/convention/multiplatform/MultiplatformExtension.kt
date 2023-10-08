@@ -3,6 +3,8 @@ package io.getspherelabs.convention.multiplatform
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalog
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -40,18 +42,22 @@ internal fun Project.configureDomainMultiplatform(
         sourceSets {
             val commonMain by getting {
                 dependencies {
-                    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-                    api("io.insert-koin:koin-core:3.3.0")
+                    api(findLibrary(name = "coroutine"))
+                    api(findLibrary(name = "koin-core"))
                 }
             }
             val commonTest by getting {
                 dependencies {
                     implementation(kotlin("test"))
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
-                    implementation("app.cash.turbine:turbine:1.0.0")
+                    implementation(findLibrary(name = "coroutine-test"))
+                    implementation(findLibrary(name = "turbine"))
                 }
             }
-            val androidMain by getting
+            val androidMain by getting {
+                dependencies {
+                    implementation(findLibrary(name = "koin-android"))
+                }
+            }
             val androidUnitTest by getting
             val iosX64Main by getting
             val iosArm64Main by getting
@@ -107,7 +113,7 @@ internal fun Project.configureDesignSystemMultiplatform(
         sourceSets {
             val commonMain by getting {
                 dependencies {
-                    implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
+                    implementation(findLibrary(name = "atomicfu"))
                 }
             }
             val commonTest by getting {
@@ -118,22 +124,23 @@ internal fun Project.configureDesignSystemMultiplatform(
             val androidMain by getting {
                 dependsOn(commonMain)
                 dependencies {
-                    implementation("androidx.savedstate:savedstate-ktx:1.2.1")
-                    implementation("androidx.lifecycle:lifecycle-runtime:2.6.2")
-                    implementation("androidx.compose.animation:animation-core:1.5.1")
-                    implementation("androidx.compose.ui:ui-util:1.5.1")
-                    implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.0")
-                    api("androidx.compose.material:material-icons-core:1.5.1")
-                    api("androidx.compose.material:material-ripple:1.5.1")
-                    api("androidx.compose.runtime:runtime:1.5.1")
-                    api("androidx.compose.ui:ui-graphics:1.5.1")
-                    api("androidx.compose.ui:ui:1.5.1")
-                    api("androidx.compose.ui:ui-text:1.5.1")
-                    implementation("androidx.activity:activity-compose:1.7.2")
-                    implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
-                    implementation("androidx.compose.ui:ui-tooling:1.5.1")
-                    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
-                    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
+                    api(findLibrary(name = "androidx-compose-graphics"))
+                    api(findLibrary(name = "androidx-compose-ui"))
+                    api(findLibrary(name = "androidx-compose-ui-text"))
+
+                    implementation(findLibrary(name = "androidx-savedstate-ktx"))
+                    implementation(findLibrary(name = "androidx-lifecycle-runtime"))
+                    implementation(findLibrary(name = "androidx-lifecycle-viewmodel"))
+                    implementation(findLibrary(name = "androidx-compose-animation"))
+                    implementation(findLibrary(name = "androidx-compose-material-icons"))
+                    implementation(findLibrary(name = "androidx-compose-material-ripple"))
+                    implementation(findLibrary(name = "androidx-compose-runtime"))
+                    implementation(findLibrary(name = "androidx-compose-ui-util"))
+                    implementation(findLibrary(name = "androidx-compose-activity"))
+                    implementation(findLibrary(name = "androidx-compose-ui-tooling-preview"))
+                    implementation(findLibrary(name = "androidx-compose-ui-tooling"))
+                    implementation(findLibrary(name = "androidx-lifecycle-compose"))
+                    implementation(findLibrary(name = "androidx-lifecycle-java"))
                 }
             }
             val androidUnitTest by getting
@@ -189,9 +196,9 @@ internal fun Project.configurePresentationMultiplatform(
         sourceSets {
             val commonMain by getting {
                 dependencies {
-                    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-                    api("io.insert-koin:koin-core:3.3.0")
-                    api("io.github.behzodhalil:meteor-mvi:0.4.3")
+                    api(findLibrary(name = "coroutine"))
+                    api(findLibrary(name = "koin-core"))
+                    api(findLibrary(name = "meteor"))
                 }
             }
             val commonTest by getting {
@@ -201,7 +208,7 @@ internal fun Project.configurePresentationMultiplatform(
             }
             val androidMain by getting {
                 dependencies {
-                    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+                    implementation(findLibrary(name = "androidx-lifecycle-viewmodel-ktx"))
                 }
             }
             val androidUnitTest by getting
@@ -261,7 +268,7 @@ internal fun Project.configureCommonMultiplatform(
             val commonTest by getting {
                 dependencies {
                     implementation(kotlin("test"))
-                    implementation("com.willowtreeapps.assertk:assertk:0.27.0")
+                    implementation(findLibrary(name = "assertk"))
                 }
             }
             val androidMain by getting
@@ -322,9 +329,10 @@ internal fun Project.configurePrefsMultiplatform(
             }
             val commonMain by getting {
                 dependencies {
-                    api("io.insert-koin:koin-core:3.3.0")
-                    api("com.russhwolf:multiplatform-settings:1.0.0")
-                    api("com.russhwolf:multiplatform-settings-coroutines:1.0.0")
+                    api(findLibrary(name = "coroutine"))
+                    api(findLibrary(name = "koin-core"))
+                    api(findLibrary(name = "settings"))
+                    api(findLibrary(name = "settings-coroutine"))
                 }
             }
             val commonTest by getting {
@@ -334,10 +342,10 @@ internal fun Project.configurePrefsMultiplatform(
             }
             val androidMain by getting {
                 dependencies {
-                    implementation("io.insert-koin:koin-android:3.3.1")
-                    implementation("androidx.datastore:datastore:1.1.0-alpha04")
-                    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
-                    api("com.russhwolf:multiplatform-settings-datastore:1.0.0")
+                    implementation(findLibrary(name = "koin-android"))
+                    implementation(findLibrary(name = "androidx-datastore"))
+                    implementation(findLibrary(name = "androidx-datastore-pref"))
+                    api(findLibrary(name = "settings-datastore"))
                 }
             }
             val androidUnitTest by getting
@@ -394,14 +402,14 @@ internal fun Project.configureValidationMultiplatform(
         sourceSets {
             val commonMain by getting {
                 dependencies {
-                    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-                    api("io.insert-koin:koin-core:3.3.0")
+                    api(findLibrary(name = "coroutine"))
+                    api(findLibrary(name = "koin-core"))
                 }
             }
             val commonTest by getting {
                 dependencies {
                     implementation(kotlin("test"))
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
+                    implementation(findLibrary(name = "coroutine-test"))
                 }
             }
             val androidMain by getting
@@ -460,7 +468,7 @@ internal fun Project.configureResourceMultiplatform(
         sourceSets {
             val commonMain by getting {
                 dependencies {
-                    implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
+                    implementation(findLibrary(name = "atomicfu"))
                 }
             }
             val commonTest by getting {
@@ -493,6 +501,7 @@ internal fun Project.configureResourceMultiplatform(
         }
     }
 }
+
 internal fun KotlinMultiplatformExtension.sourceSets(
     configure: Action<NamedDomainObjectContainer<KotlinSourceSet>>,
 ) {

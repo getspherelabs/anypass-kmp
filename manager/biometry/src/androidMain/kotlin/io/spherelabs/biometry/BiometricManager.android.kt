@@ -19,7 +19,7 @@ actual class BiometricManager(
         isDeviceAllowed: Boolean,
         callback: (Result<Boolean>) -> Unit,
     ): Boolean {
-        return suspendCoroutine { continuation ->
+        return suspendCoroutine { _ ->
             var resumed = false
 
             val fragmentActivity = context as FragmentActivity

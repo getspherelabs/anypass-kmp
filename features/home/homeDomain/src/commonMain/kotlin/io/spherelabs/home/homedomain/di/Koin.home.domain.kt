@@ -7,6 +7,6 @@ import io.spherelabs.home.homedomain.GetPasswordsByCategory
 import org.koin.dsl.module
 
 val homeDomainModule = module {
-    single<GetCategories> { DefaultGetCategories(get()) }
-    single<GetPasswordsByCategory> { DefaultGetPasswordByCategory(get()) }
+  single<GetCategories> { DefaultGetCategories(get()) }
+  single<GetPasswordsByCategory> { DefaultGetPasswordByCategory(get()) }
 }

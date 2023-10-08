@@ -46,10 +46,7 @@ fun LKPinInput(
     repeat(length) {
       LKCell(
         modifier =
-          cellModifier
-            .size(65.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = Color.White),
+          cellModifier.size(65.dp).clip(RoundedCornerShape(12.dp)).background(color = Color.White),
         value = value?.getOrNull(it),
         isCursorVisible = if (value == null) false else value.length == it,
         style.obscureText().value

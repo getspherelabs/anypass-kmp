@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,24 +37,27 @@ import io.spherelabs.designsystem.textfield.LKUserNameTextField
 import io.spherelabs.designsystem.textfield.LKWebsiteAddressTextField
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.anypass.ui.account.BackButton
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
-import io.spherelabs.resources.AnyPassIcons
-import io.spherelabs.resources.anypassicons.ApplePodcasts
-import io.spherelabs.resources.anypassicons.Behance
-import io.spherelabs.resources.anypassicons.Discord
-import io.spherelabs.resources.anypassicons.Dribble
-import io.spherelabs.resources.anypassicons.Facebook
-import io.spherelabs.resources.anypassicons.Googlemeet
-import io.spherelabs.resources.anypassicons.Linkedin
-import io.spherelabs.resources.anypassicons.Medium
-import io.spherelabs.resources.anypassicons.Messenger
-import io.spherelabs.resources.anypassicons.Pinterest
-import io.spherelabs.resources.anypassicons.Quora
-import io.spherelabs.resources.anypassicons.Reddit
-import io.spherelabs.resources.anypassicons.Skype
-import io.spherelabs.resources.anypassicons.Telegram
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
+import io.spherelabs.resource.icons.AnyPassIcons
+import io.spherelabs.resource.icons.anypassicons.ApplePodcasts
+import io.spherelabs.resource.icons.anypassicons.Behance
+import io.spherelabs.resource.icons.anypassicons.Discord
+import io.spherelabs.resource.icons.anypassicons.Dribble
+import io.spherelabs.resource.icons.anypassicons.Facebook
+import io.spherelabs.resource.icons.anypassicons.Googlemeet
+import io.spherelabs.resource.icons.anypassicons.Linkedin
+import io.spherelabs.resource.icons.anypassicons.Medium
+import io.spherelabs.resource.icons.anypassicons.Messenger
+import io.spherelabs.resource.icons.anypassicons.Pinterest
+import io.spherelabs.resource.icons.anypassicons.Quora
+import io.spherelabs.resource.icons.anypassicons.Reddit
+import io.spherelabs.resource.icons.anypassicons.Skype
+import io.spherelabs.resource.icons.anypassicons.Telegram
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,6 +66,7 @@ import kotlinx.coroutines.launch
 fun AddNewPasswordRoute(
     viewModel: AddNewPasswordViewModel = useInject(),
     navigateToGeneratePassword: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
 
     val uiState = viewModel.state.collectAsStateWithLifecycle()
@@ -75,6 +80,9 @@ fun AddNewPasswordRoute(
         navigateToGeneratePassword = {
             navigateToGeneratePassword.invoke()
         },
+        navigateToBack = {
+            navigateToBack.invoke()
+        },
     )
 }
 
@@ -85,10 +93,12 @@ fun AddNewPasswordScreen(
     state: AddNewPasswordState,
     flow: Flow<AddNewPasswordEffect>,
     navigateToGeneratePassword: () -> Unit,
+    navigateToBack: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
     val scope = useScope()
+    val strings = LocalStrings.current
 
     val (expanded, setExpanded) = useBooleanState(false)
     val waitForPositiveButton by remember { mutableStateOf(false) }
@@ -123,6 +133,28 @@ fun AddNewPasswordScreen(
     }
 
     Scaffold(
+        topBar = {
+            Row(
+                modifier = modifier.padding(top = 16.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                BackButton(
+                    modifier = modifier,
+                    backgroundColor = Color(0xffd8e6ff),
+                    iconColor = Color.Black,
+                    navigateToBack = {
+                        navigateToBack.invoke()
+                    },
+                )
+                Headline(
+                    text = strings.addNewPassword,
+                    modifier = modifier,
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    textColor = Color.Black,
+                )
+            }
+        },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
@@ -138,16 +170,13 @@ fun AddNewPasswordScreen(
                 .background(color = Color.White)
                 .verticalScroll(scrollState),
         ) {
-            Headline(
-                text = "Add new password",
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                textColor = Color.Black,
-            )
+
 
             Text(
-                text = "Add new password to your records",
+                text = strings.newPasswordRecord,
                 fontSize = 16.sp,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
                 color = Color.Black.copy(alpha = 0.5F),
                 modifier = modifier.padding(start = 24.dp, top = 8.dp),
             )
@@ -167,7 +196,7 @@ fun AddNewPasswordScreen(
                 )
 
                 LKSocialMediaPicker {
-                    title("Select a icon")
+                    title(strings.selectIcon)
                     socialIconsPicker(
                         socialIcons = SocialIcons.getSocialMedia().value,
                         waitForPositiveButton = waitForPositiveButton,
@@ -181,7 +210,7 @@ fun AddNewPasswordScreen(
 
             LKUserNameTextField(
                 state.username,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
                 },
@@ -190,7 +219,7 @@ fun AddNewPasswordScreen(
 
             Column {
                 Text(
-                    text = "Category",
+                    text = strings.category,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 24.dp, bottom = 4.dp),
@@ -216,7 +245,7 @@ fun AddNewPasswordScreen(
 
             LKEmailTextField(
                 state.email,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
                 },
@@ -224,7 +253,7 @@ fun AddNewPasswordScreen(
 
             LKPasswordTextField(
                 state.password,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
                 },
@@ -232,7 +261,7 @@ fun AddNewPasswordScreen(
 
             LKWebsiteAddressTextField(
                 state.websiteAddress,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
                 },
@@ -240,7 +269,7 @@ fun AddNewPasswordScreen(
 
             LKNotesTextField(
                 state.notes,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
                 onValueChanged = { newValue ->
                     wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
                 },
@@ -257,11 +286,12 @@ fun AddNewPasswordScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Generate password",
+                    text = strings.generatePassword,
                     textAlign = TextAlign.Start,
                     color = Color.Black.copy(0.5f),
                     fontSize = 16.sp,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
                 Box(
                     modifier = modifier.size(16.dp).clip(CircleShape).border(
@@ -296,12 +326,11 @@ fun AddNewPasswordScreen(
                 },
             ) {
                 Text(
-                    text = "Save password",
+                    text = strings.savePassword,
                     color = Color.White,
                     fontSize = 18.sp,
-                    fontFamily = fontFamilyResource(
-                        fontResource = MR.fonts.googlesans.medium,
-                    ),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }

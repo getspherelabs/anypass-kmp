@@ -31,6 +31,7 @@ import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -40,7 +41,7 @@ import kotlinx.coroutines.launch
 fun SignUpRoute(
     viewModel: SignUpViewModel = useInject(),
     navigateToBack: () -> Unit,
-    navigateToAddPrivatePassword: () -> Unit
+    navigateToAddPrivatePassword: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -55,7 +56,7 @@ fun SignUpRoute(
         },
         navigateToAddPrivatePassword = {
             navigateToAddPrivatePassword.invoke()
-        }
+        },
     )
 }
 
@@ -66,10 +67,12 @@ fun SignUpScreen(
     state: SignUpState,
     effect: Flow<SignUpEffect>,
     navigateToBack: () -> Unit,
-    navigateToAddPrivatePassword: () -> Unit
+    navigateToAddPrivatePassword: () -> Unit,
 ) {
     val snackbarHostState = useSnackbar()
     val coroutineScope = useScope()
+
+    val strings = LocalStrings.current
 
     useEffect(true) {
         effect.collectLatest { newEffect ->
@@ -81,7 +84,7 @@ fun SignUpScreen(
                 is SignUpEffect.Failure -> {
                     coroutineScope.launch {
                         snackbarHostState.showSnackbar(
-                            message = newEffect.message
+                            message = newEffect.message,
                         )
                     }
                 }
@@ -97,7 +100,7 @@ fun SignUpScreen(
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
                     modifier = modifier.padding(start = 24.dp).size(56.dp)
@@ -106,13 +109,13 @@ fun SignUpScreen(
                         .clickable {
                             wish.invoke(SignUpWish.Back)
                         },
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Image(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null,
                         contentScale = ContentScale.Fit,
-                        colorFilter = ColorFilter.tint(color = Color.White)
+                        colorFilter = ColorFilter.tint(color = Color.White),
                     )
                 }
 
@@ -123,30 +126,30 @@ fun SignUpScreen(
                 hostState = snackbarHostState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom)
+                    .wrapContentHeight(Alignment.Bottom),
             )
-        }
+        },
     ) {
         Column(
             modifier = modifier.fillMaxSize().background(color = Color.White),
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Row(
                 modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = "Create a new \naccount",
+                    text = strings.createNewAccount,
                     fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
                     fontSize = 32.sp,
-                    color = Color.Black
+                    color = Color.Black,
                 )
 
                 Image(
                     modifier = modifier.size(125.dp),
                     painter = painterResource(MR.images.signup),
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
             LKEmailTextField(
@@ -170,24 +173,26 @@ fun SignUpScreen(
 
             Spacer(modifier.height(24.dp))
 
-            Button(modifier = Modifier
-                .fillMaxWidth()
-                .height(65.dp)
-                .padding(start = 24.dp, end = 24.dp),
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(start = 24.dp, end = 24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorResource(MR.colors.grey)
+                    backgroundColor = colorResource(MR.colors.grey),
                 ),
                 shape = RoundedCornerShape(24.dp),
                 onClick = {
                     wish.invoke(SignUpWish.OnSignUpClick)
-                }) {
+                },
+            ) {
                 Text(
-                    text = "Sign Up",
+                    text = strings.signUp,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontFamily = fontFamilyResource(
-                        fontResource = MR.fonts.googlesans.medium
-                    )
+                        fontResource = MR.fonts.googlesans.medium,
+                    ),
                 )
             }
 

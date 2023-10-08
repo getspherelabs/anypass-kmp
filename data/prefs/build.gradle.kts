@@ -1,4 +1,6 @@
-plugins { id("anypass.multiplatform.prefs") }
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
+plugins { alias(libs.plugins.anypass.prefs) }
 
 android {
   namespace = "io.spherelabs.data.settings"

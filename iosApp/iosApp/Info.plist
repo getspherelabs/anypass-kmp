@@ -46,6 +46,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+        <string>googlesans_regular.ttf</string>
+        <string>googlesans_medium.ttf</string>
+		<string>googlesans_bold.ttf</string>
+        <string>opensans_regular.ttf</string>
+        <string>opensans_medium.ttf</string>
+		<string>opensans_bold.ttf</string>
+	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-8658928019283352~6272802911</string>
 	<key>SKAdNetworkItems</key>

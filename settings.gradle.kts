@@ -15,7 +15,7 @@ dependencyResolutionManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "anypass-kmp"
 include(":androidApp")
 include(":shared")
@@ -50,9 +50,12 @@ include(":core:analytics")
 include(":features:account")
 include(":features:account:accountDomain")
 include(":features:account:accountPresentation")
-include(":features:masterpassword")
-include(":features:masterpassword:masterPasswordDomain")
-include(":features:masterpassword:masterPasswordPresentation")
+include(":features:passphrase")
+include(":features:passphrase:masterPasswordDomain")
+include(":features:passphrase:masterPasswordPresentation")
 include(":core:validation")
-include(":resource")
 include(":core:admob")
+include(":resource")
+include(":resource:fonts")
+include(":resource:icons")
+include(":resource:strings")

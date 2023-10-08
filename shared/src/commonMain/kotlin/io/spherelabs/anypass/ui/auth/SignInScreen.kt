@@ -13,11 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
 import io.spherelabs.anypass.MR
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.authpresentation.signin.SignInViewModel
 import io.spherelabs.designsystem.textfield.LKEmailTextField
@@ -25,10 +25,12 @@ import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.authpresentation.signin.SignInEffect
 import io.spherelabs.authpresentation.signin.SignInState
+import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -64,6 +66,8 @@ fun SignInScreen(
     val snackbarState = useSnackbar()
     val scope = useScope()
 
+    val strings = LocalStrings.current
+
     useEffect(true) {
         effect.collectLatest { newEffect ->
             when (newEffect) {
@@ -90,8 +94,9 @@ fun SignInScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = " Hey,\n Login Now!",
-                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                            text = strings.loginNow,
+                            fontFamily = GoogleSansFontFamily,
+                            fontWeight = FontWeight.Medium,
                             fontSize = 32.sp,
                             color = Color.Black,
                         )
@@ -105,12 +110,14 @@ fun SignInScreen(
 
                     LKEmailTextField(
                         "",
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
                     ) {}
                     LKPasswordTextField(
                         "",
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                    ) {}
+                        fontFamily = GoogleSansFontFamily,
+                    ) {
+
+                    }
                     Spacer(modifier.height(24.dp))
                     Button(
                         modifier = Modifier
@@ -126,12 +133,11 @@ fun SignInScreen(
                         },
                     ) {
                         Text(
-                            text = "Login",
+                            text = strings.login,
                             color = Color.White,
                             fontSize = 18.sp,
-                            fontFamily = fontFamilyResource(
-                                fontResource = MR.fonts.googlesans.medium,
-                            ),
+                            fontFamily = GoogleSansFontFamily,
+                            fontWeight = FontWeight.Medium,
                         )
                     }
 
@@ -143,8 +149,9 @@ fun SignInScreen(
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = "Don't have account?",
-                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                            text = strings.doNotHaveAccount,
+                            fontFamily = GoogleSansFontFamily,
+                            fontWeight = FontWeight.Medium,
                             fontSize = 16.sp,
                             color = Color.Black.copy(0.5f),
                         )
@@ -153,8 +160,9 @@ fun SignInScreen(
                             modifier = modifier.clickable {
                                 navigateToSignUp.invoke()
                             },
-                            text = "Create new",
-                            fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                            text = strings.createNew,
+                            fontFamily = GoogleSansFontFamily,
+                            fontWeight = FontWeight.Medium,
                             fontSize = 20.sp,
                             color = colorResource(MR.colors.lavender),
                         )

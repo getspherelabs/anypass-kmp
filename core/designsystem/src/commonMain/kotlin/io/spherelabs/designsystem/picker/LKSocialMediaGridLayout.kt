@@ -8,25 +8,25 @@ import io.spherelabs.designsystem.hooks.useIntState
 
 @Composable
 internal fun LKSocialIconGridLayout(
-    modifier: Modifier = Modifier,
-    socialIcons: List<SocialMedia>,
-    selectedSocialIcon: MutableState<SocialMedia>,
-    initialSelection: Int,
+  modifier: Modifier = Modifier,
+  socialIcons: List<SocialMedia>,
+  selectedSocialIcon: MutableState<SocialMedia>,
+  initialSelection: Int,
 ) {
-    val (mainIndex, setMainIndex) = useIntState(initialSelection)
+  val (mainIndex, setMainIndex) = useIntState(initialSelection)
 
-    val itemSize = with(LocalDensity.current) { itemSizeDp.toPx().toInt() }
+  val itemSize = with(LocalDensity.current) { itemSizeDp.toPx().toInt() }
 
-    LKGridView(modifier, itemSize = itemSize) {
-        socialIcons.forEachIndexed { index, item ->
-            LKIconView(icon = item.image, selected = index == mainIndex) {
-                if (mainIndex != index) {
-                    setMainIndex.invoke(index)
-                    selectedSocialIcon.value = item
-                }
-            }
+  LKGridView(modifier, itemSize = itemSize) {
+    socialIcons.forEachIndexed { index, item ->
+      LKIconView(icon = item.image, selected = index == mainIndex) {
+        if (mainIndex != index) {
+          setMainIndex.invoke(index)
+          selectedSocialIcon.value = item
         }
+      }
     }
+  }
 }
 
 private val itemSizeDp = 55.dp

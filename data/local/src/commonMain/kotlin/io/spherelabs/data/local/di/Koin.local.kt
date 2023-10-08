@@ -1,7 +1,9 @@
 package io.spherelabs.data.local.di
 
+import io.spherelabs.accountdomain.repository.AccountRepository
 import io.spherelabs.addnewpassworddomain.repository.AddNewPasswordRepository
 import io.spherelabs.data.local.db.*
+import io.spherelabs.data.local.repository.DefaultAccountRepository
 import io.spherelabs.data.local.repository.DefaultAddNewPasswordRepository
 import io.spherelabs.data.local.repository.DefaultHomeRepository
 import io.spherelabs.home.homedomain.repository.HomeRepository
@@ -17,5 +19,6 @@ val localModule = module {
     single<CategoryDao> { DefaultCategoryDao(get()) }
     single<UserDao> { DefaultUserDao(get()) }
     single<AddNewPasswordRepository> { DefaultAddNewPasswordRepository(get(), get()) }
-    single<HomeRepository> { DefaultHomeRepository(get(), get(), get()) }
+    single<HomeRepository> { DefaultHomeRepository(get(), get()) }
+    single<AccountRepository> { DefaultAccountRepository(get(), get()) }
 }
