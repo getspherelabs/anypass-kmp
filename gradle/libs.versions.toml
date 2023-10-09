@@ -34,6 +34,8 @@ sentry-plugin = "3.13.0"
 buildkonfig = "0.14.0"
 sqldelight-plugin = "2.0.0"
 secrets = "2.0.1"
+test-logger = "3.2.0"
+dependencyanalysis = "1.25.0"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -97,12 +99,13 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight-plugin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 sentry = { id = "io.sentry.android.gradle", version.ref = "sentry-plugin" }
-
-anypass-compose ={ id = "anypass.compose", version = "unspecified" }
+test-logger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
+anypass-compose = { id = "anypass.compose", version = "unspecified" }
 anypass-designsystem = { id = "anypass.multiplatform.designsystem", version = "unspecified" }
 anypass-common = { id = "anypass.multiplatform.common", version = "unspecified" }
-anypass-domain = { id = "anypass.multiplatform.domain", version = "unspecified"}
-anypass-presentation = { id = "anypass.multiplatform.presentation", version = "unspecified"}
-anypass-validation = { id = "anypass.multiplatform.validation", version = "unspecified"}
-anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified"}
-anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified"}
+anypass-domain = { id = "anypass.multiplatform.domain", version = "unspecified" }
+anypass-presentation = { id = "anypass.multiplatform.presentation", version = "unspecified" }
+anypass-validation = { id = "anypass.multiplatform.validation", version = "unspecified" }
+anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified" }
+anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified" }
+dependencyanalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyanalysis" }

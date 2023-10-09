@@ -25,6 +25,7 @@ plugins {
     alias(libs.plugins.buildkonfig).apply(false)
     alias(libs.plugins.sentry).apply(false)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.dependencyanalysis)
 }
 
 fun Project.spotless(action: SpotlessExtension.() -> Unit) = extensions.configure<SpotlessExtension>(action)
