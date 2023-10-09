@@ -5,7 +5,7 @@ sealed interface SignInWish {
 
   data class OnPasswordChanged(val password: String) : SignInWish
 
-  object OnSignInClick : SignInWish
+  object OnLoginClicked : SignInWish
 
   object TogglePasswordVisibility : SignInWish
 
@@ -19,9 +19,10 @@ sealed interface SignInWish {
 
   object SignInSuccess : SignInWish
 
-  object SignUpClick : SignInWish
+  object CreateNewClicked : SignInWish
 
   object CheckCurrentUser : SignInWish
 
   data class HasCurrentUser(val value: Boolean) : SignInWish
+
 }
