@@ -7,4 +7,7 @@
     <color name="cinderella">0xDACDFF</color>
     <color name="black">0x000000</color>
     <color name="grey">0x222222</color>
+    <color name="secure">0x8093FE</color>
+    <color name="grey_dark">0xB2B2B2</color>
+    <color name="background_black">0x080808</color>
 </resources>

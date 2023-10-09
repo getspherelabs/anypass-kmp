@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordEffect
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordState
@@ -226,7 +225,8 @@ fun AddNewPasswordScreen(
                     textAlign = TextAlign.Start,
                     color = Color.Black,
                     fontSize = 18.sp,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium
                 )
                 LKSpinner(
                     expanded = expanded,

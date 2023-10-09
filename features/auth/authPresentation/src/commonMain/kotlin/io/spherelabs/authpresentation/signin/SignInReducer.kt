@@ -20,7 +20,10 @@ class SignInReducer : Reducer<SignInState, SignInWish, SignInEffect> {
       SignInWish.OnPasswordFailed -> {
         expect { state.copy(passwordFailed = true) }
       }
-      SignInWish.OnSignInClick -> expect { state.copy(isLoading = true) }
+      SignInWish.OnLoginClicked -> expect {
+          println("SignIn: Current state is ${state.emailFailed} and ${state.passwordFailed}")
+          state.copy(isLoading = true)
+      }
       is SignInWish.SignInFailure -> {
         expect(
           stateAction = { state.copy(isLoading = false) },
@@ -28,13 +31,13 @@ class SignInReducer : Reducer<SignInState, SignInWish, SignInEffect> {
         )
       }
       SignInWish.SignInSuccess -> {
-        route { SignInEffect.Discover }
+        route { SignInEffect.KeyPassword }
       }
       SignInWish.TogglePasswordVisibility -> {
         expect { state.copy(isPasswordVisibility = !state.isPasswordVisibility) }
       }
-      SignInWish.SignUpClick -> {
-        route { SignInEffect.SignUp }
+      SignInWish.CreateNewClicked -> {
+        route { SignInEffect.CreateNew }
       }
       is SignInWish.HasCurrentUser -> {
         expect { state.copy(isCurrentUserExist = wish.value) }

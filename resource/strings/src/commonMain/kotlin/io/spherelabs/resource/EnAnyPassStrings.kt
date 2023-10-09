@@ -18,11 +18,11 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     selectIcon = "Select a icon",
     generatePassword = "Generate a password",
     savePassword = "Save password",
-    loginNow = " Hey,\n Login Now!",
+    loginNow = "Hey,\nLogin Now!",
     login = "Login",
     doNotHaveAccount = "Don't have account?",
     createNew = "Create new",
-    createNewAccount = "Create a new \n account",
+    createNewAccount = "Create a new \naccount",
     signUp = "Sign Up",
     maximumLimitCharacter = { number ->
         "Maximum limit character: $number"
@@ -44,4 +44,7 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     confirmPassphrase = "Confirm Passphrase",
     addPassphrase = "Add Passphrase",
     submit = "Submit",
+    passwordFailure = "Please, enter an password again!",
+    emailFailure = "Please, enter an email again!",
+    passwordLengthIsLess = "The password length is less than eight!"
 )

@@ -44,6 +44,9 @@ data class AnyPassStrings(
     val getStarted: String,
     val confirmPassphrase: String,
     val addPassphrase: String,
-    val submit: String
+    val submit: String,
+    val passwordLengthIsLess: String,
+    val passwordFailure: String,
+    val emailFailure: String,
 )
 
