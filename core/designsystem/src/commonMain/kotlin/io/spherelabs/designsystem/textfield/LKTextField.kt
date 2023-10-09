@@ -72,7 +72,6 @@ fun LKPasswordTextField(
     onValueChanged: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
-    val showPassword = remember { mutableStateOf(false) }
 
     Column {
         val lightBlue = Color(0xffd8e6ff)
@@ -133,6 +132,88 @@ fun LKPasswordTextField(
     }
 }
 
+@Composable
+fun KeyPasswordTextField(
+    textValue: String,
+    passwordVisibility: Boolean = false,
+    title: String = "Key password",
+    description: String? = null,
+    titleColor: Color = Color.Black,
+    fontFamily: FontFamily,
+    onToggleChanged: () -> Unit,
+    modifier: Modifier = Modifier,
+    onValueChanged: (String) -> Unit,
+) {
+    val focusManager = LocalFocusManager.current
+    val lightBlue = Color(0xffd8e6ff)
+
+    Column {
+        Text(
+            text = title,
+            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
+            textAlign = TextAlign.Start,
+            color = titleColor,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = fontFamily,
+        )
+        if (description!= null) {
+            Text(
+                modifier = modifier.padding(horizontal = 24.dp, vertical = 4.dp),
+                text = description,
+                color = Color.White.copy(alpha = 0.7f),
+                fontFamily = fontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+
+        TextField(
+            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+            value = textValue,
+            colors =
+            TextFieldDefaults.textFieldColors(
+                backgroundColor = lightBlue,
+                cursorColor = Color.Black,
+                disabledLabelColor = lightBlue,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+            ),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                autoCorrect = true,
+                keyboardType = KeyboardType.NumberPassword,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            ),
+            onValueChange = { newValue -> onValueChanged.invoke(newValue) },
+            shape = RoundedCornerShape(8.dp),
+            singleLine = true,
+            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
+            visualTransformation =
+            if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val icon = if (passwordVisibility) {
+                    Icons.Filled.Visibility
+                } else {
+                    Icons.Filled.VisibilityOff
+                }
+
+                IconButton(onClick = {
+                    onToggleChanged.invoke()
+                }) {
+                    Icon(
+                        icon,
+                        contentDescription = "Visibility",
+                    )
+                }
+            },
+        )
+    }
+}
 @Composable
 fun APSNameTextField(
     textValue: String,
