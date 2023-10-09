@@ -1,8 +1,9 @@
 package io.spherelabs.authpresentation.signin
 
-import io.spherelabs.authdomain.EmailValidation
-import io.spherelabs.authdomain.PasswordValidation
+
 import io.spherelabs.meteor.middleware.Middleware
+import io.spherelabs.validation.EmailValidation
+import io.spherelabs.validation.PasswordValidation
 
 class SignInValidateMiddleware(
     private val validatePassword: PasswordValidation,

@@ -1,12 +1,15 @@
 package io.spherelabs.validation
 
-interface PasswordValidation {
+interface  PasswordValidation {
   suspend fun execute(password: String): Boolean
 }
 
 class DefaultPasswordValidation : PasswordValidation {
 
   override suspend fun execute(password: String): Boolean {
-    return password.length in 6..30 && password.any { it.isLowerCase() }
+    return password.length in 6..16 &&
+        password.any { it.isLowerCase() } &&
+        password.any { it.isUpperCase() } &&
+        password.any { it.isDigit() }
   }
 }

@@ -1,8 +1,6 @@
 package io.spherelabs.authpresentation.signin
 
 import io.spherelabs.authdomain.HasCurrentUserExist
-import io.spherelabs.authdomain.NameValidation
-import io.spherelabs.authdomain.PasswordValidation
 import io.spherelabs.authdomain.SignInWithEmailAndPassword
 import io.spherelabs.meteor.middleware.Middleware
 
