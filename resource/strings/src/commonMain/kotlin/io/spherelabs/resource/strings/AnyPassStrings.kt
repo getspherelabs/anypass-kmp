@@ -48,5 +48,8 @@ data class AnyPassStrings(
     val passwordLengthIsLess: String,
     val passwordFailure: String,
     val emailFailure: String,
+    val nameFailure: String,
+    val keyPasswordRequirement: String,
+    val passwordSameFailure: String
 )
 
