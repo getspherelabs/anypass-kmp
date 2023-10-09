@@ -132,7 +132,8 @@ fun MasterPasswordScreen(
                         modifier = modifier.padding(start = 32.dp, top = 16.dp),
                         text = strings.confirmPassphrase,
                         fontSize = 32.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = Color.White,
                     )
 
@@ -187,7 +188,7 @@ fun MasterPasswordScreen(
             ) {
                 LKGridLayout(
                     items = MasterPasswordState.row1(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
                     if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
@@ -197,7 +198,7 @@ fun MasterPasswordScreen(
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row2(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
                     if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
@@ -207,7 +208,7 @@ fun MasterPasswordScreen(
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row3(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
                     if (state.isInitialPasswordExisted) {
                         wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
@@ -217,7 +218,7 @@ fun MasterPasswordScreen(
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row4(),
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                    fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
                     if (newPin == "c") {
                         wish.invoke(MasterPasswordWish.ClearPassword)

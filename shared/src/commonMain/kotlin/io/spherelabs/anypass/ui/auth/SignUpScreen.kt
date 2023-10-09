@@ -5,9 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material3.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,12 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.spherelabs.anypass.MR
-import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.colorResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.authpresentation.signup.SignUpEffect
 import io.spherelabs.authpresentation.signup.SignUpState
 import io.spherelabs.authpresentation.signup.SignUpViewModel
@@ -33,6 +36,8 @@ import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.designsystem.textfield.APSNameTextField
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -97,6 +102,7 @@ fun SignUpScreen(
     }
 
     Scaffold(
+        containerColor = colorResource(MR.colors.lavender),
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),
@@ -129,47 +135,55 @@ fun SignUpScreen(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-    ) {
+    ) { newPaddingValues ->
         Column(
-            modifier = modifier.fillMaxSize().background(color = Color.White),
-            verticalArrangement = Arrangement.Center,
+            modifier = modifier.fillMaxSize().padding(newPaddingValues),
         ) {
-            Row(
-                modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = strings.createNewAccount,
-                    fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-                    fontSize = 32.sp,
-                    color = Color.Black,
-                )
-
-                Image(
-                    modifier = modifier.size(125.dp),
-                    painter = painterResource(MR.images.signup),
-                    contentDescription = null,
-                )
-            }
-            LKEmailTextField(
+            Text(
+                text = strings.createNewAccount,
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
+                fontSize = 48.sp,
+                modifier = modifier.padding(start = 24.dp),
+                color = Color.White,
+            )
+//            Row(
+//                modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//            ) {
+//                Text(
+//                    text = strings.createNewAccount,
+//                    fontFamily = GoogleSansFontFamily,
+//                    fontWeight = FontWeight.Medium,
+//                    fontSize = 32.sp,
+//                    color = Color.Black,
+//                )
+//
+//                Image(
+//                    modifier = modifier.size(125.dp),
+//                    painter = painterResource(MR.images.signup),
+//                    contentDescription = null,
+//                )
+//            }
+            APSNameTextField(
                 state.name,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
             ) { newValue ->
                 wish.invoke(SignUpWish.OnNameChanged(newValue))
             }
             LKEmailTextField(
                 state.email,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                fontFamily = GoogleSansFontFamily,
             ) { newValue ->
                 wish.invoke(SignUpWish.OnEmailChanged(newValue))
             }
             LKPasswordTextField(
                 state.password,
-                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
-            ) { newValue ->
-                wish.invoke(SignUpWish.OnPasswordChanged(newValue))
-            }
+                fontFamily = GoogleSansFontFamily,
+                onValueChanged = { newValue ->
+                    wish.invoke(SignUpWish.OnPasswordChanged(newValue))
+                }
+            )
 
             Spacer(modifier.height(24.dp))
 
@@ -190,9 +204,8 @@ fun SignUpScreen(
                     text = strings.signUp,
                     color = Color.White,
                     fontSize = 18.sp,
-                    fontFamily = fontFamilyResource(
-                        fontResource = MR.fonts.googlesans.medium,
-                    ),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
                 )
             }
 
