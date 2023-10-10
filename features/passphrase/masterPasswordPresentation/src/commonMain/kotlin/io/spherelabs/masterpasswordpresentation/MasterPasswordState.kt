@@ -2,7 +2,6 @@ package io.spherelabs.masterpasswordpresentation
 
 data class MasterPasswordState(
     val password: String = "",
-    val confirmPassword: String? = null,
     val isInitialPasswordExisted: Boolean = false,
     val isExistPassword: Boolean = false,
     val isFingerprintEnabled: Boolean = false,

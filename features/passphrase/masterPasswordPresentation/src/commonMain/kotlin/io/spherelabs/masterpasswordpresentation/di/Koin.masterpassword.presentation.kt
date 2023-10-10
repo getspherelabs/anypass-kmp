@@ -5,6 +5,6 @@ import io.spherelabs.masterpasswordpresentation.MasterPasswordReducer
 import org.koin.dsl.module
 
 val masterPasswordFeatureModule = module {
-    single { MasterPasswordMiddleware(get(), get(), get(), get()) }
+    single { MasterPasswordMiddleware(get(), get(), get()) }
     single { MasterPasswordReducer() }
 }
