@@ -19,40 +19,60 @@ class MasterPasswordReducer :
             MasterPasswordWish.PasswordExisted -> {
                 expect { currentState.copy(isExistPassword = true) }
             }
+
             is MasterPasswordWish.OnMasterPasswordChanged -> {
+                val newPassword = if (currentState.password.length <= MAX_PASSWORD_LENGTH) {
+                    buildString {
+                        append(currentState.password)
+                        append(currentWish.password)
+                    }
+                } else {
+                    currentState.password
+                }
+
                 expect {
                     currentState.copy(
-                        password = currentWish.password,
+                        password = newPassword,
                     )
                 }
             }
+
             is MasterPasswordWish.SetPasswordFailure -> {
                 effect { MasterPasswordEffect.Failure(currentWish.message) }
             }
-            MasterPasswordWish.SetPasswordSuccessFully -> {
-                route { MasterPasswordEffect.Home }
-            }
+
+
             MasterPasswordWish.ClearPassword -> {
                 expect {
                     currentState.copy(
                         password = "",
-                        confirmPassword = null,
-                        isInitialPasswordExisted = false,
                     )
                 }
             }
+
             is MasterPasswordWish.OnPasswordCellChanged -> {
                 expect { currentState.copy(password = currentWish.password) }
             }
+
             is MasterPasswordWish.GetFingerprint -> {
                 expect { currentState.copy(isFingerprintEnabled = currentWish.isEnabled) }
             }
+
             MasterPasswordWish.NavigateToHome -> {
                 route { MasterPasswordEffect.Home }
             }
+
+            is MasterPasswordWish.IsNotMatched -> {
+                effect { MasterPasswordEffect.Failure(currentWish.message) }
+            }
+
             else -> {
                 unexpected { currentState }
             }
         }
+    }
+
+    companion object {
+        private const val MAX_PASSWORD_LENGTH = 3
     }
 }
