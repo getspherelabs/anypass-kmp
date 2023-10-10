@@ -19,39 +19,10 @@ class MasterPasswordReducer :
             MasterPasswordWish.PasswordExisted -> {
                 expect { currentState.copy(isExistPassword = true) }
             }
-            is MasterPasswordWish.OnConfirmPasswordChanged -> {
-                val newPassword: String = buildString {
-                    if (currentState.password.length == 4) {
-                        println("Wish password: ${currentState.password} in confirm password changed")
-                        val confirmPassword: String = currentState.confirmPassword ?: ""
-                        if (confirmPassword.length < 4) {
-                            append(confirmPassword + currentWish.confirmPassword)
-                        }
-                    }
-                }
-
-                println("Wish new password: $newPassword")
-
-                expect {
-                    currentState.copy(
-                        password = currentState.password,
-                        confirmPassword = newPassword,
-                    )
-                }
-            }
             is MasterPasswordWish.OnMasterPasswordChanged -> {
-                val newPassword: String = buildString {
-                    if (currentState.password.length < 4) {
-                        append(currentState.password + currentWish.password)
-                    } else {
-                        append(currentState.password)
-                    }
-                }
-
                 expect {
                     currentState.copy(
-                        password = newPassword,
-                        isInitialPasswordExisted = currentState.password.length == 4,
+                        password = currentWish.password,
                     )
                 }
             }
@@ -72,9 +43,6 @@ class MasterPasswordReducer :
             }
             is MasterPasswordWish.OnPasswordCellChanged -> {
                 expect { currentState.copy(password = currentWish.password) }
-            }
-            is MasterPasswordWish.OnConfirmPasswordCellChanged -> {
-                expect { currentState.copy(confirmPassword = currentWish.confirmPassword) }
             }
             is MasterPasswordWish.GetFingerprint -> {
                 expect { currentState.copy(isFingerprintEnabled = currentWish.isEnabled) }
