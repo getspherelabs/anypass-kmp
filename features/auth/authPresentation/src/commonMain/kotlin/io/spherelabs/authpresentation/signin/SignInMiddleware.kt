@@ -6,7 +6,7 @@ import io.spherelabs.meteor.middleware.Middleware
 
 class SignInMiddleware(
     private val signInWithEmailAndPassword: SignInWithEmailAndPassword,
-    private val hasCurrentUserExist: HasCurrentUserExist
+    private val hasCurrentUserExist: HasCurrentUserExist,
 ) : Middleware<SignInState, SignInWish> {
 
     override suspend fun process(
@@ -28,7 +28,11 @@ class SignInMiddleware(
 
             is SignInWish.CheckCurrentUser -> {
                 runCatching { hasCurrentUserExist.execute() }
-                    .onSuccess { next.invoke(SignInWish.HasCurrentUser(it)) }
+                    .onSuccess { isExist ->
+                        if (isExist) {
+                            next.invoke(SignInWish.SignInSuccess)
+                        }
+                    }
                     .onFailure {
                         val failureMessage = it.message ?: "Error is occurred."
                         next.invoke(SignInWish.SignInFailure(failureMessage))

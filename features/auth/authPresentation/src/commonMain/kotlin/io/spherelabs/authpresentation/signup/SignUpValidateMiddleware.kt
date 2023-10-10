@@ -47,20 +47,16 @@ class SignUpValidateMiddleware(
     }
 
     private suspend fun checkAndHandleEmail(email: String, next: suspend (SignUpWish) -> Unit) {
-        val isEmailNotValid = email.isNotEmpty() && !validateEmail.execute(email)
+        val isEmailNotValid = !validateEmail.execute(email)
         if (isEmailNotValid) {
             next.invoke(SignUpWish.OnEmailFailed)
-        } else {
-            next.invoke(SignUpWish.OnLoadingChanged(false))
         }
     }
 
     private suspend fun checkAndHandleName(name: String, next: suspend (SignUpWish) -> Unit) {
-        val isNameNotValid = name.isNotEmpty() && !validateName.execute(name)
+        val isNameNotValid = !validateName.execute(name)
         if (isNameNotValid) {
             next.invoke(SignUpWish.OnNameFailed)
-        } else {
-            next.invoke(SignUpWish.OnLoadingChanged(false))
         }
     }
 
@@ -69,11 +65,9 @@ class SignUpValidateMiddleware(
         next: suspend (SignUpWish) -> Unit,
     ) {
         val isPasswordNotValid =
-            password.isNotEmpty() && !validatePassword.execute(password)
+           !validatePassword.execute(password)
         if (isPasswordNotValid) {
             next.invoke(SignUpWish.OnPasswordFailed)
-        } else {
-            next.invoke(SignUpWish.OnLoadingChanged(false))
         }
     }
 
@@ -82,11 +76,9 @@ class SignUpValidateMiddleware(
         next: suspend (SignUpWish) -> Unit,
     ) {
         val isKeyPasswordNotValid =
-            keyPassword.isNotEmpty() && !validateKeyPassword.execute(keyPassword)
+           !validateKeyPassword.execute(keyPassword)
         if (isKeyPasswordNotValid) {
             next.invoke(SignUpWish.OnKeyPasswordFailed)
-        } else {
-            next.invoke(SignUpWish.OnLoadingChanged(false))
         }
     }
 
@@ -95,11 +87,9 @@ class SignUpValidateMiddleware(
         next: suspend (SignUpWish) -> Unit,
     ) {
         val isConfirmKeyPasswordNotValid =
-            confirmKeyPassword.isNotEmpty() && !validateKeyPassword.execute(confirmKeyPassword)
+          !validateKeyPassword.execute(confirmKeyPassword)
         if (isConfirmKeyPasswordNotValid) {
             next.invoke(SignUpWish.OnConfirmKeyPasswordFailed)
-        } else {
-            next.invoke(SignUpWish.OnLoadingChanged(false))
         }
     }
 
@@ -113,8 +103,6 @@ class SignUpValidateMiddleware(
 
         if (!isKeyPasswordSame) {
             next.invoke(SignUpWish.OnKeyPasswordSameFailed)
-        } else {
-            next.invoke(SignUpWish.OnLoadingChanged(false))
         }
     }
 
@@ -135,6 +123,7 @@ class SignUpValidateMiddleware(
 
 
         if (isEmailValid && isPasswordValid && isKeyPasswordValid && isKeyPasswordSame) {
+            next.invoke(SignUpWish.OnLoadingChanged(false))
             next.invoke(SignUpWish.SignUp)
         }
     }
