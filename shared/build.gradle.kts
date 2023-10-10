@@ -99,7 +99,7 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(libs.sentry)
 
-                implementation(Libs.Koin.compose)
+                implementation(libs.koin.compose)
 
             }
         }
@@ -111,8 +111,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation(Libs.Android.coil)
-                api(Libs.Koin.android)
+                api(libs.koin.android)
                 implementation("androidx.activity:activity-compose:1.7.2")
                 implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
                 implementation("androidx.compose.material:material:1.5.0")
@@ -131,7 +130,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                api(Libs.Coroutine.core)
+                api(libs.coroutine)
             }
         }
         val iosX64Test by getting

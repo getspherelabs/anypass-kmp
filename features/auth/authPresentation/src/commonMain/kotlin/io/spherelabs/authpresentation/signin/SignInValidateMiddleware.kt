@@ -1,8 +1,9 @@
 package io.spherelabs.authpresentation.signin
 
-import io.spherelabs.authdomain.EmailValidation
-import io.spherelabs.authdomain.PasswordValidation
+
 import io.spherelabs.meteor.middleware.Middleware
+import io.spherelabs.validation.EmailValidation
+import io.spherelabs.validation.PasswordValidation
 
 class SignInValidateMiddleware(
     private val validatePassword: PasswordValidation,
@@ -16,18 +17,18 @@ class SignInValidateMiddleware(
     ) {
         when (wish) {
             SignInWish.OnLoginClicked -> {
-                val isEmailValid = state.email.isNotEmpty() && validateEmail.execute(state.email)
-                val isPasswordValid =
-                    state.password.isNotEmpty() && validatePassword.execute(state.password)
+                val isEmailNotValid = !validateEmail.execute(state.email)
+                val isPasswordNotValid =
+                    !validatePassword.execute(state.password)
 
-                if (!isEmailValid) {
+                if (isEmailNotValid) {
                     next.invoke(SignInWish.OnEmailFailed)
                 }
-                if (!isPasswordValid) {
+                if (isPasswordNotValid) {
                     next.invoke(SignInWish.OnPasswordFailed)
                 }
 
-                if (isEmailValid && isPasswordValid) {
+                if (!isEmailNotValid && !isPasswordNotValid) {
                     next.invoke(SignInWish.SignIn)
                 }
             }

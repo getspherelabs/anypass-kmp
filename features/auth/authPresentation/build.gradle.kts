@@ -7,7 +7,10 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-          implementation(projects.features.auth.authDomain) }
+          implementation(projects.features.auth.authDomain)
+          implementation(projects.core.validation)
+      }
+
     }
   }
 }

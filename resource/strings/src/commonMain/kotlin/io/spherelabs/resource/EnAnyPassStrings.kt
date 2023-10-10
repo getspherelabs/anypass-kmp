@@ -46,5 +46,8 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     submit = "Submit",
     passwordFailure = "Please, enter an password again!",
     emailFailure = "Please, enter an email again!",
-    passwordLengthIsLess = "The password length is less than eight!"
+    nameFailure = "Please, enter an name again!",
+    keyPasswordRequirement = "The length of the key password should be four characters.",
+    passwordLengthIsLess = "The password length is less than eight!",
+    passwordSameFailure = "The key password does not same with confirm key password."
 )
