@@ -1,4 +1,4 @@
-package io.spherelabs.anypass.ui.passphrase
+package io.spherelabs.anypass.ui.keypassword
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
 import io.spherelabs.designsystem.grid.LKGridLayout
 import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.anypass.MR
@@ -46,13 +45,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
-fun MasterPasswordRoute(
+fun KeyPasswordRoute(
     viewModel: MasterPasswordViewModel = useInject(),
     navigateToHome: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
-    MasterPasswordScreen(
+    KeyPasswordScreen(
         state = uiState.value,
         wish = { newWish ->
             viewModel.wish(newWish)
@@ -65,7 +64,7 @@ fun MasterPasswordRoute(
 }
 
 @Composable
-fun MasterPasswordScreen(
+fun KeyPasswordScreen(
     modifier: Modifier = Modifier,
     wish: (MasterPasswordWish) -> Unit,
     state: MasterPasswordState,
@@ -126,55 +125,22 @@ fun MasterPasswordScreen(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
         ) {
-            when {
-                state.isExistPassword -> {
-                    Text(
-                        modifier = modifier.padding(start = 32.dp, top = 16.dp),
-                        text = strings.confirmPassphrase,
-                        fontSize = 32.sp,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.White,
-                    )
+            Text(
+                modifier = modifier.padding(start = 32.dp, top = 16.dp),
+                text = strings.confirmPassphrase,
+                fontSize = 32.sp,
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+            )
 
-                    Spacer(modifier = modifier.height(35.dp))
+            Spacer(modifier = modifier.height(35.dp))
 
-                    LKPinInput(
-                        value = state.password,
-                        disableKeypad = true,
-                    ) {
-                        wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
-                    }
-                }
-
-                !state.isExistPassword -> {
-                    Text(
-                        modifier = modifier.padding(start = 32.dp, top = 16.dp),
-                        text = strings.addPassphrase,
-                        fontSize = 32.sp,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.White,
-                    )
-
-                    Spacer(modifier = modifier.height(35.dp))
-
-                    LKPinInput(
-                        value = state.password,
-                        disableKeypad = true,
-                    ) {
-                        wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
-                    }
-                    Spacer(modifier.height(24.dp))
-                    LKPinInput(
-                        value = state.confirmPassword,
-                        disableKeypad = true,
-                    ) {
-                        if (state.isInitialPasswordExisted) {
-                            wish.invoke(MasterPasswordWish.OnConfirmPasswordCellChanged(it))
-                        }
-                    }
-                }
+            LKPinInput(
+                value = state.password,
+                disableKeypad = true,
+            ) {
+                wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
             }
 
             Spacer(modifier = modifier.height(25.dp))
@@ -190,31 +156,19 @@ fun MasterPasswordScreen(
                     items = MasterPasswordState.row1(),
                     fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
-                    if (state.isInitialPasswordExisted) {
-                        wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
-                    } else {
-                        wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                    }
+                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row2(),
                     fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
-                    if (state.isInitialPasswordExisted) {
-                        wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
-                    } else {
-                        wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                    }
+                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row3(),
                     fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
-                    if (state.isInitialPasswordExisted) {
-                        wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
-                    } else {
-                        wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                    }
+                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
                 }
                 LKGridLayout(
                     items = MasterPasswordState.row4(),
@@ -223,11 +177,7 @@ fun MasterPasswordScreen(
                     if (newPin == "c") {
                         wish.invoke(MasterPasswordWish.ClearPassword)
                     } else {
-                        if (state.isInitialPasswordExisted) {
-                            wish.invoke(MasterPasswordWish.OnConfirmPasswordChanged(newPin))
-                        } else {
-                            wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                        }
+                        wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
                     }
 
                 }
