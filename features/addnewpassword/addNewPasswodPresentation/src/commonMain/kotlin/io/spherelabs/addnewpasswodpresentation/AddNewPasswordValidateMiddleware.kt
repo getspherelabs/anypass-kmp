@@ -6,6 +6,8 @@ import io.spherelabs.validation.NameValidation
 import io.spherelabs.validation.PasswordValidation
 import io.spherelabs.validation.WebsiteValidation
 
+private typealias Validation = suspend (String) -> Boolean
+
 class AddNewPasswordValidateMiddleware(
     private val validatePassword: PasswordValidation,
     private val validateEmail: EmailValidation,
@@ -28,7 +30,18 @@ class AddNewPasswordValidateMiddleware(
                 checkAndHandleWebsiteAddress(state.websiteAddress, next)
                 checkAndHandleNotes(state.notes, next)
                 checkAndHandleImages(state.image, next)
+                checkAllFields(
+                    email = state.email,
+                    password = state.password,
+                    title = state.title,
+                    userName = state.username,
+                    websiteAddress = state.websiteAddress,
+                    note = state.notes,
+                    image = state.image,
+                    next = next,
+                )
             }
+
             else -> {}
         }
     }
@@ -60,7 +73,7 @@ class AddNewPasswordValidateMiddleware(
         title: String,
         next: suspend (AddNewPasswordWish) -> Unit,
     ) {
-        val isTitleNotValid = !title.all { it.isLetterOrDigit() }
+        val isTitleNotValid = !title.any { it.isLetterOrDigit() } && title.isEmpty()
 
         if (isTitleNotValid) {
             next.invoke(AddNewPasswordWish.OnTitleFailed)
@@ -82,6 +95,7 @@ class AddNewPasswordValidateMiddleware(
         next: suspend (AddNewPasswordWish) -> Unit,
     ) {
         val isWebsiteAddressNotValid = !validateWebsite.execute(websiteAddress)
+
         if (isWebsiteAddressNotValid) {
             next.invoke(AddNewPasswordWish.OnWebsiteFailed)
         }
@@ -105,5 +119,34 @@ class AddNewPasswordValidateMiddleware(
         if (isImageNull) {
             next.invoke(AddNewPasswordWish.OnImageFailed)
         }
+    }
+
+    private suspend fun checkAllFields(
+        email: String,
+        password: String,
+        userName: String,
+        title: String,
+        websiteAddress: String,
+        note: String,
+        image: String,
+        next: suspend (AddNewPasswordWish) -> Unit,
+    ) {
+        suspend fun isValid(value: String, validation: Validation) =
+            value.isNotEmpty() && validation.invoke(value)
+
+        val isEmailValid = isValid(email, validateEmail::execute)
+        val isPasswordValid = isValid(password, validatePassword::execute)
+        val isUserNameValid = isValid(userName, validateName::execute)
+        val isTitleValid = title.any { it.isLetterOrDigit() }
+        val isWebsiteAddressValid = isValid(websiteAddress, validateWebsite::execute)
+        val isNoteValid = note.isNotEmpty()
+        val isImageValid = image.isNotEmpty()
+
+        if (isEmailValid &&
+            isPasswordValid && isUserNameValid && isTitleValid && isWebsiteAddressValid && isNoteValid && isImageValid
+        ) {
+            next.invoke(AddNewPasswordWish.AddNewPassword)
+        }
+
     }
 }

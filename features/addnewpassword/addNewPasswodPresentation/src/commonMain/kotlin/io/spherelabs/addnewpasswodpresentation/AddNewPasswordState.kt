@@ -19,7 +19,8 @@ data class AddNewPasswordState(
     val isCategoryFailed: Boolean = false,
     val isWebsiteFailed: Boolean = false,
     val isNotesFailed: Boolean = false,
-    val isExpanded: Boolean = false
+    val isExpanded: Boolean = false,
+    val isPasswordVisibility: Boolean = false
 ) {
     companion object {
         val Empty = AddNewPasswordState()

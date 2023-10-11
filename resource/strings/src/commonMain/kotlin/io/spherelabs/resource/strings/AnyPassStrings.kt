@@ -53,5 +53,6 @@ data class AnyPassStrings(
     val passwordSameFailure: String,
     val websiteAddressFailure: String,
     val notesFailure: String,
+    val titleFailure: String
 )
 

@@ -31,4 +31,6 @@ sealed interface AddNewPasswordWish {
 
     data class GetCategories(val categories: List<AddNewCategoryUi>) : AddNewPasswordWish
     data class OnExpandChanged(val isExpanded: Boolean) : AddNewPasswordWish
+    object AddNewPassword : AddNewPasswordWish
+    object ToggleVisibility : AddNewPasswordWish
 }

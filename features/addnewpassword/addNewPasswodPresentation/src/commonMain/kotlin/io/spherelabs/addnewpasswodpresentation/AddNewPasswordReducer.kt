@@ -22,6 +22,7 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.InsertSuccess -> {
                 effect { AddNewPasswordEffect.Success(currentWish.message) }
             }
+
             is AddNewPasswordWish.OnCategoryChanged,
             is AddNewPasswordWish.OnEmailChanged,
             is AddNewPasswordWish.OnNotesChanged,
@@ -29,30 +30,22 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.OnTitleChanged,
             is AddNewPasswordWish.OnUserNameChanged,
             is AddNewPasswordWish.OnWebsiteAddressChanged,
-            is AddNewPasswordWish.OnImageChanged -> {
+            is AddNewPasswordWish.OnImageChanged,
+            -> {
                 handleChanges(currentState, currentWish)
             }
-            is AddNewPasswordWish.OnEmailFailed -> {
-                expect { currentState.copy(isEmailFailed = true) }
+            is AddNewPasswordWish.OnEmailFailed,
+            is AddNewPasswordWish.OnPasswordFailed,
+            is AddNewPasswordWish.OnWebsiteFailed,
+            is AddNewPasswordWish.OnCategoryFailed,
+            is AddNewPasswordWish.OnNotesFailed,
+            is AddNewPasswordWish.OnTitleFailed,
+            is AddNewPasswordWish.OnUserNameFailed,
+            is AddNewPasswordWish.OnImageFailed,
+            -> {
+                handleFailures(currentState, currentWish)
             }
-            is AddNewPasswordWish.OnPasswordFailed -> {
-                expect { currentState.copy(isPasswordFailed = true) }
-            }
-            is AddNewPasswordWish.OnCategoryFailed -> {
-                expect { currentState.copy(isCategoryFailed = true) }
-            }
-            is AddNewPasswordWish.OnNotesFailed -> {
-                expect { currentState.copy(isNotesFailed = true) }
-            }
-            is AddNewPasswordWish.OnTitleFailed -> {
-                expect { currentState.copy(isTitleFailed = true) }
-            }
-            is AddNewPasswordWish.OnUserNameFailed -> {
-                expect { currentState.copy(isUserNameFailed = true) }
-            }
-            is AddNewPasswordWish.OnImageFailed -> {
-                effect { AddNewPasswordEffect.Failure("Please, select a icon for your password!") }
-            }
+
             AddNewPasswordWish.OnGeneratePasswordClicked -> {
                 route { AddNewPasswordEffect.GeneratePassword }
             }
@@ -70,8 +63,11 @@ class AddNewPasswordReducer :
         }
     }
 
-    private fun handleChanges(currentState: AddNewPasswordState, currentWish: AddNewPasswordWish): Change<AddNewPasswordState, AddNewPasswordEffect>  {
-        return when(currentWish) {
+    private fun handleChanges(
+        currentState: AddNewPasswordState,
+        currentWish: AddNewPasswordWish,
+    ): Change<AddNewPasswordState, AddNewPasswordEffect> {
+        return when (currentWish) {
             is AddNewPasswordWish.OnCategoryChanged -> {
                 expect {
                     currentState.copy(
@@ -126,7 +122,59 @@ class AddNewPasswordReducer :
                     )
                 }
             }
-            else -> { unexpected { currentState }}
+
+            AddNewPasswordWish.ToggleVisibility -> {
+                expect {
+                    currentState.copy(
+                        isPasswordVisibility = !currentState.isPasswordVisibility,
+                    )
+                }
+            }
+
+            else -> {
+                unexpected { currentState }
+            }
+        }
+    }
+
+    private fun handleFailures(
+        currentState: AddNewPasswordState,
+        currentWish: AddNewPasswordWish,
+    ): Change<AddNewPasswordState, AddNewPasswordEffect> {
+        return when (currentWish) {
+            is AddNewPasswordWish.OnEmailFailed -> {
+                expect { currentState.copy(isEmailFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnPasswordFailed -> {
+                expect { currentState.copy(isPasswordFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnWebsiteFailed -> {
+                expect { currentState.copy(isWebsiteFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnCategoryFailed -> {
+                expect { currentState.copy(isCategoryFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnNotesFailed -> {
+                expect { currentState.copy(isNotesFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnTitleFailed -> {
+                expect { currentState.copy(isTitleFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnUserNameFailed -> {
+                expect { currentState.copy(isUserNameFailed = true) }
+            }
+
+            is AddNewPasswordWish.OnImageFailed -> {
+                effect { AddNewPasswordEffect.Failure("Please, select a icon for your password!") }
+            }
+
+            else -> unexpected { currentState }
         }
     }
 }

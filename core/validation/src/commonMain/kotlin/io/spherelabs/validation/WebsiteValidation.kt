@@ -12,6 +12,6 @@ class DefaultWebsiteValidation : WebsiteValidation {
 
   companion object {
     private const val WEBSITE_PATTERN =
-      "^((https?|ftp|file)://)?([a-zA-Z0-9]+(\\\\.[a-zA-Z0-9]+)+.*)\$"
+        """(?:https?|ftp)://\S+"""
   }
 }

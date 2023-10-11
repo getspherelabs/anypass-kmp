@@ -2,9 +2,9 @@ package io.spherelabs.anypass.ui.addnewpassword
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material.icons.Icons
@@ -17,7 +17,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -100,10 +102,8 @@ fun AddNewPasswordScreen(
     navigateToGeneratePassword: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     val snackbarHostState = useSnackbar()
     val scope = useScope()
-    val strings = LocalStrings.current
 
 
     useEffect(true) {
@@ -117,7 +117,6 @@ fun AddNewPasswordScreen(
                             message = effect.message,
                         )
                     }
-
                 }
 
                 AddNewPasswordEffect.GeneratePassword -> {
@@ -155,8 +154,8 @@ fun AddNewPasswordScreen(
         },
     ) { paddingValues ->
         AddNewPasswordContent(
-            paddingValues = paddingValues,
             modifier = modifier,
+            paddingValues = paddingValues,
             state = state,
             wish = { newWish ->
                 wish.invoke(newWish)
@@ -272,226 +271,262 @@ fun AddNewPasswordTopBar(
 
 @Composable
 fun AddNewPasswordContent(
-    paddingValues: PaddingValues,
     state: AddNewPasswordState,
+    paddingValues: PaddingValues,
     wish: (AddNewPasswordWish) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val strings = LocalStrings.current
+    val focusManager = LocalFocusManager.current
+    val scrollState = rememberScrollState()
     val waitForPositiveButton by remember { mutableStateOf(false) }
 
-    LazyColumn(modifier = modifier.padding(paddingValues)) {
-        item {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(color = Color.White)
+            .verticalScroll(scrollState),
+    ) {
+        Text(
+            text = strings.newPasswordRecord,
+            fontSize = 16.sp,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black.copy(alpha = 0.5F),
+            modifier = modifier.padding(start = 24.dp, top = 8.dp),
+        )
+
+        Row(
+            modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
+        ) {
+            RoundedImage(
+                painter = painterResource(MR.images.avatar), contentDescription = null,
+            )
+
+            LKTitleTextField(
+                state.title, modifier,
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(FocusDirection.Down)
+                    },
+                ),
+                onValueChanged = { newValue ->
+                    wish.invoke(AddNewPasswordWish.OnTitleChanged(newValue))
+                },
+            )
+
+            LKSocialMediaPicker {
+                title(strings.selectIcon)
+                socialIconsPicker(
+                    socialIcons = SocialIcons.getSocialMedia().value,
+                    waitForPositiveButton = waitForPositiveButton,
+                ) {
+                    wish.invoke(AddNewPasswordWish.OnImageChanged(it.title))
+
+                }
+            }
+        }
+        if (state.isTitleFailed) {
             Text(
-                text = strings.newPasswordRecord,
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.passwordFailure,
+                color = Color.Black.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+
+        LKUserNameTextField(
+            modifier = modifier,
+            textValue = state.username,
+            fontFamily = GoogleSansFontFamily,
+            onValueChanged = { newValue ->
+                wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
+            },
+            textLength = state.username.length,
+        )
+        if (state.isUserNameFailed) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.nameFailure,
+                color = Color.Black.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+        Column {
+            Text(
+                text = strings.category,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 24.dp, bottom = 4.dp),
+                textAlign = TextAlign.Start,
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
+            )
+            LKSpinner(
+                expanded = state.isExpanded,
+                modifier = modifier,
+                onExpandedChange = {
+                    wish.invoke(AddNewPasswordWish.OnExpandChanged(it))
+                },
+                current = state.currentCategory,
+                options = state.categories.map { it.title },
+                onOptionChosen = {
+                    wish.invoke(AddNewPasswordWish.OnCategoryChanged(it))
+                },
+            )
+
+        }
+        LKEmailTextField(
+            state.email,
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                },
+            ),
+            fontFamily = GoogleSansFontFamily,
+            onValueChanged = { newValue ->
+                wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
+            },
+        )
+        if (state.isEmailFailed) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.emailFailure,
+                color = Color.Black.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+        LKPasswordTextField(
+            textValue = state.password,
+            passwordVisibility = state.isPasswordVisibility,
+            onToggleChanged = {
+                wish.invoke(AddNewPasswordWish.ToggleVisibility)
+            },
+            onNextCallback = {
+                focusManager.moveFocus(FocusDirection.Down)
+            },
+            fontFamily = GoogleSansFontFamily,
+            onValueChanged = { newValue ->
+                wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
+            },
+        )
+
+        if (state.isPasswordFailed) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.passwordFailure,
+                color = Color.Black.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+        LKWebsiteAddressTextField(
+            state.websiteAddress,
+            fontFamily = GoogleSansFontFamily,
+            onValueChanged = { newValue ->
+                wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
+            },
+        )
+        if (state.isWebsiteFailed) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.websiteAddressFailure,
+                color = Color.Black.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+        LKNotesTextField(
+            state.notes,
+            fontFamily = GoogleSansFontFamily,
+            onDoneCallback = {
+                focusManager.moveFocus(FocusDirection.Down)
+            },
+            onValueChanged = { newValue ->
+                wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
+            },
+        )
+        if (state.isNotesFailed) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.notesFailure,
+                color = Color.Black.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, bottom = 4.dp, top = 8.dp)
+                .clickable {
+                    wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
+                },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = strings.generatePassword,
+                textAlign = TextAlign.Start,
+                color = Color.Black.copy(0.5f),
                 fontSize = 16.sp,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black.copy(alpha = 0.5F),
-                modifier = modifier.padding(start = 24.dp, top = 8.dp),
             )
-
-            Row(
-                modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
-            ) {
-                RoundedImage(
-                    painter = painterResource(MR.images.avatar), contentDescription = null,
-                )
-
-                LKTitleTextField(
-                    state.title, modifier,
-                    onValueChanged = { newValue ->
-                        wish.invoke(AddNewPasswordWish.OnTitleChanged(newValue))
-                    },
-                )
-
-                LKSocialMediaPicker {
-                    title(strings.selectIcon)
-                    socialIconsPicker(
-                        socialIcons = SocialIcons.getSocialMedia().value,
-                        waitForPositiveButton = waitForPositiveButton,
-                    ) {
-                        wish.invoke(AddNewPasswordWish.OnImageChanged(it.title))
-
-                    }
-                }
-            }
-        }
-        item {
-            LKUserNameTextField(
-                state.username,
-                fontFamily = GoogleSansFontFamily,
-                onValueChanged = { newValue ->
-                    wish.invoke(AddNewPasswordWish.OnUserNameChanged(newValue))
-                },
-                textLength = state.username.length,
-            )
-            if (state.isUserNameFailed) {
-                Text(
-                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                    text = strings.nameFailure,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp,
-                )
-            }
-            Column {
-                Text(
-                    text = strings.category,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 24.dp, bottom = 4.dp),
-                    textAlign = TextAlign.Start,
-                    color = Color.Black,
-                    fontSize = 18.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
-                )
-                LKSpinner(
-                    expanded = state.isExpanded,
-                    modifier = modifier,
-                    onExpandedChange = {
-                        wish.invoke(AddNewPasswordWish.OnExpandChanged(it))
-                    },
-                    current = state.currentCategory,
-                    options = state.categories.map { it.title },
-                    onOptionChosen = {
-                        wish.invoke(AddNewPasswordWish.OnCategoryChanged(it))
-                    },
-                )
-
-            }
-        }
-        item {
-            LKEmailTextField(
-                state.email,
-                fontFamily = GoogleSansFontFamily,
-                onValueChanged = { newValue ->
-                    wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
-                },
-            )
-            if (state.isEmailFailed) {
-                Text(
-                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                    text = strings.emailFailure,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp,
-                )
-            }
-            LKPasswordTextField(
-                state.password,
-                fontFamily = GoogleSansFontFamily,
-                onValueChanged = { newValue ->
-                    wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
-                },
-            )
-            if (state.isPasswordFailed) {
-                Text(
-                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                    text = strings.passwordFailure,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp,
-                )
-            }
-            LKWebsiteAddressTextField(
-                state.websiteAddress,
-                fontFamily = GoogleSansFontFamily,
-                onValueChanged = { newValue ->
-                    wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
-                },
-            )
-            if (state.isWebsiteFailed) {
-                Text(
-                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                    text = strings.websiteAddressFailure,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp,
-                )
-            }
-            LKNotesTextField(
-                state.notes,
-                fontFamily = GoogleSansFontFamily,
-                onValueChanged = { newValue ->
-                    wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
-                },
-            )
-            if (state.isNotesFailed) {
-                Text(
-                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                    text = strings.notesFailure,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp,
-                )
-            }
-        }
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, bottom = 4.dp, top = 8.dp)
-                    .clickable {
-                        wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
-                    },
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = strings.generatePassword,
-                    textAlign = TextAlign.Start,
+            Box(
+                modifier = modifier.size(16.dp).clip(CircleShape).border(
+                    width = 1.dp,
                     color = Color.Black.copy(0.5f),
-                    fontSize = 16.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
-                )
-                Box(
-                    modifier = modifier.size(16.dp).clip(CircleShape).border(
-                        width = 1.dp,
-                        color = Color.Black.copy(0.5f),
-                        shape = CircleShape,
-                    ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        Icons.Outlined.ArrowForward,
-                        contentDescription = null,
-                        tint = Color.Black.copy(0.5f),
-                    )
-                }
-            }
-
-
-            Spacer(modifier = modifier.height(32.dp))
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(65.dp)
-                    .padding(start = 24.dp, end = 24.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorResource(MR.colors.grey),
+                    shape = CircleShape,
                 ),
-                shape = RoundedCornerShape(24.dp),
-                onClick = {
-                    wish.invoke(AddNewPasswordWish.OnSubmitClicked)
-                },
+                contentAlignment = Alignment.Center,
             ) {
-                Text(
-                    text = strings.savePassword,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
+                Icon(
+                    Icons.Outlined.ArrowForward,
+                    contentDescription = null,
+                    tint = Color.Black.copy(0.5f),
                 )
             }
+        }
+
+
+        Spacer(modifier = modifier.height(32.dp))
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(65.dp)
+                .padding(start = 24.dp, end = 24.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(MR.colors.grey),
+            ),
+            shape = RoundedCornerShape(24.dp),
+            onClick = {
+                wish.invoke(AddNewPasswordWish.OnSubmitClicked)
+            },
+        ) {
+            Text(
+                text = strings.savePassword,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
+            )
         }
     }
+
 }
+
 

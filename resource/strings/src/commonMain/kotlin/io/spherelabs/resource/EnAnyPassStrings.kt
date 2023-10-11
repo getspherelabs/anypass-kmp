@@ -51,5 +51,6 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     passwordLengthIsLess = "The password length is less than eight!",
     passwordSameFailure = "The key password does not same with confirm key password.",
     websiteAddressFailure = "Please, enter a website address again!",
-    notesFailure = "Please, enter a note again!"
+    notesFailure = "Please, enter a note again!",
+    titleFailure = "Please, enter a title again!"
 )
