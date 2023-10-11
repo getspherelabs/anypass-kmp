@@ -105,8 +105,6 @@ fun AddNewPasswordScreen(
     val scope = useScope()
     val strings = LocalStrings.current
 
-    val (expanded, setExpanded) = useBooleanState(false)
-
 
     useEffect(true) {
         wish.invoke(AddNewPasswordWish.GetCategoriesStarted)
@@ -328,7 +326,16 @@ fun AddNewPasswordContent(
                 },
                 textLength = state.username.length,
             )
-
+            if (state.isUserNameFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.nameFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
             Column {
                 Text(
                     text = strings.category,
@@ -364,7 +371,16 @@ fun AddNewPasswordContent(
                     wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue))
                 },
             )
-
+            if (state.isEmailFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.emailFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
             LKPasswordTextField(
                 state.password,
                 fontFamily = GoogleSansFontFamily,
@@ -372,7 +388,16 @@ fun AddNewPasswordContent(
                     wish.invoke(AddNewPasswordWish.OnPasswordChanged(newValue))
                 },
             )
-
+            if (state.isPasswordFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.passwordFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
             LKWebsiteAddressTextField(
                 state.websiteAddress,
                 fontFamily = GoogleSansFontFamily,
@@ -380,7 +405,16 @@ fun AddNewPasswordContent(
                     wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(newValue))
                 },
             )
-
+            if (state.isWebsiteFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.websiteAddressFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
             LKNotesTextField(
                 state.notes,
                 fontFamily = GoogleSansFontFamily,
@@ -388,6 +422,16 @@ fun AddNewPasswordContent(
                     wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue))
                 },
             )
+            if (state.isNotesFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.notesFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
         }
         item {
             Row(

@@ -8,6 +8,7 @@ kotlin {
     val commonMain by getting {
       dependencies {
           implementation(projects.core.common)
+          implementation(projects.core.validation)
           implementation(projects.features.addnewpassword.addNewPasswordDomain)
       }
     }

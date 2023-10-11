@@ -10,7 +10,7 @@ sealed interface AddNewPasswordWish {
     data class OnCategoryChanged(val category: String) : AddNewPasswordWish
     object OnCategoryFailed : AddNewPasswordWish
     data class OnUserNameChanged(val username: String) : AddNewPasswordWish
-
+    object OnUserNameFailed : AddNewPasswordWish
     data class OnWebsiteAddressChanged(val websiteAddress: String) : AddNewPasswordWish
     object OnWebsiteFailed : AddNewPasswordWish
     data class OnNotesChanged(val notes: String) : AddNewPasswordWish
