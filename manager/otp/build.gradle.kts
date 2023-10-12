@@ -36,6 +36,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.coroutine.test)
+                implementation(libs.assertk)
             }
         }
         val androidMain by getting
