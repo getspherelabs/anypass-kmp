@@ -3,6 +3,8 @@ package io.spherelabs.navigation.impl
 import io.spherelabs.navigation.LockerStack
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.NavigationEvents
+import io.spherelabs.navigation.stack.NavigationStack
+import io.spherelabs.navigation.stack.Stack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,7 +18,7 @@ import kotlinx.coroutines.sync.withLock
  */
 internal class NavigationControllerImpl<STATE : Any>(
     private val coroutineScope: CoroutineScope = MainScope(),
-    private val stack: LockerStack<STATE> = LockerStack(),
+    private val stack: Stack<STATE> = NavigationStack(),
 ) : NavigationController<STATE> {
 
     private val _events = MutableSharedFlow<NavigationEvents<STATE>>()
@@ -54,6 +56,22 @@ internal class NavigationControllerImpl<STATE : Any>(
                     NavigationEvents.OnStackEmpty(poppedState)
                 } else {
                     NavigationEvents.OnPopUp(nextState, poppedState)
+                }
+                _events.emit(nextEvent)
+            }
+        }
+    }
+
+    override fun navigateUp(newState: STATE) {
+        coroutineScope.launch {
+            mutex.withLock {
+                val poppedState = stack.pop()
+                val nextState = stack.top
+
+                val nextEvent = if (nextState == null) {
+                    NavigationEvents.OnStackEmpty(poppedState)
+                } else {
+                    NavigationEvents.OnPopUp(newState, poppedState)
                 }
                 _events.emit(nextEvent)
             }
