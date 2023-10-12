@@ -6,7 +6,7 @@ import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable
 
-fun NavigationController<Route>.navigateSpace() {
+fun NavigationController<Route>.navigateToMyAccount() {
     this.navigateTo(Route.Space)
 }
 

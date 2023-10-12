@@ -7,7 +7,7 @@ import io.spherelabs.validation.KeyPasswordValidation
 import io.spherelabs.validation.NameValidation
 import io.spherelabs.validation.PasswordValidation
 
-typealias Validation = suspend (String) -> Boolean
+private typealias Validation = suspend (String) -> Boolean
 
 class SignUpValidateMiddleware(
     private val validateName: NameValidation,

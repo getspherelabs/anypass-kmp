@@ -100,6 +100,9 @@ fun LKUseButton(
             .width(75.dp)
             .height(32.dp)
             .clip(RoundedCornerShape(24.dp))
+            .clickable {
+                onButtonClick.invoke()
+            }
             .background(color = backgroundColor),
     ) {
         Row(

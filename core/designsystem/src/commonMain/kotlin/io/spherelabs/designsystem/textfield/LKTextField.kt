@@ -18,8 +18,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.sourceInformationMarkerEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -37,15 +36,19 @@ import androidx.compose.ui.unit.sp
 fun LKTitleTextField(
     textValue: String,
     modifier: Modifier = Modifier,
+    keyboardActions: KeyboardActions = KeyboardActions(),
     onValueChanged: (String) -> Unit,
 ) {
     Column {
         val lightBlue = Color(0xffd8e6ff)
-        val blue = Color(0xff76a9ff)
 
         TextField(
             modifier = modifier.width(240.dp).padding(start = 12.dp, end = 12.dp),
             value = textValue,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+            ),
+            keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
                 backgroundColor = lightBlue,
@@ -68,6 +71,7 @@ fun LKPasswordTextField(
     titleColor: Color = Color.Black,
     fontFamily: FontFamily,
     onToggleChanged: () -> Unit,
+    onNextCallback: () -> Boolean? = { null },
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
 ) {
@@ -75,7 +79,6 @@ fun LKPasswordTextField(
 
     Column {
         val lightBlue = Color(0xffd8e6ff)
-        val blue = Color(0xff76a9ff)
         Text(
             text = "Password",
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
@@ -99,12 +102,15 @@ fun LKPasswordTextField(
             keyboardOptions = KeyboardOptions.Default.copy(
                 autoCorrect = true,
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions(
+                onNext = {
+                    onNextCallback.invoke()
+                },
                 onDone = {
                     focusManager.clearFocus()
-                }
+                },
             ),
             onValueChange = { newValue -> onValueChanged.invoke(newValue) },
             shape = RoundedCornerShape(8.dp),
@@ -116,12 +122,14 @@ fun LKPasswordTextField(
                 val icon = if (passwordVisibility) {
                     Icons.Filled.Visibility
                 } else {
-                   Icons.Filled.VisibilityOff
+                    Icons.Filled.VisibilityOff
                 }
 
-                IconButton(onClick = {
-                    onToggleChanged.invoke()
-                }) {
+                IconButton(
+                    onClick = {
+                        onToggleChanged.invoke()
+                    },
+                ) {
                     Icon(
                         icon,
                         contentDescription = "Visibility",
@@ -157,7 +165,7 @@ fun KeyPasswordTextField(
             fontWeight = FontWeight.Medium,
             fontFamily = fontFamily,
         )
-        if (description!= null) {
+        if (description != null) {
             Text(
                 modifier = modifier.padding(horizontal = 24.dp, vertical = 4.dp),
                 text = description,
@@ -182,12 +190,12 @@ fun KeyPasswordTextField(
             keyboardOptions = KeyboardOptions.Default.copy(
                 autoCorrect = true,
                 keyboardType = KeyboardType.NumberPassword,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
                     focusManager.clearFocus()
-                }
+                },
             ),
             onValueChange = { newValue -> onValueChanged.invoke(newValue) },
             shape = RoundedCornerShape(8.dp),
@@ -202,9 +210,11 @@ fun KeyPasswordTextField(
                     Icons.Filled.VisibilityOff
                 }
 
-                IconButton(onClick = {
-                    onToggleChanged.invoke()
-                }) {
+                IconButton(
+                    onClick = {
+                        onToggleChanged.invoke()
+                    },
+                ) {
                     Icon(
                         icon,
                         contentDescription = "Visibility",
@@ -214,6 +224,7 @@ fun KeyPasswordTextField(
         )
     }
 }
+
 @Composable
 fun APSNameTextField(
     textValue: String,
@@ -256,6 +267,7 @@ fun APSNameTextField(
 fun LKEmailTextField(
     textValue: String,
     titleColor: Color = Color.Black,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
@@ -275,6 +287,10 @@ fun LKEmailTextField(
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+            ),
+            keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
                 backgroundColor = lightBlue,
@@ -297,6 +313,7 @@ fun LKNotesTextField(
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
+    onDoneCallback: () -> Boolean? = { null },
 ) {
     Column {
         val lightBlue = Color(0xffd8e6ff)
@@ -313,6 +330,14 @@ fun LKNotesTextField(
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onDoneCallback.invoke()
+                },
+            ),
             colors =
             TextFieldDefaults.textFieldColors(
                 backgroundColor = lightBlue,
@@ -335,6 +360,7 @@ fun LKWebsiteAddressTextField(
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
+    onNextCallback: () -> Boolean? = { null },
 ) {
     Column {
         val lightBlue = Color(0xffd8e6ff)
@@ -351,6 +377,14 @@ fun LKWebsiteAddressTextField(
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    onNextCallback.invoke()
+                },
+            ),
             colors =
             TextFieldDefaults.textFieldColors(
                 backgroundColor = lightBlue,

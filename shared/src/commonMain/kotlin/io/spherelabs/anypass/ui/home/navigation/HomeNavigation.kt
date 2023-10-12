@@ -7,13 +7,19 @@ import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable
 
 fun NavHostScope<Route>.homeScreen(
-    navigation: NavigationController<Route>,
-    navigateToCreatePassword: () -> Unit
+    navigateToMyAccount: () -> Unit,
+    navigateToCreatePassword: () -> Unit,
 ) {
     this.composable<Route.Home> {
-        HomeRoute(navigation) {
-            navigateToCreatePassword.invoke()
-        }
+        HomeRoute(
+            navigateToMyAccount = {
+                navigateToMyAccount.invoke()
+            },
+            navigateToCreatePassword = {
+                navigateToCreatePassword.invoke()
+
+            },
+        )
     }
 }
 

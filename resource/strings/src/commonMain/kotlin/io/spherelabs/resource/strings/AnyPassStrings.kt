@@ -50,6 +50,15 @@ data class AnyPassStrings(
     val emailFailure: String,
     val nameFailure: String,
     val keyPasswordRequirement: String,
-    val passwordSameFailure: String
+    val passwordSameFailure: String,
+    val websiteAddressFailure: String,
+    val notesFailure: String,
+    val titleFailure: String,
+    val myAccount: String,
+    val passwordHealth: String,
+    val authenticator: String,
+    val generator: String,
+    val help: String,
+    val newItem: String
 )
 

@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.Flow
 fun GeneratePasswordRoute(
     viewModel: GeneratePasswordViewModel = useInject(),
     navigateToBack: () -> Unit,
+    navigateToCopy: (String) -> Unit
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -57,6 +58,9 @@ fun GeneratePasswordRoute(
         navigateToBack = {
             navigateToBack.invoke()
         },
+        navigateToCopy = {
+            navigateToCopy.invoke(it)
+        }
     )
 }
 
@@ -67,6 +71,7 @@ fun GeneratePasswordScreen(
     state: GeneratePasswordState,
     flow: Flow<GeneratePasswordEffect>,
     navigateToBack: () -> Unit,
+    navigateToCopy: (String) -> Unit
 ) {
 
     val snackbarHostState = useSnackbar()
@@ -335,7 +340,7 @@ fun GeneratePasswordScreen(
                         text = strings.use,
                         backgroundColor = colorResource(MR.colors.dynamic_yellow),
                     ) {
-
+                        navigateToCopy.invoke(state.password)
                     }
                 }
             }
