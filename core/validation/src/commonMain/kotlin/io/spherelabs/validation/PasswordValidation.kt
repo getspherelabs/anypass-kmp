@@ -7,7 +7,7 @@ interface  PasswordValidation {
 class DefaultPasswordValidation : PasswordValidation {
 
   override suspend fun execute(password: String): Boolean {
-    return password.length in 6..16 &&
+    return password.length in 6..30 &&
         password.any { it.isLowerCase() } &&
         password.any { it.isUpperCase() } &&
         password.any { it.isDigit() }

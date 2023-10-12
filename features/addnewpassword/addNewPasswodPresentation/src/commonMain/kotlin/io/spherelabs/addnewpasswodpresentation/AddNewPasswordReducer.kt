@@ -31,6 +31,7 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.OnUserNameChanged,
             is AddNewPasswordWish.OnWebsiteAddressChanged,
             is AddNewPasswordWish.OnImageChanged,
+            AddNewPasswordWish.ToggleVisibility,
             -> {
                 handleChanges(currentState, currentWish)
             }
