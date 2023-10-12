@@ -1,6 +1,5 @@
 package io.spherelabs.navigation.impl
 
-import io.spherelabs.navigation.LockerStack
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.NavigationEvents
 import io.spherelabs.navigation.stack.NavigationStack
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+
 
 /**
  * Default implementation of [NavigationController]
