@@ -1,6 +1,7 @@
 package io.spherelabs.anypass.navigation
 
 import androidx.compose.runtime.Composable
+import io.spherelabs.anypass.ui.account.navigation.navigateToMyAccount
 import io.spherelabs.anypass.ui.addnewpassword.navigation.addNewPasswordScreen
 import io.spherelabs.anypass.ui.addnewpassword.navigation.navigateToAddNewPassword
 import io.spherelabs.anypass.ui.auth.navigation.navigateSignIn
@@ -21,7 +22,7 @@ import io.spherelabs.navigation.rememberNavigationController
 
 @Composable
 fun AnyPassNavHost(
-    navigationController: NavigationController<Route> = rememberNavController()
+    navigationController: NavigationController<Route> = rememberNavController(),
 ) {
 
     NavHost(navigationController, initialState = Route.Onboarding) {
@@ -32,7 +33,7 @@ fun AnyPassNavHost(
             },
             navigateToConfirmPassword = {
                 navigationController.navigateToPassword()
-            }
+            },
         )
         signUpScreen(
             navigateToConfirmPassword = {
@@ -40,10 +41,17 @@ fun AnyPassNavHost(
             },
             navigateToSignIn = {
                 navigationController.navigateUp()
-            }
+            },
         )
         passwordScreen { navigationController.navigateToHome() }
-        homeScreen(navigationController) { navigationController.navigateToAddNewPassword() }
+        homeScreen(
+            navigateToCreatePassword = {
+                navigationController.navigateToAddNewPassword()
+            },
+            navigateToMyAccount = {
+                navigationController.navigateToMyAccount()
+            },
+        )
         spaceScreen { navigationController.navigateUp() }
         addNewPasswordScreen(
             navigateToBack = {
@@ -51,7 +59,7 @@ fun AnyPassNavHost(
             },
             navigateToGeneratePassword = {
                 navigationController.navigateToCreatePassword()
-            }
+            },
         )
         createPasswordScreen(
             navigateToHome = {
@@ -59,7 +67,10 @@ fun AnyPassNavHost(
             },
             navigateToBack = {
                 navigationController.navigateUp()
-            }
+            },
+            navigateToUse = {
+                navigationController.navigateToAddNewPassword(it)
+            },
         )
 
     }

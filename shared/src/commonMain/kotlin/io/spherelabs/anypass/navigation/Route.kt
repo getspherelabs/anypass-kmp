@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 sealed interface Route {
+    @Immutable
     object Onboarding : Route {
         override fun equals(other: Any?): Boolean {
             return other === Onboarding
@@ -15,6 +16,7 @@ sealed interface Route {
         }
     }
 
+    @Immutable
     object MasterPassword : Route {
         override fun equals(other: Any?): Boolean {
             return other === MasterPassword
@@ -25,6 +27,7 @@ sealed interface Route {
         }
     }
 
+    @Immutable
     object Home : Route {
         override fun equals(other: Any?): Boolean {
             return other === Home
@@ -35,6 +38,7 @@ sealed interface Route {
         }
     }
 
+    @Immutable
     object CreatePassword : Route {
         override fun equals(other: Any?): Boolean {
             return other === CreatePassword
@@ -46,16 +50,10 @@ sealed interface Route {
         }
     }
 
-    object AddNewPassword : Route {
-        override fun equals(other: Any?): Boolean {
-            return other === AddNewPassword
-        }
+    @Immutable
+    data class AddNewPassword(val password: String? = null) : Route
 
-        override fun hashCode(): Int {
-            return this::class.simpleName.hashCode()
-        }
-    }
-
+    @Immutable
     object SignIn : Route {
         override fun equals(other: Any?): Boolean {
             return other === SignIn
@@ -66,6 +64,7 @@ sealed interface Route {
         }
     }
 
+    @Immutable
     object SignUp : Route {
         override fun equals(other: Any?): Boolean {
             return other === SignUp
@@ -76,6 +75,7 @@ sealed interface Route {
         }
     }
 
+    @Immutable
     object Space : Route {
         override fun equals(other: Any?): Boolean {
             return other === Space

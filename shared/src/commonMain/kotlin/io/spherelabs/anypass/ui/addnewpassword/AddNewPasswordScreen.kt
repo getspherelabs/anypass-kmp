@@ -71,15 +71,17 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AddNewPasswordRoute(
+    currentPassword: String,
     viewModel: AddNewPasswordViewModel = useInject(),
     navigateToGeneratePassword: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
 
     val uiState = viewModel.state.collectAsStateWithLifecycle()
-
+    println("Current password : $currentPassword")
     AddNewPasswordScreen(
         wish = { newWish ->
+            viewModel.wish(AddNewPasswordWish.OnPasswordChanged(currentPassword))
             viewModel.wish(newWish)
         },
         state = uiState.value,

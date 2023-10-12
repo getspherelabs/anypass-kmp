@@ -24,9 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import dev.icerock.moko.resources.compose.colorResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.stringResource
 import io.spherelabs.designsystem.button.LKNewItemButton
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.usePagerEffect
@@ -40,15 +37,14 @@ import io.spherelabs.designsystem.swiper.items
 import io.spherelabs.designsystem.swiper.useLKCardStackState
 import io.spherelabs.home.homepresentation.*
 import io.spherelabs.anypass.MR
-import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.account.navigation.navigateSpace
 import io.spherelabs.designsystem.hooks.useSnackbar
-import io.spherelabs.navigation.NavigationController
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.rememberKoinInject
 import dev.icerock.moko.resources.compose.painterResource as mokoPainterResource
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -61,14 +57,13 @@ import io.spherelabs.resource.icons.anypassicons.Behance
 
 @Composable
 fun HomeRoute(
-    navigation: NavigationController<Route>,
     viewModel: HomeViewModel = rememberKoinInject(),
     navigateToCreatePassword: () -> Unit,
+    navigateToMyAccount: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
     HomeScreen(
-        navigation = navigation,
         wish = { newWish ->
             viewModel.wish(newWish)
         },
@@ -77,17 +72,20 @@ fun HomeRoute(
         navigateToCreatePassword = {
             navigateToCreatePassword.invoke()
         },
+        navigateToMyAccount = {
+            navigateToMyAccount.invoke()
+        },
     )
 }
 
 @Composable
 fun HomeScreen(
-    navigation: NavigationController<Route>,
     modifier: Modifier = Modifier,
     wish: (HomeWish) -> Unit,
     uiState: HomeState,
     effect: Flow<HomeEffect>,
     navigateToCreatePassword: () -> Unit,
+    navigateToMyAccount: () -> Unit,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -139,23 +137,127 @@ fun HomeScreen(
             ) {
                 LazyColumn(modifier = modifier.weight(1f)) {
                     item {
-                        RoundedImage(
-                            imageSize = 75,
-                            painter = mokoPainterResource(MR.images.avatar),
-                            contentDescription = null,
-                        )
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            RoundedImage(
+                                imageSize = 75,
+                                painter = mokoPainterResource(MR.images.avatar),
+                                contentDescription = null,
+                            )
+                        }
 
                         Spacer(modifier.height(16.dp))
 
-                        Text(
-                            modifier = modifier.clickable {
-                                navigation.navigateSpace()
-                            },
-                            text = "behzoddev@gmail.com",
-                            fontSize = 24.sp,
-                            fontFamily = GoogleSansFontFamily,
-                            fontWeight = FontWeight.Bold,
+                        Spacer(
+                            modifier.padding(horizontal = 8.dp).height(1.dp).fillMaxWidth()
+                                .background(
+                                    Color.Black.copy(
+                                        0.5f,
+                                    ),
+                                ),
                         )
+
+                        Spacer(modifier.height(16.dp))
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                                navigateToMyAccount.invoke()
+                            },
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.AccountBox,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier.clickable { },
+                                text = "My Account",
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier.height(16.dp))
+
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.HealthAndSafety,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier.clickable { },
+                                text = "Password Health",
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier.height(16.dp))
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CastConnected,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier.clickable { },
+                                text = "Authenticator",
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier.height(16.dp))
+
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+
+                            },
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Password,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier.clickable { },
+                                text = "Generator",
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+
+                        Spacer(modifier.height(16.dp))
+
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.HelpCenter,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier.clickable { },
+                                text = "Help",
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+
                     }
 
 
