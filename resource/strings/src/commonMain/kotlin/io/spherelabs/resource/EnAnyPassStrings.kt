@@ -52,5 +52,11 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     passwordSameFailure = "The key password does not same with confirm key password.",
     websiteAddressFailure = "Please, enter a website address again!",
     notesFailure = "Please, enter a note again!",
-    titleFailure = "Please, enter a title again!"
+    titleFailure = "Please, enter a title again!",
+    myAccount = "My Account",
+    passwordHealth = "Password Health",
+    authenticator = "Authenticator",
+    generator = "Generator",
+    help = "Help",
+    newItem = "New Item"
 )

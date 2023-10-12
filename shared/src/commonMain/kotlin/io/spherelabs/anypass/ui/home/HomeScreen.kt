@@ -75,6 +75,12 @@ fun HomeRoute(
         navigateToMyAccount = {
             navigateToMyAccount.invoke()
         },
+        navigateToGenerator = {
+
+        },
+        navigateToAuthenticator = {},
+        navigateToHelp = {},
+        navigateToPasswordHealth = {},
     )
 }
 
@@ -86,11 +92,15 @@ fun HomeScreen(
     effect: Flow<HomeEffect>,
     navigateToCreatePassword: () -> Unit,
     navigateToMyAccount: () -> Unit,
+    navigateToGenerator: () -> Unit,
+    navigateToPasswordHealth: () -> Unit,
+    navigateToAuthenticator: () -> Unit,
+    navigateToHelp: () -> Unit,
 ) {
-
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = useScope()
     val snackbarState = useSnackbar()
+    val strings = LocalStrings.current
 
     useEffect(true) {
         wish.invoke(HomeWish.GetStartedCategories)
@@ -111,6 +121,30 @@ fun HomeScreen(
                             message = newEffect.message,
                         )
                     }
+                }
+
+                HomeEffect.NavigateToAddNewPassword -> {
+                    navigateToCreatePassword.invoke()
+                }
+
+                HomeEffect.NavigateToGenerator -> {
+                    navigateToGenerator.invoke()
+                }
+
+                HomeEffect.NavigateToMyAccount -> {
+                    navigateToMyAccount.invoke()
+                }
+
+                HomeEffect.NavigateToAuthenticator -> {
+                    navigateToAuthenticator.invoke()
+                }
+
+                HomeEffect.NavigateToHelp -> {
+                    navigateToHelp.invoke()
+                }
+
+                HomeEffect.NavigateToPasswordHealth -> {
+                    navigateToPasswordHealth.invoke()
                 }
             }
         }
@@ -162,7 +196,7 @@ fun HomeScreen(
                         Spacer(modifier.height(16.dp))
                         Row(
                             modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                                navigateToMyAccount.invoke()
+                                wish.invoke(HomeWish.NavigateToMyAccount)
                             },
                             horizontalArrangement = Arrangement.Start,
                         ) {
@@ -172,45 +206,8 @@ fun HomeScreen(
                             )
                             Spacer(modifier.width(8.dp))
                             Text(
-                                modifier = modifier.clickable { },
-                                text = "My Account",
-                                fontSize = 20.sp,
-                                fontFamily = GoogleSansFontFamily,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                        Spacer(modifier.height(16.dp))
-
-                        Row(
-                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Start,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.HealthAndSafety,
-                                contentDescription = null,
-                            )
-                            Spacer(modifier.width(8.dp))
-                            Text(
-                                modifier = modifier.clickable { },
-                                text = "Password Health",
-                                fontSize = 20.sp,
-                                fontFamily = GoogleSansFontFamily,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                        Spacer(modifier.height(16.dp))
-                        Row(
-                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Start,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.CastConnected,
-                                contentDescription = null,
-                            )
-                            Spacer(modifier.width(8.dp))
-                            Text(
-                                modifier = modifier.clickable { },
-                                text = "Authenticator",
+                                modifier = modifier,
+                                text = strings.myAccount,
                                 fontSize = 20.sp,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
@@ -220,7 +217,48 @@ fun HomeScreen(
 
                         Row(
                             modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                                wish.invoke(HomeWish.NavigateToPasswordHealth)
+                            },
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.HealthAndSafety,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier,
+                                text = strings.passwordHealth,
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier.height(16.dp))
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                                wish.invoke(HomeWish.NavigateToAuthenticator)
+                            },
+                            horizontalArrangement = Arrangement.Start,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CastConnected,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier.width(8.dp))
+                            Text(
+                                modifier = modifier,
+                                text = strings.authenticator,
+                                fontSize = 20.sp,
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Spacer(modifier.height(16.dp))
 
+                        Row(
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                                wish.invoke(HomeWish.NavigateToGenerator)
                             },
                             horizontalArrangement = Arrangement.Start,
                         ) {
@@ -230,8 +268,8 @@ fun HomeScreen(
                             )
                             Spacer(modifier.width(8.dp))
                             Text(
-                                modifier = modifier.clickable { },
-                                text = "Generator",
+                                modifier = modifier,
+                                text = strings.generator,
                                 fontSize = 20.sp,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
@@ -241,7 +279,9 @@ fun HomeScreen(
                         Spacer(modifier.height(16.dp))
 
                         Row(
-                            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
+                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                                wish.invoke(HomeWish.NavigateToHelp)
+                            },
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
@@ -250,8 +290,8 @@ fun HomeScreen(
                             )
                             Spacer(modifier.width(8.dp))
                             Text(
-                                modifier = modifier.clickable { },
-                                text = "Help",
+                                modifier = modifier,
+                                text = strings.help,
                                 fontSize = 20.sp,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
@@ -282,12 +322,11 @@ fun HomeScreen(
                 )
 
                 LKNewItemButton(
-                    contentText = "New Item",
+                    contentText = strings.newItem,
                     borderColor = colorResource(MR.colors.cinderella),
                     contentFontFamily = GoogleSansFontFamily,
                 ) {
-                    navigateToCreatePassword.invoke()
-
+                    wish.invoke(HomeWish.NavigateToAddNewPassword)
                 }
 
             }
@@ -582,7 +621,7 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
                 spring(dampingRatio = 1f, stiffness = 1000f)
             }
         },
-        label = "",
+        label = "${pagerState.currentPage}",
     ) {
         tabPositions[it].left
     }
