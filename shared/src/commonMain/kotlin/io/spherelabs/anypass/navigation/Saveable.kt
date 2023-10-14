@@ -8,7 +8,11 @@ fun <R : Route> R.asSavable(): Map<String, String> {
         is Route.MasterPassword -> savable<Route.MasterPassword>()
         is Route.Home -> savable<Route.Home>()
         is Route.CreatePassword -> savable<Route.CreatePassword>()
-        is Route.AddNewPassword -> savable<Route.AddNewPassword>()
+        is Route.AddNewPassword -> {
+            password?.let {
+                savable<Route.AddNewPassword>("password" to it)
+            } ?: savable<Route.AddNewPassword>()
+        }
         is Route.Space -> savable<Route.Space>()
         is Route.SignUp -> savable<Route.SignUp>()
         is Route.SignIn -> savable<Route.SignIn>()
@@ -25,7 +29,10 @@ fun buildScreenFromSavable(savable: Map<String, String>): Route {
         routeName<Route.MasterPassword>() -> Route.MasterPassword
         routeName<Route.CreatePassword>() -> Route.CreatePassword
         routeName<Route.Home>() -> Route.Home
-        routeName<Route.AddNewPassword>() -> Route.AddNewPassword
+        routeName<Route.AddNewPassword>() -> {
+            val passwordArgument = savable["password"] ?: ""
+            Route.AddNewPassword(passwordArgument)
+        }
         routeName<Route.SignUp>() -> Route.SignUp
         routeName<Route.SignIn>() -> Route.SignIn
         routeName<Route.Space>() -> Route.Space
@@ -33,19 +40,12 @@ fun buildScreenFromSavable(savable: Map<String, String>): Route {
     }
 }
 
-/**
- * Creates savable Map for screen [S] having entry of [pairs] in the map
- */
-private inline fun <reified R : Route> savable(
-    vararg pairs: Pair<String, String>,
-) = buildMap<String, String> {
-    try {
-        put(KEY_ROUTE_NAME, routeName<R>())
-        putAll(pairs)
+private inline fun <reified R : Route> savable(vararg pairs: Pair<String, String>): Map<String, String> {
+    return try {
+        mapOf(KEY_ROUTE_NAME to routeName<R>()) + pairs.toMap()
     } catch (e: Exception) {
         error("${e.message}")
     }
-
 }
 
 inline fun <reified ROUTE : Route> routeName(): String = ROUTE::class.qualifiedName!!

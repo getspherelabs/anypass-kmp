@@ -69,13 +69,13 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation(Libs.SqlDelight.android)
-                implementation(Libs.Koin.android)
+                implementation(libs.sqldelight.android)
+                implementation(libs.koin.android)
             }
         }
         val androidUnitTest by getting {
             dependencies {
-                implementation(Libs.SqlDelight.test)
+                implementation(libs.sqldelight.test)
             }
         }
         val iosX64Main by getting
@@ -88,7 +88,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                api(Libs.SqlDelight.native)
+                api(libs.sqldelight.native)
             }
         }
         val iosX64Test by getting
@@ -101,7 +101,7 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
 
             dependencies {
-                implementation(Libs.SqlDelight.native)
+                api(libs.sqldelight.native)
             }
         }
     }

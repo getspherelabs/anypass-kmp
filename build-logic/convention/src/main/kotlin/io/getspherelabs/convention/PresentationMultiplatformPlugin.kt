@@ -12,6 +12,7 @@ class PresentationMultiplatformPlugin : Plugin<Project> {
         with(pluginManager) {
             apply("com.android.library")
             apply("org.jetbrains.kotlin.multiplatform")
+            apply("com.autonomousapps.dependency-analysis")
         }
         configureSpotless()
         extensions.configure<KotlinMultiplatformExtension>() {

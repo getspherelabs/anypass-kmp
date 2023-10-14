@@ -44,24 +44,6 @@ class UserDaoTest {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Test
     fun `check insert user and delete user`() = runTest {
         val user = User(
@@ -71,8 +53,6 @@ class UserDaoTest {
             password = "",
         )
         dao.insertUser(user)
-
-
         dao.deleteUserById(user.id)
         val result = dao.getUser()
 
@@ -80,7 +60,21 @@ class UserDaoTest {
             assertEquals("ResultSet returned null for User.sq:getUser", awaitError().message)
         }
 
+      
+    }
+    @Test
+    fun `check update user and get user`() = runTest {
 
+        dao.insertUser(user)
+        val newUser = User("1","oybek","","")
+
+
+        dao.updateUser(newUser)
+        val result = dao.getUser()
+
+        result.test {
+            assertEquals("oybek", awaitItem().name)
+        }
     }
 
 
