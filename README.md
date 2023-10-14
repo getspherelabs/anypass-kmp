@@ -26,7 +26,7 @@
 [AnyPass]() is your one-stop solution for password management, password generation, and password health analysis.
 
 # Architecture
-The app architecture has three layers: a data layer, a domain layer and a UI layer. Cosmo uses Meteor KMP to create application using MVI architecture. It provides a unidirectional data flow (UDF), allowing you to handle state changes and propagate them to the UI efficiently.
+The app architecture has three layers: a data layer, a domain layer and a UI layer. AnyPass uses Meteor KMP to create application using MVI architecture. It provides a unidirectional data flow (UDF), allowing you to handle state changes and propagate them to the UI efficiently.
 
 ### Single source of truth
 

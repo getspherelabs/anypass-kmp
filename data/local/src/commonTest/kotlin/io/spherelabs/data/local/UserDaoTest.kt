@@ -40,4 +40,27 @@ class UserDaoTest {
             assertEquals("1", awaitItem().id)
         }
     }
+
+    @Test
+    fun `check update user and get user`() = runTest {
+        val user = User(
+            id = "1",
+            name = "test",
+            email = "test",
+            password = "",
+        )
+
+        dao.insertUser(user)
+        val newUser = User("1","oybek","","")
+
+
+        dao.updateUser(newUser)
+        val result = dao.getUser()
+
+        result.test {
+            assertEquals("oybek", awaitItem().name)
+        }
+    }
+
+
 }
