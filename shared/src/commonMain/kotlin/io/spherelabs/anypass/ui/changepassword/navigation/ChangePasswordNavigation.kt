@@ -10,8 +10,10 @@ fun NavigationController<Route>.navigateToChangePassword() {
     this.navigateTo(Route.ChangePassword)
 }
 
-fun NavHostScope<Route>.changePasswordScreen() {
+fun NavHostScope<Route>.changePasswordScreen(
+    navigateToBack: () -> Unit,
+) {
     this.composable<Route.ChangePassword> {
-        ChangePasswordRoute()
+        ChangePasswordRoute(navigateToBack = { navigateToBack.invoke() })
     }
 }
