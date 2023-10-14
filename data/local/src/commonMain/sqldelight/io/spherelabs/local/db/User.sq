@@ -17,3 +17,6 @@ SELECT * FROM user WHERE id = ? LIMIT 1;
 
 getUser:
 SELECT * FROM user LIMIT 1;
+
+deleteUserById:
+DELETE FROM user WHERE id = ?;
