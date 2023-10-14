@@ -9,6 +9,8 @@ import io.spherelabs.addnewpassworddomain.di.addNewPasswordDomainModule
 import io.spherelabs.admob.di.admobModule
 import io.spherelabs.authdomain.di.authDomainModule
 import io.spherelabs.authpresentation.authFeatureModule
+import io.spherelabs.changepassworddomain.di.changePasswordDomainModule
+import io.spherelabs.changepasswordpresentation.di.changePasswordPresentationModule
 import io.spherelabs.data.local.di.localModule
 import io.spherelabs.data.settings.di.settingModule
 import io.spherelabs.features.onboardingpresentation.di.onboardingFeatureModule
@@ -57,6 +59,8 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             masterPasswordFeatureModule,
             accountDomainModule,
             accountPresentationModule,
+            changePasswordDomainModule,
+            changePasswordPresentationModule,
             viewModelModule,
         )
     }
