@@ -10,10 +10,18 @@ fun NavigationController<Route>.navigateToMyAccount() {
     this.navigateTo(Route.Space)
 }
 
-fun NavHostScope<Route>.spaceScreen(
+fun NavHostScope<Route>.accountScreen(
     navigateToHome: () -> Unit,
+    navigateToChangePassword: () -> Unit,
 ) {
     this.composable<Route.Space> {
-        AccountRoute { navigateToHome.invoke() }
+        AccountRoute(
+            navigateToBack = {
+                navigateToHome.invoke()
+            },
+            navigateToChangePassword = {
+                navigateToChangePassword.invoke()
+            },
+        )
     }
 }

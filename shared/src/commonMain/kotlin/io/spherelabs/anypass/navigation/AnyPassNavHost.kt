@@ -15,7 +15,9 @@ import io.spherelabs.anypass.ui.generatepassword.navigation.navigateToCreatePass
 import io.spherelabs.anypass.ui.home.navigation.homeScreen
 import io.spherelabs.anypass.ui.home.navigation.navigateToHome
 import io.spherelabs.anypass.ui.onboarding.navigation.onboardingScreen
-import io.spherelabs.anypass.ui.account.navigation.spaceScreen
+import io.spherelabs.anypass.ui.account.navigation.accountScreen
+import io.spherelabs.anypass.ui.changepassword.navigation.changePasswordScreen
+import io.spherelabs.anypass.ui.changepassword.navigation.navigateToChangePassword
 import io.spherelabs.navigation.NavHost
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController
@@ -52,7 +54,14 @@ fun AnyPassNavHost(
                 navigationController.navigateToMyAccount()
             },
         )
-        spaceScreen { navigationController.navigateUp() }
+        accountScreen(
+            navigateToChangePassword = {
+                navigationController.navigateToChangePassword()
+            },
+            navigateToHome = {
+                navigationController.navigateUp()
+            },
+        )
         addNewPasswordScreen(
             navigateToBack = {
                 navigationController.navigateUp()
@@ -72,6 +81,9 @@ fun AnyPassNavHost(
                 navigationController.navigateToAddNewPassword(it)
             },
         )
+        changePasswordScreen {
+            navigationController.navigateUp()
+        }
 
     }
 }
