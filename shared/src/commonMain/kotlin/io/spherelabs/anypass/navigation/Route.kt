@@ -89,7 +89,7 @@ sealed interface Route {
     @Immutable
     object ChangePassword: Route {
         override fun equals(other: Any?): Boolean {
-            return other == ChangePassword
+            return other === ChangePassword
         }
 
         override fun hashCode(): Int {
