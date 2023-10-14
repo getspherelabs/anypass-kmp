@@ -132,7 +132,9 @@ fun HomeScreen(
                 }
 
                 HomeEffect.NavigateToMyAccount -> {
-                    navigateToMyAccount.invoke()
+                    coroutineScope.launch {
+                        navigateToMyAccount.invoke()
+                    }
                 }
 
                 HomeEffect.NavigateToAuthenticator -> {

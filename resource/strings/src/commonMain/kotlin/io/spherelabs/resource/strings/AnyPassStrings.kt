@@ -59,6 +59,11 @@ data class AnyPassStrings(
     val authenticator: String,
     val generator: String,
     val help: String,
-    val newItem: String
+    val newItem: String,
+    val currentKeyPassword: String,
+    val newKeyPassword: String,
+    val confirmNewKeyPassword: String,
+    val updateKeyPassword: String,
+    val currentKeyPasswordDoesNotMatch: String
 )
 

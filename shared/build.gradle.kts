@@ -80,6 +80,8 @@ kotlin {
                 api(projects.features.home.homePresentation)
                 api(projects.features.passphrase.masterPasswordDomain)
                 api(projects.features.passphrase.masterPasswordPresentation)
+                api(projects.features.changepassword.changePasswordDomain)
+                api(projects.features.changepassword.changePasswordPresentation)
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)

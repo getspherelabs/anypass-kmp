@@ -22,4 +22,6 @@ sealed interface AccountWish {
     data class GetFingerPrint(val isEnabled: Boolean) : AccountWish
     object GetAccount : AccountWish
     data class GetUser(val user: AccountUserUi) : AccountWish
+    object NavigateToChangePassword : AccountWish
+    object NavigateToBack : AccountWish
 }
