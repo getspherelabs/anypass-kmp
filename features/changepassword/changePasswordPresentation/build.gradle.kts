@@ -7,7 +7,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                // implementation(projects.features.c) }
+                implementation(projects.features.changepassword.changePasswordDomain)
+                implementation(projects.core.validation)
             }
         }
     }
