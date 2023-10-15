@@ -192,28 +192,28 @@ buildkonfig {
 multiplatformResources {
     multiplatformResourcesPackage = "io.spherelabs.anypass"
 }
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
-    @Suppress("ObjectLiteralToLambda")
-    doLast(
-        object : Action<Task> {
-            override fun execute(task: Task) {
-                task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
-
-                val frameworkDir =
-                    File(task.destinationDir, task.frameworkName.get() + ".framework")
-
-                listOf(
-                    "anypass:shared.bundle",
-                ).forEach { bundleName ->
-                    val bundleDir = File(frameworkDir, bundleName)
-                    bundleDir.mkdir()
-                    File(bundleDir, "dummyFile").writeText("dummy")
-                }
-            }
-        },
-    )
-}
+//
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
+//    @Suppress("ObjectLiteralToLambda")
+//    doLast(
+//        object : Action<Task> {
+//            override fun execute(task: Task) {
+//                task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
+//
+//                val frameworkDir =
+//                    File(task.destinationDir, task.frameworkName.get() + ".framework")
+//
+//                listOf(
+//                    "anypass:shared.bundle",
+//                ).forEach { bundleName ->
+//                    val bundleDir = File(frameworkDir, bundleName)
+//                    bundleDir.mkdir()
+//                    File(bundleDir, "dummyFile").writeText("dummy")
+//                }
+//            }
+//        },
+//    )
+//}
 
 fun configs(name: String): Pair<String, String> {
     val secret = System.getenv(name)
