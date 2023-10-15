@@ -60,10 +60,16 @@ class UserDaoTest {
             assertEquals("ResultSet returned null for User.sq:getUser", awaitError().message)
         }
 
-      
+
     }
     @Test
     fun `check update user and get user`() = runTest {
+        val user = User(
+            id = "1",
+            name = "test",
+            email = "test",
+            password = "",
+        )
 
         dao.insertUser(user)
         val newUser = User("1","oybek","","")
