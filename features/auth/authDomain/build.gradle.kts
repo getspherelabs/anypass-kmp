@@ -11,11 +11,19 @@ kotlin {
           implementation(projects.data.authManager)
           implementation(projects.data.prefs)
           implementation(projects.core.common)
+
       }
     }
   }
 }
 
+kotlin{
+    sourceSets{
+        val androidUnitTest by getting{
+            dependencies{implementation(libs.konsist)}
+        }
+    }
+}
 android {
   namespace = "io.spherelabs.authdomain"
   compileSdk = 33
