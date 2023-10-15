@@ -2,7 +2,6 @@ import org.junit.Test
 import com.lemonappdev.konsist.api.Konsist
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
 import com.lemonappdev.konsist.api.verify.assertTrue
-import org.junit.Test
 
 class AccountDomainArchitectureTest {
     @Test
@@ -15,7 +14,6 @@ class AccountDomainArchitectureTest {
                 it.resideInPackage("..usecase..")
             }
     }
-
 
     @Test
     fun `check the interfaces with 'UseCase' suffix in 'usecase' package`() {
