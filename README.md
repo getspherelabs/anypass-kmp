@@ -179,11 +179,42 @@ graph TD;
         - `lsqlite3`
         - `ObjC`
        
-# Screenshots
+## Screenshots
 
-## Contribute
+## Contributers 
 
 **Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)** [![Fork AnyPass](https://img.shields.io/github/forks/getspherelabs/anypass-kmp?logo=github&style=social)](https://github.com/getspherelabs/anypass-kmp/fork)
+
+### Those are the list of contributors of this project, thanks for your contribution 🧑‍💻:**
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/oybekjon94">
+          <img src="https://avatars.githubusercontent.com/u/91370134?v=4" width="100" alt="John Doe">
+        </a>
+        <br>
+        <a href="https://github.com/oybekjon94">Oybek Kholiqov</a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/khurshiddev">
+          <img src="https://avatars.githubusercontent.com/u/92572647?v=4" width="100" alt="Jane Smith">
+        </a>
+        <br>
+        <a href="https://github.com/khurshiddev">Khurshid Usarov</a>
+      </td>
+        <td align="center">
+        <a href=" https://github.com/sardor-m">
+          <img src="https://avatars.githubusercontent.com/u/65296404?v=4" width="100" alt="Jane Smith">
+        </a>
+        <br>
+        <a href="https://github.com/sardor-m">Sardor-M</a>
+      </td>
+      <!-- Add more contributors in a similar format -->
+    </tr>
+  </tbody>
+</table>
 
 
 ## Project Requirements
