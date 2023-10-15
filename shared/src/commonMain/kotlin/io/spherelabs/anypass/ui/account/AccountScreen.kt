@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
@@ -36,14 +37,19 @@ import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useScope
+import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun AccountRoute(
     viewModel: AccountViewModel = useInject(),
+    navigateToChangePassword: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
@@ -55,6 +61,9 @@ fun AccountRoute(
         wish = { newWish ->
             viewModel.wish(newWish)
         },
+        navigateToChangePassword = {
+            navigateToChangePassword.invoke()
+        },
     )
 }
 
@@ -65,17 +74,50 @@ fun AccountScreen(
     effect: Flow<AccountEffect>,
     wish: (AccountWish) -> Unit,
     navigateToBack: () -> Unit,
+    navigateToChangePassword: () -> Unit,
 ) {
+
+    val snackbarState = useSnackbar()
+    val scope = useScope()
 
     val strings = LocalStrings.current
 
     useEffect(true) {
         wish.invoke(AccountWish.GetAccount)
         wish.invoke(AccountWish.GetStartedFingerPrint)
+
+        effect.collectLatest { newEffect ->
+            when (newEffect) {
+                AccountEffect.ChangePasswordRoute -> {
+                    navigateToChangePassword.invoke()
+                }
+
+                is AccountEffect.Failure -> {
+                    scope.launch {
+                        snackbarState
+                            .showSnackbar(newEffect.message)
+                    }
+                }
+
+                AccountEffect.Back -> {
+                    navigateToBack.invoke()
+                }
+            }
+        }
+
     }
 
     Scaffold(
-        containerColor = colorResource(MR.colors.dynamic_yellow),
+        modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarState,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(Alignment.Bottom),
+            )
+        },
+        containerColor = colorResource(MR.colors.lavender),
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),
@@ -84,7 +126,7 @@ fun AccountScreen(
                 BackButton(
                     modifier,
                     navigateToBack = {
-                        navigateToBack.invoke()
+                        wish.invoke(AccountWish.NavigateToBack)
                     },
                 )
                 Headline(
@@ -92,7 +134,7 @@ fun AccountScreen(
                     modifier = modifier,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
-                    textColor = Color.Black,
+                    textColor = Color.White,
                 )
             }
         },
@@ -128,7 +170,7 @@ fun AccountScreen(
                     text = name,
                     textAlign = TextAlign.Center,
                     fontSize = 32.sp,
-                    color = Color.Black,
+                    color = Color.White,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
                 )
@@ -232,7 +274,10 @@ fun AccountScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp),
-                    ).background(color = Color.Black),
+                    ).background(color = Color.Black)
+                    .clickable {
+                        wish.invoke(AccountWish.NavigateToChangePassword)
+                    },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -298,6 +343,7 @@ fun RowScope.BackButton(
     iconColor: Color = Color.White,
     navigateToBack: () -> Unit,
 ) {
+
     Box(
         modifier = modifier.padding(start = 24.dp).size(42.dp)
             .clip(RoundedCornerShape(12.dp))

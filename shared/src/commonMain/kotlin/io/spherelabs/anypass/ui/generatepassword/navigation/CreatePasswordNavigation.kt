@@ -12,12 +12,16 @@ fun NavigationController<Route>.navigateToCreatePassword() {
 
 fun NavHostScope<Route>.createPasswordScreen(
     navigateToHome: () -> Unit,
-    navigateToBack: () -> Unit
+    navigateToBack: () -> Unit,
+    navigateToUse: (password: String) -> Unit
 ) {
     this.composable<Route.CreatePassword> {
         GeneratePasswordRoute(
             navigateToBack = {
                 navigateToBack.invoke()
+            },
+            navigateToCopy = {
+                navigateToUse.invoke(it)
             }
         )
     }

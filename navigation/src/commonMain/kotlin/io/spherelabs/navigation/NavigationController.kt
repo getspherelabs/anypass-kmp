@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import io.spherelabs.navigation.impl.NavigationControllerImpl
+import io.spherelabs.navigation.stack.NavigationStack
 import kotlinx.coroutines.flow.SharedFlow
 
 /**
@@ -30,6 +31,8 @@ interface NavigationController<STATE> {
      * Pops the current destination from Navigation graph
      */
     fun navigateUp()
+
+    fun navigateUp(newState: STATE)
 
     /**
      * Reactive stream for [NavigationEvents]
@@ -83,7 +86,7 @@ fun <STATE : Any, SAVABLE> rememberNavigationController(
         saver = listSaver(
             save = { it.backStack.map { state -> onSave(state) } },
             restore = { savables ->
-                NavigationControllerImpl(stack = LockerStack(savables.map { onRestore(it) }))
+                NavigationControllerImpl(stack = NavigationStack(savables.map { onRestore(it) }))
             },
         ),
     ) { NavigationControllerImpl() }

@@ -25,7 +25,8 @@ class AddNewPasswordMiddleware(
             next.invoke(AddNewPasswordWish.InsertFailed(failureMessage))
           }
       }
-      is AddNewPasswordWish.OnSubmitClicked -> {
+      // Just don't need?
+      AddNewPasswordWish.AddNewPassword -> {
         val currentCategory = state.categories.find { it.title == state.currentCategory }?.id ?: "0"
 
         next.invoke(

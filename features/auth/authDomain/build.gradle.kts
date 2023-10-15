@@ -9,6 +9,7 @@ kotlin {
       dependencies {
           implementation(projects.data.local)
           implementation(projects.data.authManager)
+          implementation(projects.data.prefs)
           implementation(projects.core.common)
       }
     }
