@@ -44,6 +44,26 @@ data class AnyPassStrings(
     val getStarted: String,
     val confirmPassphrase: String,
     val addPassphrase: String,
-    val submit: String
+    val submit: String,
+    val passwordLengthIsLess: String,
+    val passwordFailure: String,
+    val emailFailure: String,
+    val nameFailure: String,
+    val keyPasswordRequirement: String,
+    val passwordSameFailure: String,
+    val websiteAddressFailure: String,
+    val notesFailure: String,
+    val titleFailure: String,
+    val myAccount: String,
+    val passwordHealth: String,
+    val authenticator: String,
+    val generator: String,
+    val help: String,
+    val newItem: String,
+    val currentKeyPassword: String,
+    val newKeyPassword: String,
+    val confirmNewKeyPassword: String,
+    val updateKeyPassword: String,
+    val currentKeyPasswordDoesNotMatch: String
 )
 

@@ -19,72 +19,60 @@ class MasterPasswordReducer :
             MasterPasswordWish.PasswordExisted -> {
                 expect { currentState.copy(isExistPassword = true) }
             }
-            is MasterPasswordWish.OnConfirmPasswordChanged -> {
-                val newPassword: String = buildString {
-                    if (currentState.password.length == 4) {
-                        println("Wish password: ${currentState.password} in confirm password changed")
-                        val confirmPassword: String = currentState.confirmPassword ?: ""
-                        if (confirmPassword.length < 4) {
-                            append(confirmPassword + currentWish.confirmPassword)
-                        }
-                    }
-                }
 
-                println("Wish new password: $newPassword")
-
-                expect {
-                    currentState.copy(
-                        password = currentState.password,
-                        confirmPassword = newPassword,
-                    )
-                }
-            }
             is MasterPasswordWish.OnMasterPasswordChanged -> {
-                val newPassword: String = buildString {
-                    if (currentState.password.length < 4) {
-                        append(currentState.password + currentWish.password)
-                    } else {
+                val newPassword = if (currentState.password.length <= MAX_PASSWORD_LENGTH) {
+                    buildString {
                         append(currentState.password)
+                        append(currentWish.password)
                     }
+                } else {
+                    currentState.password
                 }
 
                 expect {
                     currentState.copy(
                         password = newPassword,
-                        isInitialPasswordExisted = currentState.password.length == 4,
                     )
                 }
             }
+
             is MasterPasswordWish.SetPasswordFailure -> {
                 effect { MasterPasswordEffect.Failure(currentWish.message) }
             }
-            MasterPasswordWish.SetPasswordSuccessFully -> {
-                route { MasterPasswordEffect.Home }
-            }
+
+
             MasterPasswordWish.ClearPassword -> {
                 expect {
                     currentState.copy(
                         password = "",
-                        confirmPassword = null,
-                        isInitialPasswordExisted = false,
                     )
                 }
             }
+
             is MasterPasswordWish.OnPasswordCellChanged -> {
                 expect { currentState.copy(password = currentWish.password) }
             }
-            is MasterPasswordWish.OnConfirmPasswordCellChanged -> {
-                expect { currentState.copy(confirmPassword = currentWish.confirmPassword) }
-            }
+
             is MasterPasswordWish.GetFingerprint -> {
                 expect { currentState.copy(isFingerprintEnabled = currentWish.isEnabled) }
             }
+
             MasterPasswordWish.NavigateToHome -> {
                 route { MasterPasswordEffect.Home }
             }
+
+            is MasterPasswordWish.IsNotMatched -> {
+                effect { MasterPasswordEffect.Failure(currentWish.message) }
+            }
+
             else -> {
                 unexpected { currentState }
             }
         }
+    }
+
+    companion object {
+        private const val MAX_PASSWORD_LENGTH = 3
     }
 }

@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.Flow
 fun GeneratePasswordRoute(
     viewModel: GeneratePasswordViewModel = useInject(),
     navigateToBack: () -> Unit,
+    navigateToCopy: (String) -> Unit
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -57,6 +58,9 @@ fun GeneratePasswordRoute(
         navigateToBack = {
             navigateToBack.invoke()
         },
+        navigateToCopy = {
+            navigateToCopy.invoke(it)
+        }
     )
 }
 
@@ -67,6 +71,7 @@ fun GeneratePasswordScreen(
     state: GeneratePasswordState,
     flow: Flow<GeneratePasswordEffect>,
     navigateToBack: () -> Unit,
+    navigateToCopy: (String) -> Unit
 ) {
 
     val snackbarHostState = useSnackbar()
@@ -107,7 +112,8 @@ fun GeneratePasswordScreen(
                         modifier = modifier,
                         text = strings.uppercase,
                         fontSize = 12.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = Color.White.copy(alpha = 0.5f),
                     )
                     LKSlider(
@@ -142,7 +148,8 @@ fun GeneratePasswordScreen(
                                 text = "${state.uppercaseLength.toInt()}",
                                 fontSize = 10.sp,
                                 color = Color.Black,
-                                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Medium,
                             )
 
                         }
@@ -154,7 +161,8 @@ fun GeneratePasswordScreen(
                         modifier = modifier.padding(start = 24.dp),
                         text = strings.digits,
                         fontSize = 12.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = Color.White.copy(alpha = 0.5f),
                     )
                     LKSlider(
@@ -179,7 +187,8 @@ fun GeneratePasswordScreen(
                                 text = "${state.digitLength.toInt()}",
                                 fontSize = 10.sp,
                                 color = Color.Black,
-                                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Medium,
                             )
 
                         }
@@ -191,7 +200,8 @@ fun GeneratePasswordScreen(
                         modifier = modifier.padding(start = 24.dp),
                         text = strings.special,
                         fontSize = 12.sp,
-                        fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                        fontFamily = GoogleSansFontFamily,
+                        fontWeight = FontWeight.Medium,
                         color = Color.White.copy(alpha = 0.5f),
                     )
                     LKSlider(
@@ -216,7 +226,8 @@ fun GeneratePasswordScreen(
                                 text = "0",
                                 fontSize = 10.sp,
                                 color = Color.Black,
-                                fontFamily = fontFamilyResource(MR.fonts.googlesans.medium),
+                                fontFamily = GoogleSansFontFamily,
+                                fontWeight = FontWeight.Medium,
                             )
 
                         }
@@ -329,7 +340,7 @@ fun GeneratePasswordScreen(
                         text = strings.use,
                         backgroundColor = colorResource(MR.colors.dynamic_yellow),
                     ) {
-
+                        navigateToCopy.invoke(state.password)
                     }
                 }
             }

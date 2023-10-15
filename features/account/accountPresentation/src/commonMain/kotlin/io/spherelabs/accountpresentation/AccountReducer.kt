@@ -2,6 +2,7 @@ package io.spherelabs.accountpresentation
 
 import io.spherelabs.meteor.configs.Change
 import io.spherelabs.meteor.extension.expect
+import io.spherelabs.meteor.extension.route
 import io.spherelabs.meteor.extension.unexpected
 import io.spherelabs.meteor.reducer.Reducer
 
@@ -53,6 +54,12 @@ class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
                         user = currentWish.user,
                     )
                 }
+            }
+            AccountWish.NavigateToChangePassword -> {
+                route { AccountEffect.ChangePasswordRoute}
+            }
+            AccountWish.NavigateToBack -> {
+                route { AccountEffect.Back }
             }
             else -> unexpected { currentState }
         }

@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
@@ -59,3 +60,8 @@ include(":resource")
 include(":resource:fonts")
 include(":resource:icons")
 include(":resource:strings")
+include(":manager:otp")
+include(":core:mlkit")
+include(":features:changepassword")
+include(":features:changepassword:changePasswordDomain")
+include(":features:changepassword:changePasswordPresentation")

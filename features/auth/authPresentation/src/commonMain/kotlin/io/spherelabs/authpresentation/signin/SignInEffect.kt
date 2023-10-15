@@ -3,7 +3,7 @@ package io.spherelabs.authpresentation.signin
 sealed interface SignInEffect {
   data class Failure(val message: String) : SignInEffect
 
-  object SignUp : SignInEffect
+  object CreateNew : SignInEffect
 
-  object Discover : SignInEffect
+  object KeyPassword : SignInEffect
 }
