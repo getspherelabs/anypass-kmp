@@ -82,7 +82,5 @@ class UserDaoTest {
             assertEquals("oybek", awaitItem().name)
         }
     }
-
-
 }
 

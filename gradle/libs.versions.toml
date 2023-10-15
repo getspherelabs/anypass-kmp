@@ -43,6 +43,7 @@ crypto-macs = "0.3.0"
 camerax = "1.2.3"
 encoding-base32 = "2.0.0"
 buffer = "1.3.6"
+konsist = "0.13.0"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -96,6 +97,7 @@ sentry = { group = "io.sentry", name = "sentry-kotlin-multiplatform", version.re
 gms = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "gms" }
 assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref = "assertk" }
 lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "lyricist" }
+konsist = {group = "com.lemonappdev", name = "konsist",version.ref = "konsist"}
 uri-kmp = { module = "com.eygraber:uri-kmp", version.ref = "uri-kmp" }
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 crypto-macs-hmac-sha1 = { module = "org.kotlincrypto.macs:hmac-sha1", version.ref = "crypto-macs" }
