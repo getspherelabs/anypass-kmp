@@ -6,7 +6,6 @@ data class SignInState(
   val emailFailed: Boolean = false,
   val passwordFailed: Boolean = false,
   val nameFailed: Boolean = false,
-  val passwordLengthThanEight: Boolean = false,
   val isLoading: Boolean = false,
   val isPasswordVisibility: Boolean = false,
   val isCurrentUserExist: Boolean = false

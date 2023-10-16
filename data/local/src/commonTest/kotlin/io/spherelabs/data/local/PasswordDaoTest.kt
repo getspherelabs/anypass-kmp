@@ -51,6 +51,7 @@ class PasswordDaoTest {
 
         dao.insertPassword(password)
         dao.insertPassword(password2)
+
         val result = dao.getPasswordsByCategory("2")
 
         result.test {

@@ -29,7 +29,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                api(libs.koin.core)
-               api(Libs.Koin.core)
             }
         }
         val commonTest by getting {

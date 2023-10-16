@@ -7,8 +7,9 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-          implementation(projects.features.addnewpassword.addNewPasswordDomain)
           implementation(projects.core.common)
+          implementation(projects.core.validation)
+          implementation(projects.features.addnewpassword.addNewPasswordDomain)
       }
     }
   }
@@ -17,5 +18,7 @@ kotlin {
 android {
   namespace = "io.spherelabs.addnewpasswodpresentation"
   compileSdk = 33
-  defaultConfig { minSdk = 24 }
+  defaultConfig {
+      minSdk = 24
+  }
 }

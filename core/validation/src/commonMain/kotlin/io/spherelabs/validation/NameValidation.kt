@@ -7,6 +7,6 @@ interface NameValidation {
 class DefaultNameValidation : NameValidation {
 
   override fun execute(name: String): Boolean {
-    return name.length in 2..20 && name.all { it.isLetter() }
+      return name.length in 3..15 && name.all { it.isLetter() }
   }
 }

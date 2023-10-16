@@ -13,10 +13,13 @@ interface UserDao {
     suspend fun updateUser(password: User)
     fun getUserById(id: String): Flow<User>
     fun getUser(): Flow<User>
+
+    fun deleteUserById(id: String)
+
 }
 
 class DefaultUserDao(
-    val db: AnyPassDatabase
+    val db: AnyPassDatabase,
 ) : UserDao {
 
     private val queries = db.userQueries
@@ -27,7 +30,7 @@ class DefaultUserDao(
                 id = password.id,
                 email = password.email,
                 name = password.name,
-                password = password.password
+                password = password.password,
             )
         }
     }
@@ -36,7 +39,7 @@ class DefaultUserDao(
         queries.transaction {
             queries.updateUser(
                 name = password.name,
-                password = password.password
+                password = password.password,
             )
         }
     }
@@ -47,5 +50,9 @@ class DefaultUserDao(
 
     override fun getUser(): Flow<User> {
         return queries.getUser().asFlow().mapToOne(Dispatchers.IO)
+    }
+
+    override fun deleteUserById(id: String) {
+        queries.transaction { queries.deleteUserById(id) }
     }
 }

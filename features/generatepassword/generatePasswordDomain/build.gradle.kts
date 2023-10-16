@@ -14,6 +14,16 @@ kotlin {
     }
 }
 
+kotlin{
+    sourceSets{
+        dependencies {
+            val androidUnitTest by getting{
+                implementation(libs.konsist)
+            }
+        }
+    }
+}
+
 android {
     namespace = "io.spherelabs.generatepassworddomain"
     compileSdk = 33

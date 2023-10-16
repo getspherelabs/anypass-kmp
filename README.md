@@ -41,26 +41,33 @@ This pattern brings multiple benefits:
 In an offline-first application, the source of truth for application data is typically a database. In some other cases, the source of truth can be a ViewModel or even the UI.
 # Technology
 
-- [Kotlin]()
-- [Compose Multiplatform]()
-- [Kotlin Coroutine]()
-- [Swift]()
-- [SqlDelight]()
-- [Koin]()
-- [Meteor]()
-- [Firebase]()
-- [Sentry]()
-- [Google Admob]()
-- [Multiplatform Settings]()
-- [Moko Resource]()
-- [Sentry Multiplatform]()
-- [BuildKonfig]()
-- [Coil]()
-- [Meteor ViewModel]()
-- [Turbine]()
-- [Ktlint]()
-- [Spotless]()
-- [Jacoco]()
+- [Kotlin](https://kotlinlang.org)
+- [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform)
+- [Kotlin Coroutine](https://kotlinlang.org/docs/coroutines-overview.html)
+- [Swift](https://www.swift.org)
+- [SqlDelight](https://github.com/cashapp/sqldelight)
+- [Koin](https://insert-koin.io)
+- [Meteor](https://github.com/getspherelabs/meteor-kmp)
+- [Firebase](https://firebase.google.com)
+- [Sentry](https://sentry.io)
+- [Google Admob](https://admob.google.com)
+- [Multiplatform Settings](https://github.com/russhwolf/multiplatform-settings)
+- [Moko Resource](https://github.com/icerockdev/moko-resources)
+- [Sentry Multiplatform](https://docs.sentry.io/platforms/kotlin-multiplatform)
+- [BuildKonfig](https://github.com/yshrsmz/BuildKonfig)
+- [Coil](https://github.com/coil-kt/coil)
+- [Meteor ViewModel](https://github.com/getspherelabs/meteor-kmp)
+- [Turbine](https://github.com/cashapp/turbine)
+- [Ktlint](https://github.com/pinterest/ktlint)
+- [Spotless](https://github.com/diffplug/spotless)
+- [Jacoco](https://github.com/jacoco/jacoco)
+- [AssertK](https://github.com/willowtreeapps/assertk)
+- [Konsist](https://github.com/LemonAppDev/konsist)
+- [Lyricist](https://github.com/adrielcafe/lyricist)
+- [Uri-kmp](https://github.com/eygraber/uri-kmp)
+- [Test-logger](https://github.com/radarsh/gradle-test-logger-plugin)
+- [CameraX](https://developer.android.com/jetpack/androidx/releases/camera)
+- [MLKit](https://developers.google.com/ml-kit)
 
 # Modularization
 Modularization is the practice of breaking the concept of a monolithic, one-module codebase into loosely coupled, self contained modules.
@@ -172,11 +179,42 @@ graph TD;
         - `lsqlite3`
         - `ObjC`
        
-# Screenshots
+## Screenshots
 
-## Contribute
+## Contributers 
 
 **Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)** [![Fork AnyPass](https://img.shields.io/github/forks/getspherelabs/anypass-kmp?logo=github&style=social)](https://github.com/getspherelabs/anypass-kmp/fork)
+
+### Those are the list of contributors of this project, thanks for your contribution 🧑‍💻:**
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/oybekjon94">
+          <img src="https://avatars.githubusercontent.com/u/91370134?v=4" width="100" alt="John Doe">
+        </a>
+        <br>
+        <a href="https://github.com/oybekjon94">Oybek Kholiqov</a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/khurshiddev">
+          <img src="https://avatars.githubusercontent.com/u/92572647?v=4" width="100" alt="Jane Smith">
+        </a>
+        <br>
+        <a href="https://github.com/khurshiddev">Khurshid Usarov</a>
+      </td>
+        <td align="center">
+        <a href=" https://github.com/sardor-m">
+          <img src="https://avatars.githubusercontent.com/u/65296404?v=4" width="100" alt="Jane Smith">
+        </a>
+        <br>
+        <a href="https://github.com/sardor-m">Sardor-M</a>
+      </td>
+      <!-- Add more contributors in a similar format -->
+    </tr>
+  </tbody>
+</table>
 
 
 ## Project Requirements
