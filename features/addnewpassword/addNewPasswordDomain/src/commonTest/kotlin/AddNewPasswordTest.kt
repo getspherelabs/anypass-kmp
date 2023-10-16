@@ -1,6 +1,6 @@
 import io.spherelabs.addnewpassworddomain.model.AddNewPasswordDomain
-import io.spherelabs.addnewpassworddomain.usecase.AddNewPassword
-import io.spherelabs.addnewpassworddomain.usecase.DefaultAddNewPassword
+import io.spherelabs.addnewpassworddomain.usecase.AddNewPasswordUseCase
+import io.spherelabs.addnewpassworddomain.usecase.DefaultAddNewPasswordUseCaseUseCase
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -8,11 +8,11 @@ import kotlinx.coroutines.test.runTest
 
 class AddNewPasswordTest {
 
-  private lateinit var usecase: AddNewPassword
+  private lateinit var usecase: AddNewPasswordUseCase
 
   @BeforeTest
   fun setup() {
-    usecase = DefaultAddNewPassword(FakeAddNewRepository())
+    usecase = DefaultAddNewPasswordUseCaseUseCase(FakeAddNewRepository())
   }
 
   @Test

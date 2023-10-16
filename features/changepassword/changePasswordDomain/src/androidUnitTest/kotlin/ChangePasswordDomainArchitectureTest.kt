@@ -11,6 +11,8 @@ class ChangePasswordDomainArchitectureTest {
             .classes()
             .withNameEndingWith("UseCase")
             .assertTrue {
+                println("Use case in ${it.name}")
+                println("Use case in ${it.moduleName}")
                 it.resideInPackage("..usecase..")
             }
     }

@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import io.spherelabs.accountdomain.repository.di.accountDomainModule
 import io.spherelabs.accountpresentation.di.accountPresentationModule
 import io.spherelabs.addnewpasswodpresentation.di.addNewPasswordFeatureModule
-import io.spherelabs.addnewpassworddomain.di.addNewPasswordDomainModule
+import io.spherelabs.addnewpassworddomain.di.addNewPasswordUseCaseDomainModule
 import io.spherelabs.admob.di.admobModule
 import io.spherelabs.authdomain.di.authDomainModule
 import io.spherelabs.authpresentation.authFeatureModule
@@ -47,7 +47,7 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             passwordManagerModule,
             onboardingDomainModule,
             onboardingFeatureModule,
-            addNewPasswordDomainModule,
+            addNewPasswordUseCaseDomainModule,
             addNewPasswordFeatureModule,
             generatePasswordDomainModule,
             generatePasswordPresentationModule,

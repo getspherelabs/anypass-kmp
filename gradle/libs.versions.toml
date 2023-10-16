@@ -133,3 +133,4 @@ anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified" }
 anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified" }
 dependencyanalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyanalysis" }
 
+
