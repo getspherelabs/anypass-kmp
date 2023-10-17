@@ -1,9 +1,9 @@
-package io.spherelabs.generatepassworddomain
+package io.spherelabs.generatepassworddomain.usecase
 
 import io.spherelabs.manager.password.PasswordManager
 
-interface GeneratePassword {
-  suspend fun generate(
+interface GeneratePasswordUseCase {
+  suspend fun execute(
     uppercaseLength: Int = 0,
     digitLength: Int = 0,
     lowercaseLength: Int = 0,
@@ -12,9 +12,9 @@ interface GeneratePassword {
   ): Result<String>
 }
 
-class DefaultGeneratePassword(private val manager: PasswordManager) : GeneratePassword {
+class DefaultGeneratePasswordUseCaseUseCase(private val manager: PasswordManager) : GeneratePasswordUseCase {
 
-  override suspend fun generate(
+  override suspend fun execute(
     uppercaseLength: Int,
     digitLength: Int,
     lowercaseLength: Int,

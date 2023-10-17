@@ -15,7 +15,7 @@ import io.spherelabs.data.local.di.localModule
 import io.spherelabs.data.settings.di.settingModule
 import io.spherelabs.features.onboardingpresentation.di.onboardingFeatureModule
 import io.spherelabs.firebase.di.firebaseAuthModule
-import io.spherelabs.generatepassworddomain.di.generatePasswordDomainModule
+import io.spherelabs.generatepassworddomain.di.generatePasswordUseCaseDomainModule
 import io.spherelabs.generatepasswordpresentation.di.generatePasswordPresentationModule
 import io.spherelabs.home.homedomain.di.homeDomainModule
 import io.spherelabs.home.homepresentation.di.homePresentationModule
@@ -49,7 +49,7 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             onboardingFeatureModule,
             addNewPasswordUseCaseDomainModule,
             addNewPasswordFeatureModule,
-            generatePasswordDomainModule,
+            generatePasswordUseCaseDomainModule,
             generatePasswordPresentationModule,
             homeDomainModule,
             homePresentationModule,
