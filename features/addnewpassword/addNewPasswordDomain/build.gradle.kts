@@ -5,7 +5,6 @@ plugins {
 }
 
 kotlin{
-
     sourceSets{
         val androidUnitTest by getting{
             dependencies{implementation(libs.konsist)}

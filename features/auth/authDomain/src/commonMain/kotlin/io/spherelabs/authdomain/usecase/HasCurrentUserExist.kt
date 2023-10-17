@@ -1,4 +1,4 @@
-package io.spherelabs.authdomain
+package io.spherelabs.authdomain.usecase
 
 import io.spherelabs.firebase.FirebaseAuthManager
 
@@ -6,8 +6,8 @@ interface HasCurrentUserExist {
   fun execute(): Boolean
 }
 
-class DefaultHasCurrentUserExist(private val firebaseAuthManager: FirebaseAuthManager) :
-  HasCurrentUserExist {
+class DefaultHasCurrentUserExistUseCase(private val firebaseAuthManager: FirebaseAuthManager) :
+    HasCurrentUserExist {
 
   override fun execute(): Boolean {
     return firebaseAuthManager.currentUser?.let {
