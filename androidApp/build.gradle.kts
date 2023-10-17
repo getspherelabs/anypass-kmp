@@ -11,11 +11,16 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "io.spherelabs.anypass.android"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled = true
+
+        configurations.all {
+            exclude("org.jetbrains.kotlin","kotlin-compiler")
+        }
+
     }
     buildFeatures {
         compose = true
@@ -34,11 +39,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
 
     dependencies {

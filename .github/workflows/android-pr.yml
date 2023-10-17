@@ -1,10 +1,8 @@
-name: Android CI
+name: Android PR
 
 on:
-  push:
+  pull_request:
     branches: [ "develop" ]
-    tags:
-      - 'v*'
 
 
 concurrency:
@@ -19,12 +17,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3.1.0
-      - name: Set up JDK 17
+      - name: Set up JDK 11
         uses: actions/setup-java@v3.6.0
         with:
           distribution: adopt
-          java-version: 17
-
+          java-version: 11
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
@@ -32,29 +29,6 @@ jobs:
         run: ./gradlew spotlessApply --scan
       - name: Spotless
         run: ./gradlew spotlessCheck
-  build:
-    name: Build
-    runs-on: macos-latest
-    env:
-      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3.1.0
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3.6.0
-        with:
-          distribution: adopt
-          java-version: 17
-      - uses: ./.github/workflows/caches
-        with:
-          key-prefix: gradle-build
-      - name: Create google-services.json file
-        env:
-          GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
-        run: |
-          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
-      - name: Build
-        run: ./gradlew assembleDebug
   test:
     name: Unit tests
     runs-on: ubuntu-22.04
@@ -63,11 +37,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3.1.0
-      - name: Set up JDK 17
+      - name: Set up JDK 11
         uses: actions/setup-java@v3.6.0
         with:
           distribution: adopt
-          java-version: 17
+          java-version: 11
       - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-test
