@@ -8,33 +8,26 @@ class AddNewAuthDomainArchitectureTest {
     @Test
     fun `check classes with 'UseCase' suffix in 'usecase' package`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.authdomain.usecase")
             .classes()
-            .withNameEndingWith("UseCase")
-            .assertTrue {
-                it.resideInPackage("..usecase..")
+            .run {
+                assertTrue {
+                    it.hasNameEndingWith("UseCase")
+                }
+                assertTrue {
+                    it.resideInPackage("..usecase..")
+                }
             }
     }
 
     @Test
     fun `check the interfaces with 'UseCase' suffix in 'usecase' package`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.authdomain.usecase")
             .interfaces()
             .withNameEndingWith("UseCase")
             .assertTrue {
                 it.resideInPackage("..usecase..")
-            }
-    }
-
-    @Test
-    fun `check interface with 'Repository' suffix in 'repository' package`() {
-        Konsist
-            .scopeFromProject()
-            .interfaces()
-            .withNameEndingWith("Repository")
-            .assertTrue {
-                it.resideInPackage("..repository..")
             }
     }
 

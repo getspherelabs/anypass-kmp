@@ -1,6 +1,6 @@
 package io.spherelabs.authpresentation.signup
 
-import io.spherelabs.authdomain.CreateEmailAndPassword
+import io.spherelabs.authdomain.usecase.CreateEmailAndPassword
 import io.spherelabs.meteor.middleware.Middleware
 
 class SignUpMiddleware(private val createEmailAndPassword: CreateEmailAndPassword) :

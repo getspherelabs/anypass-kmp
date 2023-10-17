@@ -1,4 +1,4 @@
-package io.spherelabs.authdomain
+package io.spherelabs.authdomain.usecase
 
 import io.spherelabs.common.exception.AuthException
 import io.spherelabs.common.exception.IdNotAvailableException
@@ -16,7 +16,7 @@ interface CreateEmailAndPassword {
     ): Result<String>
 }
 
-class DefaultCreateEmailAndPassword(
+class DefaultCreateEmailAndPasswordUseCase(
     private val authManager: FirebaseAuthManager,
     private val userDao: UserDao,
     private val keyPasswordSettings: MasterPasswordSetting,
