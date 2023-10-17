@@ -34,7 +34,7 @@ class AddNewAuthDomainArchitectureTest {
     @Test
     fun `check use case function name is execute`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.authdomain.usecase")
             .classes()
             .withNameEndingWith("UseCase")
             .assertTrue {

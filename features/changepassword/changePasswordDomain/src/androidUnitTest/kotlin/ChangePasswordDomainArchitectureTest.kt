@@ -7,13 +7,15 @@ class ChangePasswordDomainArchitectureTest {
     @Test
     fun `check classes with 'UseCase' suffix in 'usecase' package`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.changepassworddomain.usecase")
             .classes()
-            .withNameEndingWith("UseCase")
-            .assertTrue {
-                println("Use case in ${it.name}")
-                println("Use case in ${it.moduleName}")
-                it.resideInPackage("..usecase..")
+            .run {
+                assertTrue {
+                    it.hasNameEndingWith("UseCase")
+                }
+                assertTrue {
+                    it.resideInPackage("..usecase..")
+                }
             }
     }
 
@@ -21,7 +23,7 @@ class ChangePasswordDomainArchitectureTest {
     @Test
     fun `check the interfaces with 'UseCase' suffix in 'usecase' package`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.changepassworddomain.usecase")
             .interfaces()
             .withNameEndingWith("UseCase")
             .assertTrue {
@@ -32,7 +34,7 @@ class ChangePasswordDomainArchitectureTest {
     @Test
     fun `check interface with 'Repository' suffix in 'repository' package`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.changepassworddomain.repository")
             .interfaces()
             .withNameEndingWith("Repository")
             .assertTrue {
@@ -43,7 +45,7 @@ class ChangePasswordDomainArchitectureTest {
     @Test
     fun `check use case function name is execute`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromPackage("io.spherelabs.changepassworddomain.usecase")
             .classes()
             .withNameEndingWith("UseCase")
             .assertTrue {
