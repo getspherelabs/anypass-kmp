@@ -42,7 +42,7 @@ data class AnyPassStrings(
     val onboardingHeadline: String,
     val onboardingDescription: () -> String,
     val getStarted: String,
-    val confirmPassphrase: String,
+    val confirmKeyPassword: String,
     val addPassphrase: String,
     val submit: String,
     val passwordLengthIsLess: String,

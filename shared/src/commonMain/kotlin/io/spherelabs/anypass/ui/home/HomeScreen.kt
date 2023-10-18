@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
+import io.spherelabs.anypass.ui.keypassword.color
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
@@ -162,12 +163,12 @@ fun HomeScreen(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-        backgroundColor = colorResource(MR.colors.lavender),
+        backgroundColor = color,
         drawerContent = {
             Column(
                 modifier = modifier
                     .fillMaxSize()
-                    .background(color = colorResource(MR.colors.lavender).copy(alpha = 0.6f))
+                    .background(color = color)
                     .padding(start = 8.dp, top = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -337,7 +338,7 @@ fun HomeScreen(
             Column(
                 modifier = modifier.fillMaxSize().background(
                     color =
-                    colorResource(MR.colors.lavender),
+                    color,
                 ),
             ) {
                 HomeHeadline()
@@ -529,7 +530,7 @@ fun LKPager(
 
 
     HorizontalPager(
-        modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.lavender)),
+        modifier = modifier.fillMaxSize().background(color = Color(0xff141419)),
         verticalAlignment = Alignment.Top,
         state = pagerState,
         userScrollEnabled = false,

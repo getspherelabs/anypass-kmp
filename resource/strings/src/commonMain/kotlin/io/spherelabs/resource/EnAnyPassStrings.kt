@@ -41,7 +41,7 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
         "Keep your passwords in a secure private vault-and simply access them with one click from all your devices."
     },
     getStarted = "Get Started",
-    confirmPassphrase = "Confirm Passphrase",
+    confirmKeyPassword = "Confirm Key Password",
     addPassphrase = "Add Passphrase",
     submit = "Submit",
     passwordFailure = "Please, enter a password again!",

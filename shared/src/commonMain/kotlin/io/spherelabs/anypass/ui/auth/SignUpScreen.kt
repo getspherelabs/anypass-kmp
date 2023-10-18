@@ -169,12 +169,12 @@ fun SignUpContent(
     val strings = LocalStrings.current
 
     Box(modifier = modifier.fillMaxSize().padding(paddingValues)) {
-        if (state.isLoading) {
-            CircularProgressIndicator(
-                modifier = modifier.align(Alignment.Center),
-                color = Color.White.copy(alpha = 0.5f),
-            )
-        } else {
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = modifier.align(Alignment.Center),
+                    color = Color.Black.copy(alpha = 0.7f),
+                )
+            }
             LazyColumn {
                 item {
                     Text(
@@ -314,7 +314,6 @@ fun SignUpContent(
                     Spacer(modifier.height(16.dp))
                 }
             }
-        }
     }
 }
 

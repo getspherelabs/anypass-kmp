@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 fun LKPinInput(
   modifier: Modifier = Modifier,
   cellModifier: Modifier = Modifier,
+  cellColor: Color = Color.White,
   style: LKPinStyle = LKPinDefaults.style(),
   value: String? = null,
   disableKeypad: Boolean = false,
@@ -46,7 +47,7 @@ fun LKPinInput(
     repeat(length) {
       LKCell(
         modifier =
-          cellModifier.size(65.dp).clip(RoundedCornerShape(12.dp)).background(color = Color.White),
+          cellModifier.size(75.dp).clip(RoundedCornerShape(18.dp)).background(color = cellColor),
         value = value?.getOrNull(it),
         isCursorVisible = if (value == null) false else value.length == it,
         style.obscureText().value
