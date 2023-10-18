@@ -207,7 +207,7 @@ fun KeyPasswordScreen(
                     .height(65.dp)
                     .padding(start = 24.dp, end = 24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorResource(MR.colors.grey),
+                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
                 ),
                 shape = RoundedCornerShape(24.dp),
                 onClick = {

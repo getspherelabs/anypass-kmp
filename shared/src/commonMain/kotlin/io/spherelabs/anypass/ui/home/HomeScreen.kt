@@ -50,6 +50,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
 import io.spherelabs.anypass.ui.keypassword.color
+import io.spherelabs.anypass.ui.keypassword.color2
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
@@ -149,6 +150,8 @@ fun HomeScreen(
                 HomeEffect.NavigateToPasswordHealth -> {
                     navigateToPasswordHealth.invoke()
                 }
+
+                else -> {}
             }
         }
     }
@@ -204,6 +207,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
+                                tint = Color.White,
                                 imageVector = Icons.Default.AccountBox,
                                 contentDescription = null,
                             )
@@ -212,6 +216,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.myAccount,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -219,12 +224,16 @@ fun HomeScreen(
                         Spacer(modifier.height(16.dp))
 
                         Row(
-                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                                wish.invoke(HomeWish.NavigateToPasswordHealth)
-                            },
+                            modifier = modifier
+                                .padding(start = 24.dp)
+                                .fillMaxWidth()
+                                .clickable {
+                                    wish.invoke(HomeWish.NavigateToPasswordHealth)
+                                },
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
+                                tint = Color.White,
                                 imageVector = Icons.Default.HealthAndSafety,
                                 contentDescription = null,
                             )
@@ -233,6 +242,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.passwordHealth,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -246,6 +256,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.CastConnected,
+                                tint = Color.White,
                                 contentDescription = null,
                             )
                             Spacer(modifier.width(8.dp))
@@ -253,6 +264,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.authenticator,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -267,6 +279,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Password,
+                                tint = Color.White,
                                 contentDescription = null,
                             )
                             Spacer(modifier.width(8.dp))
@@ -274,6 +287,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.generator,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -288,6 +302,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
+                                tint = Color.White,
                                 imageVector = Icons.Default.HelpCenter,
                                 contentDescription = null,
                             )
@@ -296,6 +311,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.help,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -326,7 +342,7 @@ fun HomeScreen(
 
                 LKNewItemButton(
                     contentText = strings.newItem,
-                    borderColor = colorResource(MR.colors.cinderella),
+                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
                     contentFontFamily = GoogleSansFontFamily,
                 ) {
                     wish.invoke(HomeWish.NavigateToAddNewPassword)
@@ -552,7 +568,7 @@ fun LKPager(
                         icon = img,
                         email = newData.email,
                         passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
-                            backgroundColor = colorResource(MR.colors.lavender_pink),
+                            backgroundColor = color2,
                             titleColor = colorResource(resource = MR.colors.white),
                             emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
                         ),
@@ -589,7 +605,7 @@ fun LKTag(
     val isSelected = pagerState.currentPage == index
 
     val color: Color by animateColorAsState(
-        if (isSelected) colorResource(MR.colors.white) else Color.Black,
+        if (isSelected) color2 else Color.White.copy(alpha = 0.5f),
     )
 
     Tab(
@@ -650,7 +666,7 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
             .requiredHeight(30.dp)
             .padding(2.dp)
             .fillMaxSize()
-            .background(color = Color.Black, RoundedCornerShape(50))
+            .background(color = Color.White, RoundedCornerShape(50))
             .zIndex(1f),
 
         )

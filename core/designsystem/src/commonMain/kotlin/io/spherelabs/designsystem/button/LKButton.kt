@@ -25,15 +25,13 @@ fun LKNewItemButton(
     contentText: String,
     contentFontFamily: FontFamily,
     modifier: Modifier = Modifier,
-    borderColor: Color = Color.Cyan,
     backgroundColor: Color = Color.White,
-    contentColor: Color = Color.Black,
-    iconColor: Color = Color.Black,
+    contentColor: Color = Color.White,
+    iconColor: Color = Color.White,
     onNewItemClick: () -> Unit,
 ) {
     Button(
         modifier = modifier,
-        border = BorderStroke(1.dp, borderColor),
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
         shape = RoundedCornerShape(16.dp),
         onClick = { onNewItemClick.invoke() },
