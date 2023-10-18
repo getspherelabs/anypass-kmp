@@ -1,14 +1,14 @@
-package io.spherelabs.accountdomain.repository
+package io.spherelabs.accountdomain.usecase
 
 import io.spherelabs.data.settings.fingerprint.FingerPrintSetting
 
-interface GetFingerPrint {
+interface GetFingerPrintUseCase {
   suspend fun execute(): Boolean
 }
 
-class DefaultGetFingerPrint(
+class DefaultGetFingerPrintUseCase(
   private val setting: FingerPrintSetting,
-) : GetFingerPrint {
+) : GetFingerPrintUseCase {
 
   override suspend fun execute(): Boolean {
     return setting.getFingerPrint()

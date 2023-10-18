@@ -1,14 +1,14 @@
 package io.spherelabs.masterpasswordpresentation
 
-import io.spherelabs.masterpassworddomain.GetFingerprintStatus
-import io.spherelabs.masterpassworddomain.GetMasterPassword
-import io.spherelabs.masterpassworddomain.IsPasswordExist
+import io.spherelabs.masterpassworddomain.usecase.GetFingerprintStatusUseCase
+import io.spherelabs.masterpassworddomain.usecase.GetMasterPasswordUseCase
+import io.spherelabs.masterpassworddomain.usecase.IsPasswordExistUseCase
 import io.spherelabs.meteor.middleware.Middleware
 
 class MasterPasswordMiddleware(
-    private val isPasswordExist: IsPasswordExist,
-    private val getMasterPassword: GetMasterPassword,
-    private val getFingerprintStatus: GetFingerprintStatus,
+    private val isPasswordExistUseCase: IsPasswordExistUseCase,
+    private val getMasterPasswordUseCase: GetMasterPasswordUseCase,
+    private val getFingerprintStatusUseCase: GetFingerprintStatusUseCase,
 ) : Middleware<MasterPasswordState, MasterPasswordWish> {
 
     override suspend fun process(
@@ -23,7 +23,7 @@ class MasterPasswordMiddleware(
             MasterPasswordWish.SubmitClicked -> {
                 runCatching {
                     if (state.isExistPassword) {
-                        val password = getMasterPassword.execute()
+                        val password = getMasterPasswordUseCase.execute()
 
                         if (state.password == password) {
                             next.invoke(MasterPasswordWish.NavigateToHome)
@@ -38,7 +38,7 @@ class MasterPasswordMiddleware(
     }
 
     private suspend fun handlePasswordExisted(next: suspend (MasterPasswordWish) -> Unit) {
-        runCatching { isPasswordExist.execute() }
+        runCatching { isPasswordExistUseCase.execute() }
             .onSuccess { result ->
                 if (result) {
                     next.invoke(MasterPasswordWish.PasswordExisted)
@@ -51,7 +51,7 @@ class MasterPasswordMiddleware(
         next: suspend (MasterPasswordWish) -> Unit,
     ) {
         runCatching {
-            getFingerprintStatus.execute()
+            getFingerprintStatusUseCase.execute()
         }.onSuccess { isEnabled ->
             if (isEnabled) {
                 next.invoke(MasterPasswordWish.GetFingerprint(isEnabled))

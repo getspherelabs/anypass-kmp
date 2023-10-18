@@ -1,6 +1,6 @@
-import io.spherelabs.accountdomain.repository.OpenUrl
+import io.spherelabs.accountdomain.usecase.OpenUrlUseCase
 
-class FakeOpenUrl : OpenUrl {
+class FakeOpenUrlUseCase : OpenUrlUseCase {
 
   override suspend fun execute(url: String) {
     handleUrl(url).onSuccess { println("$it is valid format.") }.onFailure { throw it }

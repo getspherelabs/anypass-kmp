@@ -1,14 +1,14 @@
-package io.spherelabs.masterpassworddomain
+package io.spherelabs.masterpassworddomain.usecase
 
 import io.spherelabs.data.settings.fingerprint.FingerPrintSetting
 
-interface GetFingerprintStatus {
+interface GetFingerprintStatusUseCase {
     suspend fun execute(): Boolean
 }
 
-class DefaultGetFingerprintStatus(
+class DefaultGetFingerprintStatusUseCase(
     private val prefs: FingerPrintSetting,
-) : GetFingerprintStatus {
+) : GetFingerprintStatusUseCase {
 
     override suspend fun execute(): Boolean {
         return prefs.getFingerPrint()

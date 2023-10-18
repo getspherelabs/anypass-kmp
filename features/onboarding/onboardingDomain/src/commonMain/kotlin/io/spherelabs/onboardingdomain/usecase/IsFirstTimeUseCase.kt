@@ -1,12 +1,13 @@
-package io.spherelabs.onboardingdomain
+package io.spherelabs.onboardingdomain.usecase
 
 import io.spherelabs.data.settings.onboarding.OnboardingSetting
 
-interface IsFirstTime {
+interface IsFirstTimeUseCase {
   suspend fun execute(): Boolean
 }
 
-class DefaultIsFirstTime(private val onboardingSetting: OnboardingSetting) : IsFirstTime {
+class DefaultIsFirstTimeUseCase(private val onboardingSetting: OnboardingSetting) :
+    IsFirstTimeUseCase {
   override suspend fun execute(): Boolean {
     return onboardingSetting.isFirstTime()
   }

@@ -3,7 +3,7 @@ import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.Test
 
-class AddNewAuthDomainArchitectureTest {
+class AuthUseCaseDomainArchitectureTest {
 
     @Test
     fun `check classes with 'UseCase' suffix in 'usecase' package`() {

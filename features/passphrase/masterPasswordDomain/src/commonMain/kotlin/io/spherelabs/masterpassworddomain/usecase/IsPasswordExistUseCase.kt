@@ -1,12 +1,12 @@
-package io.spherelabs.masterpassworddomain
+package io.spherelabs.masterpassworddomain.usecase
 
 import io.spherelabs.data.settings.masterpassword.MasterPasswordSetting
 
-interface IsPasswordExist {
+interface IsPasswordExistUseCase {
   suspend fun execute(): Boolean
 }
 
-class DefaultIsPasswordExist(private val prefs: MasterPasswordSetting) : IsPasswordExist {
+class DefaultIsPasswordExistUseCase(private val prefs: MasterPasswordSetting) : IsPasswordExistUseCase {
   override suspend fun execute(): Boolean {
     return prefs.isPasswordExist()
   }

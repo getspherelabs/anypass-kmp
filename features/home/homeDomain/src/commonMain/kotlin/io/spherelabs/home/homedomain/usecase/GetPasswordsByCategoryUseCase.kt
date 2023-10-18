@@ -1,15 +1,15 @@
-package io.spherelabs.home.homedomain
+package io.spherelabs.home.homedomain.usecase
 
 import io.spherelabs.home.homedomain.model.HomePasswordDomain
 import io.spherelabs.home.homedomain.repository.HomeRepository
 import kotlinx.coroutines.flow.Flow
 
-interface GetPasswordsByCategory {
+interface GetPasswordsByCategoryUseCase {
   fun execute(categoryId: String): Flow<List<HomePasswordDomain>>
 }
 
-class DefaultGetPasswordByCategory(private val homeRepository: HomeRepository) :
-  GetPasswordsByCategory {
+class DefaultGetPasswordByCategoryUseCase(private val homeRepository: HomeRepository) :
+    GetPasswordsByCategoryUseCase {
   override fun execute(categoryId: String): Flow<List<HomePasswordDomain>> {
     if (categoryId.isEmpty()) throw Exception("Invalid a category id.")
     return homeRepository.getPasswordsByCategory(categoryId)

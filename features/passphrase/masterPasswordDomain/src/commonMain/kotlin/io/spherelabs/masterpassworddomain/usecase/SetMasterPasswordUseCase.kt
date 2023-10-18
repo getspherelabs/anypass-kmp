@@ -1,12 +1,12 @@
-package io.spherelabs.masterpassworddomain
+package io.spherelabs.masterpassworddomain.usecase
 
 import io.spherelabs.data.settings.masterpassword.MasterPasswordSetting
 
-interface SetMasterPassword {
+interface SetMasterPasswordUseCase {
   suspend fun execute(value: String)
 }
 
-class DefaultSetMasterPassword(private val prefs: MasterPasswordSetting) : SetMasterPassword {
+class DefaultSetMasterPasswordUseCase(private val prefs: MasterPasswordSetting) : SetMasterPasswordUseCase {
 
   override suspend fun execute(value: String) {
     prefs.setMasterPassword(value)

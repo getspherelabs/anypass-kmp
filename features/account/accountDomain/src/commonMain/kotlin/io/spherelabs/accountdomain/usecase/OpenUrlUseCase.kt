@@ -1,14 +1,14 @@
-package io.spherelabs.accountdomain.repository
+package io.spherelabs.accountdomain.usecase
 
 import io.spherelabs.designsystem.url.BrowserNavigator
 
-interface OpenUrl {
+interface OpenUrlUseCase {
   suspend fun execute(url: String)
 }
 
-class DefaultOpenUrl(
+class DefaultOpenUrlUseCase(
   private val navigator: BrowserNavigator,
-) : OpenUrl {
+) : OpenUrlUseCase {
   override suspend fun execute(url: String) {
     navigator.openUrl(url)
   }
