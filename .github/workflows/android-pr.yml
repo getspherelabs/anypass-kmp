@@ -46,7 +46,7 @@ jobs:
         with:
           key-prefix: gradle-test
       - name: Unit tests
-        run: ./gradlew :data:local:test
+        run: ./gradlew testDebugUnitTest
       - name: Upload test results
         uses: actions/upload-artifact@v3.1.0
         if: failure()
