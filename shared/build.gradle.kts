@@ -91,6 +91,7 @@ kotlin {
                 implementation(projects.resource.fonts)
                 implementation(projects.resource.icons)
                 implementation(projects.data.authManager)
+                implementation(projects.core.system.foundation)
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.material3)
@@ -115,10 +116,9 @@ kotlin {
             dependencies {
                 api(libs.koin.android)
                 implementation("androidx.activity:activity-compose:1.7.2")
-                implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
-                implementation("androidx.compose.material:material:1.5.0")
-                implementation("androidx.compose.ui:ui-tooling:1.5.0")
-                // implementation ("com.google.android.gms:play-services-ads:22.4.0")
+                implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
+                implementation("androidx.compose.material:material:1.5.1")
+                implementation("androidx.compose.ui:ui-tooling:1.5.1")
             }
         }
         val androidUnitTest by getting

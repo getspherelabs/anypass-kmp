@@ -3,7 +3,7 @@ package io.spherelabs.addnewpasswodpresentation
 sealed interface AddNewPasswordWish {
     data class OnEmailChanged(val email: String) : AddNewPasswordWish
     object OnEmailFailed : AddNewPasswordWish
-    data class OnPasswordChanged(val password: String) : AddNewPasswordWish
+    data class OnPasswordChanged(val password: String?) : AddNewPasswordWish
     object OnPasswordFailed : AddNewPasswordWish
     data class OnTitleChanged(val title: String) : AddNewPasswordWish
     object OnTitleFailed : AddNewPasswordWish

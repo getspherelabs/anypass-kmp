@@ -28,6 +28,7 @@ import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.masterpasswordpresentation.MasterPasswordEffect
 import io.spherelabs.masterpasswordpresentation.MasterPasswordState
 import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
@@ -114,7 +115,7 @@ fun KeyPasswordScreen(
                 Text(
                     modifier = modifier.padding(top = 8.dp),
                     text = strings.confirmKeyPassword,
-                    fontSize =  28.sp,
+                    fontSize =  24.sp,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
                     color = Color.White,
@@ -142,7 +143,7 @@ fun KeyPasswordScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 LKPinInput(
-                    cellColor = color2,
+                    cellColor = Jaguar,
                     value = state.password,
                     disableKeypad = true,
                 ) {
@@ -156,7 +157,6 @@ fun KeyPasswordScreen(
                     items = keypad,
                     fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
-
                     if (newPin == "c") {
                         wish.invoke(MasterPasswordWish.ClearPassword)
                     } else {
@@ -164,39 +164,6 @@ fun KeyPasswordScreen(
                     }
                 }
             }
-//            Column(
-//                verticalArrangement = Arrangement.SpaceEvenly,
-//                modifier = modifier
-//                    .fillMaxSize()
-//                    .clip(RoundedCornerShape(topStart = 100.dp, topEnd = 100.dp))
-//                    .background(color = colorResource(resource = MR.colors.lavender)),
-//            ) {
-
-//                LKGridLayout(
-//                    items = MasterPasswordState.row1(),
-//                    fontFamily = GoogleSansFontFamily,
-//                ) { newPin ->
-//                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-//                }
-//                LKGridLayout(
-//                    items = MasterPasswordState.row2(),
-//                    fontFamily = GoogleSansFontFamily,
-//                ) { newPin ->
-//                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-//                }
-//                LKGridLayout(
-//                    items = MasterPasswordState.row3(),
-//                    fontFamily = GoogleSansFontFamily,
-//                ) { newPin ->
-//                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-//                }
-//                LKGridLayout(
-//                    items = MasterPasswordState.row4(),
-//                    fontFamily = GoogleSansFontFamily,
-//                ) { newPin ->
-//
-//
-//                }
 
             Spacer(modifier = modifier.height(32.dp))
 
@@ -223,8 +190,6 @@ fun KeyPasswordScreen(
                 )
             }
             Spacer(modifier = modifier.height(16.dp))
-
-            //}
         }
     }
 }

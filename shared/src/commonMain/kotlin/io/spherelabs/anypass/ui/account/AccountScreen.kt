@@ -42,6 +42,7 @@ import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -347,7 +348,7 @@ fun AccountScreen(
 @Composable
 fun RowScope.BackButton(
     modifier: Modifier,
-    backgroundColor: Color = Color.Black,
+    backgroundColor: Color = LavenderBlue.copy(0.7f),
     iconColor: Color = Color.White,
     navigateToBack: () -> Unit,
 ) {

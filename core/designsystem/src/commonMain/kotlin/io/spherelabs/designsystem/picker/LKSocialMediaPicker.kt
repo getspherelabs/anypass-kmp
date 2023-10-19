@@ -24,6 +24,7 @@ import io.spherelabs.designsystem.dialog.BasicLKDialog
 import io.spherelabs.designsystem.dialog.LKDialogProperties
 import io.spherelabs.designsystem.dialog.LKDialogScope
 import io.spherelabs.designsystem.dialog.useDialogState
+import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 fun LKSocialMediaPicker(
@@ -51,13 +52,13 @@ fun LKSocialMediaPicker(
         .clip(RoundedCornerShape(8.dp))
         .border(
           width = 2.dp,
-          color = Color.Black.copy(alpha = 0.2f),
+          color = Jaguar,
           shape = RoundedCornerShape(8.dp),
         )
         .clickable { dialogState.show() },
     contentAlignment = Alignment.Center,
   ) {
-    Icon(imageVector = Icons.Default.ImageSearch, contentDescription = null)
+    Icon(imageVector = Icons.Default.ImageSearch, contentDescription = null, tint = Color.White)
   }
 }
 

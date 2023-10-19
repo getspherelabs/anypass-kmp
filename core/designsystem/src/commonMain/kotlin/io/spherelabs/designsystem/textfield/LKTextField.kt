@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 fun LKTitleTextField(
@@ -40,8 +41,6 @@ fun LKTitleTextField(
     onValueChanged: (String) -> Unit,
 ) {
     Column {
-        val lightBlue = Color(0xffd8e6ff)
-
         TextField(
             modifier = modifier.width(240.dp).padding(start = 12.dp, end = 12.dp),
             value = textValue,
@@ -51,9 +50,10 @@ fun LKTitleTextField(
             keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -68,7 +68,7 @@ fun LKTitleTextField(
 fun LKPasswordTextField(
     textValue: String,
     passwordVisibility: Boolean = false,
-    titleColor: Color = Color.Black,
+    titleColor: Color = Color.White,
     fontFamily: FontFamily,
     onToggleChanged: () -> Unit,
     onNextCallback: () -> Boolean? = { null },
@@ -93,9 +93,10 @@ fun LKPasswordTextField(
             value = textValue,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -115,7 +116,13 @@ fun LKPasswordTextField(
             onValueChange = { newValue -> onValueChanged.invoke(newValue) },
             shape = RoundedCornerShape(8.dp),
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = null,
+                    tint = Color.White,
+                )
+            },
             visualTransformation =
             if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
@@ -132,6 +139,7 @@ fun LKPasswordTextField(
                 ) {
                     Icon(
                         icon,
+                        tint = Color.White,
                         contentDescription = "Visibility",
                     )
                 }
@@ -146,7 +154,7 @@ fun KeyPasswordTextField(
     passwordVisibility: Boolean = false,
     title: String = "Key password",
     description: String? = null,
-    titleColor: Color = Color.Black,
+    titleColor: Color = Color.White,
     fontFamily: FontFamily,
     onToggleChanged: () -> Unit,
     modifier: Modifier = Modifier,
@@ -181,9 +189,10 @@ fun KeyPasswordTextField(
             value = textValue,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -200,7 +209,13 @@ fun KeyPasswordTextField(
             onValueChange = { newValue -> onValueChanged.invoke(newValue) },
             shape = RoundedCornerShape(8.dp),
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = null,
+                    tint = Color.White,
+                )
+            },
             visualTransformation =
             if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
@@ -216,7 +231,7 @@ fun KeyPasswordTextField(
                     },
                 ) {
                     Icon(
-                        icon,
+                        icon, tint = Color.White,
                         contentDescription = "Visibility",
                     )
                 }
@@ -233,13 +248,11 @@ fun APSNameTextField(
     onValueChanged: (String) -> Unit,
 ) {
     Column {
-        val lightBlue = Color(0xffd8e6ff)
-        val blue = Color(0xff76a9ff)
         Text(
             text = "Name",
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
-            color = Color.Black,
+            color = Color.White,
             fontSize = 18.sp,
             fontFamily = fontFamily,
             fontWeight = FontWeight.Medium,
@@ -249,9 +262,10 @@ fun APSNameTextField(
             value = textValue,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -266,7 +280,7 @@ fun APSNameTextField(
 @Composable
 fun LKEmailTextField(
     textValue: String,
-    titleColor: Color = Color.Black,
+    titleColor: Color = Color.White,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
@@ -293,9 +307,10 @@ fun LKEmailTextField(
             keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -316,13 +331,11 @@ fun LKNotesTextField(
     onDoneCallback: () -> Boolean? = { null },
 ) {
     Column {
-        val lightBlue = Color(0xffd8e6ff)
-        val blue = Color(0xff76a9ff)
         Text(
             text = "Notes",
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
-            color = Color.Black,
+            color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             fontFamily = fontFamily,
@@ -340,9 +353,10 @@ fun LKNotesTextField(
             ),
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -363,13 +377,11 @@ fun LKWebsiteAddressTextField(
     onNextCallback: () -> Boolean? = { null },
 ) {
     Column {
-        val lightBlue = Color(0xffd8e6ff)
-        val blue = Color(0xff76a9ff)
         Text(
             text = "Website Address",
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
-            color = Color.Black,
+            color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             fontFamily = fontFamily,
@@ -387,9 +399,10 @@ fun LKWebsiteAddressTextField(
             ),
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -411,13 +424,11 @@ fun LKUserNameTextField(
     maxLength: Int = 18,
 ) {
     Column {
-        val lightBlue = Color(0xffd8e6ff)
-        val blue = Color(0xff76a9ff)
         Text(
             text = "Username",
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
-            color = Color.Black,
+            color = Color.White,
             fontWeight = FontWeight.Medium,
             fontSize = 18.sp,
             fontFamily = fontFamily,
@@ -427,9 +438,10 @@ fun LKUserNameTextField(
             value = textValue,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
+                textColor = Color.White,
+                backgroundColor = Jaguar,
                 cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -462,7 +474,7 @@ fun LKPasswordTextField(
             text = "Username",
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
-            color = Color.Black,
+            color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             fontFamily = fontFamily,
@@ -472,9 +484,9 @@ fun LKPasswordTextField(
             value = textValue,
             colors =
             TextFieldDefaults.textFieldColors(
-                backgroundColor = lightBlue,
-                cursorColor = Color.Black,
-                disabledLabelColor = lightBlue,
+                backgroundColor = Jaguar,
+                cursorColor = Color.White,
+                disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
@@ -495,7 +507,7 @@ fun LKPasswordTextField(
 internal fun CloseIcon(textValue: String, onValueChanged: (String) -> Unit) {
     if (textValue.isNotEmpty()) {
         IconButton(onClick = { onValueChanged.invoke("") }) {
-            Icon(imageVector = Icons.Outlined.Close, contentDescription = null)
+            Icon(imageVector = Icons.Outlined.Close, contentDescription = null, tint = Color.White)
         }
     }
 }

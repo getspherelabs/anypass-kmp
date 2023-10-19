@@ -53,6 +53,7 @@ import io.spherelabs.anypass.ui.keypassword.color
 import io.spherelabs.anypass.ui.keypassword.color2
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.Behance
@@ -342,7 +343,7 @@ fun HomeScreen(
 
                 LKNewItemButton(
                     contentText = strings.newItem,
-                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
+                    backgroundColor = LavenderBlue.copy(0.7f),
                     contentFontFamily = GoogleSansFontFamily,
                 ) {
                     wish.invoke(HomeWish.NavigateToAddNewPassword)

@@ -76,11 +76,12 @@ fun LKBackButton(
         ) {
             Icon(
                 modifier = modifier.size(12.dp),
+                tint = Color.White,
                 imageVector = Icons.Outlined.ArrowBackIos,
                 contentDescription = null,
             )
             Spacer(modifier = modifier.width(4.dp))
-            Text(text, fontSize = 12.sp)
+            Text(text, fontSize = 12.sp, color = Color.White)
         }
     }
 }
@@ -108,10 +109,11 @@ fun LKUseButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            Text(text, fontSize = 12.sp)
+            Text(text, fontSize = 12.sp, color = Color.White)
             Spacer(modifier = modifier.width(4.dp))
             Icon(
                 modifier = modifier.size(12.dp),
+                tint = Color.White,
                 imageVector = Icons.Outlined.ArrowForwardIos,
                 contentDescription = null,
             )

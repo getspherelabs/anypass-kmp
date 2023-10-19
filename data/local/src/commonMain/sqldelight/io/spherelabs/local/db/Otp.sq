@@ -1,4 +1,23 @@
+
 CREATE TABLE IF NOT EXISTS otpEntity(
   id TEXT NOT NULL PRIMARY KEY,
-  type TEXT DEFAULT ''
+  secret TEXT NOT NULL,
+  type TEXT AS io.spherelabs.data.local.db.otp.AlgorithmTypeEntity DEFAULT '',
+  issuer TEXT DEFAULT '',
+  info TEXT DEFAULT '',
+  duration TEXT AS io.spherelabs.data.local.db.otp.OtpDurationEntity DEFAULT '',
+  digit TEXT AS io.spherelabs.data.local.db.otp.OtpDigitEntity DEFAULT '',
+  createdTimestamp INTEGER NOT NULL,
+  serviceName TEXT DEFAULT ''
 );
+
+getAllOtp:
+SELECT * FROM otpEntity;
+
+getOtpById:
+SELECT * FROM otpEntity WHERE id = ?;
+
+insertOtp:
+INSERT OR REPLACE INTO otpEntity(id,secret,type,issuer,info,createdTimestamp,serviceName) VALUES (?,?,?,?,?,?,?);
+
+

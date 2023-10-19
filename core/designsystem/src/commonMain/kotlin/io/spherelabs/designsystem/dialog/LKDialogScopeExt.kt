@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LKDialogScope.title(
   text: String,
-  color: Color = MaterialTheme.colors.onSurface,
+  color: Color = Color.White,
   style: TextStyle = MaterialTheme.typography.h6,
   center: Boolean = false
 ) {

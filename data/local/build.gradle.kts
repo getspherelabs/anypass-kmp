@@ -55,6 +55,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.ext)
+                implementation(libs.datetime)
                 implementation(libs.sqldelight.adapter)
             }
         }

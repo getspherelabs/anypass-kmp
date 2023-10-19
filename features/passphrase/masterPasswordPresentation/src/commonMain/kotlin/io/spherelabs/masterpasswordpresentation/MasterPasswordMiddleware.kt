@@ -24,7 +24,7 @@ class MasterPasswordMiddleware(
                 runCatching {
                     if (state.isExistPassword) {
                         val password = getMasterPasswordUseCase.execute()
-
+                        println("Key password is $password")
                         if (state.password == password) {
                             next.invoke(MasterPasswordWish.NavigateToHome)
                         } else {

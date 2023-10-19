@@ -22,12 +22,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.spherelabs.designsystem.utils.rememberScreenConfiguration
+import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 fun BasicLKDialog(
   dialogState: LKDialogState = useDialogState(),
   properties: LKDialogProperties = LKDialogProperties(),
-  backgroundColor: Color = MaterialTheme.colors.surface,
+  backgroundColor: Color = Jaguar,
   shape: Shape = MaterialTheme.shapes.medium,
   border: BorderStroke? = null,
   elevation: Dp = 24.dp,

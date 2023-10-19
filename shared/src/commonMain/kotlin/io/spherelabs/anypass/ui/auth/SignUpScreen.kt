@@ -42,6 +42,7 @@ import io.spherelabs.designsystem.hooks.useScroll
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.textfield.APSNameTextField
 import io.spherelabs.designsystem.textfield.KeyPasswordTextField
+import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -106,7 +107,7 @@ fun SignUpScreen(
     }
 
     Scaffold(
-        containerColor = colorResource(MR.colors.lavender),
+        containerColor = BlackRussian,
         topBar = {
             SignUpTopBar(modifier, wish)
         },
