@@ -3,17 +3,17 @@ package io.spherelabs.data.local.db.adapter
 import app.cash.sqldelight.ColumnAdapter
 import io.spherelabs.data.local.db.otp.OtpDigitEntity
 
-class OtpDigitColumnAdapter : ColumnAdapter<OtpDigitEntity, String> {
+class OtpDigitColumnAdapter : ColumnAdapter<OtpDigitEntity, Long> {
+
     private val currentValue by nonSynchronizedLazy {
-        OtpDigitEntity.values().associateBy { OtpDigitEntity::class }
+        OtpDigitEntity
+    }
+    override fun decode(databaseValue: Long): OtpDigitEntity {
+            return currentValue(databaseValue) ?: OtpDigitEntity.SIX
     }
 
-    override fun decode(databaseValue: String): OtpDigitEntity {
-            return currentValue.getValue(databaseValue)
-    }
-
-    override fun encode(value: OtpDigitEntity): String {
-        TODO("Not yet implemented")
+    override fun encode(value: OtpDigitEntity): Long {
+        return value.number
     }
 }
 

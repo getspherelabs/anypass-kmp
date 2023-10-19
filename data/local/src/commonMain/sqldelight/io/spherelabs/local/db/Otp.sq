@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS otpEntity(
   type TEXT AS io.spherelabs.data.local.db.otp.AlgorithmTypeEntity DEFAULT '',
   issuer TEXT DEFAULT '',
   info TEXT DEFAULT '',
-  duration TEXT AS io.spherelabs.data.local.db.otp.OtpDurationEntity DEFAULT '',
-  digit TEXT AS io.spherelabs.data.local.db.otp.OtpDigitEntity DEFAULT '',
+  duration INTEGER AS io.spherelabs.data.local.db.otp.OtpDurationEntity DEFAULT '',
+  digit INTEGER AS io.spherelabs.data.local.db.otp.OtpDigitEntity DEFAULT '',
   createdTimestamp INTEGER NOT NULL,
   serviceName TEXT DEFAULT ''
 );

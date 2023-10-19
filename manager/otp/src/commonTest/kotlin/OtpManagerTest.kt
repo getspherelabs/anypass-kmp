@@ -4,7 +4,6 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotEqualTo
 import io.spherelabs.otp.*
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
 
 class OtpManagerTest {
