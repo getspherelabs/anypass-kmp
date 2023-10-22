@@ -4,9 +4,9 @@ import io.spherelabs.addnewpassworddomain.model.AddNewPasswordDomain
 import io.spherelabs.addnewpassworddomain.model.CategoryDomain
 import io.spherelabs.data.local.db.Category
 import io.spherelabs.home.homedomain.model.HomePasswordDomain
-import io.spherelabs.local.db.Password
+import io.spherelabs.local.db.PasswordEntity
 
-fun Password.asDomain(): AddNewPasswordDomain {
+fun PasswordEntity.asDomain(): AddNewPasswordDomain {
     return AddNewPasswordDomain(
         id = this.id,
         title = this.title ?: "",
@@ -20,8 +20,8 @@ fun Password.asDomain(): AddNewPasswordDomain {
     )
 }
 
-fun AddNewPasswordDomain.asEntity(): Password {
-    return Password(
+fun AddNewPasswordDomain.asEntity(): PasswordEntity {
+    return PasswordEntity(
         id = this.id,
         title = this.title,
         category_id = this.category,
@@ -52,7 +52,7 @@ fun CategoryDomain.asCategory(): Category {
     }
 }
 
-fun Password.asHomeDomain(): HomePasswordDomain {
+fun PasswordEntity.asHomeDomain(): HomePasswordDomain {
     return HomePasswordDomain(
         id = this.id,
         title = this.title ?: "",
