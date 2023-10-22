@@ -50,8 +50,10 @@ kotlin {
                 api(projects.features.addnewpassword.addNewPasswordDomain)
                 api(projects.features.home.homeDomain)
                 api(projects.features.account.accountDomain)
+                api(projects.features.authenticator.authenticatorDomain)
                 api(libs.moko.resource)
 
+                implementation(projects.manager.otp)
                 implementation(libs.koin.core)
                 implementation(libs.datetime)
                 implementation(libs.sqldelight.runtime)
