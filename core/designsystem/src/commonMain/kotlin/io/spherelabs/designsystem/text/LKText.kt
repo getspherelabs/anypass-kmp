@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -16,13 +17,14 @@ fun Headline(
   text: String,
   fontFamily: FontFamily,
   fontWeight: FontWeight,
+  fontSize: TextUnit = 24.sp,
   modifier: Modifier = Modifier,
   textColor: Color = Color.White,
 ) {
   Text(
     modifier = modifier.padding(start = 16.dp),
     text = text,
-    fontSize = 26.sp,
+    fontSize = fontSize,
     fontFamily = fontFamily,
     color = textColor,
     fontWeight = fontWeight,

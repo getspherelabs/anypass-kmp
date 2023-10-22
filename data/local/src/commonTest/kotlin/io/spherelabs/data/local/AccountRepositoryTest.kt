@@ -9,8 +9,12 @@ import io.spherelabs.data.local.db.DefaultPasswordDao
 import io.spherelabs.data.local.db.DefaultUserDao
 import io.spherelabs.data.local.db.PasswordDao
 import io.spherelabs.data.local.db.UserDao
+import io.spherelabs.data.local.db.adapter.OtpDigitColumnAdapter
+import io.spherelabs.data.local.db.adapter.OtpDurationColumnAdapter
+import io.spherelabs.data.local.db.adapter.OtpTypeColumnAdapter
 import io.spherelabs.data.local.repository.DefaultAccountRepository
 import io.spherelabs.local.db.AnyPassDatabase
+import io.spherelabs.local.db.OtpEntity
 import io.spherelabs.local.db.Password
 import io.spherelabs.local.db.User
 import kotlin.test.BeforeTest
@@ -30,7 +34,11 @@ class AccountRepositoryTest {
     @BeforeTest
     fun setup() {
         sqlDriverFactory = TestSqlDriverFactory().createDriver()
-        database = AnyPassDatabase.invoke(sqlDriverFactory)
+        database = AnyPassDatabase(sqlDriverFactory,OtpEntity.Adapter(
+            digitAdapter = OtpDigitColumnAdapter(),
+            durationAdapter = OtpDurationColumnAdapter(),
+            typeAdapter = OtpTypeColumnAdapter()
+        ))
         dao = DefaultPasswordDao(database)
         userDao = DefaultUserDao(database)
         repository = DefaultAccountRepository(dao, userDao)

@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalDensity
@@ -96,7 +97,9 @@ class LKDialogButtons(private val scope: LKDialogScope) {
   fun positiveButton(
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.textButtonColors(),
+    colors: ButtonColors = ButtonDefaults.textButtonColors(
+        contentColor = Color.White
+    ),
     disableDismiss: Boolean = false,
     onClick: () -> Unit = {}
   ) {
@@ -128,7 +131,9 @@ class LKDialogButtons(private val scope: LKDialogScope) {
   fun negativeButton(
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.textButtonColors(),
+    colors: ButtonColors = ButtonDefaults.textButtonColors(
+        contentColor = Color.White
+    ),
     onClick: () -> Unit = {}
   ) {
     val buttonText = text.uppercase()

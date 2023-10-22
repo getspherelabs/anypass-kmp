@@ -38,6 +38,8 @@ import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.designsystem.textfield.KeyPasswordTextField
+import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -101,14 +103,14 @@ fun ChangePasswordScreen(
     }
 
     Scaffold(
-        containerColor = colorResource(MR.colors.lavender),
+        containerColor = BlackRussian,
         snackbarHost = {
-                       SnackbarHost(
-                           hostState = snackbarState,
-                           modifier = modifier
-                               .fillMaxWidth()
-                               .wrapContentHeight(Alignment.Bottom),
-                       )
+            SnackbarHost(
+                hostState = snackbarState,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(Alignment.Bottom),
+            )
         },
         topBar = {
             ChangePasswordTopBar(
@@ -253,7 +255,7 @@ private fun UpdateKeyPasswordButton(
             .height(65.dp)
             .padding(start = 24.dp, end = 24.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(MR.colors.grey),
+            backgroundColor = LavenderBlue.copy(0.7f),
         ),
         shape = RoundedCornerShape(24.dp),
         onClick = {

@@ -1,14 +1,7 @@
 package io.spherelabs.anypass.ui.keypassword
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -18,9 +11,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
@@ -35,6 +28,7 @@ import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.masterpasswordpresentation.MasterPasswordEffect
 import io.spherelabs.masterpasswordpresentation.MasterPasswordState
 import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
@@ -111,7 +105,25 @@ fun KeyPasswordScreen(
     }
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        backgroundColor = colorResource(MR.colors.grey),
+        backgroundColor = color,
+        topBar = {
+            Row(
+                modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    modifier = modifier.padding(top = 8.dp),
+                    text = strings.confirmKeyPassword,
+                    fontSize =  24.sp,
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+        },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarState,
@@ -120,58 +132,29 @@ fun KeyPasswordScreen(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-    ) {
+    ) { newPaddingValues ->
         Column(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize().padding(newPaddingValues),
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                modifier = modifier.padding(start = 32.dp, top = 16.dp),
-                text = strings.confirmPassphrase,
-                fontSize = 32.sp,
-                fontFamily = GoogleSansFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.White,
-            )
 
-            Spacer(modifier = modifier.height(35.dp))
-
-            LKPinInput(
-                value = state.password,
-                disableKeypad = true,
+            Row(
+                modifier = modifier.weight(1f).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
+                LKPinInput(
+                    cellColor = Jaguar,
+                    value = state.password,
+                    disableKeypad = true,
+                ) {
+                    wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
+                }
             }
 
-            Spacer(modifier = modifier.height(25.dp))
-
-            Column(
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(topStart = 100.dp, topEnd = 100.dp))
-                    .background(color = colorResource(resource = MR.colors.lavender)),
-            ) {
+            keypads.forEach { keypad ->
                 LKGridLayout(
-                    items = MasterPasswordState.row1(),
-                    fontFamily = GoogleSansFontFamily,
-                ) { newPin ->
-                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                }
-                LKGridLayout(
-                    items = MasterPasswordState.row2(),
-                    fontFamily = GoogleSansFontFamily,
-                ) { newPin ->
-                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                }
-                LKGridLayout(
-                    items = MasterPasswordState.row3(),
-                    fontFamily = GoogleSansFontFamily,
-                ) { newPin ->
-                    wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
-                }
-                LKGridLayout(
-                    items = MasterPasswordState.row4(),
+                    modifier = modifier.background(color = color),
+                    items = keypad,
                     fontFamily = GoogleSansFontFamily,
                 ) { newPin ->
                     if (newPin == "c") {
@@ -179,34 +162,45 @@ fun KeyPasswordScreen(
                     } else {
                         wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(newPin))
                     }
-
                 }
-                Button(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(65.dp)
-                        .padding(start = 24.dp, end = 24.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = colorResource(MR.colors.grey),
-                    ),
-                    shape = RoundedCornerShape(24.dp),
-                    onClick = {
-                        wish.invoke(MasterPasswordWish.SubmitClicked)
-                    },
-                ) {
-                    Text(
-                        text = strings.submit,
-                        color = Color.White,
-                        fontSize = 18.sp,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Medium,
-                    )
-                }
-                Spacer(modifier = modifier.height(16.dp))
-
             }
+
+            Spacer(modifier = modifier.height(32.dp))
+
+            Button(
+                modifier = modifier
+                    .padding(bottom = 32.dp)
+                    .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(start = 24.dp, end = 24.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
+                ),
+                shape = RoundedCornerShape(24.dp),
+                onClick = {
+                    wish.invoke(MasterPasswordWish.SubmitClicked)
+                },
+            ) {
+                Text(
+                    text = strings.submit,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
+                )
+            }
+            Spacer(modifier = modifier.height(16.dp))
         }
     }
 }
 
 
+val keypads: Array<List<String>> = arrayOf(
+    listOf("1", "2", "3"),
+    listOf("4", "5", "6"),
+    listOf("7", "8", "9"),
+    listOf("<", "0", "c"),
+)
+
+val color: Color = Color(0xff141419)
+val color2: Color = Color(0xff292933)

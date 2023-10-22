@@ -1,6 +1,4 @@
 import com.lemonappdev.konsist.api.Konsist
-import com.lemonappdev.konsist.api.ext.list.classes
-import com.lemonappdev.konsist.api.ext.list.withModule
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.Test
@@ -52,7 +50,7 @@ class AddNewPasswordUseCaseDomainArchitectureTest {
     @Test
     fun `check use case function name is execute`() {
         Konsist
-            .scopeFromPackage("io.spherelabs.addnewpassworddomain.repository")
+            .scopeFromPackage("io.spherelabs.addnewpassworddomain.usecase")
             .classes()
             .withNameEndingWith("UseCase")
             .assertTrue {

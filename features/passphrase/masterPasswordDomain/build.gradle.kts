@@ -5,14 +5,22 @@ plugins {
 }
 
 kotlin {
-  sourceSets {
-    val commonMain by getting { dependencies {
-        implementation(projects.data.prefs) } }
-  }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(projects.data.prefs)
+            }
+        }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.konsist)
+            }
+        }
+    }
 }
 
 android {
-  namespace = "io.spherelabs.masterpassworddomain"
-  compileSdk = 33
-  defaultConfig { minSdk = 24 }
+    namespace = "io.spherelabs.masterpassworddomain"
+    compileSdk = 33
+    defaultConfig { minSdk = 24 }
 }

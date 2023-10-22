@@ -11,13 +11,8 @@ kotlin {
                 implementation(projects.manager.password)
             }
         }
-    }
-}
-
-kotlin{
-    sourceSets{
-        dependencies {
-            val androidUnitTest by getting{
+        val androidUnitTest by getting {
+            dependencies {
                 implementation(libs.konsist)
             }
         }

@@ -11,6 +11,7 @@ kotlin {
                 api(projects.resource.strings)
                 api(libs.lyricist)
 
+                implementation(projects.core.system.foundation)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)

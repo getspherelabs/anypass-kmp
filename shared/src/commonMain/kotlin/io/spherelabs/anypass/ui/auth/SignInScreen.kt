@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.compose.colorResource
@@ -84,9 +85,9 @@ fun SignInScreen(
                     navigateToCreateNew.invoke()
                 }
 
-               SignInEffect.KeyPassword -> {
-                   navigateToKeyPassword.invoke()
-               }
+                SignInEffect.KeyPassword -> {
+                    navigateToKeyPassword.invoke()
+                }
             }
         }
     }
@@ -140,10 +141,12 @@ fun SignInTopBar(
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                strings.createNew,
+                strings.createNewAccount,
                 color = Color.White,
+                fontSize = 14.sp,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
             )
         }
 
@@ -164,88 +167,89 @@ fun SignInContent(
         if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = modifier.align(Alignment.Center),
-                color = Color.White.copy(alpha = 0.5f),
+                color = Color.Black.copy(alpha = 0.5f),
             )
-        } else {
-            Column(
-                modifier = modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Top,
-            ) {
-                Spacer(modifier.height(32.dp))
-                Text(
-                    modifier = modifier.padding(start = 24.dp),
-                    text = strings.loginNow,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 48.sp,
-                    color = Color.White,
-                )
-                Spacer(modifier.height(32.dp))
-                LKEmailTextField(
-                    state.email,
-                    fontFamily = GoogleSansFontFamily,
-                ) { newEmail ->
-                    wish.invoke(SignInWish.OnEmailChanged(newEmail))
-                }
-                if (state.emailFailed) {
-                    Text(
-                        modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                        text = strings.emailFailure,
-                        color = Color.White.copy(alpha = 0.7f),
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 12.sp,
-                    )
-                }
-                LKPasswordTextField(
-                    modifier = modifier,
-                    textValue = state.password,
-                    passwordVisibility = state.isPasswordVisibility,
-                    fontFamily = GoogleSansFontFamily,
-                    onToggleChanged = {
-                        wish.invoke(SignInWish.TogglePasswordVisibility)
-                    },
-                    onValueChanged = { newPassword ->
-                        wish.invoke(SignInWish.OnPasswordChanged(newPassword))
-                    },
-                )
-                if (state.passwordFailed) {
-                    Text(
-                        modifier = modifier.padding(start = 24.dp, top = 4.dp),
-                        text = strings.passwordFailure,
-                        color = Color.White.copy(alpha = 0.7f),
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 12.sp,
-                    )
-                }
-                Spacer(modifier.height(24.dp))
-                Button(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(65.dp)
-                        .padding(start = 24.dp, end = 24.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = colorResource(MR.colors.grey),
-                    ),
-                    shape = RoundedCornerShape(24.dp),
-                    onClick = {
-                        wish.invoke(SignInWish.OnLoginClicked)
-                    },
-                ) {
-                    Text(
-                        text = strings.login,
-                        color = Color.White,
-                        fontSize = 18.sp,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
+        }
 
-                Spacer(modifier.height(24.dp))
+        Column(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+        ) {
+            Spacer(modifier.height(32.dp))
+            Text(
+                modifier = modifier.padding(start = 24.dp),
+                text = strings.loginNow,
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
+                fontSize = 48.sp,
+                color = Color.White,
+            )
+            Spacer(modifier.height(32.dp))
+            LKEmailTextField(
+                state.email,
+                fontFamily = GoogleSansFontFamily,
+            ) { newEmail ->
+                wish.invoke(SignInWish.OnEmailChanged(newEmail))
             }
+            if (state.emailFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.emailFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
+            LKPasswordTextField(
+                modifier = modifier,
+                textValue = state.password,
+                passwordVisibility = state.isPasswordVisibility,
+                fontFamily = GoogleSansFontFamily,
+                onToggleChanged = {
+                    wish.invoke(SignInWish.TogglePasswordVisibility)
+                },
+                onValueChanged = { newPassword ->
+                    wish.invoke(SignInWish.OnPasswordChanged(newPassword))
+                },
+            )
+            if (state.passwordFailed) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                    text = strings.passwordFailure,
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                )
+            }
+            Spacer(modifier.height(24.dp))
+            Button(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(start = 24.dp, end = 24.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(MR.colors.grey),
+                ),
+                shape = RoundedCornerShape(24.dp),
+                onClick = {
+                    wish.invoke(SignInWish.OnLoginClicked)
+                },
+            ) {
+                Text(
+                    text = strings.login,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+
+            Spacer(modifier.height(24.dp))
         }
     }
-
 }
+
+
 

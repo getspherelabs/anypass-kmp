@@ -1,12 +1,12 @@
 package io.spherelabs.home.homedomain.di
 
-import io.spherelabs.home.homedomain.DefaultGetCategories
-import io.spherelabs.home.homedomain.DefaultGetPasswordByCategory
-import io.spherelabs.home.homedomain.GetCategories
-import io.spherelabs.home.homedomain.GetPasswordsByCategory
+import io.spherelabs.home.homedomain.usecase.DefaultGetCategoriesUseCase
+import io.spherelabs.home.homedomain.usecase.DefaultGetPasswordByCategoryUseCase
+import io.spherelabs.home.homedomain.usecase.GetCategoriesUseCase
+import io.spherelabs.home.homedomain.usecase.GetPasswordsByCategoryUseCase
 import org.koin.dsl.module
 
 val homeDomainModule = module {
-  single<GetCategories> { DefaultGetCategories(get()) }
-  single<GetPasswordsByCategory> { DefaultGetPasswordByCategory(get()) }
+  single<GetCategoriesUseCase> { DefaultGetCategoriesUseCase(get()) }
+  single<GetPasswordsByCategoryUseCase> { DefaultGetPasswordByCategoryUseCase(get()) }
 }

@@ -35,12 +35,14 @@ import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.anypass.MR
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.anypass.ui.keypassword.color2
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -117,14 +119,15 @@ fun AccountScreen(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-        containerColor = colorResource(MR.colors.lavender),
+        containerColor = Color(0xff141419),
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(top = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 BackButton(
-                    modifier,
+                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
+                    modifier = modifier,
                     navigateToBack = {
                         wish.invoke(AccountWish.NavigateToBack)
                     },
@@ -180,7 +183,7 @@ fun AccountScreen(
                     text = email,
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
-                    color = Color.Black.copy(0.5f),
+                    color = Color.White,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Normal,
                 )
@@ -197,6 +200,7 @@ fun AccountScreen(
                     Text(
                         text = "${state.sizeOfTotalPassword}",
                         fontSize = 45.sp,
+                        color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
                     )
@@ -204,6 +208,7 @@ fun AccountScreen(
                     Text(
                         text = "passwords",
                         fontSize = 12.sp,
+                        color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
                     )
@@ -213,6 +218,7 @@ fun AccountScreen(
                     Text(
                         text = "${state.sizeOfStrongPassword}",
                         fontSize = 32.sp,
+                        color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
                     )
@@ -220,6 +226,7 @@ fun AccountScreen(
                     Text(
                         text = strings.strong,
                         fontSize = 12.sp,
+                        color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
                     )
@@ -228,6 +235,7 @@ fun AccountScreen(
                     Text(
                         text = "${state.sizeOfWeakPassword}",
                         fontSize = 32.sp,
+                        color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
                     )
@@ -235,6 +243,7 @@ fun AccountScreen(
                     Text(
                         text = strings.weak,
                         fontSize = 12.sp,
+                        color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
                     )
@@ -247,7 +256,7 @@ fun AccountScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp),
-                    ).background(color = Color.Black),
+                    ).background(color = Color(0xff292933)),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -274,7 +283,7 @@ fun AccountScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp),
-                    ).background(color = Color.Black)
+                    ).background(color = Color(0xff292933))
                     .clickable {
                         wish.invoke(AccountWish.NavigateToChangePassword)
                     },
@@ -305,7 +314,7 @@ fun AccountScreen(
                 modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp),
-                    ).background(color = Color.Black)
+                    ).background(color = Color(0xff292933))
                     .clickable {
                         wish.invoke(AccountWish.OpenUrl("https://github.com/getspherelabs/anypass-kmp/issues/new/choose"))
                     },
@@ -339,7 +348,7 @@ fun AccountScreen(
 @Composable
 fun RowScope.BackButton(
     modifier: Modifier,
-    backgroundColor: Color = Color.Black,
+    backgroundColor: Color = LavenderBlue.copy(0.7f),
     iconColor: Color = Color.White,
     navigateToBack: () -> Unit,
 ) {

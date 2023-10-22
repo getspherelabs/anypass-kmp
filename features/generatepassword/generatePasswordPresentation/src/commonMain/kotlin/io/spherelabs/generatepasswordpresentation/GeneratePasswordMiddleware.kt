@@ -1,9 +1,9 @@
 package io.spherelabs.generatepasswordpresentation
 
-import io.spherelabs.generatepassworddomain.GeneratePassword
+import io.spherelabs.generatepassworddomain.usecase.GeneratePasswordUseCase
 import io.spherelabs.meteor.middleware.Middleware
 
-class GeneratePasswordMiddleware(private val generatePassword: GeneratePassword) :
+class GeneratePasswordMiddleware(private val generatePasswordUseCase: GeneratePasswordUseCase) :
   Middleware<GeneratePasswordState, GeneratePasswordWish> {
 
   override suspend fun process(
@@ -13,8 +13,8 @@ class GeneratePasswordMiddleware(private val generatePassword: GeneratePassword)
   ) {
     when (wish) {
       is GeneratePasswordWish.GeneratePassword -> {
-        generatePassword
-          .generate(
+        generatePasswordUseCase
+          .execute(
             uppercaseLength = wish.uppercaseLength,
             lowercaseLength = wish.lowercaseLength,
             digitLength = wish.digitLength,

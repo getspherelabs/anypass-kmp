@@ -17,10 +17,6 @@ android {
         versionName = "1.0"
         multiDexEnabled = true
 
-        configurations.all {
-            exclude("org.jetbrains.kotlin","kotlin-compiler")
-        }
-
     }
     buildFeatures {
         compose = true

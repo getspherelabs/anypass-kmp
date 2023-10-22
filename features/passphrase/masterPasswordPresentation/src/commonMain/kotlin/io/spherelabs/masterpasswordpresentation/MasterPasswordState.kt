@@ -9,12 +9,11 @@ data class MasterPasswordState(
     companion object {
         val Empty = MasterPasswordState()
 
-        fun row1(): List<String> = listOf("1", "2", "3")
-
-        fun row2(): List<String> = listOf("4", "5", "6")
-
-        fun row3(): List<String> = listOf("7", "8", "9")
-
-        fun row4(): List<String> = listOf("0", "c")
+        val keypads: Array<List<String>> = arrayOf(
+            listOf("1","2","3"),
+            listOf("4,","5","6"),
+            listOf("7","8","9"),
+            listOf("<","0","c")
+        )
     }
 }

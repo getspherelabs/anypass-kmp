@@ -53,6 +53,7 @@ kotlin {
                 api(libs.moko.resource)
 
                 implementation(libs.koin.core)
+                implementation(libs.datetime)
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.ext)
                 implementation(libs.sqldelight.adapter)

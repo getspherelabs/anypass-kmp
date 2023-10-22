@@ -11,7 +11,7 @@ class SignUpReducer : Reducer<SignUpState, SignUpWish, SignUpEffect> {
     override fun reduce(state: SignUpState, wish: SignUpWish): Change<SignUpState, SignUpEffect> {
         return when (wish) {
             is SignUpWish.OnEmailChanged -> {
-                expect { state.copy(email = wish.email, emailFailed = false, isLoading = false) }
+                expect { state.copy(email = wish.email.trim(), emailFailed = false, isLoading = false) }
             }
 
             SignUpWish.OnEmailFailed -> {
@@ -19,7 +19,13 @@ class SignUpReducer : Reducer<SignUpState, SignUpWish, SignUpEffect> {
             }
 
             is SignUpWish.OnNameChanged -> {
-                expect { state.copy(name = wish.name, nameFailed = false, isLoading = false) }
+                expect {
+                    state.copy(
+                        name = wish.name.trim(),
+                        nameFailed = false,
+                        isLoading = false,
+                    )
+                }
             }
 
             SignUpWish.OnNameFailed -> {
@@ -69,7 +75,7 @@ class SignUpReducer : Reducer<SignUpState, SignUpWish, SignUpEffect> {
                 expect {
                     state.copy(
                         isKeyPasswordSame = true,
-                        isLoading = false
+                        isLoading = false,
                     )
                 }
             }
@@ -89,7 +95,7 @@ class SignUpReducer : Reducer<SignUpState, SignUpWish, SignUpEffect> {
             is SignUpWish.OnPasswordChanged -> {
                 expect {
                     state.copy(
-                        password = wish.password,
+                        password = wish.password.trim(),
                         passwordFailed = false,
                         isLoading = false,
                     )

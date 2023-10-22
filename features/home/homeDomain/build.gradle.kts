@@ -4,6 +4,16 @@ plugins {
     alias(libs.plugins.anypass.domain)
 }
 
+kotlin {
+    sourceSets {
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.konsist)
+            }
+        }
+    }
+}
+
 android {
   namespace = "io.spherelabs.home.homedomain"
   compileSdk = 33
