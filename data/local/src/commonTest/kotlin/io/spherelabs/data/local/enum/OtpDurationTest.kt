@@ -23,7 +23,7 @@ class OtpDurationTest {
 
     @Test
     fun `should the otp duration type returns correct value`() {
-        val duration = OtpDurationEntity.Fifteen
+        val duration = OtpDurationEntity.FIFTEEN
         val result = currentValue(15)
 
         assertThat(result).isEqualTo(duration)

@@ -9,7 +9,6 @@ import io.spherelabs.data.local.TestSqlDriverFactory
 import io.spherelabs.data.local.db.adapter.OtpDigitColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpDurationColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpTypeColumnAdapter
-import io.spherelabs.data.local.db.otp.AlgorithmTypeEntity
 import io.spherelabs.data.local.db.otp.OtpDigitEntity
 import io.spherelabs.data.local.db.otp.OtpDurationEntity
 import io.spherelabs.data.local.db.otp.dao.DefaultOtpDao
@@ -20,7 +19,6 @@ import io.spherelabs.local.db.OtpEntity
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Clock
 
 class OtpDaoTest {
 
@@ -53,7 +51,7 @@ class OtpDaoTest {
 
             assertThat(1).isEqualTo(newOtp.size)
             assertThat(OtpDigitEntity.SIX).isEqualTo(newOtp[0].digit)
-            assertThat(OtpDurationEntity.Thirty).isNotEqualTo(newOtp[0].duration)
+            assertThat(OtpDurationEntity.THIRTY).isNotEqualTo(newOtp[0].duration)
         }
     }
 }

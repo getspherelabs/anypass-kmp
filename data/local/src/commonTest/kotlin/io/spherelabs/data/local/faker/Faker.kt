@@ -19,7 +19,7 @@ object Otp {
             createdTimestamp = Clock.System.now().toEpochMilliseconds(),
             digit = OtpDigitEntity.SIX,
             info = "Behance",
-            duration = OtpDurationEntity.Fifteen,
+            duration = OtpDurationEntity.FIFTEEN,
             issuer = "Behance",
             secret = "XSKSAdkShrhruHDHJDS",
             serviceName = "Behance",
