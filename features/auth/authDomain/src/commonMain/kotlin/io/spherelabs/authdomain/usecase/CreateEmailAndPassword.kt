@@ -5,7 +5,7 @@ import io.spherelabs.common.exception.IdNotAvailableException
 import io.spherelabs.data.local.db.UserDao
 import io.spherelabs.data.settings.masterpassword.MasterPasswordSetting
 import io.spherelabs.firebase.FirebaseAuthManager
-import io.spherelabs.local.db.User
+import io.spherelabs.local.db.UserEntity
 
 interface CreateEmailAndPassword {
     suspend fun execute(
@@ -34,7 +34,7 @@ class DefaultCreateEmailAndPasswordUseCase(
             if (newId != null) {
                 runCatching {
                     userDao.insertUser(
-                        User(
+                        UserEntity(
                             id = newId,
                             name = name,
                             email = email,

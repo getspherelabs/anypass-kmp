@@ -42,7 +42,9 @@ class PasswordDaoTest {
         val result = dao.getPasswordsByCategory("2")
 
         result.test {
-            assertEquals(1, awaitItem().size)
+            val newPasswords = awaitItem()
+            assertEquals(1, newPasswords.size)
+            assertEquals("2", newPasswords[0].category_id)
         }
     }
 
