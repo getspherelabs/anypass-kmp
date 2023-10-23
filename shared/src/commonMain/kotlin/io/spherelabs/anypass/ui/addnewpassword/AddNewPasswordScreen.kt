@@ -49,6 +49,8 @@ import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.ApplePodcasts
@@ -78,10 +80,10 @@ fun AddNewPasswordRoute(
 ) {
 
     val uiState = viewModel.state.collectAsStateWithLifecycle()
-    println("Current password : $currentPassword")
+
     AddNewPasswordScreen(
+        usePassword = currentPassword,
         wish = { newWish ->
-            viewModel.wish(AddNewPasswordWish.OnPasswordChanged(currentPassword))
             viewModel.wish(newWish)
         },
         state = uiState.value,
@@ -97,6 +99,7 @@ fun AddNewPasswordRoute(
 
 @Composable
 fun AddNewPasswordScreen(
+    usePassword: String? = null,
     modifier: Modifier = Modifier,
     wish: (AddNewPasswordWish) -> Unit,
     state: AddNewPasswordState,
@@ -110,7 +113,7 @@ fun AddNewPasswordScreen(
 
     useEffect(true) {
         wish.invoke(AddNewPasswordWish.GetCategoriesStarted)
-
+        wish.invoke(AddNewPasswordWish.OnPasswordChanged(usePassword))
         flow.collectLatest { effect ->
             when (effect) {
                 is AddNewPasswordEffect.Failure -> {
@@ -137,7 +140,7 @@ fun AddNewPasswordScreen(
     }
 
     Scaffold(
-        containerColor = Color.White,
+        containerColor = BlackRussian,
         topBar = {
             AddNewPasswordTopBar(
                 modifier = modifier,
@@ -255,8 +258,8 @@ fun AddNewPasswordTopBar(
     ) {
         BackButton(
             modifier = modifier,
-            backgroundColor = Color(0xffd8e6ff),
-            iconColor = Color.Black,
+            backgroundColor = LavenderBlue.copy(0.7f),
+            iconColor = Color.White,
             navigateToBack = {
                 navigateToBack.invoke()
             },
@@ -266,7 +269,7 @@ fun AddNewPasswordTopBar(
             modifier = modifier,
             fontFamily = GoogleSansFontFamily,
             fontWeight = FontWeight.Medium,
-            textColor = Color.Black,
+            textColor = Color.White,
         )
     }
 }
@@ -287,7 +290,7 @@ fun AddNewPasswordContent(
         modifier = modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .background(color = Color.White)
+            .background(color = BlackRussian)
             .verticalScroll(scrollState),
     ) {
         Text(
@@ -295,7 +298,7 @@ fun AddNewPasswordContent(
             fontSize = 16.sp,
             fontFamily = GoogleSansFontFamily,
             fontWeight = FontWeight.Medium,
-            color = Color.Black.copy(alpha = 0.5F),
+            color = Color.White,
             modifier = modifier.padding(start = 24.dp, top = 8.dp),
         )
 
@@ -333,7 +336,7 @@ fun AddNewPasswordContent(
             Text(
                 modifier = modifier.padding(start = 24.dp, top = 4.dp),
                 text = strings.passwordFailure,
-                color = Color.Black.copy(alpha = 0.7f),
+                color = Color.White.copy(alpha = 0.7f),
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -366,7 +369,7 @@ fun AddNewPasswordContent(
                     .fillMaxWidth()
                     .padding(start = 24.dp, bottom = 4.dp),
                 textAlign = TextAlign.Start,
-                color = Color.Black,
+                color = Color.White,
                 fontSize = 18.sp,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
@@ -401,7 +404,7 @@ fun AddNewPasswordContent(
             Text(
                 modifier = modifier.padding(start = 24.dp, top = 4.dp),
                 text = strings.emailFailure,
-                color = Color.Black.copy(alpha = 0.7f),
+                color = Color.White.copy(alpha = 0.7f),
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -426,7 +429,7 @@ fun AddNewPasswordContent(
             Text(
                 modifier = modifier.padding(start = 24.dp, top = 4.dp),
                 text = strings.passwordFailure,
-                color = Color.Black.copy(alpha = 0.7f),
+                color = Color.White.copy(alpha = 0.7f),
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -482,7 +485,7 @@ fun AddNewPasswordContent(
             Text(
                 text = strings.generatePassword,
                 textAlign = TextAlign.Start,
-                color = Color.Black.copy(0.5f),
+                color = Color.White.copy(0.7f),
                 fontSize = 16.sp,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
@@ -512,7 +515,7 @@ fun AddNewPasswordContent(
                 .height(65.dp)
                 .padding(start = 24.dp, end = 24.dp),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(MR.colors.grey),
+                backgroundColor = LavenderBlue.copy(0.7f),
             ),
             shape = RoundedCornerShape(24.dp),
             onClick = {

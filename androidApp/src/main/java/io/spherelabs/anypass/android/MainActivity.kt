@@ -10,8 +10,13 @@ import androidx.fragment.app.FragmentActivity
 import io.spherelabs.anypass.MainView
 
 class MainActivity : FragmentActivity() {
+
+    private val inAppUpdate = InAppUpdate(activity = this, onUpdateFailed = { finish() })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        inAppUpdate.checkForUpdate()
         setContent {
             MaterialTheme() {
                 Surface(
@@ -23,4 +28,10 @@ class MainActivity : FragmentActivity() {
 
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        inAppUpdate.onResume()
+    }
+
 }

@@ -1,0 +1,17 @@
+import io.spherelabs.data.local.db.otp;
+
+CREATE TABLE IF NOT EXISTS counterEntity(
+    otpId TEXT NOT NULL,
+    counter INTEGER  NOT NULL,
+    FOREIGN KEY (otpId) REFERENCES category(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+getCounters:
+SELECT * FROM counterEntity;
+
+insertCounter:
+INSERT OR REPLACE INTO counterEntity(otpId, counter) VALUES (?, ?);
+
+incrementCounter:
+UPDATE counterEntity SET  counter = counter + 1 WHERE otpId = ?;
+

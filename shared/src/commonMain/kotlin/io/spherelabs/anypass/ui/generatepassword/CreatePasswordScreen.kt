@@ -38,6 +38,9 @@ import io.spherelabs.anypass.ui.account.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.Jaguar
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 
@@ -45,7 +48,7 @@ import kotlinx.coroutines.flow.Flow
 fun GeneratePasswordRoute(
     viewModel: GeneratePasswordViewModel = useInject(),
     navigateToBack: () -> Unit,
-    navigateToCopy: (String) -> Unit
+    navigateToCopy: (String) -> Unit,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -60,7 +63,7 @@ fun GeneratePasswordRoute(
         },
         navigateToCopy = {
             navigateToCopy.invoke(it)
-        }
+        },
     )
 }
 
@@ -71,7 +74,7 @@ fun GeneratePasswordScreen(
     state: GeneratePasswordState,
     flow: Flow<GeneratePasswordEffect>,
     navigateToBack: () -> Unit,
-    navigateToCopy: (String) -> Unit
+    navigateToCopy: (String) -> Unit,
 ) {
 
     val snackbarHostState = useSnackbar()
@@ -82,7 +85,7 @@ fun GeneratePasswordScreen(
     }
 
     Scaffold(
-        containerColor = colorResource(MR.colors.grey),
+        containerColor = BlackRussian,
         topBar = {
             Row(
                 modifier = modifier.padding(top = 16.dp, start = 8.dp).fillMaxWidth(),
@@ -128,9 +131,9 @@ fun GeneratePasswordScreen(
 
                         },
                         colors = LKSliderDefaults.sliderColors(
-                            thumbColor = colorResource(MR.colors.cinderella),
-                            trackColor = colorResource(MR.colors.cinderella),
-                            disabledTrackColor = colorResource(MR.colors.cinderella),
+                            thumbColor = LavenderBlue.copy(0.7f),
+                            trackColor = LavenderBlue.copy(0.7f),
+                            disabledTrackColor = Jaguar,
                         ),
                         trackHeight = 8.dp,
                         valueRange = 0f..10f,
@@ -172,6 +175,11 @@ fun GeneratePasswordScreen(
                             wish.invoke(GeneratePasswordWish.OnDigitLengthChanged(value))
                         },
                         trackHeight = 8.dp,
+                        colors = LKSliderDefaults.sliderColors(
+                            thumbColor = LavenderBlue.copy(0.7f),
+                            trackColor = LavenderBlue.copy(0.7f),
+                            disabledTrackColor = Jaguar,
+                        ),
                         valueRange = 0f..10f,
                     ) {
                         Box(
@@ -210,6 +218,11 @@ fun GeneratePasswordScreen(
                         onValueChange = { value, offset ->
 
                         },
+                        colors = LKSliderDefaults.sliderColors(
+                            thumbColor = LavenderBlue.copy(0.7f),
+                            trackColor = LavenderBlue.copy(0.7f),
+                            disabledTrackColor = Jaguar,
+                        ),
                         trackHeight = 8.dp,
                         valueRange = 0f..50f,
                     ) {
@@ -244,10 +257,10 @@ fun GeneratePasswordScreen(
             {
                 LKMeterProgress(
                     state.length,
-                    color = colorResource(MR.colors.lavender),
+                    color = LavenderBlue,
                     valueFontWeight = FontWeight.Bold,
                     valueFontFamily = GoogleSansFontFamily,
-                    valueColor = colorResource(MR.colors.grey),
+                    valueColor = Color.White,
                 )
             }
 
@@ -264,7 +277,7 @@ fun GeneratePasswordScreen(
                     .padding(start = 24.dp, end = 24.dp, top = 12.dp, bottom = 12.dp)
                     .fillMaxWidth()
                     .height(150.dp),
-                backgroundColor = colorResource(MR.colors.lavender_pink),
+                backgroundColor = Jaguar,
                 shape = RoundedCornerShape(16.dp),
             ) {
                 Column(
@@ -297,51 +310,49 @@ fun GeneratePasswordScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ) {
-                CreateBoxes(modifier = modifier.fillMaxWidth().align(Alignment.CenterVertically)) {
-                    LKBackButton(
-                        text = strings.back,
-                        backgroundColor = colorResource(MR.colors.dynamic_yellow),
-                    ) {
-                        navigateToBack.invoke()
-                    }
-                    Box(
-                        modifier = modifier.size(70.dp)
-                            .background(
-                                color = Color.Yellow,
-                                shape = CircleShape,
+                LKBackButton(
+                    text = strings.back,
+                    backgroundColor = LavenderBlue.copy(0.7f),
+                ) {
+                    navigateToBack.invoke()
+                }
+                Box(
+                    modifier = modifier.size(70.dp)
+                        .background(
+                            color = LavenderBlue.copy(0.7f),
+                            shape = CircleShape,
+                        )
+                        .clickable {
+                            wish.invoke(
+                                GeneratePasswordWish.GeneratePassword(
+                                    uppercaseLength = state.uppercaseLength.toInt(),
+                                    digitLength = state.digitLength.toInt(),
+                                ),
                             )
-                            .clickable {
-                                wish.invoke(
-                                    GeneratePasswordWish.GeneratePassword(
-                                        uppercaseLength = state.uppercaseLength.toInt(),
-                                        digitLength = state.digitLength.toInt(),
-                                    ),
-                                )
-                            },
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(
+                        modifier = modifier.size(55.dp)
+                            .background(
+                                color = Jaguar,
+                                shape = CircleShape,
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Box(
-                            modifier = modifier.size(55.dp)
-                                .background(
-                                    color = Color.Black,
-                                    shape = CircleShape,
-                                ),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Replay,
-                                contentDescription = null,
-                                tint = Color.White,
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Default.Replay,
+                            contentDescription = null,
+                            tint = Color.White,
+                        )
+                    }
 
-                    }
-                    LKUseButton(
-                        text = strings.use,
-                        backgroundColor = colorResource(MR.colors.dynamic_yellow),
-                    ) {
-                        navigateToCopy.invoke(state.password)
-                    }
+                }
+                LKUseButton(
+                    text = strings.use,
+                    backgroundColor = LavenderBlue.copy(0.7f),
+                ) {
+                    navigateToCopy.invoke(state.password)
                 }
             }
         }

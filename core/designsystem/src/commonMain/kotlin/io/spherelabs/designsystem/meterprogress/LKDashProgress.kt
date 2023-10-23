@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 internal fun LKDashProgress(
@@ -21,12 +22,12 @@ internal fun LKDashProgress(
   modifier: Modifier = Modifier,
   valueFontWeight: FontWeight,
   valueFontFamily: FontFamily,
-  valueColor: Color,
+  valueColor: Color = Color.White,
 ) {
 
   Box(
     modifier =
-      modifier.fillMaxSize().padding(105.dp).background(color = Color.Yellow, shape = CircleShape),
+      modifier.fillMaxSize().padding(105.dp).background(color = Jaguar, shape = CircleShape),
   ) {
     Text(
       text = "$value",

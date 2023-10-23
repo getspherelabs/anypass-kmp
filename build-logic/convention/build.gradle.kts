@@ -34,7 +34,7 @@ spotless {
 
 dependencies {
     compileOnly("com.diffplug.spotless:spotless-plugin-gradle:6.21.0")
-    compileOnly("org.jetbrains.compose:compose-gradle-plugin:1.5.0")
+    compileOnly("org.jetbrains.compose:compose-gradle-plugin:1.5.1")
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
 }
 

@@ -1,7 +1,7 @@
 package io.spherelabs.authpresentation.signin
 
-import io.spherelabs.authdomain.HasCurrentUserExist
-import io.spherelabs.authdomain.SignInWithEmailAndPassword
+import io.spherelabs.authdomain.usecase.HasCurrentUserExist
+import io.spherelabs.authdomain.usecase.SignInWithEmailAndPassword
 import io.spherelabs.meteor.middleware.Middleware
 
 class SignInMiddleware(

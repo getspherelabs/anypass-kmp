@@ -1,11 +1,11 @@
 package io.spherelabs.masterpassworddomain.di
 
-import io.spherelabs.masterpassworddomain.*
+import io.spherelabs.masterpassworddomain.usecase.*
 import org.koin.dsl.module
 
 val masterPasswordDomainModule = module {
-    single<SetMasterPassword> { DefaultSetMasterPassword(get()) }
-    single<IsPasswordExist> { DefaultIsPasswordExist(get()) }
-    single<GetMasterPassword> { DefaultGetMasterPassword(get()) }
-    single<GetFingerprintStatus> { DefaultGetFingerprintStatus(get()) }
+    single<SetMasterPasswordUseCase> { DefaultSetMasterPasswordUseCase(get()) }
+    single<IsPasswordExistUseCase> { DefaultIsPasswordExistUseCase(get()) }
+    single<GetMasterPasswordUseCase> { DefaultGetMasterPasswordUseCase(get()) }
+    single<GetFingerprintStatusUseCase> { DefaultGetFingerprintStatusUseCase(get()) }
 }

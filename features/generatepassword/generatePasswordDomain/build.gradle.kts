@@ -11,6 +11,11 @@ kotlin {
                 implementation(projects.manager.password)
             }
         }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.konsist)
+            }
+        }
     }
 }
 

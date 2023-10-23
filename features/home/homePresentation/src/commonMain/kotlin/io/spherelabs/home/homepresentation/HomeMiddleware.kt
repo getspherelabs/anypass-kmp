@@ -1,13 +1,13 @@
 package io.spherelabs.home.homepresentation
 
-import io.spherelabs.home.homedomain.GetCategories
-import io.spherelabs.home.homedomain.GetPasswordsByCategory
+import io.spherelabs.home.homedomain.usecase.GetCategoriesUseCase
+import io.spherelabs.home.homedomain.usecase.GetPasswordsByCategoryUseCase
 import io.spherelabs.meteor.middleware.Middleware
 import kotlinx.coroutines.flow.collectLatest
 
 class HomeMiddleware(
-  private val getCategories: GetCategories,
-  private val getPasswordsByCategory: GetPasswordsByCategory,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getPasswordsByCategoryUseCase: GetPasswordsByCategoryUseCase,
 ) : Middleware<HomeState, HomeWish> {
 
   override suspend fun process(
@@ -27,7 +27,7 @@ class HomeMiddleware(
   }
 
   private suspend inline fun handleGetCategories(noinline next: suspend (HomeWish) -> Unit) {
-    getCategories.execute().collectLatest { result ->
+    getCategoriesUseCase.execute().collectLatest { result ->
       val newCategory = result.map { currentCategory -> currentCategory.asUi() }
       next.invoke(HomeWish.GetCategories(newCategory))
     }
@@ -37,7 +37,7 @@ class HomeMiddleware(
     categoryId: String,
     noinline next: suspend (HomeWish) -> Unit,
   ) {
-    getPasswordsByCategory.execute(categoryId).collectLatest { result ->
+    getPasswordsByCategoryUseCase.execute(categoryId).collectLatest { result ->
       val newPassword = result.map { currentPassword -> currentPassword.asUi() }
       next.invoke(
         HomeWish.GetPasswordByCategory(newPassword),

@@ -79,7 +79,7 @@ class AddNewPasswordReducer :
             }
 
             is AddNewPasswordWish.OnEmailChanged -> {
-                expect { currentState.copy(email = currentWish.email, isEmailFailed = false) }
+                expect { currentState.copy(email = currentWish.email.trim(), isEmailFailed = false) }
             }
 
             is AddNewPasswordWish.OnImageChanged -> {
@@ -89,7 +89,7 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.OnNotesChanged -> {
                 expect {
                     currentState.copy(
-                        notes = currentWish.notes, isNotesFailed = false,
+                        notes = currentWish.notes.trim(), isNotesFailed = false,
                     )
                 }
             }
@@ -97,7 +97,7 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.OnPasswordChanged -> {
                 expect {
                     currentState.copy(
-                        password = currentWish.password,
+                        password = currentWish.password?.trim() ?: "",
                         isPasswordFailed = false,
                     )
                 }
@@ -110,7 +110,7 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.OnUserNameChanged -> {
                 expect {
                     currentState.copy(
-                        username = currentWish.username,
+                        username = currentWish.username.trim(),
                         isUserNameFailed = false,
                     )
                 }
@@ -119,7 +119,7 @@ class AddNewPasswordReducer :
             is AddNewPasswordWish.OnWebsiteAddressChanged -> {
                 expect {
                     currentState.copy(
-                        websiteAddress = currentWish.websiteAddress, isWebsiteFailed = false,
+                        websiteAddress = currentWish.websiteAddress.trim(), isWebsiteFailed = false,
                     )
                 }
             }

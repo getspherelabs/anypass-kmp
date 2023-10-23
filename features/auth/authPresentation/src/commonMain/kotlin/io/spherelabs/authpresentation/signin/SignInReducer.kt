@@ -11,14 +11,14 @@ class SignInReducer : Reducer<SignInState, SignInWish, SignInEffect> {
     override fun reduce(state: SignInState, wish: SignInWish): Change<SignInState, SignInEffect> {
         return when (wish) {
             is SignInWish.OnEmailChanged -> {
-                expect { state.copy(email = wish.email, emailFailed = false, isLoading = false) }
+                expect { state.copy(email = wish.email.trim(), emailFailed = false, isLoading = false) }
             }
             SignInWish.OnEmailFailed -> expect { state.copy(emailFailed = true, isLoading = false) }
             is SignInWish.OnPasswordChanged -> {
                 expect {
                     state.copy(
                         passwordFailed = false,
-                        password = wish.password,
+                        password = wish.password.trim(),
                         isLoading = false,
                     )
                 }

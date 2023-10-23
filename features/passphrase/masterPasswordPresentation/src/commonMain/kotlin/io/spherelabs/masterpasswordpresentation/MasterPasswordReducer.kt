@@ -21,13 +21,20 @@ class MasterPasswordReducer :
             }
 
             is MasterPasswordWish.OnMasterPasswordChanged -> {
-                val newPassword = if (currentState.password.length <= MAX_PASSWORD_LENGTH) {
-                    buildString {
-                        append(currentState.password)
-                        append(currentWish.password)
+                val newPassword = when(currentWish.password) {
+                    "c" -> {
+                        ""
                     }
-                } else {
-                    currentState.password
+                    else -> {
+                       if (currentState.password.length <= MAX_PASSWORD_LENGTH) {
+                            buildString {
+                                append(currentState.password)
+                                append(currentWish.password)
+                            }
+                        } else {
+                            currentState.password
+                        }
+                    }
                 }
 
                 expect {
@@ -74,5 +81,7 @@ class MasterPasswordReducer :
 
     companion object {
         private const val MAX_PASSWORD_LENGTH = 3
+        private const val CLEAR_SIGN = "c"
+
     }
 }

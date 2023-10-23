@@ -1,12 +1,12 @@
 package io.spherelabs.onboardingdomain.di
 
-import io.spherelabs.onboardingdomain.DefaultIsFirstTime
-import io.spherelabs.onboardingdomain.DefaultSetIsFirstTime
-import io.spherelabs.onboardingdomain.IsFirstTime
-import io.spherelabs.onboardingdomain.SetIsFirstTime
+import io.spherelabs.onboardingdomain.usecase.DefaultIsFirstTimeUseCase
+import io.spherelabs.onboardingdomain.usecase.DefaultSetIsFirstTimeUseCase
+import io.spherelabs.onboardingdomain.usecase.IsFirstTimeUseCase
+import io.spherelabs.onboardingdomain.usecase.SetIsFirstTimeUseCase
 import org.koin.dsl.module
 
 val onboardingDomainModule = module {
-  single<SetIsFirstTime> { DefaultSetIsFirstTime(get()) }
-  single<IsFirstTime> { DefaultIsFirstTime(get()) }
+  single<SetIsFirstTimeUseCase> { DefaultSetIsFirstTimeUseCase(get()) }
+  single<IsFirstTimeUseCase> { DefaultIsFirstTimeUseCase(get()) }
 }

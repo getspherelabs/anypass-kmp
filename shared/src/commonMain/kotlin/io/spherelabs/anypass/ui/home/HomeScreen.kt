@@ -49,8 +49,11 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import io.spherelabs.anypass.ui.addnewpassword.SocialIcons
+import io.spherelabs.anypass.ui.keypassword.color
+import io.spherelabs.anypass.ui.keypassword.color2
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.Behance
@@ -148,6 +151,8 @@ fun HomeScreen(
                 HomeEffect.NavigateToPasswordHealth -> {
                     navigateToPasswordHealth.invoke()
                 }
+
+                else -> {}
             }
         }
     }
@@ -162,12 +167,12 @@ fun HomeScreen(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-        backgroundColor = colorResource(MR.colors.lavender),
+        backgroundColor = color,
         drawerContent = {
             Column(
                 modifier = modifier
                     .fillMaxSize()
-                    .background(color = colorResource(MR.colors.lavender).copy(alpha = 0.6f))
+                    .background(color = color)
                     .padding(start = 8.dp, top = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -203,6 +208,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
+                                tint = Color.White,
                                 imageVector = Icons.Default.AccountBox,
                                 contentDescription = null,
                             )
@@ -211,6 +217,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.myAccount,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -218,12 +225,16 @@ fun HomeScreen(
                         Spacer(modifier.height(16.dp))
 
                         Row(
-                            modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                                wish.invoke(HomeWish.NavigateToPasswordHealth)
-                            },
+                            modifier = modifier
+                                .padding(start = 24.dp)
+                                .fillMaxWidth()
+                                .clickable {
+                                    wish.invoke(HomeWish.NavigateToPasswordHealth)
+                                },
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
+                                tint = Color.White,
                                 imageVector = Icons.Default.HealthAndSafety,
                                 contentDescription = null,
                             )
@@ -232,6 +243,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.passwordHealth,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -245,6 +257,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.CastConnected,
+                                tint = Color.White,
                                 contentDescription = null,
                             )
                             Spacer(modifier.width(8.dp))
@@ -252,6 +265,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.authenticator,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -266,6 +280,7 @@ fun HomeScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Password,
+                                tint = Color.White,
                                 contentDescription = null,
                             )
                             Spacer(modifier.width(8.dp))
@@ -273,6 +288,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.generator,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -287,6 +303,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.Start,
                         ) {
                             Icon(
+                                tint = Color.White,
                                 imageVector = Icons.Default.HelpCenter,
                                 contentDescription = null,
                             )
@@ -295,6 +312,7 @@ fun HomeScreen(
                                 modifier = modifier,
                                 text = strings.help,
                                 fontSize = 20.sp,
+                                color = Color.White,
                                 fontFamily = GoogleSansFontFamily,
                                 fontWeight = FontWeight.Bold,
                             )
@@ -325,7 +343,7 @@ fun HomeScreen(
 
                 LKNewItemButton(
                     contentText = strings.newItem,
-                    borderColor = colorResource(MR.colors.cinderella),
+                    backgroundColor = LavenderBlue.copy(0.7f),
                     contentFontFamily = GoogleSansFontFamily,
                 ) {
                     wish.invoke(HomeWish.NavigateToAddNewPassword)
@@ -337,7 +355,7 @@ fun HomeScreen(
             Column(
                 modifier = modifier.fillMaxSize().background(
                     color =
-                    colorResource(MR.colors.lavender),
+                    color,
                 ),
             ) {
                 HomeHeadline()
@@ -529,7 +547,7 @@ fun LKPager(
 
 
     HorizontalPager(
-        modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.lavender)),
+        modifier = modifier.fillMaxSize().background(color = Color(0xff141419)),
         verticalAlignment = Alignment.Top,
         state = pagerState,
         userScrollEnabled = false,
@@ -551,7 +569,7 @@ fun LKPager(
                         icon = img,
                         email = newData.email,
                         passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
-                            backgroundColor = colorResource(MR.colors.lavender_pink),
+                            backgroundColor = color2,
                             titleColor = colorResource(resource = MR.colors.white),
                             emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
                         ),
@@ -588,7 +606,7 @@ fun LKTag(
     val isSelected = pagerState.currentPage == index
 
     val color: Color by animateColorAsState(
-        if (isSelected) colorResource(MR.colors.white) else Color.Black,
+        if (isSelected) color2 else Color.White.copy(alpha = 0.5f),
     )
 
     Tab(
@@ -649,7 +667,7 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
             .requiredHeight(30.dp)
             .padding(2.dp)
             .fillMaxSize()
-            .background(color = Color.Black, RoundedCornerShape(50))
+            .background(color = Color.White, RoundedCornerShape(50))
             .zIndex(1f),
 
         )

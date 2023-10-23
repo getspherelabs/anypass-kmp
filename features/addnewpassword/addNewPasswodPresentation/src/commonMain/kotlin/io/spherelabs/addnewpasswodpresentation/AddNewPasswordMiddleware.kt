@@ -1,14 +1,14 @@
 package io.spherelabs.addnewpasswodpresentation
 
-import io.spherelabs.addnewpassworddomain.usecase.AddNewPassword
-import io.spherelabs.addnewpassworddomain.usecase.GetCategories
+import io.spherelabs.addnewpassworddomain.usecase.AddNewPasswordUseCase
+import io.spherelabs.addnewpassworddomain.usecase.GetCategoriesUseCase
 import io.spherelabs.common.uuid4
 import io.spherelabs.meteor.middleware.Middleware
 import kotlinx.coroutines.flow.collectLatest
 
 class AddNewPasswordMiddleware(
-  private val addNewPasswordUseCase: AddNewPassword,
-  private val getCategories: GetCategories,
+    private val addNewPasswordUseCase: AddNewPasswordUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : Middleware<AddNewPasswordState, AddNewPasswordWish> {
 
   override suspend fun process(
@@ -46,7 +46,7 @@ class AddNewPasswordMiddleware(
         )
       }
       AddNewPasswordWish.GetCategoriesStarted -> {
-        getCategories.execute().collectLatest { newCategories ->
+        getCategoriesUseCase.execute().collectLatest { newCategories ->
           if (newCategories.isNotEmpty()) {
             next.invoke(AddNewPasswordWish.GetCategories(newCategories.map { it.asUi() }))
           }

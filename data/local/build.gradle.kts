@@ -10,7 +10,7 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "11"
             }
         }
     }
@@ -53,6 +53,7 @@ kotlin {
                 api(libs.moko.resource)
 
                 implementation(libs.koin.core)
+                implementation(libs.datetime)
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.ext)
                 implementation(libs.sqldelight.adapter)
@@ -112,8 +113,8 @@ android {
     compileSdk = 33
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
 
