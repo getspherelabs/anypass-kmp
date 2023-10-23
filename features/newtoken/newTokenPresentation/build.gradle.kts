@@ -10,6 +10,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.features.newtoken.newTokenDomain)
+                implementation(projects.core.common)
+                implementation(libs.datetime)
                 implementation(compose.runtime)
             }
         }
