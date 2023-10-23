@@ -8,11 +8,9 @@ import io.spherelabs.data.local.db.otp.dao.CounterDao
 import io.spherelabs.data.local.db.otp.dao.DefaultCounterDao
 import io.spherelabs.data.local.db.otp.dao.DefaultOtpDao
 import io.spherelabs.data.local.db.otp.dao.OtpDao
-import io.spherelabs.data.local.repository.DefaultAccountRepository
-import io.spherelabs.data.local.repository.DefaultAddNewPasswordRepository
-import io.spherelabs.data.local.repository.DefaultAuthenticatorRepository
-import io.spherelabs.data.local.repository.DefaultHomeRepository
+import io.spherelabs.data.local.repository.*
 import io.spherelabs.home.homedomain.repository.HomeRepository
+import io.spherelabs.newtokendomain.repository.NewTokenRepository
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -30,4 +28,5 @@ val localModule = module {
     single<HomeRepository> { DefaultHomeRepository(get(), get()) }
     single<AccountRepository> { DefaultAccountRepository(get(), get()) }
     single<AuthenticatorRepository> { DefaultAuthenticatorRepository(get(), get()) }
+    single<NewTokenRepository> { DefaultNewTokenRepository(get(), get()) }
 }

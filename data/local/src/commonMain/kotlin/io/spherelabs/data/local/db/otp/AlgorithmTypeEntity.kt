@@ -1,6 +1,7 @@
 package io.spherelabs.data.local.db.otp
 
 import io.spherelabs.authenticatordomain.model.AlgorithmTypeDomain
+import io.spherelabs.newtokendomain.model.NewTokenType
 
 enum class AlgorithmTypeEntity {
     SHA1,
@@ -31,5 +32,13 @@ fun AlgorithmTypeDomain.asEntity(): AlgorithmTypeEntity {
         AlgorithmTypeDomain.SHA1 -> AlgorithmTypeEntity.SHA1
         AlgorithmTypeDomain.SHA256 -> AlgorithmTypeEntity.SHA256
         AlgorithmTypeDomain.SHA512 -> AlgorithmTypeEntity.SHA512
+    }
+}
+
+fun NewTokenType.asEntity(): AlgorithmTypeEntity {
+    return when(this) {
+        NewTokenType.SHA1 -> AlgorithmTypeEntity.SHA1
+        NewTokenType.SHA256 -> AlgorithmTypeEntity.SHA256
+        NewTokenType.SHA512 -> AlgorithmTypeEntity.SHA512
     }
 }

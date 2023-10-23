@@ -1,6 +1,8 @@
 package io.spherelabs.data.local.db.otp
 
 import io.spherelabs.authenticatordomain.model.OtpDurationDomain
+import io.spherelabs.newtokendomain.model.NewTokenDuration
+import io.spherelabs.otp.Otp
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.plus
@@ -41,5 +43,13 @@ fun OtpDurationDomain.asEntity(): OtpDurationEntity {
         OtpDurationDomain.FIFTEEN -> OtpDurationEntity.FIFTEEN
         OtpDurationDomain.THIRTY -> OtpDurationEntity.THIRTY
         OtpDurationDomain.SIXTY -> OtpDurationEntity.SIXTY
+    }
+}
+
+fun NewTokenDuration.asEntity(): OtpDurationEntity {
+    return when(this) {
+        NewTokenDuration.FIFTEEN -> OtpDurationEntity.FIFTEEN
+        NewTokenDuration.THIRTY -> OtpDurationEntity.THIRTY
+        NewTokenDuration.SIXTY -> OtpDurationEntity.SIXTY
     }
 }

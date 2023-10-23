@@ -7,6 +7,7 @@ import io.spherelabs.authenticatordomain.model.OtpDurationDomain
 import io.spherelabs.data.local.db.otp.asDomain
 import io.spherelabs.data.local.db.otp.asEntity
 import io.spherelabs.local.db.OtpEntity
+import io.spherelabs.newtokendomain.model.NewTokenDomain
 
 fun OtpEntity.asDomain(): OtpDomain {
     return OtpDomain(
@@ -35,3 +36,18 @@ fun OtpDomain.asEntity(): OtpEntity {
         createdTimestamp = this.createdTimestamp,
     )
 }
+
+fun NewTokenDomain.asEntity(): OtpEntity {
+    return OtpEntity(
+        id = this.id,
+        secret = this.secret,
+        issuer = this.issuer,
+        serviceName = this.serviceName,
+        info = this.info,
+        digit = this.digit.asEntity(),
+        duration = this.duration.asEntity(),
+        type = this.type.asEntity(),
+        createdTimestamp = this.createdTimestamp,
+    )
+}
+

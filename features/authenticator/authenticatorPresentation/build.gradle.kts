@@ -1,44 +1,18 @@
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.anypass.presentation)
+    alias(libs.plugins.anypass.compose)
 }
-
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
-    android {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "authenticatorPresentation"
-        }
-    }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+                implementation(compose.runtime)
+                implementation(projects.features.authenticator.authenticatorDomain) }
         }
     }
 }
-
 android {
     namespace = "io.spherelabs.authenticatorpresentation"
     compileSdk = 33

@@ -9,7 +9,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.features.onboarding.onboardingDomain)
+                implementation(projects.features.newtoken.newTokenDomain)
                 implementation(compose.runtime)
             }
         }
@@ -17,8 +17,9 @@ kotlin {
 }
 
 android {
-    namespace = "io.spherelabs.features.onboardingpresentation"
+    namespace = "io.spherelabs.newtokenpresentation"
     compileSdk = 33
-
-    defaultConfig { minSdk = 24 }
+    defaultConfig {
+        minSdk = 24
+    }
 }

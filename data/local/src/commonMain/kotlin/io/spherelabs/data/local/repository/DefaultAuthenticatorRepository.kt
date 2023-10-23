@@ -6,7 +6,6 @@ import io.spherelabs.authenticatordomain.repository.AuthenticatorRepository
 import io.spherelabs.data.local.db.otp.dao.CounterDao
 import io.spherelabs.data.local.db.otp.dao.OtpDao
 import io.spherelabs.data.local.mapper.asDomain
-import io.spherelabs.data.local.mapper.asEntity
 import io.spherelabs.local.db.CounterEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -25,20 +24,7 @@ class DefaultAuthenticatorRepository(
 
     override fun getCounters(): Flow<List<CounterDomain>> {
         return counterDao.getCounters().map { counters ->
-            counters.map { counter -> counter.asDomain() }
-        }
-    }
-
-    override suspend fun insertOtpWithCount(otpDomain: OtpDomain, counter: Long) {
-        withContext(Dispatchers.IO) {
-            val newEntity = otpDomain.asEntity()
-            counterDao.insertCounter(
-                CounterEntity(
-                    newEntity.id,
-                    counter,
-                ),
-            )
-            otpDao.insertOtp(newEntity)
+            counters.map { counter: CounterEntity -> counter.asDomain() }
         }
     }
 

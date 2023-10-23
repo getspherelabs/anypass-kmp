@@ -1,6 +1,7 @@
 package io.spherelabs.data.local.db.otp
 
 import io.spherelabs.authenticatordomain.model.OtpDigitDomain
+import io.spherelabs.newtokendomain.model.NewTokenDigit
 
 enum class OtpDigitEntity(val number: Long) {
     SIX(6),
@@ -33,3 +34,10 @@ fun OtpDigitDomain.asEntity(): OtpDigitEntity {
     }
 }
 
+
+fun NewTokenDigit.asEntity(): OtpDigitEntity {
+    return when (this) {
+        NewTokenDigit.SIX -> OtpDigitEntity.SIX
+        NewTokenDigit.EIGHT -> OtpDigitEntity.EIGHT
+    }
+}

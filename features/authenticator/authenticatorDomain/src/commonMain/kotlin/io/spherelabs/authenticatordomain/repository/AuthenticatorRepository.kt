@@ -7,6 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface AuthenticatorRepository {
     fun getAllOtp(): Flow<List<OtpDomain>>
     fun getCounters(): Flow<List<CounterDomain>>
-    suspend fun insertOtpWithCount(otpDomain: OtpDomain, counter: Long)
     suspend fun incrementCounter(id: String)
 }

@@ -54,6 +54,7 @@ kotlin {
                 api(libs.moko.resource)
 
                 implementation(projects.manager.otp)
+                implementation(projects.features.newtoken.newTokenDomain)
                 implementation(libs.koin.core)
                 implementation(libs.datetime)
                 implementation(libs.sqldelight.runtime)
