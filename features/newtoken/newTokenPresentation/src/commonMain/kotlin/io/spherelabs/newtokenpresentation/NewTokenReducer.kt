@@ -102,12 +102,42 @@ class NewTokenReducer : Reducer<NewTokenState, NewTokenWish, NewTokenEffect> {
                     )
                 }
             }
-
-            NewTokenWish.OnSubmitClicked -> TODO()
-            is NewTokenWish.OnTypeChanged -> TODO()
-            NewTokenWish.OnTypeFailed -> TODO()
-            NewTokenWish.ToggleSecretVisibility -> TODO()
-            else ->  unexpected { currentState }
+            is NewTokenWish.OnTypeChanged -> {
+                expect {
+                    currentState.copy(
+                        type = currentWish.type,
+                        typeFailed = false,
+                    )
+                }
+            }
+            NewTokenWish.OnTypeFailed -> {
+                expect {
+                    currentState.copy(
+                        typeFailed = true,
+                    )
+                }
+            }
+            NewTokenWish.ToggleSecretVisibility -> {
+                expect {
+                    currentState.copy(
+                        secretVisibility = !currentState.secretVisibility,
+                    )
+                }
+            }
+            is NewTokenWish.OnTypeExpandChanged -> {
+                expect {
+                    currentState.copy(
+                        isTypeExpanded = currentWish.isExpanded
+                    )
+                }
+            }
+            is NewTokenWish.OnDigitExpandChanged -> {
+                expect { currentState.copy(isDigitExpanded = currentWish.isExpanded) }
+            }
+            is NewTokenWish.OnDurationExpandChanged -> {
+                expect { currentState.copy(isDurationExpanded = currentWish.isExpanded) }
+            }
+            else -> unexpected { currentState }
         }
     }
 }

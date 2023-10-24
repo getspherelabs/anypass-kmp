@@ -37,12 +37,15 @@ import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.anypass.di.useInject
+import io.spherelabs.anypass.ui.account.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useScroll
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.designsystem.textfield.APSNameTextField
 import io.spherelabs.designsystem.textfield.KeyPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -109,7 +112,9 @@ fun SignUpScreen(
     Scaffold(
         containerColor = BlackRussian,
         topBar = {
-            SignUpTopBar(modifier, wish)
+            SignUpTopBar(modifier) {
+                wish.invoke(SignUpWish.Back)
+            }
         },
         snackbarHost = {
             SnackbarHost(
@@ -131,32 +136,33 @@ fun SignUpScreen(
     }
 }
 
+
 @Composable
 private fun SignUpTopBar(
     modifier: Modifier = Modifier,
-    wish: (SignUpWish) -> Unit,
+    navigateToBack: () -> Unit,
 ) {
+    val strings = LocalStrings.current
+
     Row(
-        modifier = modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = modifier.padding(top = 16.dp).fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            modifier = modifier.padding(start = 24.dp).size(56.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(color = Color.Black)
-                .clickable {
-                    wish.invoke(SignUpWish.Back)
-                },
-            contentAlignment = Alignment.Center,
-        ) {
-            Image(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                colorFilter = ColorFilter.tint(color = Color.White),
-            )
-        }
-
+        BackButton(
+            modifier = modifier,
+            backgroundColor = LavenderBlue.copy(0.3f),
+            iconColor = Color.White,
+            navigateToBack = {
+                navigateToBack.invoke()
+            },
+        )
+        Headline(
+            text = strings.createAccount,
+            modifier = modifier,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Medium,
+            textColor = Color.White,
+        )
     }
 }
 
@@ -177,16 +183,7 @@ fun SignUpContent(
                 )
             }
             LazyColumn {
-                item {
-                    Text(
-                        text = strings.createNewAccount,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 48.sp,
-                        modifier = modifier.padding(start = 24.dp),
-                        color = Color.White,
-                    )
-                }
+
                 item {
                     APSNameTextField(
                         state.name,
@@ -295,7 +292,7 @@ fun SignUpContent(
                             .height(65.dp)
                             .padding(start = 24.dp, end = 24.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = colorResource(MR.colors.grey),
+                            backgroundColor = LavenderBlue.copy(0.3f),
                         ),
                         shape = RoundedCornerShape(24.dp),
                         onClick = {

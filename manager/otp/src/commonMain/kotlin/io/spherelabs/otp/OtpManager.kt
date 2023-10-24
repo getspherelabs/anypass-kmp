@@ -59,6 +59,16 @@ class DefaultOtpManager : OtpManager {
         return PlatformBuffer.allocate(8).apply { this[0] = counter(count, configuration) }
     }
 
+    private fun timeslotStart(timestamp: Long, config: OtpConfiguration): Long {
+        val counter = counter(timestamp, config)
+        val timeStepMillis = config.period.millis.toDouble()
+        return (counter * timeStepMillis).toLong()
+    }
+
+    fun timeslotLeft(timestamp: Long, configuration: OtpConfiguration): Double {
+        val diff = timestamp - timeslotStart(timestamp,configuration)
+        return 1.0 - diff.toDouble() / configuration.period.millis.toDouble()
+    }
 
     private fun createHmacInstance(secret: String, configuration: OtpConfiguration): Hmac {
         val newSecret: ByteArray = secret.decodeBase32ToByteArray()

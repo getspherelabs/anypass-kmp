@@ -12,9 +12,9 @@ data class NewTokenState(
     val serviceName: String = "",
     val secret: String = "",
     val count: Long = 0L,
-    val duration: NewTokenDuration = NewTokenDuration.FIFTEEN,
-    val type: NewTokenType = NewTokenType.SHA1,
-    val digit: NewTokenDigit = NewTokenDigit.EIGHT,
+    val duration: Int = 0,
+    val type: String = "",
+    val digit: String = "",
     val digitFailed: Boolean = false,
     val issuerFailed: Boolean = false,
     val infoFailed: Boolean = false,
@@ -23,8 +23,38 @@ data class NewTokenState(
     val countFailed: Boolean = false,
     val durationFailed: Boolean = false,
     val typeFailed: Boolean = false,
+    val secretVisibility: Boolean = false,
+    val isTypeExpanded: Boolean = false,
+    val isDurationExpanded: Boolean = false,
+    val isDigitExpanded: Boolean = false,
 ) {
     companion object {
+        fun types(): List<String> {
+            return NewTokenType.values().map {
+                it.name
+            }
+        }
+
+        fun digits(): List<Int> {
+            return NewTokenDigit.values().map { newDigit ->
+                when(newDigit) {
+                    NewTokenDigit.SIX -> 6
+                    NewTokenDigit.EIGHT -> 8
+                }
+            }
+        }
+
+        fun duration(): List<Int> {
+            return NewTokenDuration.values().map { newDuration ->
+                when(newDuration) {
+                    NewTokenDuration.FIFTEEN -> 15
+                    NewTokenDuration.THIRTY -> 30
+                    NewTokenDuration.SIXTY -> 60
+                }
+            }
+        }
+
+
         val Empty = NewTokenState()
     }
 }

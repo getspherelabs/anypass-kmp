@@ -26,6 +26,7 @@ class DefaultCounterDao(
 
     override suspend fun insertCounter(entity: CounterEntity) {
         queries.transaction {
+            println("Entity is $entity")
             queries.insertCounter(
                 otpId = entity.otpId,
                 counter = entity.counter

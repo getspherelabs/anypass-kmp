@@ -10,7 +10,8 @@ data class NewTokenDomain(
     val digit: NewTokenDigit,
     val createdTimestamp: Long,
     val serviceName: String?,
-)
+) {
+}
 
 
 enum class NewTokenType {
@@ -26,9 +27,33 @@ enum class NewTokenDuration(
     FIFTEEN(15),
     THIRTY(30),
     SIXTY(60);
+
+    companion object {
+        fun fromInt(value: Int): NewTokenDuration {
+            return when (value) {
+                15 -> NewTokenDuration.FIFTEEN
+                30 -> NewTokenDuration.THIRTY
+                60 -> NewTokenDuration.SIXTY
+                else -> {
+                    NewTokenDuration.FIFTEEN
+                }
+            }
+        }
+    }
 }
+
 
 enum class NewTokenDigit(val number: Long) {
     SIX(6),
     EIGHT(8);
+
+    companion object {
+        fun fromInt(value: Int): NewTokenDigit {
+            return when (value) {
+                6 -> NewTokenDigit.SIX
+                8 -> NewTokenDigit.EIGHT
+                else -> NewTokenDigit.SIX
+            }
+        }
+    }
 }

@@ -16,8 +16,12 @@ import io.spherelabs.anypass.ui.home.navigation.homeScreen
 import io.spherelabs.anypass.ui.home.navigation.navigateToHome
 import io.spherelabs.anypass.ui.onboarding.navigation.onboardingScreen
 import io.spherelabs.anypass.ui.account.navigation.accountScreen
+import io.spherelabs.anypass.ui.authenticator.navigation.authenticatorScreen
+import io.spherelabs.anypass.ui.authenticator.navigation.navigateToAuthenticator
 import io.spherelabs.anypass.ui.changepassword.navigation.changePasswordScreen
 import io.spherelabs.anypass.ui.changepassword.navigation.navigateToChangePassword
+import io.spherelabs.anypass.ui.newtoken.navigation.navigateToNewToken
+import io.spherelabs.anypass.ui.newtoken.navigation.newTokenScreen
 import io.spherelabs.navigation.NavHost
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController
@@ -53,6 +57,9 @@ fun AnyPassNavHost(
             navigateToMyAccount = {
                 navigationController.navigateToMyAccount()
             },
+            navigateToAuthenticator = {
+                navigationController.navigateToAuthenticator()
+            },
         )
         accountScreen(
             navigateToChangePassword = {
@@ -85,6 +92,16 @@ fun AnyPassNavHost(
             navigationController.navigateUp()
         }
 
+        newTokenScreen { }
+        authenticatorScreen(
+            navigateToNewToken = {
+                navigationController.navigateToNewToken()
+            },
+            navigateToBack = {},
+        )
+        newTokenScreen {
+
+        }
     }
 }
 

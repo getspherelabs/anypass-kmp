@@ -35,6 +35,8 @@ import io.spherelabs.anypass.di.useInject
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -82,7 +84,7 @@ fun OnboardingScreen(
     }
 
     Column(
-        modifier = modifier.fillMaxSize().background(color = colorResource(MR.colors.white)),
+        modifier = modifier.fillMaxSize().background(color = BlackRussian),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -140,6 +142,7 @@ private fun OnboardingHeadline() {
     Text(
         text = LocalStrings.current.onboardingHeadline,
         fontSize = 32.sp,
+        color = Color.White,
         fontFamily = GoogleSansFontFamily,
         fontWeight = FontWeight.Medium,
     )
@@ -155,7 +158,7 @@ private fun OnboardingDescription(
         fontSize = 18.sp,
         fontFamily = GoogleSansFontFamily,
         fontWeight = FontWeight.Medium,
-        color = Color.Black.copy(0.5F),
+        color = Color.White.copy(0.5F),
         textAlign = TextAlign.Center,
     )
 }
@@ -170,7 +173,7 @@ private fun GetStartedButton(
             .fillMaxWidth().height(65.dp).padding(start = 24.dp, end = 24.dp),
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(MR.colors.lavender),
+            backgroundColor = LavenderBlue.copy(0.3f),
         ),
         onClick = {
             onClick.invoke()

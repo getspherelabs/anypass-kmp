@@ -61,6 +61,7 @@ import io.spherelabs.resource.icons.anypassicons.Behance
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = rememberKoinInject(),
+    navigateToAuthenticator: () -> Unit,
     navigateToCreatePassword: () -> Unit,
     navigateToMyAccount: () -> Unit,
 ) {
@@ -81,7 +82,9 @@ fun HomeRoute(
         navigateToGenerator = {
 
         },
-        navigateToAuthenticator = {},
+        navigateToAuthenticator = {
+            navigateToAuthenticator.invoke()
+        },
         navigateToHelp = {},
         navigateToPasswordHealth = {},
     )

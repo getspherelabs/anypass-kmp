@@ -515,7 +515,7 @@ fun AddNewPasswordContent(
                 .height(65.dp)
                 .padding(start = 24.dp, end = 24.dp),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = LavenderBlue.copy(0.7f),
+                backgroundColor = LavenderBlue.copy(0.3f),
             ),
             shape = RoundedCornerShape(24.dp),
             onClick = {

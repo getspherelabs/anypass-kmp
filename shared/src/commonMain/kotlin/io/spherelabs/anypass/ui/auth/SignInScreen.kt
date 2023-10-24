@@ -29,6 +29,8 @@ import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -93,7 +95,7 @@ fun SignInScreen(
     }
 
     Scaffold(
-        containerColor = colorResource(MR.colors.lavender),
+        containerColor = BlackRussian,
         topBar = {
             SignInTopBar(modifier = modifier) { newWish ->
                 wish.invoke(newWish)
@@ -134,7 +136,7 @@ fun SignInTopBar(
             modifier = modifier.padding(start = 24.dp).height(56.dp).width(150.dp)
                 .padding(start = 8.dp, end = 8.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(color = Color.Black)
+                .background(color = LavenderBlue.copy(alpha = 0.3f))
                 .clickable {
                     wish.invoke(SignInWish.CreateNewClicked)
                 },
@@ -230,7 +232,7 @@ fun SignInContent(
                     .height(65.dp)
                     .padding(start = 24.dp, end = 24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = colorResource(MR.colors.grey),
+                    backgroundColor = LavenderBlue.copy(alpha = 0.3f),
                 ),
                 shape = RoundedCornerShape(24.dp),
                 onClick = {

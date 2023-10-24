@@ -2,7 +2,10 @@ package io.spherelabs.newtokenpresentation
 
 import io.spherelabs.common.uuid4
 import io.spherelabs.meteor.middleware.Middleware
+import io.spherelabs.newtokendomain.model.NewTokenDigit
 import io.spherelabs.newtokendomain.model.NewTokenDomain
+import io.spherelabs.newtokendomain.model.NewTokenDuration
+import io.spherelabs.newtokendomain.model.NewTokenType
 import io.spherelabs.newtokendomain.usecase.InsertOtpWithCountUseCase
 import kotlinx.datetime.Clock
 
@@ -34,16 +37,16 @@ class NewTokenMiddleware(
             insertOtpWithCountUseCase.execute(
                 data = NewTokenDomain(
                     id = uuid4(),
-                    digit = state.digit,
-                    issuer = state.issuer,
+                    digit = NewTokenDigit.fromInt(state.digit.toInt()),
+                    issuer = "Behance",
                     info = state.info,
                     serviceName = state.serviceName,
-                    duration = state.duration,
-                    type = state.type,
+                    duration = NewTokenDuration.fromInt(state.duration),
+                    type = NewTokenType.valueOf(state.type),
                     secret = state.secret,
                     createdTimestamp = Clock.System.now().toEpochMilliseconds(),
                 ),
-                count = newCount,
+                count = Clock.System.now().toEpochMilliseconds(),
             )
         }.onSuccess {
             next.invoke(NewTokenWish.Info("Successfully added!"))
@@ -51,5 +54,13 @@ class NewTokenMiddleware(
             val failureMessage = it.message ?: "Error is occurred."
             next.invoke(NewTokenWish.Failure(failureMessage))
         }
+    }
+
+    private fun isValid(state: NewTokenState): Boolean {
+        val issuerValid = state.issuer.isNotEmpty()
+        val secretValid = state.secret.isNotEmpty()
+        val serviceNameValid = state.serviceName.isNotEmpty()
+
+        return issuerValid && secretValid && serviceNameValid
     }
 }

@@ -9,8 +9,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.features.newtoken.newTokenDomain)
                 implementation(projects.core.common)
+                implementation(projects.features.newtoken.newTokenDomain)
                 implementation(libs.datetime)
                 implementation(compose.runtime)
             }

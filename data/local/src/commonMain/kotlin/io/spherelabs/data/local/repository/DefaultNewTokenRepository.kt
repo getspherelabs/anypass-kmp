@@ -18,13 +18,18 @@ class DefaultNewTokenRepository (
     override suspend fun insertOtpWithCount(otpDomain: NewTokenDomain, counter: Long) {
         withContext(Dispatchers.IO) {
             val newEntity = otpDomain.asEntity()
-            counterDao.insertCounter(
-                CounterEntity(
-                    newEntity.id,
-                    counter,
-                ),
-            )
-            otpDao.insertOtp(newEntity)
+            runCatching {
+                otpDao.insertOtp(newEntity)
+            }.onSuccess {
+                counterDao.insertCounter(
+                    CounterEntity(
+                        newEntity.id,
+                        counter,
+                    ),
+                )
+            }
+
+
         }
     }
 }

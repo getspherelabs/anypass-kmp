@@ -87,9 +87,31 @@ sealed interface Route {
     }
 
     @Immutable
-    object ChangePassword: Route {
+    object ChangePassword : Route {
         override fun equals(other: Any?): Boolean {
             return other === ChangePassword
+        }
+
+        override fun hashCode(): Int {
+            return this::class.simpleName.hashCode()
+        }
+    }
+
+    @Immutable
+    object NewToken : Route {
+        override fun equals(other: Any?): Boolean {
+            return other === NewToken
+        }
+
+        override fun hashCode(): Int {
+            return this::class.simpleName.hashCode()
+        }
+    }
+
+    @Immutable
+    object Authenticator : Route {
+        override fun equals(other: Any?): Boolean {
+            return other === Authenticator
         }
 
         override fun hashCode(): Int {
