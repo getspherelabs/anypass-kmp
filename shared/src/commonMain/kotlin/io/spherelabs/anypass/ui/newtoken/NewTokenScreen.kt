@@ -34,10 +34,10 @@ import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.newtokenpresentation.NewTokenEffect
-import io.spherelabs.newtokenpresentation.NewTokenState
-import io.spherelabs.newtokenpresentation.NewTokenViewModel
-import io.spherelabs.newtokenpresentation.NewTokenWish
+import io.spherelabs.newtokenimpl.presentation.NewTokenEffect
+import io.spherelabs.newtokenimpl.presentation.NewTokenState
+import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
+import io.spherelabs.newtokenimpl.presentation.NewTokenWish
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest

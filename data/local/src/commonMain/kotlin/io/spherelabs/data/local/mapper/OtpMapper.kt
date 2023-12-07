@@ -7,7 +7,7 @@ import io.spherelabs.authenticatordomain.model.OtpDurationDomain
 import io.spherelabs.data.local.db.otp.asDomain
 import io.spherelabs.data.local.db.otp.asEntity
 import io.spherelabs.local.db.OtpEntity
-import io.spherelabs.newtokendomain.model.NewTokenDomain
+import io.spherelabs.newtokenapi.model.NewTokenDomain
 
 fun OtpEntity.asDomain(): OtpDomain {
     return OtpDomain(

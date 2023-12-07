@@ -1,7 +1,8 @@
 package io.spherelabs.data.local.db.otp
 
 import io.spherelabs.authenticatordomain.model.AlgorithmTypeDomain
-import io.spherelabs.newtokendomain.model.NewTokenType
+import io.spherelabs.newtokenapi.model.NewTokenType
+
 
 enum class AlgorithmTypeEntity {
     SHA1,

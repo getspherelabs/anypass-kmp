@@ -11,7 +11,7 @@ import io.spherelabs.authpresentation.signin.SignInViewModel
 import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
 import io.spherelabs.accountpresentation.AccountViewModel
 import io.spherelabs.changepasswordpresentation.ChangePasswordViewModel
-import io.spherelabs.newtokenpresentation.NewTokenViewModel
+import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
 
 actual val viewModelModule = module {
     viewModelOf(::OnboardingViewModel)

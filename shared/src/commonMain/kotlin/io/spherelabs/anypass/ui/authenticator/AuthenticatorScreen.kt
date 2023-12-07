@@ -51,10 +51,7 @@ fun AuthenticatorScreen(
             }
         },
     ) { newPaddingValues ->
-        AuthenticatorContent(
-            paddingValues = newPaddingValues,
 
-            )
     }
 }
 

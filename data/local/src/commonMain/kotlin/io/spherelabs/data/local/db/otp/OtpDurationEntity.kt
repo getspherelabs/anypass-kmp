@@ -1,8 +1,7 @@
 package io.spherelabs.data.local.db.otp
 
 import io.spherelabs.authenticatordomain.model.OtpDurationDomain
-import io.spherelabs.newtokendomain.model.NewTokenDuration
-import io.spherelabs.otp.Otp
+import io.spherelabs.newtokenapi.model.NewTokenDuration
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.plus
