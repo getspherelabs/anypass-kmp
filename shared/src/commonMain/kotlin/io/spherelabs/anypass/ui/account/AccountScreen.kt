@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.accountpresentation.AccountEffect
 import io.spherelabs.accountpresentation.AccountState
@@ -35,8 +33,9 @@ import io.spherelabs.anypass.BuildKonfig
 import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.anypass.MR
+import io.spherelabs.anypass.alias.BackHandler
 import io.spherelabs.anypass.di.useInject
-import io.spherelabs.anypass.ui.keypassword.color2
+import io.spherelabs.designsystem.dimension.LocalDimensions
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
@@ -53,7 +52,7 @@ import kotlinx.coroutines.launch
 fun AccountRoute(
     viewModel: AccountViewModel = useInject(),
     navigateToChangePassword: () -> Unit,
-    navigateToBack: () -> Unit,
+    navigateToBack: BackHandler,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -84,6 +83,7 @@ fun AccountScreen(
     val scope = useScope()
 
     val strings = LocalStrings.current
+    val dimensions = LocalDimensions.current
 
     useEffect(true) {
         wish.invoke(AccountWish.GetAccount)
@@ -123,7 +123,9 @@ fun AccountScreen(
         containerColor = Color(0xff141419),
         topBar = {
             Row(
-                modifier = modifier.fillMaxWidth().padding(top = 16.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = dimensions.medium),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 BackButton(
@@ -152,8 +154,8 @@ fun AccountScreen(
             ) {
                 RoundedImage(
                     imageSize = 150,
-                    modifier = modifier.padding(top = 16.dp).border(
-                        width = 1.dp,
+                    modifier = modifier.padding(top = dimensions.medium).border(
+                        width = dimensions.divider,
                         color = Color.Black,
                         shape = CircleShape,
                     ),
@@ -254,7 +256,7 @@ fun AccountScreen(
             Spacer(modifier = modifier.height(36.dp))
 
             Row(
-                modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
+                modifier = modifier.padding(horizontal = dimensions.large).fillMaxWidth().height(48.dp)
                     .clip(
                         RoundedCornerShape(16.dp),
                     ).background(color = Color(0xff292933)),
@@ -262,7 +264,7 @@ fun AccountScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    modifier = modifier.padding(start = 24.dp),
+                    modifier = modifier.padding(start = dimensions.large),
                     text = strings.fingerPrint,
                     fontSize = 16.sp,
                     color = Color.White,

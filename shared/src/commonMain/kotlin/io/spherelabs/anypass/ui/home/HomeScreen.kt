@@ -400,7 +400,6 @@ fun CategoryCard(
         LKIndicator(tabPositions, pagerState)
     }
 
-
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
@@ -535,7 +534,7 @@ fun LKPager(
     LaunchedEffect(cardStackState) {
         snapshotFlow { cardStackState.visibleItemIndex }
             .collect { firstIndex ->
-                if (cardStackState.itemsCount < 1) return@collect
+                if (cardStackState.itemsCount < HomeDefaults.minItemCount) return@collect
                 val countHasChanged = previousTotalItemCount.intValue != cardStackState.itemsCount
                 if (countHasChanged && firstIndex + 1 > cardStackState.itemsCount) {
                     previousTotalItemCount.intValue = cardStackState.itemsCount
@@ -573,7 +572,7 @@ fun LKPager(
                         email = newData.email,
                         passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
                             backgroundColor = color2,
-                            titleColor = colorResource(resource = MR.colors.white),
+                            titleColor = Color.White,
                             emailColor = colorResource(resource = MR.colors.white).copy(0.5f),
                         ),
                         passwordCardStyle = LKPasswordCardDefaults.passwordCardStyle(
@@ -639,9 +638,15 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
     val indicatorStart by transition.animateDp(
         transitionSpec = {
             if (initialState < targetState) {
-                spring(dampingRatio = 1f, stiffness = 50f)
+                spring(
+                    dampingRatio = HomeDefaults.minDampingRatio,
+                    stiffness = HomeDefaults.minStiffness,
+                )
             } else {
-                spring(dampingRatio = 1f, stiffness = 1000f)
+                spring(
+                    dampingRatio = HomeDefaults.minDampingRatio,
+                    stiffness = HomeDefaults.maxStiffness,
+                )
             }
         },
         label = "${pagerState.currentPage}",
@@ -652,9 +657,15 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
     val indicatorEnd by transition.animateDp(
         transitionSpec = {
             if (initialState < targetState) {
-                spring(dampingRatio = 1f, stiffness = 1000f)
+                spring(
+                    dampingRatio = HomeDefaults.minDampingRatio,
+                    stiffness = HomeDefaults.maxStiffness,
+                )
             } else {
-                spring(dampingRatio = 1f, stiffness = 50f)
+                spring(
+                    dampingRatio = HomeDefaults.minDampingRatio,
+                    stiffness = HomeDefaults.minStiffness,
+                )
             }
         },
         label = "",
@@ -670,8 +681,8 @@ internal fun LKIndicator(tabPositions: List<TabPosition>, pagerState: PagerState
             .requiredHeight(30.dp)
             .padding(2.dp)
             .fillMaxSize()
-            .background(color = Color.White, RoundedCornerShape(50))
-            .zIndex(1f),
+            .background(color = Color.White, RoundedCornerShape(HomeDefaults.cornerShape))
+            .zIndex(HomeDefaults.zIndex),
 
         )
 }
@@ -680,3 +691,4 @@ enum class HomeDrawerState {
     OPENED,
     CLOSED
 }
+

@@ -1,6 +1,10 @@
 package io.spherelabs.anypass.navigation
 
+import io.spherelabs.anypass.alias.Routes
+import io.spherelabs.anypass.alias.Savable
+
 private const val KEY_ROUTE_NAME = "route_name"
+private const val KEY_PASSWORD = "password"
 
 fun <R : Route> R.asSavable(): Map<String, String> {
     return when (this) {
@@ -10,9 +14,10 @@ fun <R : Route> R.asSavable(): Map<String, String> {
         is Route.CreatePassword -> savable<Route.CreatePassword>()
         is Route.AddNewPassword -> {
             password?.let {
-                savable<Route.AddNewPassword>("password" to it)
+                savable<Route.AddNewPassword>(KEY_PASSWORD to it)
             } ?: savable<Route.AddNewPassword>()
         }
+
         is Route.Space -> savable<Route.Space>()
         is Route.SignUp -> savable<Route.SignUp>()
         is Route.SignIn -> savable<Route.SignIn>()
@@ -25,14 +30,14 @@ fun <R : Route> R.asSavable(): Map<String, String> {
 /**
  * Constructs [Route] from [savable] map data
  */
-fun buildScreenFromSavable(savable: Map<String, String>): Route {
+fun buildScreenFromSavable(savable: Savable): Route {
     return when (val routeName = savable[KEY_ROUTE_NAME]) {
         routeName<Route.Onboarding>() -> Route.Onboarding
         routeName<Route.MasterPassword>() -> Route.MasterPassword
         routeName<Route.CreatePassword>() -> Route.CreatePassword
         routeName<Route.Home>() -> Route.Home
         routeName<Route.AddNewPassword>() -> {
-            val passwordArgument = savable["password"] ?: ""
+            val passwordArgument = savable[KEY_PASSWORD] ?: ""
             Route.AddNewPassword(passwordArgument)
         }
         routeName<Route.SignUp>() -> Route.SignUp
@@ -44,7 +49,7 @@ fun buildScreenFromSavable(savable: Map<String, String>): Route {
     }
 }
 
-private inline fun <reified R : Route> savable(vararg pairs: Pair<String, String>): Map<String, String> {
+private inline fun <reified R : Route> savable(vararg pairs: Routes): Savable {
     return try {
         mapOf(KEY_ROUTE_NAME to routeName<R>()) + pairs.toMap()
     } catch (e: Exception) {

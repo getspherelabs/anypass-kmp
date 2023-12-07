@@ -6,7 +6,9 @@ import android.content.ContextWrapper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import io.spherelabs.anypass.ui.AnyPassApp
+import io.spherelabs.anypass.ui.authenticator.AuthenticatorCard
 import io.spherelabs.navigation.Finisher
 import io.spherelabs.navigation.LocalAppFinisher
 

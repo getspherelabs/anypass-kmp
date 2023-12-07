@@ -21,9 +21,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.spherelabs.anypass.alias.BackHandler
 import io.spherelabs.anypass.di.useInject
 import io.spherelabs.anypass.ui.account.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
+import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.spinner.LKSpinner
@@ -38,11 +40,13 @@ import io.spherelabs.newtokenpresentation.NewTokenViewModel
 import io.spherelabs.newtokenpresentation.NewTokenWish
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun NewTokenRoute(
     viewModel: NewTokenViewModel = useInject(),
-    navigateToBack: () -> Unit,
+    navigateToBack: BackHandler,
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -62,11 +66,32 @@ fun NewTokenScreen(
     state: NewTokenState,
     effect: Flow<NewTokenEffect>,
     wish: (NewTokenWish) -> Unit,
-    navigateToBack: () -> Unit,
+    navigateToBack: BackHandler,
 ) {
     val snackbarHostState = useSnackbar()
     val scope = useScope()
 
+    useEffect(true) {
+        effect.collectLatest { newEffect ->
+            when (newEffect) {
+                is NewTokenEffect.Failure -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            newEffect.message,
+                        )
+                    }
+                }
+
+                is NewTokenEffect.Info -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            newEffect.message,
+                        )
+                    }
+                }
+            }
+        }
+    }
     Scaffold(
         containerColor = BlackRussian,
         topBar = {
@@ -81,8 +106,15 @@ fun NewTokenScreen(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-    ) {
-        NewTokenContent(paddingValues = it, state = state, wish = wish)
+    ) { newPaddingValues ->
+        NewTokenContent(
+            paddingValues = newPaddingValues,
+            state = state,
+            wish = wish,
+            navigateToBack = {
+                navigateToBack.invoke()
+            },
+        )
     }
 }
 
@@ -92,6 +124,7 @@ fun NewTokenContent(
     state: NewTokenState,
     modifier: Modifier = Modifier,
     wish: (NewTokenWish) -> Unit,
+    navigateToBack: BackHandler,
 ) {
     val focusManager = LocalFocusManager.current
     val strings = LocalStrings.current
@@ -264,7 +297,8 @@ private fun AdditionalInfoTextField(
     Column {
         Text(
             text = "Additional info",
-            modifier = modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
+            modifier = modifier.fillMaxWidth()
+                .padding(start = 24.dp, top = 8.dp, end = 24.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
             color = Color.White,
             fontWeight = FontWeight.Medium,
@@ -407,7 +441,7 @@ private fun NewTokenDurationSpinner(
 @Composable
 private fun SaveButton(
     modifier: Modifier = Modifier,
-    wish: (NewTokenWish) -> Unit
+    wish: (NewTokenWish) -> Unit,
 ) {
     val strings = LocalStrings.current
     Button(
