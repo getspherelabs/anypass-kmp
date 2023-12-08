@@ -133,6 +133,7 @@ anypass-presentation = { id = "anypass.multiplatform.presentation", version = "u
 anypass-validation = { id = "anypass.multiplatform.validation", version = "unspecified" }
 anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified" }
 anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified" }
+anypass-api = { id = "anypass.multiplatform.api", version = "unspecified" }
 dependencyanalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyanalysis" }
 
 
