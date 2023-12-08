@@ -46,6 +46,7 @@ buffer = "1.3.6"
 konsist = "0.13.0"
 spotify-ruler = "1.4.0"
 app-update = "2.1.0"
+voyager = "1.0.0-rc10"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -107,8 +108,9 @@ crypto-macs-hmac-sha2 = { module = "org.kotlincrypto.macs:hmac-sha2", version.re
 encoding-base32 = { module = "io.matthewnelson.encoding:base32", version.ref = "encoding-base32" }
 buffer = { module = "com.ditchoom:buffer", version.ref = "buffer" }
 plugin-spotify-ruler = { module = "com.spotify.ruler:ruler-gradle-plugin", version.ref = "spotify-ruler" }
-app-update = { group = "com.google.android.play", name = "app-update", version.ref = "app-update"}
-app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update"}
+app-update = { group = "com.google.android.play", name = "app-update", version.ref = "app-update" }
+app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update" }
+voyager = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

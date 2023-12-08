@@ -1,4 +1,4 @@
-package io.spherelabs.anypass.ui.auth
+package io.spherelabs.authimpl.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,51 +16,58 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.spherelabs.designsystem.textfield.LKEmailTextField
-import io.spherelabs.designsystem.textfield.LKPasswordTextField
-import io.spherelabs.anypass.di.useInject
+import cafe.adriel.voyager.core.registry.rememberScreen
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import io.spherelabs.authimpl.presentation.signin.SignInEffect
 import io.spherelabs.authimpl.presentation.signin.SignInState
 import io.spherelabs.authimpl.presentation.signin.SignInViewModel
 import io.spherelabs.authimpl.presentation.signin.SignInWish
+import io.spherelabs.authnavigation.AuthSharedScreen
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.designsystem.textfield.LKEmailTextField
+import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.compose.LocalKoinScope
+import org.koin.core.parameter.ParametersDefinition
+import org.koin.core.qualifier.Qualifier
+import org.koin.core.scope.Scope
 
+class SignInScreen : Screen {
 
-@Composable
-fun SignInRoute(
-    viewModel: SignInViewModel = useInject(),
-    navigateToSignUp: () -> Unit,
-    navigateToKeyPassword: () -> Unit,
-) {
-    val uiState = viewModel.state.collectAsStateWithLifecycle()
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        val signUpScreen = rememberScreen(AuthSharedScreen.SignUpScreen)
+        val viewModel: SignInViewModel = useInject()
+        val uiState = viewModel.state.collectAsStateWithLifecycle()
 
-    SignInScreen(
-        state = uiState.value,
-        effect = viewModel.effect,
-        wish = { newWish ->
-            viewModel.wish(newWish)
-        },
-        navigateToKeyPassword = {
-            navigateToKeyPassword.invoke()
-        },
-        navigateToCreateNew = {
-            navigateToSignUp.invoke()
-        },
-    )
+        BasicSignInScreen(
+            modifier = Modifier,
+            wish = { newWish -> viewModel.wish(newWish) },
+            state = uiState.value,
+            effect = viewModel.effect,
+            navigateToCreateNew = {
+                navigator.push(signUpScreen)
+            },
+            navigateToKeyPassword = {},
+        )
+    }
 }
 
+
 @Composable
-fun SignInScreen(
+fun BasicSignInScreen(
     modifier: Modifier = Modifier,
     wish: (SignInWish) -> Unit,
     state: SignInState,
@@ -146,7 +154,7 @@ fun SignInTopBar(
                 fontSize = 14.sp,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
 
@@ -252,4 +260,13 @@ fun SignInContent(
 }
 
 
-
+@Composable
+inline fun <reified T> useInject(
+    qualifier: Qualifier? = null,
+    scope: Scope = LocalKoinScope.current,
+    noinline parameters: ParametersDefinition? = null,
+): T {
+    return remember(qualifier, scope, parameters) {
+        scope.get(qualifier, parameters)
+    }
+}

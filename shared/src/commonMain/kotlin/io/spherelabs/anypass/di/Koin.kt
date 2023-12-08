@@ -7,8 +7,8 @@ import io.spherelabs.accountpresentation.di.accountPresentationModule
 import io.spherelabs.addnewpasswodpresentation.di.addNewPasswordFeatureModule
 import io.spherelabs.addnewpassworddomain.di.addNewPasswordUseCaseDomainModule
 import io.spherelabs.admob.di.admobModule
-import io.spherelabs.authdomain.di.authDomainModule
-import io.spherelabs.authpresentation.authFeatureModule
+import io.spherelabs.authdi.authDomainModule
+import io.spherelabs.authdi.authFeatureModule
 import io.spherelabs.changepassworddomain.di.changePasswordDomainModule
 import io.spherelabs.changepasswordpresentation.di.changePasswordPresentationModule
 import io.spherelabs.data.local.di.localModule

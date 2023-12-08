@@ -13,6 +13,7 @@ class AnyPassApplication : Application() {
         initKoin {
             androidContext(this@AnyPassApplication)
         }
+
     }
 }
 

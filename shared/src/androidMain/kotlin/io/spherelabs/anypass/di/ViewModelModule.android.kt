@@ -6,8 +6,8 @@ import io.spherelabs.features.onboardingpresentation.OnboardingViewModel
 import io.spherelabs.addnewpasswodpresentation.AddNewPasswordViewModel
 import io.spherelabs.generatepasswordpresentation.GeneratePasswordViewModel
 import io.spherelabs.home.homepresentation.HomeViewModel
-import io.spherelabs.authpresentation.signup.SignUpViewModel
-import io.spherelabs.authpresentation.signin.SignInViewModel
+import io.spherelabs.authimpl.presentation.signup.SignUpViewModel
+import io.spherelabs.authimpl.presentation.signin.SignInViewModel
 import io.spherelabs.masterpasswordpresentation.MasterPasswordViewModel
 import io.spherelabs.accountpresentation.AccountViewModel
 import io.spherelabs.changepasswordpresentation.ChangePasswordViewModel

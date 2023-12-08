@@ -70,8 +70,10 @@ kotlin {
                 api(projects.features.addnewpassword.addNewPasswodPresentation)
                 api(projects.features.account.accountDomain)
                 api(projects.features.account.accountPresentation)
-                api(projects.features.auth.authDomain)
-                api(projects.features.auth.authPresentation)
+                api(projects.features.auth.authApi)
+                api(projects.features.auth.authImpl)
+                api(projects.features.auth.authDi)
+                api(projects.features.auth.authNavigation)
                 api(projects.features.onboarding.onboardingDomain)
                 api(projects.features.onboarding.onboardingPresentation)
                 api(projects.features.generatepassword.generatePasswordDomain)
@@ -84,11 +86,12 @@ kotlin {
                 api(projects.features.changepassword.changePasswordPresentation)
                 api(projects.features.newtoken.newtokenApi)
                 api(projects.features.newtoken.newtokenImpl)
+                api(projects.features.newtoken.newtokenDi)
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)
 
-                implementation(projects.features.newtoken.newtokenDi)
+
                 implementation(projects.core.admob)
                 implementation(projects.core.validation)
                 implementation(projects.resource.fonts)
@@ -105,7 +108,7 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.sentry)
-
+                implementation(libs.voyager)
                 implementation(libs.koin.compose)
 
             }

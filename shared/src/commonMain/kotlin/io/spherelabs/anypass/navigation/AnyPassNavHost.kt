@@ -1,6 +1,9 @@
 package io.spherelabs.anypass.navigation
 
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.registry.ScreenRegistry
+import cafe.adriel.voyager.core.registry.screenModule
+import cafe.adriel.voyager.navigator.Navigator
 import io.spherelabs.anypass.ui.account.navigation.navigateToMyAccount
 import io.spherelabs.anypass.ui.addnewpassword.navigation.addNewPasswordScreen
 import io.spherelabs.anypass.ui.addnewpassword.navigation.navigateToAddNewPassword
@@ -22,87 +25,91 @@ import io.spherelabs.anypass.ui.changepassword.navigation.changePasswordScreen
 import io.spherelabs.anypass.ui.changepassword.navigation.navigateToChangePassword
 import io.spherelabs.anypass.ui.newtoken.navigation.navigateToNewToken
 import io.spherelabs.anypass.ui.newtoken.navigation.newTokenScreen
+import io.spherelabs.authdi.authScreenModule
+import io.spherelabs.authimpl.ui.SignInScreen
 import io.spherelabs.navigation.NavHost
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController
 
 @Composable
-fun AnyPassNavHost(
-    navigationController: NavigationController<Route> = rememberNavController(),
-) {
+fun AnyPassNavHost() {
 
-    NavHost(navigationController, initialState = Route.Onboarding) {
-        onboardingScreen { navigationController.navigateSignIn() }
-        signInScreen(
-            navigateToSignUp = {
-                navigationController.navigateSignUp()
-            },
-            navigateToConfirmPassword = {
-                navigationController.navigateToPassword()
-            },
-        )
-        signUpScreen(
-            navigateToConfirmPassword = {
-                navigationController.navigateToPassword()
-            },
-            navigateToSignIn = {
-                navigationController.navigateUp()
-            },
-        )
-        passwordScreen { navigationController.navigateToHome() }
-        homeScreen(
-            navigateToCreatePassword = {
-                navigationController.navigateToAddNewPassword()
-            },
-            navigateToMyAccount = {
-                navigationController.navigateToMyAccount()
-            },
-            navigateToAuthenticator = {
-                navigationController.navigateToAuthenticator()
-            },
-        )
-        accountScreen(
-            navigateToChangePassword = {
-                navigationController.navigateToChangePassword()
-            },
-            navigateToHome = {
-                navigationController.navigateUp()
-            },
-        )
-        addNewPasswordScreen(
-            navigateToBack = {
-                navigationController.navigateUp()
-            },
-            navigateToGeneratePassword = {
-                navigationController.navigateToCreatePassword()
-            },
-        )
-        createPasswordScreen(
-            navigateToHome = {
-                navigationController.navigateToHome()
-            },
-            navigateToBack = {
-                navigationController.navigateUp()
-            },
-            navigateToUse = {
-                navigationController.navigateToAddNewPassword(it)
-            },
-        )
-        changePasswordScreen {
-            navigationController.navigateUp()
-        }
-
-        newTokenScreen { }
-        authenticatorScreen(
-            navigateToNewToken = {
-                navigationController.navigateToNewToken()
-            },
-            navigateToBack = {},
-        )
-        newTokenScreen {
-
-        }
+    ScreenRegistry {
+        authScreenModule()
     }
+            Navigator(SignInScreen())
+//    NavHost(navigationController, initialState = Route.Onboarding) {
+//        onboardingScreen { navigationController.navigateSignIn() }
+//        signInScreen(
+//            navigateToSignUp = {
+//                navigationController.navigateSignUp()
+//            },
+//            navigateToConfirmPassword = {
+//                navigationController.navigateToPassword()
+//            },
+//        )
+//        signUpScreen(
+//            navigateToConfirmPassword = {
+//                navigationController.navigateToPassword()
+//            },
+//            navigateToSignIn = {
+//                navigationController.navigateUp()
+//            },
+//        )
+//        passwordScreen { navigationController.navigateToHome() }
+//        homeScreen(
+//            navigateToCreatePassword = {
+//                navigationController.navigateToAddNewPassword()
+//            },
+//            navigateToMyAccount = {
+//                navigationController.navigateToMyAccount()
+//            },
+//            navigateToAuthenticator = {
+//                navigationController.navigateToAuthenticator()
+//            },
+//        )
+//        accountScreen(
+//            navigateToChangePassword = {
+//                navigationController.navigateToChangePassword()
+//            },
+//            navigateToHome = {
+//                navigationController.navigateUp()
+//            },
+//        )
+//        addNewPasswordScreen(
+//            navigateToBack = {
+//                navigationController.navigateUp()
+//            },
+//            navigateToGeneratePassword = {
+//                navigationController.navigateToCreatePassword()
+//            },
+//        )
+//        createPasswordScreen(
+//            navigateToHome = {
+//                navigationController.navigateToHome()
+//            },
+//            navigateToBack = {
+//                navigationController.navigateUp()
+//            },
+//            navigateToUse = {
+//                navigationController.navigateToAddNewPassword(it)
+//            },
+//        )
+//        changePasswordScreen {
+//            navigationController.navigateUp()
+//        }
+//
+//        newTokenScreen { }
+//        authenticatorScreen(
+//            navigateToNewToken = {
+//                navigationController.navigateToNewToken()
+//            },
+//            navigateToBack = {},
+//        )
+//        newTokenScreen {
+//
+//        }
+//    }
 }
 
 
