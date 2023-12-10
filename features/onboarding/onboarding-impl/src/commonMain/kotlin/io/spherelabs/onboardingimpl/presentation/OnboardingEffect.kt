@@ -1,4 +1,4 @@
-package io.spherelabs.features.onboardingpresentation
+package io.spherelabs.onboardingimpl.presentation
 
 sealed interface OnboardingEffect {
   object SignIn : OnboardingEffect
