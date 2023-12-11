@@ -11,16 +11,21 @@ kotlin {
             dependencies {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
+                api(projects.data.authManager)
+                api(projects.data.prefs)
 
                 implementation(projects.features.onboarding.onboardingApi)
                 implementation(projects.features.auth.authNavigation)
-                implementation(projects.data.prefs)
+                implementation(projects.features.home.homeNavigation)
+                implementation(projects.features.passphrase.passphraseNavigation)
+                implementation(projects.features.onboarding.onboardingNavigation)
                 implementation(libs.voyager)
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.material3)
-                implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.runtime)
+
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.koin.compose)

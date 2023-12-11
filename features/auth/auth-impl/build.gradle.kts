@@ -9,10 +9,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.core.designsystem)
-
                 api(projects.data.local)
                 api(projects.data.authManager)
                 api(projects.data.prefs)
+                api(projects.features.passphrase.passphraseNavigation)
+
                 implementation(projects.core.common)
                 implementation(projects.features.auth.authApi)
                 implementation(projects.features.auth.authNavigation)

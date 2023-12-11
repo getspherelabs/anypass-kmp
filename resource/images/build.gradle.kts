@@ -3,6 +3,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -35,7 +36,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(libs.moko.resource)
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.material3)
@@ -44,6 +44,14 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                api(libs.moko.resource)
+            }
+        }
+        val androidMain by getting {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.atomicfu)
             }
         }
         val commonTest by getting {
@@ -53,6 +61,9 @@ kotlin {
         }
     }
 }
+multiplatformResources {
+    multiplatformResourcesPackage = "io.spherelabs.resource.images"
+}
 
 android {
     namespace = "io.spherelabs.resource.images"
@@ -61,3 +72,4 @@ android {
         minSdk = 24
     }
 }
+

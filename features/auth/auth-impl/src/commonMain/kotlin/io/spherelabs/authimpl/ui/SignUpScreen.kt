@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -27,6 +28,7 @@ import io.spherelabs.authimpl.presentation.signup.SignUpViewModel
 import io.spherelabs.authimpl.presentation.signup.SignUpWish
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
@@ -37,18 +39,20 @@ import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
+import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class SignUpScreen: Screen {
+class SignUpScreen : Screen {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: SignUpViewModel = useInject()
         val uiState = viewModel.state.collectAsStateWithLifecycle()
+        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
 
         BasicSignUpScreen(
             modifier = Modifier,
@@ -60,7 +64,9 @@ class SignUpScreen: Screen {
             navigateToBack = {
                 navigator.pop()
             },
-            navigateToAddPrivatePassword = {}
+            navigateToAddPrivatePassword = {
+                navigator.push(keyPasswordScreen)
+            },
         )
     }
 }

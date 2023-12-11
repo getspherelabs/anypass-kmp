@@ -13,18 +13,18 @@ import io.spherelabs.changepassworddomain.di.changePasswordDomainModule
 import io.spherelabs.changepasswordpresentation.di.changePasswordPresentationModule
 import io.spherelabs.data.local.di.localModule
 import io.spherelabs.data.settings.di.settingModule
-import io.spherelabs.features.onboardingpresentation.di.onboardingFeatureModule
 import io.spherelabs.firebase.di.firebaseAuthModule
 import io.spherelabs.generatepassworddomain.di.generatePasswordUseCaseDomainModule
 import io.spherelabs.generatepasswordpresentation.di.generatePasswordPresentationModule
-import io.spherelabs.home.homedomain.di.homeDomainModule
-import io.spherelabs.home.homepresentation.di.homePresentationModule
+import io.spherelabs.homedi.homeDomainModule
+import io.spherelabs.homedi.homePresentationModule
 import io.spherelabs.manager.password.di.passwordManagerModule
-import io.spherelabs.masterpassworddomain.di.masterPasswordDomainModule
-import io.spherelabs.masterpasswordpresentation.di.masterPasswordFeatureModule
 import io.spherelabs.newtokendi.domain.newTokenDomainModule
 import io.spherelabs.newtokendi.presentation.newTokenPresentationModule
-import io.spherelabs.onboardingdomain.di.onboardingDomainModule
+import io.spherelabs.onboardingdi.onboardingDomainModule
+import io.spherelabs.onboardingdi.onboardingFeatureModule
+import io.spherelabs.passphrasedi.keyPasswordDomainModule
+import io.spherelabs.passphrasedi.keyPasswordFeatureModule
 import io.spherelabs.validation.di.validationModule
 import org.koin.compose.LocalKoinScope
 import org.koin.core.context.startKoin
@@ -57,14 +57,14 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             homePresentationModule,
             authDomainModule,
             authFeatureModule,
-            masterPasswordDomainModule,
-            masterPasswordFeatureModule,
             accountDomainModule,
             accountPresentationModule,
             changePasswordDomainModule,
             changePasswordPresentationModule,
             newTokenDomainModule,
             newTokenPresentationModule,
+            keyPasswordDomainModule,
+            keyPasswordFeatureModule,
             viewModelModule,
         )
     }

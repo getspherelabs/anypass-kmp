@@ -27,7 +27,9 @@ class OnboardingViewModel(
     )
 
   init {
-    viewModelScope.launch { store.wish(OnboardingWish.CheckFirstTime) }
+    viewModelScope.launch {
+        store.wish(OnboardingWish.OnCheckCurrentUserExist)
+        store.wish(OnboardingWish.CheckFirstTime) }
   }
 
   fun wish(wish: OnboardingWish) {

@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +26,7 @@ import io.spherelabs.authimpl.presentation.signin.SignInWish
 import io.spherelabs.authnavigation.AuthSharedScreen
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
@@ -34,14 +34,12 @@ import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
+import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.compose.LocalKoinScope
-import org.koin.core.parameter.ParametersDefinition
-import org.koin.core.qualifier.Qualifier
-import org.koin.core.scope.Scope
+
 
 class SignInScreen : Screen {
 
@@ -50,6 +48,7 @@ class SignInScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val signUpScreen = rememberScreen(AuthSharedScreen.SignUpScreen)
         val viewModel: SignInViewModel = useInject()
+        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
         BasicSignInScreen(
@@ -60,7 +59,9 @@ class SignInScreen : Screen {
             navigateToCreateNew = {
                 navigator.push(signUpScreen)
             },
-            navigateToKeyPassword = {},
+            navigateToKeyPassword = {
+                navigator.replaceAll(keyPasswordScreen)
+            },
         )
     }
 }
@@ -259,14 +260,3 @@ fun SignInContent(
     }
 }
 
-
-@Composable
-inline fun <reified T> useInject(
-    qualifier: Qualifier? = null,
-    scope: Scope = LocalKoinScope.current,
-    noinline parameters: ParametersDefinition? = null,
-): T {
-    return remember(qualifier, scope, parameters) {
-        scope.get(qualifier, parameters)
-    }
-}

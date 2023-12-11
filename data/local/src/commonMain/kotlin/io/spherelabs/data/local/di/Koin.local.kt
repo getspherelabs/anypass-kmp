@@ -9,7 +9,7 @@ import io.spherelabs.data.local.db.otp.dao.DefaultCounterDao
 import io.spherelabs.data.local.db.otp.dao.DefaultOtpDao
 import io.spherelabs.data.local.db.otp.dao.OtpDao
 import io.spherelabs.data.local.repository.*
-import io.spherelabs.home.homedomain.repository.HomeRepository
+import io.spherelabs.homeapi.repository.HomeRepository
 import io.spherelabs.newtokenapi.domain.repository.NewTokenRepository
 import org.koin.core.module.Module
 import org.koin.dsl.module

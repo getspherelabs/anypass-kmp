@@ -6,4 +6,5 @@ sealed interface OnboardingEffect {
   data class Failure(val msg: String) : OnboardingEffect
   object IsFirstTime : OnboardingEffect
   object IsFinished : OnboardingEffect
+  object Home : OnboardingEffect
 }

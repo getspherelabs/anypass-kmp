@@ -14,7 +14,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -28,7 +28,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
+                api(projects.features.onboarding.onboardingImpl)
+
+                implementation(projects.features.onboarding.onboardingApi)
+                implementation(projects.features.onboarding.onboardingNavigation)
+                implementation(libs.koin.core)
+                implementation(libs.voyager)
+
             }
         }
         val commonTest by getting {

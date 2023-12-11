@@ -24,20 +24,26 @@ import io.spherelabs.anypass.ui.authenticator.navigation.navigateToAuthenticator
 import io.spherelabs.anypass.ui.changepassword.navigation.changePasswordScreen
 import io.spherelabs.anypass.ui.changepassword.navigation.navigateToChangePassword
 import io.spherelabs.anypass.ui.newtoken.navigation.navigateToNewToken
-import io.spherelabs.anypass.ui.newtoken.navigation.newTokenScreen
 import io.spherelabs.authdi.authScreenModule
 import io.spherelabs.authimpl.ui.SignInScreen
+import io.spherelabs.homedi.homeScreenUiModule
 import io.spherelabs.navigation.NavHost
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController
+import io.spherelabs.onboardingdi.onboardingScreenModule
+import io.spherelabs.onboardingimpl.ui.OnboardingScreen
+import io.spherelabs.passphrasedi.keyPasswordUiModule
 
 @Composable
 fun AnyPassNavHost() {
 
     ScreenRegistry {
+        onboardingScreenModule()
         authScreenModule()
+        homeScreenUiModule()
+        keyPasswordUiModule()
     }
-            Navigator(SignInScreen())
+    Navigator(OnboardingScreen())
 //    NavHost(navigationController, initialState = Route.Onboarding) {
 //        onboardingScreen { navigationController.navigateSignIn() }
 //        signInScreen(

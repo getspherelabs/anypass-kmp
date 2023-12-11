@@ -23,16 +23,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
+//import io.spherelabs.anypass.images.MR
+import io.spherelabs.authnavigation.AuthSharedScreen
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useInject
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
+import io.spherelabs.homenavigation.HomeSharedScreen
 import io.spherelabs.onboardingimpl.presentation.OnboardingEffect
 import io.spherelabs.onboardingimpl.presentation.OnboardingState
+import io.spherelabs.onboardingimpl.presentation.OnboardingViewModel
 import io.spherelabs.onboardingimpl.presentation.OnboardingWish
+import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
+import io.spherelabs.resource.images.MR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -40,26 +51,47 @@ class OnboardingScreen : Screen {
 
     @Composable
     override fun Content() {
-        TODO("Not yet implemented")
+        val navigator = LocalNavigator.currentOrThrow
+        val viewModel: OnboardingViewModel = useInject()
+        val signInScreen = rememberScreen(AuthSharedScreen.SignInScreen)
+        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
+        val uiState = viewModel.state.collectAsStateWithLifecycle()
+
+        OnboardingScreenContent(
+            wish = { newWish ->
+                viewModel.wish(newWish)
+            },
+            state = uiState.value,
+            flow = viewModel.effect,
+            navigateToSignIn = {
+                navigator.replaceAll(signInScreen)
+            },
+            navigateToHome = {
+                navigator.replaceAll(keyPasswordScreen)
+            },
+        )
     }
 }
 
 @Composable
-fun OnboardingScreen(
+fun OnboardingScreenContent(
     modifier: Modifier = Modifier,
     wish: (OnboardingWish) -> Unit,
     state: OnboardingState,
     flow: Flow<OnboardingEffect>,
-    navigateToPassword: () -> Unit,
+    navigateToSignIn: () -> Unit,
+    navigateToHome: () -> Unit,
 ) {
 
     LaunchedEffect(key1 = true) {
         flow.collectLatest {
             when (it) {
-                OnboardingEffect.SignUp -> {
-                    navigateToPassword.invoke()
-                }
-
+//                OnboardingEffect.SignUp -> {
+//                    navigateToPassword.invoke()
+//                }
+//                OnboardingEffect.Home -> {
+//
+//                }
                 else -> {}
             }
         }
@@ -72,10 +104,14 @@ fun OnboardingScreen(
     ) {
 
         when {
+            state.isUserExisted -> {
+                useEffect(true) {
+                    navigateToHome.invoke()
+                }
+            }
             state.isLogged -> {
                 useEffect(true) {
-                    navigateToPassword.invoke()
-
+                    navigateToSignIn.invoke()
                 }
             }
 
@@ -114,7 +150,7 @@ private fun OnboardingImage(
 ) {
     Image(
         modifier = modifier,
-//        painter = painterResource(MR.images.illustration),
+        painter = painterResource(MR.images.illustration),
         contentDescription = null,
     )
 }

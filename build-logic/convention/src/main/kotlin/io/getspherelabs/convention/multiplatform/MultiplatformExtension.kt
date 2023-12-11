@@ -264,7 +264,11 @@ internal fun Project.configureCommonMultiplatform(
             }
         }
         sourceSets {
-            val commonMain by getting
+            val commonMain by getting {
+                dependencies {
+                    api(findLibrary(name = "coroutine"))
+                }
+            }
             val commonTest by getting {
                 dependencies {
                     implementation(kotlin("test"))

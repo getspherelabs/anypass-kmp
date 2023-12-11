@@ -45,6 +45,6 @@ class SignInViewModel(
   }
 
   companion object {
-    private const val SIGN_IN_STORE_NAME = "SignInViewModel"
+    private const val SIGN_IN_STORE_NAME = "io.spherelabs.authimpl.presentation.signin.SignInViewModel"
   }
 }

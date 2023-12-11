@@ -36,5 +36,4 @@ Pod::Spec.new do |spec|
         }
     ]
     spec.resource = 'build/cocoapods/framework/shared.framework/*.bundle'
-    spec.resources = ['build/compose/ios/images/compose-resources']
 end
