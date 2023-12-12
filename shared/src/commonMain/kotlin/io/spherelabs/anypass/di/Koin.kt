@@ -2,10 +2,10 @@ package io.spherelabs.anypass.di
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import io.spherelabs.accountdomain.repository.di.accountDomainModule
-import io.spherelabs.accountpresentation.di.accountPresentationModule
-import io.spherelabs.addnewpasswodpresentation.di.addNewPasswordFeatureModule
-import io.spherelabs.addnewpassworddomain.di.addNewPasswordUseCaseDomainModule
+import io.spherelabs.accountdi.accountDomainModule
+import io.spherelabs.accountdi.accountPresentationModule
+import io.spherelabs.addnewpassworddi.addNewPasswordFeatureModule
+import io.spherelabs.addnewpassworddi.addNewPasswordUseCaseDomainModule
 import io.spherelabs.admob.di.admobModule
 import io.spherelabs.authdi.authDomainModule
 import io.spherelabs.authdi.authFeatureModule
@@ -14,8 +14,8 @@ import io.spherelabs.changepasswordpresentation.di.changePasswordPresentationMod
 import io.spherelabs.data.local.di.localModule
 import io.spherelabs.data.settings.di.settingModule
 import io.spherelabs.firebase.di.firebaseAuthModule
-import io.spherelabs.generatepassworddomain.di.generatePasswordUseCaseDomainModule
-import io.spherelabs.generatepasswordpresentation.di.generatePasswordPresentationModule
+import io.spherelabs.generatepassworddi.generatePasswordPresentationModule
+import io.spherelabs.generatepassworddi.generatePasswordUseCaseDomainModule
 import io.spherelabs.homedi.homeDomainModule
 import io.spherelabs.homedi.homePresentationModule
 import io.spherelabs.manager.password.di.passwordManagerModule
@@ -57,14 +57,14 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             homePresentationModule,
             authDomainModule,
             authFeatureModule,
-            accountDomainModule,
-            accountPresentationModule,
             changePasswordDomainModule,
             changePasswordPresentationModule,
             newTokenDomainModule,
             newTokenPresentationModule,
             keyPasswordDomainModule,
             keyPasswordFeatureModule,
+            accountDomainModule,
+            accountPresentationModule,
             viewModelModule,
         )
     }

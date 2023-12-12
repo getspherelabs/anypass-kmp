@@ -47,9 +47,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.features.addnewpassword.addNewPasswordDomain)
+                api(projects.features.addnewpassword.addnewpasswordApi)
                 api(projects.features.home.homeApi)
-                api(projects.features.account.accountDomain)
+                api(projects.features.account.accountApi)
                 api(projects.features.authenticator.authenticatorDomain)
                 api(libs.moko.resource)
 

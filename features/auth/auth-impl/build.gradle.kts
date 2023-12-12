@@ -12,7 +12,7 @@ kotlin {
                 api(projects.data.local)
                 api(projects.data.authManager)
                 api(projects.data.prefs)
-                api(projects.features.passphrase.passphraseNavigation)
+                api(projects.features.keypassword.keypasswordNavigation)
 
                 implementation(projects.core.common)
                 implementation(projects.features.auth.authApi)

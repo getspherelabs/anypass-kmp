@@ -11,6 +11,8 @@ kotlin {
             dependencies {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
+                api(projects.features.addnewpassword.addnewpasswordNavigation)
+                api(projects.features.account.accountNavigation)
 
                 implementation(projects.features.home.homeApi)
                 implementation(libs.voyager)
@@ -35,6 +37,7 @@ kotlin {
         }
     }
 }
+
 android {
     namespace = "io.spherelabs.homeimpl"
     compileSdk = 33

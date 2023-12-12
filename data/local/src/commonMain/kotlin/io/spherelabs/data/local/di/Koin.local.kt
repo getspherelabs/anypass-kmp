@@ -1,7 +1,8 @@
 package io.spherelabs.data.local.di
 
-import io.spherelabs.accountdomain.repository.AccountRepository
-import io.spherelabs.addnewpassworddomain.repository.AddNewPasswordRepository
+
+import io.spherelabs.accountapi.domain.repository.AccountRepository
+import io.spherelabs.addnewpasswordapi.domain.repository.AddNewPasswordRepository
 import io.spherelabs.authenticatordomain.repository.AuthenticatorRepository
 import io.spherelabs.data.local.db.*
 import io.spherelabs.data.local.db.otp.dao.CounterDao

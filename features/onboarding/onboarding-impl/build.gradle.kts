@@ -17,7 +17,7 @@ kotlin {
                 implementation(projects.features.onboarding.onboardingApi)
                 implementation(projects.features.auth.authNavigation)
                 implementation(projects.features.home.homeNavigation)
-                implementation(projects.features.passphrase.passphraseNavigation)
+                implementation(projects.features.keypassword.keypasswordNavigation)
                 implementation(projects.features.onboarding.onboardingNavigation)
                 implementation(libs.voyager)
                 implementation(compose.ui)

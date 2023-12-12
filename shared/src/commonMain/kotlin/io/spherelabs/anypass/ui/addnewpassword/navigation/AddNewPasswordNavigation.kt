@@ -1,7 +1,7 @@
 package io.spherelabs.anypass.ui.addnewpassword.navigation
 
 import io.spherelabs.anypass.navigation.Route
-import io.spherelabs.anypass.ui.addnewpassword.AddNewPasswordRoute
+
 import io.spherelabs.navigation.NavHostScope
 import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.composable
@@ -18,17 +18,17 @@ fun NavHostScope<Route>.addNewPasswordScreen(
     navigateToGeneratePassword: () -> Unit,
     navigateToBack: () -> Unit,
 ) {
-    this.composable<Route.AddNewPassword> {
-        val password = it.state.password ?: ""
-
-        AddNewPasswordRoute(
-            currentPassword = password,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
-            navigateToGeneratePassword = {
-                navigateToGeneratePassword.invoke()
-            },
-        )
-    }
+//    this.composable<Route.AddNewPassword> {
+//        val password = it.state.password ?: ""
+//
+//        AddNewPasswordRoute(
+//            currentPassword = password,
+//            navigateToBack = {
+//                navigateToBack.invoke()
+//            },
+//            navigateToGeneratePassword = {
+//                navigateToGeneratePassword.invoke()
+//            },
+//        )
+//    }
 }

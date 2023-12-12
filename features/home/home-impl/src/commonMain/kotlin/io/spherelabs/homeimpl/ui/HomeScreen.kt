@@ -30,10 +30,13 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
+import io.spherelabs.accountnavigation.AccountSharedScreen
+import io.spherelabs.addnewpasswordnavigation.AddNewPasswordSharedScreen
 import io.spherelabs.designsystem.button.LKNewItemButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.*
@@ -61,6 +64,8 @@ class HomeScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: HomeViewModel = useInject()
+        val addNewPasswordScreen = rememberScreen(AddNewPasswordSharedScreen.AddNewPasswordScreen)
+        val accountScreen = rememberScreen(AccountSharedScreen.AccountScreen)
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
         HomeContent(
@@ -70,8 +75,12 @@ class HomeScreen : Screen {
             uiState = viewModel.state.value,
             effect = viewModel.effect,
             navigateToAuthenticator = {},
-            navigateToMyAccount = {},
-            navigateToCreatePassword = {},
+            navigateToMyAccount = {
+                navigator.push(accountScreen)
+            },
+            navigateToCreatePassword = {
+                navigator.push(addNewPasswordScreen)
+            },
             navigateToGenerator = {},
             navigateToHelp = {},
             navigateToPasswordHealth = {},

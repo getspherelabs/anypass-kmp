@@ -2,33 +2,12 @@ package io.spherelabs.anypass.navigation
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.registry.ScreenRegistry
-import cafe.adriel.voyager.core.registry.screenModule
 import cafe.adriel.voyager.navigator.Navigator
-import io.spherelabs.anypass.ui.account.navigation.navigateToMyAccount
-import io.spherelabs.anypass.ui.addnewpassword.navigation.addNewPasswordScreen
-import io.spherelabs.anypass.ui.addnewpassword.navigation.navigateToAddNewPassword
-import io.spherelabs.anypass.ui.auth.navigation.navigateSignIn
-import io.spherelabs.anypass.ui.auth.navigation.navigateSignUp
-import io.spherelabs.anypass.ui.auth.navigation.signInScreen
-import io.spherelabs.anypass.ui.auth.navigation.signUpScreen
-import io.spherelabs.anypass.ui.keypassword.navigation.navigateToPassword
-import io.spherelabs.anypass.ui.keypassword.navigation.passwordScreen
-import io.spherelabs.anypass.ui.generatepassword.navigation.createPasswordScreen
-import io.spherelabs.anypass.ui.generatepassword.navigation.navigateToCreatePassword
-import io.spherelabs.anypass.ui.home.navigation.homeScreen
-import io.spherelabs.anypass.ui.home.navigation.navigateToHome
-import io.spherelabs.anypass.ui.onboarding.navigation.onboardingScreen
-import io.spherelabs.anypass.ui.account.navigation.accountScreen
-import io.spherelabs.anypass.ui.authenticator.navigation.authenticatorScreen
-import io.spherelabs.anypass.ui.authenticator.navigation.navigateToAuthenticator
-import io.spherelabs.anypass.ui.changepassword.navigation.changePasswordScreen
-import io.spherelabs.anypass.ui.changepassword.navigation.navigateToChangePassword
-import io.spherelabs.anypass.ui.newtoken.navigation.navigateToNewToken
+import io.spherelabs.accountdi.accountUiModule
+import io.spherelabs.addnewpassworddi.addNewPasswordUiModule
 import io.spherelabs.authdi.authScreenModule
-import io.spherelabs.authimpl.ui.SignInScreen
+import io.spherelabs.generatepassworddi.generatePasswordUiModule
 import io.spherelabs.homedi.homeScreenUiModule
-import io.spherelabs.navigation.NavHost
-import io.spherelabs.navigation.NavigationController
 import io.spherelabs.navigation.rememberNavigationController
 import io.spherelabs.onboardingdi.onboardingScreenModule
 import io.spherelabs.onboardingimpl.ui.OnboardingScreen
@@ -41,7 +20,10 @@ fun AnyPassNavHost() {
         onboardingScreenModule()
         authScreenModule()
         homeScreenUiModule()
+        addNewPasswordUiModule()
         keyPasswordUiModule()
+        accountUiModule()
+        generatePasswordUiModule()
     }
     Navigator(OnboardingScreen())
 //    NavHost(navigationController, initialState = Route.Onboarding) {

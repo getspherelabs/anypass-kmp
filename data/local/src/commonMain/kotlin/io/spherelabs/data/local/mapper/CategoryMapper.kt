@@ -1,7 +1,7 @@
 package io.spherelabs.data.local.mapper
 
 
-import io.spherelabs.addnewpassworddomain.model.AddNewCategoryDomain
+import io.spherelabs.addnewpasswordapi.model.AddNewCategory
 import io.spherelabs.homeapi.models.HomeCategory
 import io.spherelabs.local.db.Category
 
@@ -13,8 +13,8 @@ fun Category.asDomain(): HomeCategory {
 }
 
 
-fun Category.asNewDomain(): AddNewCategoryDomain {
-    return AddNewCategoryDomain(
+fun Category.asNewDomain(): AddNewCategory {
+    return AddNewCategory(
         id = this.id,
         title = this.title ?: ""
     )
