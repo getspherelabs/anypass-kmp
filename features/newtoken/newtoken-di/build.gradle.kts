@@ -27,7 +27,10 @@ kotlin {
             dependencies {
                 implementation(projects.features.newtoken.newtokenApi)
                 implementation(projects.features.newtoken.newtokenImpl)
+                implementation(projects.features.newtoken.newtokenNavigation)
+
                 implementation(libs.koin.core)
+                implementation(libs.voyager)
             }
         }
         val commonTest by getting {

@@ -9,8 +9,8 @@ import io.spherelabs.addnewpassworddi.addNewPasswordUseCaseDomainModule
 import io.spherelabs.admob.di.admobModule
 import io.spherelabs.authdi.authDomainModule
 import io.spherelabs.authdi.authFeatureModule
-import io.spherelabs.changepassworddomain.di.changePasswordDomainModule
-import io.spherelabs.changepasswordpresentation.di.changePasswordPresentationModule
+import io.spherelabs.changepassworddi.changePasswordDomainModule
+import io.spherelabs.changepassworddi.changePasswordPresentationModule
 import io.spherelabs.data.local.di.localModule
 import io.spherelabs.data.settings.di.settingModule
 import io.spherelabs.firebase.di.firebaseAuthModule
@@ -19,8 +19,8 @@ import io.spherelabs.generatepassworddi.generatePasswordUseCaseDomainModule
 import io.spherelabs.homedi.homeDomainModule
 import io.spherelabs.homedi.homePresentationModule
 import io.spherelabs.manager.password.di.passwordManagerModule
-import io.spherelabs.newtokendi.domain.newTokenDomainModule
-import io.spherelabs.newtokendi.presentation.newTokenPresentationModule
+import io.spherelabs.newtokendi.newTokenDomainModule
+import io.spherelabs.newtokendi.newTokenPresentationModule
 import io.spherelabs.onboardingdi.onboardingDomainModule
 import io.spherelabs.onboardingdi.onboardingFeatureModule
 import io.spherelabs.passphrasedi.keyPasswordDomainModule

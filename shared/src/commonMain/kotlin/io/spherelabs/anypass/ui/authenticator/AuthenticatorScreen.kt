@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.spherelabs.anypass.ui.keypassword.color2
+
 import io.spherelabs.authenticatordomain.model.OtpDomain
 import io.spherelabs.authenticatordomain.model.RealTimeOtpDomain
 import io.spherelabs.designsystem.button.LKNewItemButton
@@ -24,6 +24,7 @@ import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.slider.LKSlider
 import io.spherelabs.designsystem.slider.LKSliderDefaults
 import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
@@ -128,7 +129,7 @@ fun AuthenticatorCard(
     val dimension = LocalDimensions.current
 
     Column(
-        modifier = modifier.fillMaxWidth().height(200.dp).background(color = color2),
+        modifier = modifier.fillMaxWidth().height(200.dp).background(color = Jaguar),
     ) {
         Spacer(modifier = modifier.height(8.dp))
         Text(

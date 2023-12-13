@@ -3,15 +3,7 @@
 plugins {
     alias(libs.plugins.anypass.api)
 }
-kotlin {
-    sourceSets {
-        val androidUnitTest by getting {
-            dependencies {
-                implementation(libs.konsist)
-            }
-        }
-    }
-}
+
 android {
     namespace = "io.spherelabs.passphraseapi"
     compileSdk = 33

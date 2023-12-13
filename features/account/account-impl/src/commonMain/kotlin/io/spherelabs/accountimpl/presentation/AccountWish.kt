@@ -1,6 +1,7 @@
 package io.spherelabs.accountimpl.presentation
 
 import io.spherelabs.accountapi.model.AccountUser
+import io.spherelabs.accountimpl.domain.model.AllPasswords
 
 
 sealed interface AccountWish {
@@ -25,4 +26,5 @@ sealed interface AccountWish {
     data class GetUser(val user: AccountUser) : AccountWish
     object NavigateToChangePassword : AccountWish
     object NavigateToBack : AccountWish
+    data class OnGetAllPasswords(val allPasswords: AllPasswords) : AccountWish
 }

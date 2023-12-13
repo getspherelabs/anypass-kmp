@@ -9,7 +9,7 @@ import io.spherelabs.homeimpl.presentation.HomeViewModel
 import io.spherelabs.authimpl.presentation.signup.SignUpViewModel
 import io.spherelabs.authimpl.presentation.signin.SignInViewModel
 import io.spherelabs.accountimpl.presentation.AccountViewModel
-import io.spherelabs.changepasswordpresentation.ChangePasswordViewModel
+import io.spherelabs.changepasswordimpl.presentation.ChangePasswordViewModel
 import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
 

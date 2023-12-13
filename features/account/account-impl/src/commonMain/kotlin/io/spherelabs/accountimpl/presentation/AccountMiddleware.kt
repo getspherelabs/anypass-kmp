@@ -1,6 +1,7 @@
 package io.spherelabs.accountimpl.presentation
 
 import io.spherelabs.accountapi.domain.usecase.*
+import io.spherelabs.accountimpl.domain.AccountFacadeManager
 import io.spherelabs.meteor.middleware.Middleware
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -32,6 +33,11 @@ class AccountMiddleware(
                 handleSetFingerPrint(wish.isEnabled, next)
             }
             AccountWish.GetAccount -> {
+                // TODO: Think the right approach
+//                accountFacadeManager.getAllPasswords().collectLatest { newAllPasswords ->
+//                    next.invoke(AccountWish.OnGetAllPasswords(newAllPasswords))
+//
+//                }
                 combine(
                     getTotalPasswordsUseCase.execute(),
                     getStrongPasswordSize.execute(),
@@ -43,6 +49,9 @@ class AccountMiddleware(
                     next.invoke(AccountWish.GetSizeOfWeakPassword(weakPassword))
                     next.invoke(AccountWish.GetUser(newUser))
                 }.collect()
+            }
+            is AccountWish.OnGetAllPasswords -> {
+
             }
             else -> {}
         }

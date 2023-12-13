@@ -16,6 +16,7 @@ kotlin {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
                 api(projects.features.addnewpassword.addnewpasswordNavigation)
+                api(projects.features.changepassword.changepasswordNavigation)
                 api(projects.data.prefs)
 
                 implementation(projects.core.admob)

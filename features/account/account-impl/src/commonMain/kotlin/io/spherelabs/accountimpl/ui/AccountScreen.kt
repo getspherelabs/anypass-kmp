@@ -1,10 +1,12 @@
 package io.spherelabs.accountimpl.ui
 
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.spherelabs.accountimpl.presentation.AccountViewModel
+import io.spherelabs.changepasswordnavigation.ChangePasswordDestination
 import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 
@@ -15,6 +17,7 @@ class AccountScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: AccountViewModel = useInject()
         val uiState = viewModel.state.collectAsStateWithLifecycle()
+        val changePasswordScreen = rememberScreen(ChangePasswordDestination.ChangePassword)
 
         AccountContent(
             wish = { newWish ->
@@ -25,7 +28,9 @@ class AccountScreen : Screen {
             navigateToBack = {
                 navigator.pop()
             },
-            navigateToChangePassword = {},
+            navigateToChangePassword = {
+                navigator.push(changePasswordScreen)
+            },
         )
     }
 }
