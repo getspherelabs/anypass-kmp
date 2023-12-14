@@ -45,6 +45,11 @@ jobs:
       - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-test
+      - name: Create google-services.json file
+        env:
+          GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
+        run: |
+          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Upload test results

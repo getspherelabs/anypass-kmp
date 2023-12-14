@@ -18,6 +18,6 @@ getOtpById:
 SELECT * FROM otpEntity WHERE id = ?;
 
 insertOtp:
-INSERT OR REPLACE INTO otpEntity(id,secret,type,issuer,info,createdTimestamp,serviceName) VALUES (?,?,?,?,?,?,?);
+INSERT OR REPLACE INTO otpEntity(id,secret,type,issuer,info,createdTimestamp,serviceName, digit, duration) VALUES (?,?,?,?,?,?,?,?,?);
 
 

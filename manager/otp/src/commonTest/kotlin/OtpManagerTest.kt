@@ -21,9 +21,9 @@ class OtpManagerTest {
         )
         val expectedOtp = "646759"
 
-        val otpManager = DefaultOtpManager(secret, config)
+        val otpManager = DefaultOtpManager()
 
-        val result = otpManager.generate(timestamp)
+        val result = otpManager.generate(count = timestamp,secret = secret, configuration =  config)
 
         assertThat(expectedOtp).isEqualTo(result)
         assertThat(result).hasLength(6)
@@ -42,9 +42,9 @@ class OtpManagerTest {
         )
         val expectedOtp = "646759"
 
-        val otpManager = DefaultOtpManager(secret, config)
+        val otpManager = DefaultOtpManager()
 
-        val result = otpManager.generate(timestamp)
+        val result = otpManager.generate(count = timestamp,secret = secret, configuration =  config)
 
         assertThat(result).isNotEqualTo(expectedOtp)
     }

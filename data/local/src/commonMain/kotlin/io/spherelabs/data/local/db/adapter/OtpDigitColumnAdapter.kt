@@ -6,10 +6,10 @@ import io.spherelabs.data.local.db.otp.OtpDigitEntity
 class OtpDigitColumnAdapter : ColumnAdapter<OtpDigitEntity, Long> {
 
     private val currentValue by nonSynchronizedLazy {
-        OtpDigitEntity
+        OtpDigitEntity.values().associateBy { it.number }
     }
     override fun decode(databaseValue: Long): OtpDigitEntity {
-            return currentValue(databaseValue) ?: OtpDigitEntity.SIX
+            return currentValue.getValue(databaseValue)
     }
 
     override fun encode(value: OtpDigitEntity): Long {

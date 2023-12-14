@@ -1,13 +1,13 @@
 package io.spherelabs.data.local.mapper
 
-import io.spherelabs.addnewpassworddomain.model.AddNewPasswordDomain
-import io.spherelabs.addnewpassworddomain.model.CategoryDomain
+import io.spherelabs.addnewpasswordapi.model.AddNewPassword
+import io.spherelabs.addnewpasswordapi.model.Category as DomainCategory
 import io.spherelabs.data.local.db.Category
-import io.spherelabs.home.homedomain.model.HomePasswordDomain
-import io.spherelabs.local.db.Password
+import io.spherelabs.homeapi.models.HomePassword
+import io.spherelabs.local.db.PasswordEntity
 
-fun Password.asDomain(): AddNewPasswordDomain {
-    return AddNewPasswordDomain(
+fun PasswordEntity.asDomain(): AddNewPassword {
+    return AddNewPassword(
         id = this.id,
         title = this.title ?: "",
         category = this.category_id,
@@ -20,8 +20,8 @@ fun Password.asDomain(): AddNewPasswordDomain {
     )
 }
 
-fun AddNewPasswordDomain.asEntity(): Password {
-    return Password(
+fun AddNewPassword.asEntity(): PasswordEntity {
+    return PasswordEntity(
         id = this.id,
         title = this.title,
         category_id = this.category,
@@ -34,26 +34,26 @@ fun AddNewPasswordDomain.asEntity(): Password {
     )
 }
 
-fun Category.asCategoryDomain(): CategoryDomain {
+fun Category.asCategoryDomain(): DomainCategory {
     return when (this) {
-        Category.Social -> CategoryDomain.Social
-        Category.Browser -> CategoryDomain.Browser
-        Category.Payment -> CategoryDomain.Payment
-        Category.Unknown -> CategoryDomain.Unknown
+        Category.Social -> DomainCategory.Social
+        Category.Browser -> DomainCategory.Browser
+        Category.Payment -> DomainCategory.Payment
+        Category.Unknown -> DomainCategory.Unknown
     }
 }
 
-fun CategoryDomain.asCategory(): Category {
+fun DomainCategory.asCategory(): Category {
     return when (this) {
-        CategoryDomain.Social -> Category.Social
-        CategoryDomain.Browser -> Category.Browser
-        CategoryDomain.Payment -> Category.Payment
-        CategoryDomain.Unknown -> Category.Unknown
+        DomainCategory.Social -> Category.Social
+        DomainCategory.Browser -> Category.Browser
+        DomainCategory.Payment -> Category.Payment
+        DomainCategory.Unknown -> Category.Unknown
     }
 }
 
-fun Password.asHomeDomain(): HomePasswordDomain {
-    return HomePasswordDomain(
+fun PasswordEntity.asHomeDomain(): HomePassword {
+    return HomePassword(
         id = this.id,
         title = this.title ?: "",
         category = this.category_id,

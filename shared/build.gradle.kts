@@ -65,26 +65,50 @@ kotlin {
                 api(projects.data.local)
                 api(projects.manager.password)
                 api(projects.manager.biometry)
-                api(projects.navigation)
-                api(projects.features.addnewpassword.addNewPasswordDomain)
-                api(projects.features.addnewpassword.addNewPasswodPresentation)
-                api(projects.features.account.accountDomain)
-                api(projects.features.account.accountPresentation)
-                api(projects.features.auth.authDomain)
-                api(projects.features.auth.authPresentation)
-                api(projects.features.onboarding.onboardingDomain)
-                api(projects.features.onboarding.onboardingPresentation)
-                api(projects.features.generatepassword.generatePasswordDomain)
-                api(projects.features.generatepassword.generatePasswordPresentation)
-                api(projects.features.home.homeDomain)
-                api(projects.features.home.homePresentation)
-                api(projects.features.passphrase.masterPasswordDomain)
-                api(projects.features.passphrase.masterPasswordPresentation)
-                api(projects.features.changepassword.changePasswordDomain)
-                api(projects.features.changepassword.changePasswordPresentation)
+                api(projects.features.auth.authApi)
+                api(projects.features.auth.authImpl)
+                api(projects.features.auth.authDi)
+                api(projects.features.auth.authNavigation)
+                api(projects.features.onboarding.onboardingApi)
+                api(projects.features.onboarding.onboardingImpl)
+                api(projects.features.onboarding.onboardingDi)
+                api(projects.features.onboarding.onboardingImpl)
+                api(projects.features.home.homeNavigation)
+                api(projects.features.home.homeDi)
+                api(projects.features.home.homeApi)
+                api(projects.features.home.homeImpl)
+                api(projects.features.newtoken.newtokenApi)
+                api(projects.features.newtoken.newtokenImpl)
+                api(projects.features.newtoken.newtokenDi)
+                api(projects.features.newtoken.newtokenNavigation)
+                api(projects.features.keypassword.keypasswordApi)
+                api(projects.features.keypassword.keypasswordImpl)
+                api(projects.features.keypassword.keypasswordDi)
+                api(projects.features.keypassword.keypasswordNavigation)
+                api(projects.features.addnewpassword.addnewpasswordApi)
+                api(projects.features.addnewpassword.addnewpasswordImpl)
+                api(projects.features.addnewpassword.addnewpasswordDi)
+                api(projects.features.addnewpassword.addnewpasswordNavigation)
+                api(projects.features.account.accountApi)
+                api(projects.features.account.accountImpl)
+                api(projects.features.account.accountDi)
+                api(projects.features.account.accountNavigation)
+                api(projects.features.generatepassword.generatepasswordApi)
+                api(projects.features.generatepassword.generatepasswordImpl)
+                api(projects.features.generatepassword.generatepasswordNavigation)
+                api(projects.features.generatepassword.generatepasswordDi)
+                api(projects.features.changepassword.changepasswordApi)
+                api(projects.features.changepassword.changepasswordImpl)
+                api(projects.features.changepassword.changepasswordNavigation)
+                api(projects.features.changepassword.changepasswordDi)
+                api(projects.features.authenticator.authenticatorApi)
+                api(projects.features.authenticator.authenticatorImpl)
+                api(projects.features.authenticator.authenticatorNavigation)
+                api(projects.features.authenticator.authenticatorDi)
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)
+
 
                 implementation(projects.core.admob)
                 implementation(projects.core.validation)
@@ -92,6 +116,7 @@ kotlin {
                 implementation(projects.resource.icons)
                 implementation(projects.data.authManager)
                 implementation(projects.core.system.foundation)
+                implementation(projects.manager.otp)
                 implementation(compose.ui)
                 implementation(compose.material)
                 implementation(compose.material3)
@@ -101,7 +126,7 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(libs.sentry)
-
+                implementation(libs.voyager)
                 implementation(libs.koin.compose)
 
             }
@@ -193,28 +218,6 @@ buildkonfig {
 multiplatformResources {
     multiplatformResourcesPackage = "io.spherelabs.anypass"
 }
-//
-//tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
-//    @Suppress("ObjectLiteralToLambda")
-//    doLast(
-//        object : Action<Task> {
-//            override fun execute(task: Task) {
-//                task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
-//
-//                val frameworkDir =
-//                    File(task.destinationDir, task.frameworkName.get() + ".framework")
-//
-//                listOf(
-//                    "anypass:shared.bundle",
-//                ).forEach { bundleName ->
-//                    val bundleDir = File(frameworkDir, bundleName)
-//                    bundleDir.mkdir()
-//                    File(bundleDir, "dummyFile").writeText("dummy")
-//                }
-//            }
-//        },
-//    )
-//}
 
 fun configs(name: String): Pair<String, String> {
     val secret = System.getenv(name)

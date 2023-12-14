@@ -44,7 +44,6 @@ android {
 
     dependencies {
         implementation(projects.shared)
-        implementation(projects.navigation)
 
         implementation(libs.androidx.compose.ui)
         implementation(libs.androidx.compose.ui.tooling)
@@ -54,7 +53,6 @@ android {
         implementation(libs.androidx.compose.foundation)
         implementation(libs.firebase.auth)
         implementation(libs.sentry)
-
         implementation(libs.app.update)
         implementation(libs.app.update.ktx)
     }

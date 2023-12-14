@@ -4,20 +4,20 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import io.spherelabs.local.db.AnyPassDatabase
-import io.spherelabs.local.db.Password
+import io.spherelabs.local.db.PasswordEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 interface PasswordDao {
-    suspend fun insertPassword(password: Password)
-    suspend fun updatePassword(password: Password)
+    suspend fun insertPassword(password: PasswordEntity)
+    suspend fun insertPasswords(passwords: List<PasswordEntity>)
+    suspend fun updatePassword(password: PasswordEntity)
     suspend fun deletePassword(id: String)
-    fun getAllPassword(): Flow<List<Password>>
-    fun getPasswordById(id: String): Flow<Password>
-    fun getPasswordsByCategory(id: String): Flow<List<Password>>
+    fun getAllPassword(): Flow<List<PasswordEntity>>
+    fun getPasswordById(id: String): Flow<PasswordEntity>
+    fun getPasswordsByCategory(id: String): Flow<List<PasswordEntity>>
     fun getSizeOfStrongPasswords(): Flow<Int>
     fun getSizeOfWeakPasswords(): Flow<Int>
     fun getTotalPasswords(): Flow<Int>
@@ -30,7 +30,7 @@ class DefaultPasswordDao(
     private val queries = database.passwordQueries
 
 
-    override suspend fun insertPassword(password: Password) {
+    override suspend fun insertPassword(password: PasswordEntity) {
         queries.transaction {
             queries.insertPassword(
                 id = password.id,
@@ -46,7 +46,25 @@ class DefaultPasswordDao(
         }
     }
 
-    override suspend fun updatePassword(password: Password) {
+    override suspend fun insertPasswords(passwords: List<PasswordEntity>) {
+        queries.transaction {
+            for (password in passwords) {
+                queries.insertPassword(
+                    id = password.id,
+                    email = password.email,
+                    title = password.title,
+                    username = password.username,
+                    password = password.password,
+                    category_id = password.category_id,
+                    websiteAddress = password.websiteAddress,
+                    notes = password.notes,
+                    image = password.image,
+                )
+            }
+        }
+    }
+
+    override suspend fun updatePassword(password: PasswordEntity) {
         queries.transaction {
             queries.updatePassword(
                 title = password.title,
@@ -67,15 +85,15 @@ class DefaultPasswordDao(
         }
     }
 
-    override fun getAllPassword(): Flow<List<Password>> {
+    override fun getAllPassword(): Flow<List<PasswordEntity>> {
         return queries.getAllPasswords().asFlow().mapToList(Dispatchers.IO)
     }
 
-    override fun getPasswordById(id: String): Flow<Password> {
+    override fun getPasswordById(id: String): Flow<PasswordEntity> {
         return queries.getPasswordById(id).asFlow().mapToOne(Dispatchers.IO)
     }
 
-    override fun getPasswordsByCategory(id: String): Flow<List<Password>> {
+    override fun getPasswordsByCategory(id: String): Flow<List<PasswordEntity>> {
         return queries.getPasswordsByCategory(id).asFlow().mapToList(Dispatchers.IO)
     }
 

@@ -1,4 +1,4 @@
-CREATE TABLE  IF NOT EXISTS user(
+CREATE TABLE  IF NOT EXISTS userEntity(
      id TEXT NOT NULL PRIMARY KEY,
      name TEXT DEFAULT '',
      email TEXT DEFAULT '',
@@ -6,17 +6,17 @@ CREATE TABLE  IF NOT EXISTS user(
 );
 
 insertUser:
-INSERT OR REPLACE INTO user(id, name, email, password)
+INSERT OR REPLACE INTO userEntity(id, name, email, password)
 VALUES(?, ?,?,?);
 
 updateUser:
-UPDATE user SET name = ?, password = ?;
+UPDATE userEntity SET name = ?, password = ?;
 
 getUserById:
-SELECT * FROM user WHERE id = ? LIMIT 1;
+SELECT * FROM userEntity WHERE id = ? LIMIT 1;
 
 getUser:
-SELECT * FROM user LIMIT 1;
+SELECT * FROM userEntity LIMIT 1;
 
 deleteUserById:
-DELETE FROM user WHERE id = ?;
+DELETE FROM userEntity WHERE id = ?;
