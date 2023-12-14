@@ -22,12 +22,14 @@ data class AnyPassStrings(
     val category: String,
     val selectIcon: String,
     val generatePassword: String,
+    val save: String,
     val savePassword: String,
     val loginNow: String,
     val login: String,
     val doNotHaveAccount: String,
     val createNew: String,
     val createNewAccount: String,
+    val createAccount: String,
     val signUp: String,
     val maximumLimitCharacter: (String) -> String,
     val uppercase: String,
@@ -64,6 +66,7 @@ data class AnyPassStrings(
     val newKeyPassword: String,
     val confirmNewKeyPassword: String,
     val updateKeyPassword: String,
-    val currentKeyPasswordDoesNotMatch: String
+    val currentKeyPasswordDoesNotMatch: String,
+    val newToken: String
 )
 

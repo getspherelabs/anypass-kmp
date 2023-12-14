@@ -6,11 +6,11 @@ import io.spherelabs.data.local.db.otp.OtpDurationEntity
 class OtpDurationColumnAdapter: ColumnAdapter<OtpDurationEntity, Long> {
 
     private val currentValue by nonSynchronizedLazy {
-        OtpDurationEntity
+        OtpDurationEntity.values().associateBy { it.value }
     }
 
     override fun decode(databaseValue: Long): OtpDurationEntity {
-        return currentValue(databaseValue) ?: OtpDurationEntity.Fifteen
+        return currentValue.getValue(databaseValue)
     }
 
     override fun encode(value: OtpDurationEntity): Long {

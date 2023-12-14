@@ -7,9 +7,9 @@ import io.spherelabs.data.local.db.PasswordDao
 import io.spherelabs.data.local.db.adapter.OtpDigitColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpDurationColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpTypeColumnAdapter
+import io.spherelabs.data.local.faker.Faker
 import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.OtpEntity
-import io.spherelabs.local.db.Password
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -35,36 +35,16 @@ class PasswordDaoTest {
 
     @Test
     fun `check insert password and get password by categories`() = runTest {
-        val password = Password(
-            id = "1",
-            username = "test",
-            category_id = "1",
-            email = "test",
-            image = "test",
-            notes = "test",
-            title = "test",
-            password = "test",
-            websiteAddress = "test",
-        )
-        val password2 = Password(
-            id = "1",
-            username = "test",
-            category_id = "2",
-            email = "test",
-            image = "test",
-            notes = "test",
-            title = "test",
-            password = "test",
-            websiteAddress = "test",
-        )
+        val passwords = Faker.password
 
-        dao.insertPassword(password)
-        dao.insertPassword(password2)
+        dao.insertPasswords(passwords)
 
         val result = dao.getPasswordsByCategory("2")
 
         result.test {
-            assertEquals(1, awaitItem().size)
+            val newPasswords = awaitItem()
+            assertEquals(1, newPasswords.size)
+            assertEquals("2", newPasswords[0].category_id)
         }
     }
 

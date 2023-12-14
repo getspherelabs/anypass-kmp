@@ -47,11 +47,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.features.addnewpassword.addNewPasswordDomain)
-                api(projects.features.home.homeDomain)
-                api(projects.features.account.accountDomain)
+                api(projects.features.addnewpassword.addnewpasswordApi)
+                api(projects.features.home.homeApi)
+                api(projects.features.account.accountApi)
+                api(projects.features.authenticator.authenticatorApi)
                 api(libs.moko.resource)
 
+                implementation(projects.manager.otp)
+                implementation(projects.features.newtoken.newtokenApi)
                 implementation(libs.koin.core)
                 implementation(libs.datetime)
                 implementation(libs.sqldelight.runtime)

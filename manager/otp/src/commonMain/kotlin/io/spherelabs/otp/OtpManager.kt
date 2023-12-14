@@ -14,18 +14,15 @@ import org.kotlincrypto.macs.hmac.sha2.HmacSHA512
 
 interface OtpManager {
     suspend fun generate(
-        count: Long,
+        count: Long, secret: String,
+        configuration: OtpConfiguration,
     ): String
 }
 
-class DefaultOtpManager(
-    secret: String,
-    private val configuration: OtpConfiguration,
-) : OtpManager {
+class DefaultOtpManager : OtpManager {
 
-    private val secret: ByteArray = secret.decodeBase32ToByteArray()
 
-    private fun counter(timestamp: Long): Long {
+    private fun counter(timestamp: Long, configuration: OtpConfiguration): Long {
         val millis = configuration.period.millis
         if (millis <= 0L) {
             return 0
@@ -33,9 +30,14 @@ class DefaultOtpManager(
         return floor(timestamp.toDouble().div(millis)).toLong()
     }
 
-    override suspend fun generate(count: Long): String {
-        val message = createMessage(count)
-        val hash = generateHash(message)
+    override suspend fun generate(
+        count: Long,
+        secret: String,
+        configuration: OtpConfiguration,
+    ): String {
+
+        val message = createMessage(count, configuration)
+        val hash = generateHash(message, secret = secret, configuration = configuration)
         val offset = hash.offset()
 
         val binary = PlatformBuffer.allocate(4).apply {
@@ -46,47 +48,53 @@ class DefaultOtpManager(
 
         binary[0] = binary[0].and(0x7F)
 
-        val codeInt = convertToCode(binary)
+        val codeInt = convertToCode(binary, configuration)
 
-        return formatCode(codeInt)
+        return formatCode(codeInt, configuration)
     }
 
 
-    fun timeslotLeft(timestamp: Long): Double {
-        val diff = timestamp - timeslotStart(timestamp)
-        return 1.0 - diff.toDouble() / configuration.period.millis.toDouble()
+
+    private fun createMessage(count: Long, configuration: OtpConfiguration): PlatformBuffer {
+        return PlatformBuffer.allocate(8).apply { this[0] = counter(count, configuration) }
     }
 
-    private fun createMessage(count: Long): PlatformBuffer {
-        return PlatformBuffer.allocate(8).apply { this[0] = counter(count) }
-    }
-
-    private fun timeslotStart(timestamp: Long): Long {
-        val counter = counter(timestamp)
-        val timeStepMillis = configuration.period.millis.toDouble()
+    private fun timeslotStart(timestamp: Long, config: OtpConfiguration): Long {
+        val counter = counter(timestamp, config)
+        val timeStepMillis = config.period.millis.toDouble()
         return (counter * timeStepMillis).toLong()
     }
 
-    private fun createHmacInstance(): Hmac {
+    fun timeslotLeft(timestamp: Long, configuration: OtpConfiguration): Double {
+        val diff = timestamp - timeslotStart(timestamp,configuration)
+        return 1.0 - diff.toDouble() / configuration.period.millis.toDouble()
+    }
+
+    private fun createHmacInstance(secret: String, configuration: OtpConfiguration): Hmac {
+        val newSecret: ByteArray = secret.decodeBase32ToByteArray()
         return when (configuration.algorithmType) {
-            AlgorithmType.SHA1 -> HmacSHA1(secret)
-            AlgorithmType.SHA256 -> HmacSHA256(secret)
-            AlgorithmType.SHA512 -> HmacSHA512(secret)
+            AlgorithmType.SHA1 -> HmacSHA1(newSecret)
+            AlgorithmType.SHA256 -> HmacSHA256(newSecret)
+            AlgorithmType.SHA512 -> HmacSHA512(newSecret)
         }
     }
 
-    private fun generateHash(message: PlatformBuffer): ByteArray {
-        val hmac = createHmacInstance()
+    private fun generateHash(
+        message: PlatformBuffer,
+        configuration: OtpConfiguration,
+        secret: String,
+    ): ByteArray {
+        val hmac = createHmacInstance(secret, configuration)
         return hmac.doFinal(message.readByteArray(8))
     }
 
 
-    private fun convertToCode(binary: PlatformBuffer): Int {
+    private fun convertToCode(binary: PlatformBuffer, configuration: OtpConfiguration): Int {
         val digits = configuration.digits.number
         return binary.readInt().rem(10.0.pow(digits).toInt())
     }
 
-    private fun formatCode(value: Int): String {
+    private fun formatCode(value: Int, configuration: OtpConfiguration): String {
         val digits = configuration.digits.number
         return value.toString().padStart(digits, padChar = '0')
     }

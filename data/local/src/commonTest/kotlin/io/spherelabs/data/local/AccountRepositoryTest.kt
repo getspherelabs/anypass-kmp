@@ -12,11 +12,11 @@ import io.spherelabs.data.local.db.UserDao
 import io.spherelabs.data.local.db.adapter.OtpDigitColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpDurationColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpTypeColumnAdapter
+import io.spherelabs.data.local.faker.Faker
 import io.spherelabs.data.local.repository.DefaultAccountRepository
 import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.OtpEntity
-import io.spherelabs.local.db.Password
-import io.spherelabs.local.db.User
+import io.spherelabs.local.db.UserEntity
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -46,42 +46,9 @@ class AccountRepositoryTest {
 
     @Test
     fun `check fetching the total password size`() = runTest {
-        val password1 = Password(
-            id = "1",
-            category_id = "1",
-            email = "test@gmail.com",
-            image = "test_2_image",
-            title = "Behance",
-            notes = "test_notes",
-            password = "12345",
-            username = "Test1",
-            websiteAddress = "Behance.com",
-        )
-        val password2 = Password(
-            id = "2",
-            category_id = "1",
-            email = "test@gmail.com",
-            image = "test_2_image",
-            title = "Linkedin",
-            notes = "test_notes",
-            password = "Strong@2023",
-            username = "Test2",
-            websiteAddress = "Linkedin.com",
-        )
-        val password3 = Password(
-            id = "3",
-            category_id = "1",
-            email = "test@gmail.com",
-            image = "test_2_image",
-            title = "Quora",
-            notes = "test_notes",
-            password = "AbCdEfG1",
-            username = "Test3",
-            websiteAddress = "Quora.com",
-        )
-        dao.insertPassword(password1)
-        dao.insertPassword(password2)
-        dao.insertPassword(password3)
+        val passwords = Faker.password
+
+        dao.insertPasswords(passwords)
 
         val result = repository.getSizeOfWeakPasswords()
 
@@ -92,42 +59,9 @@ class AccountRepositoryTest {
 
     @Test
     fun `check the fetching total passwords`() = runTest {
-        val password1 = Password(
-            id = "1",
-            category_id = "1",
-            email = "test@gmail.com",
-            image = "test_2_image",
-            title = "Behance",
-            notes = "test_notes",
-            password = "12345",
-            username = "Test1",
-            websiteAddress = "Behance.com",
-        )
-        val password2 = Password(
-            id = "2",
-            category_id = "1",
-            email = "test@gmail.com",
-            image = "test_2_image",
-            title = "Linkedin",
-            notes = "test_notes",
-            password = "Strong@2023",
-            username = "Test2",
-            websiteAddress = "Linkedin.com",
-        )
-        val password3 = Password(
-            id = "3",
-            category_id = "1",
-            email = "test@gmail.com",
-            image = "test_2_image",
-            title = "Quora",
-            notes = "test_notes",
-            password = "AbCdEfG1",
-            username = "Test3",
-            websiteAddress = "Quora.com",
-        )
-        dao.insertPassword(password1)
-        dao.insertPassword(password2)
-        dao.insertPassword(password3)
+        val passwords = Faker.password
+
+        dao.insertPasswords(passwords)
 
         val result = repository.getTotalPasswords()
 
@@ -138,7 +72,7 @@ class AccountRepositoryTest {
 
     @Test
     fun `check insert user and get user`() = runTest {
-        val user = User(
+        val user = UserEntity(
             id = "1",
             name = "test",
             email = "test",

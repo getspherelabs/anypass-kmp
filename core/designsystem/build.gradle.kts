@@ -17,6 +17,7 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
+                implementation(libs.koin.compose)
             }
         }
         val androidMain by getting {

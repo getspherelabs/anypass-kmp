@@ -26,6 +26,7 @@ plugins {
     alias(libs.plugins.sentry).apply(false)
     alias(libs.plugins.spotless)
     alias(libs.plugins.dependencyanalysis)
+    id("org.jetbrains.kotlin.jvm") version "1.8.20" apply false
 }
 
 fun Project.spotless(action: SpotlessExtension.() -> Unit) = extensions.configure<SpotlessExtension>(action)

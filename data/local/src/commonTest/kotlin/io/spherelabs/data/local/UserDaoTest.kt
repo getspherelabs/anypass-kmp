@@ -9,11 +9,10 @@ import io.spherelabs.data.local.db.adapter.OtpDurationColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpTypeColumnAdapter
 import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.OtpEntity
-import io.spherelabs.local.db.User
+import io.spherelabs.local.db.UserEntity
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlinx.coroutines.test.runTest
 
 class UserDaoTest {
@@ -36,7 +35,7 @@ class UserDaoTest {
 
     @Test
     fun `check insert user and get user`() = runTest {
-        val user = User(
+        val user = UserEntity(
             id = "1",
             name = "test",
             email = "test",
@@ -55,7 +54,7 @@ class UserDaoTest {
 
     @Test
     fun `check insert user and delete user`() = runTest {
-        val user = User(
+        val user = UserEntity(
             id = "1",
             name = "test",
             email = "test",
@@ -73,7 +72,7 @@ class UserDaoTest {
     }
     @Test
     fun `check update user and get user`() = runTest {
-        val user = User(
+        val user = UserEntity(
             id = "1",
             name = "test",
             email = "test",
@@ -81,7 +80,7 @@ class UserDaoTest {
         )
 
         dao.insertUser(user)
-        val newUser = User("1","oybek","","")
+        val newUser = UserEntity("1","oybek","","")
 
 
         dao.updateUser(newUser)

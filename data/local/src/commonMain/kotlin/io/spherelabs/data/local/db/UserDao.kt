@@ -3,16 +3,16 @@ package io.spherelabs.data.local.db
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
 import io.spherelabs.local.db.AnyPassDatabase
-import io.spherelabs.local.db.User
+import io.spherelabs.local.db.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 
 interface UserDao {
-    suspend fun insertUser(password: User)
-    suspend fun updateUser(password: User)
-    fun getUserById(id: String): Flow<User>
-    fun getUser(): Flow<User>
+    suspend fun insertUser(password: UserEntity)
+    suspend fun updateUser(password: UserEntity)
+    fun getUserById(id: String): Flow<UserEntity>
+    fun getUser(): Flow<UserEntity>
 
     fun deleteUserById(id: String)
 
@@ -24,7 +24,7 @@ class DefaultUserDao(
 
     private val queries = db.userQueries
 
-    override suspend fun insertUser(password: User) {
+    override suspend fun insertUser(password: UserEntity) {
         queries.transaction {
             queries.insertUser(
                 id = password.id,
@@ -35,7 +35,7 @@ class DefaultUserDao(
         }
     }
 
-    override suspend fun updateUser(password: User) {
+    override suspend fun updateUser(password: UserEntity) {
         queries.transaction {
             queries.updateUser(
                 name = password.name,
@@ -44,11 +44,11 @@ class DefaultUserDao(
         }
     }
 
-    override fun getUserById(id: String): Flow<User> {
+    override fun getUserById(id: String): Flow<UserEntity> {
         return queries.getUserById(id).asFlow().mapToOne(Dispatchers.IO)
     }
 
-    override fun getUser(): Flow<User> {
+    override fun getUser(): Flow<UserEntity> {
         return queries.getUser().asFlow().mapToOne(Dispatchers.IO)
     }
 

@@ -63,5 +63,8 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     newKeyPassword = "New key password",
     confirmNewKeyPassword = "Confirm a new key password",
     updateKeyPassword = "Update key password",
-    currentKeyPasswordDoesNotMatch = "The current key password does not match!"
+    currentKeyPasswordDoesNotMatch = "The current key password does not match!",
+    createAccount = "Create an account",
+    newToken = "New Token",
+    save = "Save"
 )

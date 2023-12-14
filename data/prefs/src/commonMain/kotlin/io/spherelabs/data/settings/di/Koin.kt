@@ -1,6 +1,6 @@
 package io.spherelabs.data.settings.di
 
-import io.spherelabs.changepassworddomain.repository.ChangePasswordRepository
+import io.spherelabs.changepasswordapi.domain.repository.ChangePasswordRepository
 import io.spherelabs.data.settings.fingerprint.DefaultFingerPrintSetting
 import io.spherelabs.data.settings.fingerprint.FingerPrintSetting
 import io.spherelabs.data.settings.masterpassword.DefaultMasterPasswordSetting

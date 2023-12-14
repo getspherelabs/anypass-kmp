@@ -1,7 +1,7 @@
 package io.spherelabs.data.local.repository
 
-import io.spherelabs.accountdomain.repository.AccountRepository
-import io.spherelabs.accountdomain.repository.AccountUserUi
+import io.spherelabs.accountapi.domain.repository.AccountRepository
+import io.spherelabs.accountapi.model.AccountUser
 import io.spherelabs.data.local.db.PasswordDao
 import io.spherelabs.data.local.db.UserDao
 import io.spherelabs.data.local.mapper.asDomain
@@ -26,7 +26,7 @@ class DefaultAccountRepository(
         return passwordDao.getTotalPasswords()
     }
 
-    override fun getUser(): Flow<AccountUserUi> {
+    override fun getUser(): Flow<AccountUser> {
         return userDao.getUser().map { it.asDomain() }
     }
 }

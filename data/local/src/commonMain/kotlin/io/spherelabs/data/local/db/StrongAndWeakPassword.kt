@@ -1,8 +1,7 @@
 package io.spherelabs.data.local.db
+import io.spherelabs.local.db.PasswordEntity
 
-import io.spherelabs.local.db.Password
-
-fun Password.isStrongPassword(): Boolean {
+fun PasswordEntity.isStrongPassword(): Boolean {
     return this.password?.let {
         val minLength = 8
         val uppercase = this.password.any { it.isUpperCase() }

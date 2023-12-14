@@ -6,7 +6,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.features.changepassword.changePasswordDomain)
+                implementation(projects.features.changepassword.changepasswordApi)
             }
         }
     }

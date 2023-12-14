@@ -8,25 +8,42 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
 
 @Composable
-internal fun LKSliderLayout(
-  modifier: Modifier = Modifier,
-  thumb: @Composable () -> Unit,
-  slider: @Composable (IntSize, Constraints) -> Unit
+internal fun SliderLayout(
+    modifier: Modifier = Modifier,
+    slider: @Composable (Constraints) -> Unit,
 ) {
-  SubcomposeLayout(modifier = modifier) { constraints: Constraints ->
-    val thumbPlaceable: Placeable =
-      subcompose("Thumb", thumb).map { it.measure(constraints) }.first()
+    SubcomposeLayout(modifier = modifier) { constraints: Constraints ->
+        val sliderPlaceable: Placeable = subcompose("slider") {
+            slider(constraints)
+        }.map { it.measure(constraints) }.first()
 
-    val thumbSize = IntSize(thumbPlaceable.width, thumbPlaceable.height)
+        val sliderWidth = sliderPlaceable.width
+        val sliderHeight = sliderPlaceable.height
 
-    val sliderPlaceable: Placeable =
-      subcompose("Slider") { slider(thumbSize, constraints) }
-        .map { it.measure(constraints) }
-        .first()
+        layout(sliderWidth, sliderHeight) { sliderPlaceable.placeRelative(0, 0) }
+    }
+}
 
-    val sliderWidth = sliderPlaceable.width
-    val sliderHeight = sliderPlaceable.height
+@Composable
+internal fun LKSliderLayout(
+    modifier: Modifier = Modifier,
+    thumb: @Composable () -> Unit,
+    slider: @Composable (IntSize, Constraints) -> Unit,
+) {
+    SubcomposeLayout(modifier = modifier) { constraints: Constraints ->
+        val thumbPlaceable: Placeable =
+            subcompose("Thumb", thumb).map { it.measure(constraints) }.first()
 
-    layout(sliderWidth, sliderHeight) { sliderPlaceable.placeRelative(0, 0) }
-  }
+        val thumbSize = IntSize(thumbPlaceable.width, thumbPlaceable.height)
+
+        val sliderPlaceable: Placeable =
+            subcompose("Slider") { slider(thumbSize, constraints) }
+                .map { it.measure(constraints) }
+                .first()
+
+        val sliderWidth = sliderPlaceable.width
+        val sliderHeight = sliderPlaceable.height
+
+        layout(sliderWidth, sliderHeight) { sliderPlaceable.placeRelative(0, 0) }
+    }
 }
