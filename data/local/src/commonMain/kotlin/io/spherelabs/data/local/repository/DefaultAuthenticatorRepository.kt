@@ -1,8 +1,8 @@
 package io.spherelabs.data.local.repository
 
-import io.spherelabs.authenticatordomain.model.CounterDomain
-import io.spherelabs.authenticatordomain.model.OtpDomain
-import io.spherelabs.authenticatordomain.repository.AuthenticatorRepository
+import io.spherelabs.authenticatorapi.domain.repository.AuthenticatorRepository
+import io.spherelabs.authenticatorapi.model.CounterDomain
+import io.spherelabs.authenticatorapi.model.OtpDomain
 import io.spherelabs.data.local.db.otp.dao.CounterDao
 import io.spherelabs.data.local.db.otp.dao.OtpDao
 import io.spherelabs.data.local.mapper.asDomain

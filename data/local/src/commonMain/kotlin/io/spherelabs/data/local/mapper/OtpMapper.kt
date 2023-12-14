@@ -1,9 +1,9 @@
 package io.spherelabs.data.local.mapper
 
-import io.spherelabs.authenticatordomain.model.AlgorithmTypeDomain
-import io.spherelabs.authenticatordomain.model.OtpDigitDomain
-import io.spherelabs.authenticatordomain.model.OtpDomain
-import io.spherelabs.authenticatordomain.model.OtpDurationDomain
+import io.spherelabs.authenticatorapi.model.AlgorithmTypeDomain
+import io.spherelabs.authenticatorapi.model.OtpDigitDomain
+import io.spherelabs.authenticatorapi.model.OtpDomain
+import io.spherelabs.authenticatorapi.model.OtpDurationDomain
 import io.spherelabs.data.local.db.otp.asDomain
 import io.spherelabs.data.local.db.otp.asEntity
 import io.spherelabs.local.db.OtpEntity

@@ -1,6 +1,6 @@
 package io.spherelabs.data.local.db.otp
 
-import io.spherelabs.authenticatordomain.model.OtpDigitDomain
+import io.spherelabs.authenticatorapi.model.OtpDigitDomain
 import io.spherelabs.newtokenapi.model.NewTokenDigit
 
 enum class OtpDigitEntity(val number: Long) {

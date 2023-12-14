@@ -11,8 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
 import io.spherelabs.anypass.MainView
-import io.spherelabs.anypass.ui.authenticator.AuthenticatorCard
-import io.spherelabs.authenticatordomain.model.RealTimeOtpDomain
 
 class MainActivity : FragmentActivity() {
 
@@ -22,7 +20,7 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         checkInAppUpdate()
         setContent {
-            MaterialTheme() {
+            MaterialTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
@@ -53,13 +51,13 @@ class MainActivity : FragmentActivity() {
 fun AuthenticatorCardPreview() {
     Surface {
         Column(modifier = Modifier.fillMaxSize()) {
-            AuthenticatorCard(
-                token = "232323232",
-                serviceName = "Behance",
-                info = "It is test",
-                time = "15s",
-                realTimeOtpDomain = RealTimeOtpDomain(12,"")
-            )
+//            AuthenticatorCard(
+//                token = "232323232",
+//                serviceName = "Behance",
+//                info = "It is test",
+//                time = "15s",
+//                realTimeOtpDomain = RealTimeOtpDomain(12,"")
+//            )
         }
 
     }

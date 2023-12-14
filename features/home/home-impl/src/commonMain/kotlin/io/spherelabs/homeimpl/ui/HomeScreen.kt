@@ -37,6 +37,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.accountnavigation.AccountSharedScreen
 import io.spherelabs.addnewpasswordnavigation.AddNewPasswordSharedScreen
+import io.spherelabs.authenticatornavigation.AuthenticatorDestination
 import io.spherelabs.designsystem.button.LKNewItemButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.*
@@ -66,6 +67,8 @@ class HomeScreen : Screen {
         val viewModel: HomeViewModel = useInject()
         val addNewPasswordScreen = rememberScreen(AddNewPasswordSharedScreen.AddNewPasswordScreen)
         val accountScreen = rememberScreen(AccountSharedScreen.AccountScreen)
+        val authenticatorScreen = rememberScreen(AuthenticatorDestination.Authenticator)
+
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
         HomeContent(
@@ -74,14 +77,18 @@ class HomeScreen : Screen {
             },
             uiState = viewModel.state.value,
             effect = viewModel.effect,
-            navigateToAuthenticator = {},
+            navigateToAuthenticator = {
+                navigator.push(authenticatorScreen)
+            },
             navigateToMyAccount = {
                 navigator.push(accountScreen)
             },
             navigateToCreatePassword = {
                 navigator.push(addNewPasswordScreen)
             },
-            navigateToGenerator = {},
+            navigateToGenerator = {
+
+            },
             navigateToHelp = {},
             navigateToPasswordHealth = {},
         )

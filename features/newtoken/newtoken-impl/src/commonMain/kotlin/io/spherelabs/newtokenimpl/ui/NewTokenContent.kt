@@ -108,9 +108,9 @@ fun BasicNewTokenContent(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .padding(paddingValues)
             .background(color = BlackRussian)
-            .verticalScroll(scrollState),
     ) {
         ServiceTextField(
             modifier = modifier,

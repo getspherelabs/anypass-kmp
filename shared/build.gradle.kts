@@ -65,7 +65,6 @@ kotlin {
                 api(projects.data.local)
                 api(projects.manager.password)
                 api(projects.manager.biometry)
-                api(projects.navigation)
                 api(projects.features.auth.authApi)
                 api(projects.features.auth.authImpl)
                 api(projects.features.auth.authDi)
@@ -102,6 +101,10 @@ kotlin {
                 api(projects.features.changepassword.changepasswordImpl)
                 api(projects.features.changepassword.changepasswordNavigation)
                 api(projects.features.changepassword.changepasswordDi)
+                api(projects.features.authenticator.authenticatorApi)
+                api(projects.features.authenticator.authenticatorImpl)
+                api(projects.features.authenticator.authenticatorNavigation)
+                api(projects.features.authenticator.authenticatorDi)
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)
@@ -215,28 +218,6 @@ buildkonfig {
 multiplatformResources {
     multiplatformResourcesPackage = "io.spherelabs.anypass"
 }
-//
-//tasks.withType<org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask>().configureEach {
-//    @Suppress("ObjectLiteralToLambda")
-//    doLast(
-//        object : Action<Task> {
-//            override fun execute(task: Task) {
-//                task as org.jetbrains.kotlin.gradle.tasks.DummyFrameworkTask
-//
-//                val frameworkDir =
-//                    File(task.destinationDir, task.frameworkName.get() + ".framework")
-//
-//                listOf(
-//                    "anypass:shared.bundle",
-//                ).forEach { bundleName ->
-//                    val bundleDir = File(frameworkDir, bundleName)
-//                    bundleDir.mkdir()
-//                    File(bundleDir, "dummyFile").writeText("dummy")
-//                }
-//            }
-//        },
-//    )
-//}
 
 fun configs(name: String): Pair<String, String> {
     val secret = System.getenv(name)

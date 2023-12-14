@@ -74,11 +74,13 @@ internal fun AdditionalInfoTextField(
     focusManager: FocusManager,
     onTextValueChanged: (String) -> Unit,
 ) {
-    Column {
+    Column(
+
+    ) {
         Text(
-            text = "Additional info",
             modifier = modifier.fillMaxWidth()
                 .padding(start = 24.dp, top = 8.dp, end = 24.dp, bottom = 4.dp),
+            text = "Additional info",
             textAlign = TextAlign.Start,
             color = Color.White,
             fontWeight = FontWeight.Medium,
@@ -86,7 +88,7 @@ internal fun AdditionalInfoTextField(
             fontFamily = GoogleSansFontFamily,
         )
         TextField(
-            modifier = modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp),
+            modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
@@ -224,6 +226,7 @@ internal fun SaveButton(
     wish: (NewTokenWish) -> Unit,
 ) {
     val strings = LocalStrings.current
+    Spacer(modifier.height(8.dp))
     Button(
         modifier = Modifier
             .fillMaxWidth()

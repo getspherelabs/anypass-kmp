@@ -50,7 +50,7 @@ kotlin {
                 api(projects.features.addnewpassword.addnewpasswordApi)
                 api(projects.features.home.homeApi)
                 api(projects.features.account.accountApi)
-                api(projects.features.authenticator.authenticatorDomain)
+                api(projects.features.authenticator.authenticatorApi)
                 api(libs.moko.resource)
 
                 implementation(projects.manager.otp)

@@ -44,7 +44,6 @@ android {
 
     dependencies {
         implementation(projects.shared)
-        implementation(projects.navigation)
 
         implementation(libs.androidx.compose.ui)
         implementation(libs.androidx.compose.ui.tooling)

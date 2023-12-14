@@ -1,6 +1,6 @@
 package io.spherelabs.data.local.db.otp
 
-import io.spherelabs.authenticatordomain.model.AlgorithmTypeDomain
+import io.spherelabs.authenticatorapi.model.AlgorithmTypeDomain
 import io.spherelabs.newtokenapi.model.NewTokenType
 
 

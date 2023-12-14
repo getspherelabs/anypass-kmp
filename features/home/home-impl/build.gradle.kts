@@ -13,6 +13,7 @@ kotlin {
                 api(projects.resource.images)
                 api(projects.features.addnewpassword.addnewpasswordNavigation)
                 api(projects.features.account.accountNavigation)
+                api(projects.features.authenticator.authenticatorNavigation)
 
                 implementation(projects.features.home.homeApi)
                 implementation(libs.voyager)
