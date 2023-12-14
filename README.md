@@ -192,7 +192,7 @@ graph TD;
     <tr>
        <td align="center">
         <a href="https://github.com/behzodhalil">
-          <img src="https://avatars.githubusercontent.com/u/91370134?v=4" width="100" alt="Behzod Halil">
+          <img src="https://avatars.githubusercontent.com/u/72313937?v=4" width="100" alt="Behzod Halil">
         </a>
         <br>
         <a href="https://github.com/behzodhalil">Behzod Halil</a>
