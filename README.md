@@ -190,6 +190,13 @@ graph TD;
 <table>
   <tbody>
     <tr>
+       <td align="center">
+        <a href="https://github.com/behzodhalil">
+          <img src="https://avatars.githubusercontent.com/u/91370134?v=4" width="100" alt="Behzod Halil">
+        </a>
+        <br>
+        <a href="https://github.com/behzodhalil">Behzod Halil</a>
+      </td>        
       <td align="center">
         <a href="https://github.com/oybekjon94">
           <img src="https://avatars.githubusercontent.com/u/91370134?v=4" width="100" alt="John Doe">
