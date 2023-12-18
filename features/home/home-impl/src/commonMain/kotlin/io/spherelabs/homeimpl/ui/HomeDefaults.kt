@@ -1,6 +1,6 @@
 package io.spherelabs.homeimpl.ui
 
-object HomeDefaults {
+internal object HomeDefaults {
     const val cornerShape = 50
     const val zIndex = 1f
     const val minItemCount = 1

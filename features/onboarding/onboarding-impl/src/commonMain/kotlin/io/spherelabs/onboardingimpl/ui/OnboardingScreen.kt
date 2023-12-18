@@ -86,12 +86,12 @@ fun OnboardingScreenContent(
     LaunchedEffect(key1 = true) {
         flow.collectLatest {
             when (it) {
-//                OnboardingEffect.SignUp -> {
-//                    navigateToPassword.invoke()
-//                }
-//                OnboardingEffect.Home -> {
-//
-//                }
+                OnboardingEffect.SignUp -> {
+                   navigateToSignIn.invoke()
+                }
+                OnboardingEffect.Home -> {
+
+                }
                 else -> {}
             }
         }

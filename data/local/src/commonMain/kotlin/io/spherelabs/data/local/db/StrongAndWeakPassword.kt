@@ -1,4 +1,5 @@
 package io.spherelabs.data.local.db
+
 import io.spherelabs.local.db.PasswordEntity
 
 fun PasswordEntity.isStrongPassword(): Boolean {
@@ -13,3 +14,4 @@ fun PasswordEntity.isStrongPassword(): Boolean {
             uppercase && lowercase && digit && special
     } ?: false
 }
+

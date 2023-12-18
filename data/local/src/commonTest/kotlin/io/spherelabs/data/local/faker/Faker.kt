@@ -60,9 +60,20 @@ object Password {
                 image = "test_2_image",
                 title = "Quora",
                 notes = "test_notes",
-                password = "AbCdEfG1",
+                password = "12345",
                 username = "Test3",
                 websiteAddress = "Quora.com",
+            ),
+            PasswordEntity(
+                id = "4",
+                category_id = "1",
+                email = "test@gmail.com",
+                image = "test_2_image",
+                title = "Behance",
+                notes = "test_notes",
+                password = "Strong@2023",
+                username = "Test1",
+                websiteAddress = "Behance.com",
             ),
         )
     }

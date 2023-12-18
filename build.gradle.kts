@@ -1,11 +1,12 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-import com.diffplug.gradle.spotless.SpotlessExtension
+//import com.diffplug.gradle.spotless.SpotlessExtension
 
 buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
         gradlePluginPortal()
     }
 
@@ -24,9 +25,9 @@ plugins {
     alias(libs.plugins.gms).apply(false)
     alias(libs.plugins.buildkonfig).apply(false)
     alias(libs.plugins.sentry).apply(false)
-    alias(libs.plugins.spotless)
+    // alias(libs.plugins.spotless)
     alias(libs.plugins.dependencyanalysis)
     id("org.jetbrains.kotlin.jvm") version "1.8.20" apply false
 }
 
-fun Project.spotless(action: SpotlessExtension.() -> Unit) = extensions.configure<SpotlessExtension>(action)
+//fun Project.spotless(action: SpotlessExtension.() -> Unit) = extensions.configure<SpotlessExtension>(action)

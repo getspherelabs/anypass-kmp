@@ -14,9 +14,11 @@ import org.kotlincrypto.macs.hmac.sha2.HmacSHA512
 
 interface OtpManager {
     suspend fun generate(
-        count: Long, secret: String,
+        secret: String,
+        timestamp: Long,
         configuration: OtpConfiguration,
     ): String
+
 }
 
 class DefaultOtpManager : OtpManager {
@@ -27,16 +29,16 @@ class DefaultOtpManager : OtpManager {
         if (millis <= 0L) {
             return 0
         }
-        return floor(timestamp.toDouble().div(millis)).toLong()
+        return floor((timestamp / configuration.period.value).toDouble()).toLong()
     }
 
     override suspend fun generate(
-        count: Long,
         secret: String,
+        timestamp: Long,
         configuration: OtpConfiguration,
     ): String {
 
-        val message = createMessage(count, configuration)
+        val message = createMessage(timestamp, configuration = configuration)
         val hash = generateHash(message, secret = secret, configuration = configuration)
         val offset = hash.offset()
 
@@ -54,20 +56,17 @@ class DefaultOtpManager : OtpManager {
     }
 
 
-
-    private fun createMessage(count: Long, configuration: OtpConfiguration): PlatformBuffer {
-        return PlatformBuffer.allocate(8).apply { this[0] = counter(count, configuration) }
+    private fun createMessage(
+        timestamp: Long,
+        configuration: OtpConfiguration,
+    ): PlatformBuffer {
+        return PlatformBuffer.allocate(8).apply { this[0] = counter(timestamp, configuration) }
     }
 
     private fun timeslotStart(timestamp: Long, config: OtpConfiguration): Long {
         val counter = counter(timestamp, config)
         val timeStepMillis = config.period.millis.toDouble()
         return (counter * timeStepMillis).toLong()
-    }
-
-    fun timeslotLeft(timestamp: Long, configuration: OtpConfiguration): Double {
-        val diff = timestamp - timeslotStart(timestamp,configuration)
-        return 1.0 - diff.toDouble() / configuration.period.millis.toDouble()
     }
 
     private fun createHmacInstance(secret: String, configuration: OtpConfiguration): Hmac {

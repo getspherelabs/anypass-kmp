@@ -7,6 +7,7 @@ sealed interface HomeWish {
     data class GetPasswordByCategory(val passwords: List<HomePasswordUi>) : HomeWish
     data class OnPasswordsChanged(val passwords: List<HomePasswordUi>) : HomeWish
     data class OnCopyClipboardChanged(val password: String) : HomeWish
+    object OnVisibleChanged : HomeWish
     object NavigateToMyAccount : HomeWish
     object NavigateToGenerator : HomeWish
     object NavigateToAddNewPassword : HomeWish

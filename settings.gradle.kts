@@ -4,6 +4,7 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
@@ -13,6 +14,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
@@ -109,3 +111,8 @@ include(":features:authenticator:authenticator-api")
 include(":features:authenticator:authenticator-impl")
 include(":features:authenticator:authenticator-di")
 include(":features:authenticator:authenticator-navigation")
+include(":features:passwordhealth")
+include(":features:passwordhealth:passwordhealth-api")
+include(":features:passwordhealth:passwordhealth-di")
+include(":features:passwordhealth:passwordhealth-impl")
+include(":features:passwordhealth:passwordhealth-navigation")
