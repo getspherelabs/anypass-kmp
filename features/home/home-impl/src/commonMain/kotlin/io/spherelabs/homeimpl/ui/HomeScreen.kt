@@ -10,9 +10,6 @@ import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import io.spherelabs.accountnavigation.AccountSharedScreen
-import io.spherelabs.addnewpasswordnavigation.AddNewPasswordSharedScreen
-import io.spherelabs.authenticatornavigation.AuthenticatorDestination
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
@@ -22,6 +19,9 @@ import io.spherelabs.homeimpl.ui.component.CategoryCard
 import io.spherelabs.homeimpl.ui.component.HomeDrawer
 import io.spherelabs.homeimpl.ui.component.HomeHeadline
 import io.spherelabs.homeimpl.ui.component.HomeTopBar
+import io.spherelabs.navigationapi.AccountDestination
+import io.spherelabs.navigationapi.AddNewPasswordDestination
+import io.spherelabs.navigationapi.AuthenticatorDestination
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -37,8 +37,8 @@ class HomeScreen : Screen {
 
         val viewModel: HomeViewModel = useInject()
 
-        val addNewPasswordScreen = rememberScreen(AddNewPasswordSharedScreen.AddNewPasswordScreen)
-        val accountScreen = rememberScreen(AccountSharedScreen.AccountScreen)
+        val addNewPasswordScreen = rememberScreen(AddNewPasswordDestination.AddNewPasswordScreen)
+        val accountScreen = rememberScreen(AccountDestination.Account)
         val authenticatorScreen = rememberScreen(AuthenticatorDestination.Authenticator)
 
         val uiState = viewModel.state.collectAsStateWithLifecycle()

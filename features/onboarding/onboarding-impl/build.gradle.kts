@@ -13,12 +13,9 @@ kotlin {
                 api(projects.resource.images)
                 api(projects.data.authManager)
                 api(projects.data.prefs)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.onboarding.onboardingApi)
-                implementation(projects.features.auth.authNavigation)
-                implementation(projects.features.home.homeNavigation)
-                implementation(projects.features.keypassword.keypasswordNavigation)
-                implementation(projects.features.onboarding.onboardingNavigation)
                 implementation(libs.voyager)
                 implementation(compose.ui)
                 implementation(compose.material)

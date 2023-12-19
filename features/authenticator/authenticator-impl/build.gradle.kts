@@ -13,7 +13,7 @@ kotlin {
                 api(projects.core.designsystem)
                 api(projects.core.validation)
                 api(projects.manager.otp)
-                api(projects.features.newtoken.newtokenNavigation)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.authenticator.authenticatorApi)
                 implementation(libs.voyager)

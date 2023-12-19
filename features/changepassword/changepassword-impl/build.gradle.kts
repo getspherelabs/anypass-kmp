@@ -11,7 +11,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.core.designsystem)
-                api(projects.features.account.accountNavigation)
+                api(projects.features.navigation.navigationApi)
                 api(projects.core.validation)
 
                 implementation(projects.features.changepassword.changepasswordApi)

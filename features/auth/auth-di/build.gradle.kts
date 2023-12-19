@@ -29,7 +29,7 @@ kotlin {
                 implementation(libs.voyager)
                 implementation(projects.features.auth.authApi)
                 api(projects.features.auth.authImpl)
-                implementation(projects.features.auth.authNavigation)
+                api(projects.features.navigation.navigationApi)
             }
         }
         val commonTest by getting {

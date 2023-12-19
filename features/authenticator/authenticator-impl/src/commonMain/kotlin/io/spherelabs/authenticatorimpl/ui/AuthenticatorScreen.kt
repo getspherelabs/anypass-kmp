@@ -38,7 +38,7 @@ import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.newtokennavigation.NewTokenDestination
+import io.spherelabs.navigationapi.NewTokenDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 

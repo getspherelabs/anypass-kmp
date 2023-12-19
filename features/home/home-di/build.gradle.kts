@@ -26,9 +26,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.features.home.homeImpl)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.home.homeApi)
-                implementation(projects.features.home.homeNavigation)
                 implementation(libs.koin.core)
                 implementation(libs.voyager)
             }

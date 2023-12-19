@@ -26,9 +26,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.features.keypassword.keypasswordImpl)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.keypassword.keypasswordApi)
-                implementation(projects.features.keypassword.keypasswordNavigation)
                 implementation(libs.koin.core)
                 implementation(libs.voyager)
             }

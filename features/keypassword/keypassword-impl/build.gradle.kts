@@ -12,7 +12,7 @@ kotlin {
                 api(projects.core.designsystem)
                 api(projects.data.prefs)
                 api(projects.manager.biometry)
-                api(projects.features.home.homeNavigation)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.keypassword.keypasswordApi)
                 implementation(libs.voyager)

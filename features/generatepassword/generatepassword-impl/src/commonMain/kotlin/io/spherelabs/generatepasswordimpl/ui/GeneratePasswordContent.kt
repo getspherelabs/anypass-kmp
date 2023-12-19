@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import io.spherelabs.addnewpasswordnavigation.AddNewPasswordSharedScreen
 import io.spherelabs.designsystem.button.LKBackButton
 import io.spherelabs.designsystem.button.LKUseButton
 import io.spherelabs.designsystem.fonts.LocalStrings
@@ -35,6 +34,7 @@ import io.spherelabs.foundation.color.*
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordEffect
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordState
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordWish
+import io.spherelabs.navigationapi.AddNewPasswordDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 
@@ -52,7 +52,7 @@ fun GeneratePasswordContent(
     val snackbarHostState = useSnackbar()
     val strings = LocalStrings.current
     val navigator = LocalNavigator.currentOrThrow
-    val backScreen = rememberScreen(AddNewPasswordSharedScreen.Back(state.password))
+    val backScreen = rememberScreen(AddNewPasswordDestination.Back(state.password))
     useEffect(true) {
         wish.invoke(GeneratePasswordWish.GeneratePassword())
     }

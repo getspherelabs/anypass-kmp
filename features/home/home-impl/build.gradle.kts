@@ -11,9 +11,7 @@ kotlin {
             dependencies {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
-                api(projects.features.addnewpassword.addnewpasswordNavigation)
-                api(projects.features.account.accountNavigation)
-                api(projects.features.authenticator.authenticatorNavigation)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.home.homeApi)
                 implementation(libs.voyager)

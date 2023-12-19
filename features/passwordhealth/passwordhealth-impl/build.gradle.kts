@@ -12,6 +12,8 @@ kotlin {
             dependencies {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
+                api(projects.features.passwordhealth.passwordhealthApi)
+
                 implementation(projects.core.common)
                 implementation(libs.datetime)
                 implementation(libs.voyager)
@@ -31,6 +33,9 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.coroutine.test)
+                implementation(libs.assertk)
+                implementation(libs.turbine)
             }
         }
     }
@@ -42,4 +47,12 @@ android {
     defaultConfig {
         minSdk = 24
     }
+}
+
+dependencies {
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, "io.mockative:mockative-processor:2.0.1")
+        }
 }

@@ -27,7 +27,7 @@ import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.Jaguar
-import io.spherelabs.homenavigation.HomeSharedScreen
+import io.spherelabs.navigationapi.HomeDestination
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordEffect
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordState
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
@@ -44,7 +44,7 @@ class KeyPasswordScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: MasterPasswordViewModel = useInject()
-        val homeScreen = rememberScreen(HomeSharedScreen.HomeScreen)
+        val homeScreen = rememberScreen(HomeDestination.HomeScreen)
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
         KeyPasswordContent(
