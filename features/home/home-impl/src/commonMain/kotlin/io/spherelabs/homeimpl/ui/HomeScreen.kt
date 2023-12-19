@@ -22,6 +22,7 @@ import io.spherelabs.homeimpl.ui.component.HomeTopBar
 import io.spherelabs.navigationapi.AccountDestination
 import io.spherelabs.navigationapi.AddNewPasswordDestination
 import io.spherelabs.navigationapi.AuthenticatorDestination
+import io.spherelabs.navigationapi.PasswordHealthDestination
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,7 @@ class HomeScreen : Screen {
         val addNewPasswordScreen = rememberScreen(AddNewPasswordDestination.AddNewPasswordScreen)
         val accountScreen = rememberScreen(AccountDestination.Account)
         val authenticatorScreen = rememberScreen(AuthenticatorDestination.Authenticator)
+        val passwordHealthScreen = rememberScreen(PasswordHealthDestination.PasswordHealth)
 
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
@@ -60,7 +62,9 @@ class HomeScreen : Screen {
             },
             navigateToGenerator = {},
             navigateToHelp = {},
-            navigateToPasswordHealth = {},
+            navigateToPasswordHealth = {
+                navigator.push(passwordHealthScreen)
+            },
         )
     }
 }

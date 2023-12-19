@@ -14,11 +14,11 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "passwordhealth-di"
@@ -28,7 +28,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
+                api(projects.features.passwordhealth.passwordhealthApi)
+                api(projects.features.navigation.navigationApi)
+                api(projects.features.passwordhealth.passwordhealthImpl)
+
+                implementation(libs.voyager)
+                implementation(libs.koin.core)
             }
         }
         val commonTest by getting {

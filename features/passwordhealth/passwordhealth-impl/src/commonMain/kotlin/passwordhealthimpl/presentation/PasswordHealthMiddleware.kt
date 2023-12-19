@@ -1,11 +1,13 @@
 package passwordhealthimpl.presentation
 
+import domain.usecase.GetPasswordHealthUseCase
 import domain.usecase.GetPasswordStatsUseCase
 import io.spherelabs.meteor.middleware.Middleware
 import kotlinx.coroutines.flow.collectLatest
 
 class PasswordHealthMiddleware(
     private val getPasswordStatsUseCase: GetPasswordStatsUseCase,
+    private val getPasswordHealthUseCase: GetPasswordHealthUseCase,
 ) : Middleware<PasswordHealthState, PasswordHealthWish> {
 
     override suspend fun process(
@@ -17,6 +19,7 @@ class PasswordHealthMiddleware(
             PasswordHealthWish.StartLoadingPasswordStats -> {
                 handlePasswordStats(next)
             }
+
             else -> {}
         }
     }

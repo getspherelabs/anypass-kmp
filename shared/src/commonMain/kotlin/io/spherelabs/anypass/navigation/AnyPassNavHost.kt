@@ -10,10 +10,11 @@ import io.spherelabs.authenticatordi.authenticatorUiModule
 import io.spherelabs.changepassworddi.changePasswordUiModule
 import io.spherelabs.generatepassworddi.generatePasswordUiModule
 import io.spherelabs.homedi.homeScreenUiModule
-import io.spherelabs.newtokendi.newTokenUiModel
+import io.spherelabs.newtokendi.newTokenUiModule
 import io.spherelabs.onboardingdi.onboardingScreenModule
 import io.spherelabs.onboardingimpl.ui.OnboardingScreen
 import io.spherelabs.passphrasedi.keyPasswordUiModule
+import io.spherelabs.passwordhealthdi.passwordHealthUiModule
 
 @Composable
 fun AnyPassNavHost() {
@@ -28,7 +29,8 @@ fun AnyPassNavHost() {
         generatePasswordUiModule()
         changePasswordUiModule()
         authenticatorUiModule()
-        newTokenUiModel()
+        newTokenUiModule()
+        passwordHealthUiModule()
     }
 
     Navigator(OnboardingScreen())
