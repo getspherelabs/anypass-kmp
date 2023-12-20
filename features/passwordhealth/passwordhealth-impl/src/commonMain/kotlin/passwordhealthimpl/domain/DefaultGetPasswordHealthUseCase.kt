@@ -18,7 +18,6 @@ class DefaultGetPasswordHealthUseCase(
                 passwordHealthRepository.getWeakPasswords(),
                 passwordHealthRepository.getReusedPasswords(),
             ) { totalPasswords, weakPasswords, reusedPasswords ->
-                println(totalPasswords + weakPasswords + reusedPasswords)
                 emit(
                     totalPasswords + weakPasswords + reusedPasswords
                 )

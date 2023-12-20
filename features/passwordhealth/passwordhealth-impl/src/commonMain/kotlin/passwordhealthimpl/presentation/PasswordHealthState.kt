@@ -6,7 +6,7 @@ import domain.model.PasswordStats
 
 @Stable
 data class PasswordHealthState(
-    val stats: PasswordStats? = null,
+    val stats: List<PasswordStats> = emptyList(),
     val passwords: List<PasswordHealth> = emptyList(),
 ) {
     companion object {

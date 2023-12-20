@@ -16,7 +16,7 @@ class PasswordHealthReducer :
             is PasswordHealthWish.PasswordStatsChanged -> {
                 expect {
                     currentState.copy(
-                        stats = currentWish.data,
+                        stats = currentWish.stats,
                     )
                 }
             }
