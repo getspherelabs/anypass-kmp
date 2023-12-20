@@ -7,6 +7,6 @@ class PasswordHealthScreen : Screen {
 
     @Composable
     override fun Content() {
-        PasswordHealthContent(percent = 20F)
+        PasswordHealthContent(percent = 20F) {}
     }
 }
