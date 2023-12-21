@@ -6,12 +6,8 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -23,6 +19,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -61,7 +58,6 @@ import kotlinx.coroutines.launch
 fun PasswordHealthColumn(
     modifier: Modifier = Modifier,
     passwords: List<PasswordHealth>,
-    scrollState: LazyListState
 ) {
 
 
@@ -69,7 +65,7 @@ fun PasswordHealthColumn(
     val scope = useScope()
 
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().padding(top = 8.dp),
         state = listState,
     ) {
         val grouped = passwords.groupBy { it.type }
@@ -85,7 +81,7 @@ fun PasswordHealthColumn(
                     PasswordType.Weak -> "Weak"
                 }
                 androidx.compose.material.Text(
-                    modifier = modifier.padding(start = 24.dp),
+                    modifier = modifier.padding(start = 24.dp, top = 8.dp),
                     text = header,
                     fontSize = 18.sp,
                     fontFamily = GoogleSansFontFamily,
@@ -125,41 +121,50 @@ fun PasswordHealthRow(
     image: ImageVector,
 ) {
 
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = LavenderBlue.copy(alpha = 0.7f),
         ),
         modifier = modifier
-            .height(65.dp)
-            .fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+            .height(95.dp)
+            .fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
         shape = RoundedCornerShape(16.dp),
     ) {
-
-        Row(modifier = modifier.fillMaxWidth()) {
+        Row(
+            modifier = modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Image(
-                modifier = modifier.size(56.dp).clip(RoundedCornerShape(16.dp)),
+                modifier = modifier.size(56.dp).clip(RoundedCornerShape(16.dp))
+                    .padding(start = 16.dp),
                 imageVector = image,
                 contentDescription = "Password Health Image",
             )
-            Text(
-                modifier = modifier.padding(top = 16.dp, start = 24.dp),
-                text = title,
-                fontSize = 14.sp,
-                fontFamily = GoogleSansFontFamily,
-                color = Color.White.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center,
-            )
+
+            Column(modifier = modifier) {
+                Text(
+                    modifier = modifier.padding(start = 24.dp),
+                    text = title,
+                    fontSize = 14.sp,
+                    fontFamily = GoogleSansFontFamily,
+                    color = Color.White.copy(alpha = 0.5f),
+                    textAlign = TextAlign.Center,
+                )
+
+                Text(
+                    modifier = modifier.padding(top = 4.dp, start = 24.dp),
+                    text = email,
+                    fontSize = 18.sp,
+                    fontFamily = GoogleSansFontFamily,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White.copy(alpha = 0.9f),
+                )
+            }
         }
 
-        Text(
-            modifier = modifier.padding(top = 4.dp, start = 24.dp),
-            text = email,
-            fontSize = 18.sp,
-            fontFamily = GoogleSansFontFamily,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            color = Color.White.copy(alpha = 0.9f),
-        )
+
     }
 }
 
@@ -247,7 +252,7 @@ private val HeaderTransitionOffset = 280.dp
  */
 data class DetailsScroller(
     val scrollState: ScrollState,
-    val namePosition: Float
+    val namePosition: Float,
 ) {
     val toolbarTransitionState = MutableTransitionState(ToolbarState.HIDDEN)
 

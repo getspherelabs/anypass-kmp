@@ -10,7 +10,7 @@ object SemiProgressBarTokens {
     const val totalProgress = 100F
     const val animationDuration = 1000
     const val description = "Out of 100"
-    const val maxTotalProgress = 100
+    const val maxTotalProgress = 100f
     val size = 200.dp
     val thickness = 24.dp
     val foregroundColor: Color = LavenderBlue

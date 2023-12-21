@@ -27,6 +27,8 @@ import io.spherelabs.onboardingdi.onboardingDomainModule
 import io.spherelabs.onboardingdi.onboardingFeatureModule
 import io.spherelabs.passphrasedi.keyPasswordDomainModule
 import io.spherelabs.passphrasedi.keyPasswordFeatureModule
+import io.spherelabs.passwordhealthdi.passwordHealthDomainModule
+import io.spherelabs.passwordhealthdi.passwordHealthPresentationModule
 import io.spherelabs.validation.di.validationModule
 import org.koin.compose.LocalKoinScope
 import org.koin.core.context.startKoin
@@ -70,6 +72,8 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             viewModelModule,
             authenticatorDomainModule,
             authenticatorPresentationModule,
+            passwordHealthDomainModule,
+            passwordHealthPresentationModule,
         )
     }
 

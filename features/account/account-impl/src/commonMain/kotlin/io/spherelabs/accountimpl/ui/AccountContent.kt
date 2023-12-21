@@ -37,6 +37,7 @@ import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.images.MR
@@ -96,7 +97,7 @@ fun AccountContent(
                     .wrapContentHeight(Alignment.Bottom),
             )
         },
-        containerColor = Color(0xff141419),
+        containerColor = BlackRussian,
         topBar = {
             Row(
                 modifier = modifier
@@ -105,7 +106,7 @@ fun AccountContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 BackButton(
-                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
+                    backgroundColor = LavenderBlue.copy(0.7f),
                     modifier = modifier,
                     navigateToBack = {
                         wish.invoke(AccountWish.NavigateToBack)

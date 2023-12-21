@@ -6,5 +6,5 @@ import passwordhealthimpl.presentation.PasswordHealthReducer
 
 val passwordHealthPresentationModule = module {
     single { PasswordHealthReducer() }
-    single { PasswordHealthMiddleware(get(), get()) }
+    single { PasswordHealthMiddleware(get(), get(), get()) }
 }

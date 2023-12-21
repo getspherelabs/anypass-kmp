@@ -28,6 +28,7 @@ kotlin {
                 implementation(projects.resource.fonts)
                 implementation(projects.resource.icons)
                 implementation(projects.core.system.foundation)
+                implementation("me.onebone:toolbar-compose:2.3.5")
             }
         }
         val commonTest by getting {

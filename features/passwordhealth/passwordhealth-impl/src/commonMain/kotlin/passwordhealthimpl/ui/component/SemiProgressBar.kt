@@ -34,21 +34,11 @@ fun SemiProgressBar(
     val foregroundColor: Color by style.foregroundColor()
     val backgroundColor: Color by style.backgroundColor()
 
-    var currentProgressValue by remember {
-        mutableStateOf(-1f)
-    }
+
 
     val gapBetweenEnds = (startAngle - 90) * 2
 
-    val currentAnimatingProgress = animateFloatAsState(
-        targetValue = currentProgressValue,
-        animationSpec = tween(
-            durationMillis = animationDuration,
-        ),
-    )
-    useEffect(true) {
-        currentProgressValue = currentProgress
-    }
+
 
     Box(
         contentAlignment = Alignment.Center,
@@ -68,7 +58,7 @@ fun SemiProgressBar(
                 style = Stroke(width = thickness.toPx(), cap = StrokeCap.Round),
             )
 
-            val sweepAngle = currentAnimatingProgress.value.calculateSweepAngle(gapBetweenEnds)
+            val sweepAngle = currentProgress.calculateSweepAngle(gapBetweenEnds)
 
             drawArc(
                 color = foregroundColor,
@@ -78,14 +68,14 @@ fun SemiProgressBar(
                 style = Stroke(thickness.toPx(), cap = StrokeCap.Round),
             )
         }
-        ShowCurrentProgress(currentAnimatingProgress)
+        ShowCurrentProgress(currentProgress)
     }
 
 }
 
 @Composable
 internal fun ShowCurrentProgress(
-    currentProgress: State<Float>,
+    currentProgress: Float,
     description: String = SemiProgressBarTokens.description,
 ) {
     Column(
@@ -93,7 +83,7 @@ internal fun ShowCurrentProgress(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = (currentProgress.value).toInt().toString(),
+            text = (currentProgress).toInt().toString(),
             style = TextStyle(
                 fontFamily = GoogleSansFontFamily,
                 fontSize = 45.sp,

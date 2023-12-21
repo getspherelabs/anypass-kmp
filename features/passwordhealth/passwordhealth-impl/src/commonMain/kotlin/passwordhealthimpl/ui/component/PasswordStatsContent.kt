@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import domain.model.PasswordStats
+import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
@@ -65,7 +66,7 @@ fun PasswordStatRow(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = LavenderBlue.copy(alpha = 0.7f),
+            containerColor = Jaguar,
         ),
         modifier = modifier
             .size(width = 150.dp, height = 45.dp),

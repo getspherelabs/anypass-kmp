@@ -13,10 +13,32 @@ class PasswordHealthReducer :
         currentWish: PasswordHealthWish,
     ): Change<PasswordHealthState, PasswordHealthEffect> {
         return when (currentWish) {
-            is PasswordHealthWish.PasswordStatsChanged -> {
+            is PasswordHealthWish.LoadedPasswordStats -> {
                 expect {
                     currentState.copy(
                         stats = currentWish.stats,
+                        isNotAvailable = false,
+                    )
+                }
+            }
+            is PasswordHealthWish.NotAvailablePasswords -> {
+                expect {
+                    currentState.copy(
+                        isNotAvailable = false,
+                    )
+                }
+            }
+            is PasswordHealthWish.LoadedPasswordProgress -> {
+                expect {
+                    currentState.copy(
+                        currentProgress = currentWish.newProgress.toFloat(),
+                    )
+                }
+            }
+            is PasswordHealthWish.LoadedPasswords -> {
+                expect {
+                    currentState.copy(
+                        passwords = currentWish.passwords,
                     )
                 }
             }
