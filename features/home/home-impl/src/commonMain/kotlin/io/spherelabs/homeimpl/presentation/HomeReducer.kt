@@ -15,7 +15,10 @@ class HomeReducer : Reducer<HomeState, HomeWish, HomeEffect> {
     ): Change<HomeState, HomeEffect> {
         return when (currentWish) {
             is HomeWish.GetCategories -> {
-                expect { currentState.copy(categories = currentWish.categories) }
+                expect { currentState.copy(
+                    categories = currentWish.categories,
+                    isVisible = currentWish.categories.isNotEmpty()
+                ) }
             }
 
             is HomeWish.GetPasswordByCategory -> {
@@ -42,6 +45,21 @@ class HomeReducer : Reducer<HomeState, HomeWish, HomeEffect> {
             }
             HomeWish.NavigateToHelp -> {
                 route { HomeEffect.NavigateToHelp }
+            }
+            HomeWish.OnVisibleChanged -> {
+                return if (currentState.categories.isNotEmpty()) {
+                    expect {
+                        currentState.copy(
+                            isVisible = true
+                        )
+                    }
+                } else {
+                    expect {
+                        currentState.copy(
+                            isVisible = false
+                        )
+                    }
+                }
             }
             HomeWish.NavigateToMyAccount -> {
                 route { HomeEffect.NavigateToMyAccount }

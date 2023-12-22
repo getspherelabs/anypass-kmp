@@ -15,7 +15,7 @@ class DesignSystemMultiplatformPlugin : Plugin<Project> {
         }
 
         configureCompose()
-        configureSpotless()
+        // configureSpotless()
         extensions.configure<KotlinMultiplatformExtension>() {
             configureDesignSystemMultiplatform(this)
         }

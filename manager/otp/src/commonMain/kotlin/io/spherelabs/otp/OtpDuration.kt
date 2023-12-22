@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.plus
 
 enum class OtpDuration(
-    value: Int,
+    val value: Int,
 ) {
     Fifteen(15),
     Thirty(30),

@@ -27,7 +27,7 @@ kotlin {
             dependencies {
                 implementation(projects.features.newtoken.newtokenApi)
                 implementation(projects.features.newtoken.newtokenImpl)
-                implementation(projects.features.newtoken.newtokenNavigation)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(libs.koin.core)
                 implementation(libs.voyager)

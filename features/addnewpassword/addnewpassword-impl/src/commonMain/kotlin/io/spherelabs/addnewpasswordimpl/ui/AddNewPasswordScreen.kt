@@ -14,7 +14,7 @@ import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordViewModel
 import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.textfield.*
-import io.spherelabs.generatepasswordnavigation.GeneratePasswordSharedScreen
+import io.spherelabs.navigationapi.GeneratePasswordDestination
 import io.spherelabs.resource.icons.anypassicons.*
 
 data class AddNewPasswordScreen(
@@ -27,7 +27,7 @@ data class AddNewPasswordScreen(
         val viewModel: AddNewPasswordViewModel = useInject()
         val uiState = viewModel.state.collectAsStateWithLifecycle()
         val generatePasswordScreen =
-            rememberScreen(GeneratePasswordSharedScreen.GeneratePasswordScreen)
+            rememberScreen(GeneratePasswordDestination.GeneratePassword)
 
         AddNewPasswordContent(
             usePassword = password,

@@ -12,7 +12,7 @@ kotlin {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
                 api(projects.core.validation)
-                api(projects.features.generatepassword.generatepasswordNavigation)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.core.common)
                 implementation(projects.features.addnewpassword.addnewpasswordApi)

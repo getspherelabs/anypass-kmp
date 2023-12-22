@@ -1,6 +1,8 @@
 package io.spherelabs.onboardingimpl.presentation
 
 import io.spherelabs.meteor.middleware.Middleware
+import io.spherelabs.meteorviewmodel.commonflow.CommonFlow
+import io.spherelabs.meteorviewmodel.commonflow.NonNullCommonFlow
 import io.spherelabs.onboardingapi.domain.usecase.HasCurrentUserExist
 import io.spherelabs.onboardingapi.domain.usecase.IsFirstTimeUseCase
 import io.spherelabs.onboardingapi.domain.usecase.SetIsFirstTimeUseCase

@@ -28,7 +28,7 @@ kotlin {
                 api(projects.features.addnewpassword.addnewpasswordImpl)
 
                 implementation(projects.features.addnewpassword.addnewpasswordApi)
-                implementation(projects.features.addnewpassword.addnewpasswordNavigation)
+                api(projects.features.navigation.navigationApi)
                 implementation(libs.koin.core)
                 implementation(libs.voyager)
             }

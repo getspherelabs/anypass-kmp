@@ -4,7 +4,7 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.turbine.test
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.spherelabs.accountdomain.repository.AccountRepository
+import io.spherelabs.accountapi.domain.repository.AccountRepository
 import io.spherelabs.data.local.db.DefaultPasswordDao
 import io.spherelabs.data.local.db.DefaultUserDao
 import io.spherelabs.data.local.db.PasswordDao

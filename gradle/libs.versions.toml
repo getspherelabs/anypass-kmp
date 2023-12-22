@@ -30,7 +30,7 @@ agp = "7.4.2"
 kotlin = "1.9.0"
 datetime = "0.4.1"
 compose-multiplatform = "1.5.0"
-spotless-plugin = "6.21.0"
+spotless-plugin = "6.23.0"
 gms-service = "4.3.15"
 sentry-plugin = "3.13.0"
 buildkonfig = "0.14.0"
@@ -47,6 +47,7 @@ konsist = "0.13.0"
 spotify-ruler = "1.4.0"
 app-update = "2.1.0"
 voyager = "1.0.0-rc10"
+ksp = "1.9.10-1.0.13"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -135,5 +136,5 @@ anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified" }
 anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified" }
 anypass-api = { id = "anypass.multiplatform.api", version = "unspecified" }
 dependencyanalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyanalysis" }
-
+kotlin-symbol-processing = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

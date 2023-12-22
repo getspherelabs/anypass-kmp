@@ -1,5 +1,7 @@
 package io.spherelabs.authenticatorimpl.ui
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,37 +24,68 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.spherelabs.authenticatorapi.model.OtpDomain
 import io.spherelabs.authenticatorapi.model.RealTimeOtpDomain
-import io.spherelabs.designsystem.button.LKNewItemButton
+import io.spherelabs.authenticatorimpl.presentation.AuthenticatorEffect
+import io.spherelabs.authenticatorimpl.presentation.AuthenticatorState
+import io.spherelabs.authenticatorimpl.presentation.AuthenticatorViewModel
+import io.spherelabs.authenticatorimpl.presentation.AuthenticatorWish
 import io.spherelabs.designsystem.dimension.LocalDimensions
-import io.spherelabs.designsystem.fonts.LocalStrings
+import io.spherelabs.designsystem.hooks.useEffect
+import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.slider.LKSlider
 import io.spherelabs.designsystem.slider.LKSliderDefaults
+import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.newtokennavigation.NewTokenDestination
+import io.spherelabs.navigationapi.NewTokenDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
+import kotlinx.coroutines.flow.Flow
 
 class AuthenticatorScreen : Screen {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val viewModel: AuthenticatorViewModel = useInject()
+        val uiState = viewModel.state.collectAsStateWithLifecycle()
+
         val newToken = rememberScreen(NewTokenDestination.NewToken)
-        AuthenticatorContent {
-            navigator.push(newToken)
-        }
+
+
+        AuthenticatorContent(
+            wish = { newWish ->
+                viewModel.wish(newWish)
+            },
+            uiState = uiState.value,
+            uiEffect = viewModel.effect,
+            navigateToNewToken = {
+                navigator.push(newToken)
+            },
+        )
     }
 }
 
 @Composable
 fun AuthenticatorContent(
     modifier: Modifier = Modifier,
+    wish: (AuthenticatorWish) -> Unit,
+    uiState: AuthenticatorState,
+    uiEffect: Flow<AuthenticatorEffect>,
     navigateToNewToken: () -> Unit,
 ) {
     val scope = useScope()
 
+    useEffect(true) {
+        wish.invoke(AuthenticatorWish.GetStartedRealTimeOtp)
+        wish.invoke(AuthenticatorWish.GetStartedAccounts)
+    }
+
+    DisposableEffect(true) {
+        onDispose {
+            wish.invoke(AuthenticatorWish.OnCancellationOtp)
+        }
+    }
     Scaffold(
         containerColor = BlackRussian,
         topBar = {
@@ -59,7 +94,14 @@ fun AuthenticatorContent(
             }
         },
     ) { newPaddingValues ->
-
+        BasicAuthenticatorContent(
+            newPaddingValues,
+            otpData = uiState.accounts,
+            realTimeOtpDomain = uiState.realTimeOtp,
+            wish = { newWish ->
+                wish.invoke(newWish)
+            },
+        )
     }
 }
 
@@ -68,12 +110,16 @@ fun BasicAuthenticatorContent(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
     otpData: List<OtpDomain>,
-    realTimeOtpDomain: RealTimeOtpDomain,
+    realTimeOtpDomain: Map<String, RealTimeOtpDomain?>,
+    wish: (AuthenticatorWish) -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize().padding(paddingValues)) {
         Authenticators(
             modifier = modifier,
             otpData, realTimeOtpDomain,
+            wish = { newWish ->
+                wish.invoke(newWish)
+            },
         )
     }
 }
@@ -83,18 +129,35 @@ fun BasicAuthenticatorContent(
 fun Authenticators(
     modifier: Modifier = Modifier,
     otpData: List<OtpDomain>,
-    realTimeOtpDomain: RealTimeOtpDomain,
+    realTimeOtpDomain: Map<String, RealTimeOtpDomain?>,
+    wish: (AuthenticatorWish) -> Unit,
 ) {
+    Spacer(modifier.height(16.dp))
     LazyColumn {
         items(items = otpData) {
-            AuthenticatorCard(
-                modifier = modifier,
-                token = it.secret,
-                serviceName = it.serviceName ?: "Unknown",
-                info = it.info ?: "Unknown",
-                time = it.duration.name,
-                realTimeOtpDomain = realTimeOtpDomain,
-            )
+            if (otpData.isNotEmpty()) {
+                if (realTimeOtpDomain[it.id] != null) {
+                    println(
+                        "[Test] Authenticator data: $otpData" +
+                            "",
+                    )
+                    println("[Test] Authenticator screen real time otp id is ${it.id}")
+                    println("[Test] Authenticator screen real time otp is ${realTimeOtpDomain[it.id]}")
+                    println("[Test] Authenticator secret is ${it.secret}")
+                    AuthenticatorCard(
+                        modifier = modifier,
+                        token = it.secret,
+                        serviceName = it.serviceName ?: "Unknown",
+                        info = it.info ?: "Unknown",
+                        duration = it.duration.value,
+                        realTimeOtpDomain = requireNotNull(realTimeOtpDomain[it.id]),
+                        wish = { newWish ->
+                            wish.invoke(newWish)
+                        },
+                    )
+                }
+            }
+
         }
     }
 }
@@ -106,12 +169,22 @@ fun AuthenticatorCard(
     token: String,
     serviceName: String,
     info: String,
-    time: String,
+    duration: Long,
+    wish: (AuthenticatorWish) -> Unit,
 ) {
-    val dimension = LocalDimensions.current
+    useEffect(true) {
+        if (realTimeOtpDomain.countdown == 1) {
+            wish.invoke(AuthenticatorWish.OnRunningChanged(false))
+        }
+    }
 
+    val dimension = LocalDimensions.current
+    val progress by animateFloatAsState(
+        targetValue = realTimeOtpDomain.countdown.toFloat(),
+        animationSpec = tween(500),
+    )
     Column(
-        modifier = modifier.fillMaxWidth().height(200.dp).background(color = Jaguar),
+        modifier = modifier.fillMaxWidth().height(200.dp).background(color = BlackRussian),
     ) {
         Spacer(modifier = modifier.height(8.dp))
         Text(
@@ -134,7 +207,7 @@ fun AuthenticatorCard(
         Spacer(modifier = modifier.height(8.dp))
         Text(
             modifier = modifier.fillMaxWidth(),
-            text = token,
+            text = realTimeOtpDomain.code,
             color = Color.White,
             fontFamily = GoogleSansFontFamily,
             fontWeight = FontWeight.Medium,
@@ -150,7 +223,7 @@ fun AuthenticatorCard(
 
             Text(
                 modifier = modifier.padding(start = 12.dp),
-                text = time,
+                text = "${realTimeOtpDomain.countdown}s",
                 color = Color.White,
                 fontFamily = GoogleSansFontFamily,
                 fontWeight = FontWeight.Medium,
@@ -160,22 +233,15 @@ fun AuthenticatorCard(
 
             LKSlider(
                 modifier = modifier.padding(start = 8.dp, end = 12.dp),
-                value = realTimeOtpDomain.count.toFloat(),
-                onValueChange = { value, _ ->
-//                wish.invoke(
-//                    GeneratePasswordWish.OnUppercaseLengthChanged(
-//                        value,
-//                    ),
-//                )
-
-                },
+                value = realTimeOtpDomain.countdown.toFloat(),
+                onValueChange = { value, _ -> },
                 colors = LKSliderDefaults.sliderColors(
                     thumbColor = Color.Red,
                     trackColor = LavenderBlue.copy(0.7f),
                     disabledTrackColor = Color.White,
                     disabledTickColor = Color.White,
                 ),
-                valueRange = 0f..10f,
+                valueRange = 0f..duration.toFloat(),
             ) {
                 Box(
                     modifier = Modifier
@@ -186,6 +252,6 @@ fun AuthenticatorCard(
                 )
             }
         }
-
+        Spacer(modifier.fillMaxWidth().height(2.dp).background(Jaguar))
     }
 }

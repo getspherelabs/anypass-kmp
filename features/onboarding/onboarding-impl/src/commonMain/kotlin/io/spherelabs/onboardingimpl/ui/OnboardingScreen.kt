@@ -28,20 +28,18 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
-//import io.spherelabs.anypass.images.MR
-import io.spherelabs.authnavigation.AuthSharedScreen
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.homenavigation.HomeSharedScreen
+import io.spherelabs.navigationapi.AuthDestination
+import io.spherelabs.navigationapi.KeyPasswordDestination
 import io.spherelabs.onboardingimpl.presentation.OnboardingEffect
 import io.spherelabs.onboardingimpl.presentation.OnboardingState
 import io.spherelabs.onboardingimpl.presentation.OnboardingViewModel
 import io.spherelabs.onboardingimpl.presentation.OnboardingWish
-import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.images.MR
 import kotlinx.coroutines.flow.Flow
@@ -53,8 +51,8 @@ class OnboardingScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: OnboardingViewModel = useInject()
-        val signInScreen = rememberScreen(AuthSharedScreen.SignInScreen)
-        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
+        val signInScreen = rememberScreen(AuthDestination.SignIn)
+        val keyPasswordScreen = rememberScreen(KeyPasswordDestination.KeyPassword)
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
         OnboardingScreenContent(
@@ -86,12 +84,12 @@ fun OnboardingScreenContent(
     LaunchedEffect(key1 = true) {
         flow.collectLatest {
             when (it) {
-//                OnboardingEffect.SignUp -> {
-//                    navigateToPassword.invoke()
-//                }
-//                OnboardingEffect.Home -> {
-//
-//                }
+                OnboardingEffect.SignUp -> {
+                   navigateToSignIn.invoke()
+                }
+                OnboardingEffect.Home -> {
+
+                }
                 else -> {}
             }
         }

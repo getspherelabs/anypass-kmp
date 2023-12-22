@@ -23,7 +23,6 @@ import io.spherelabs.authimpl.presentation.signin.SignInEffect
 import io.spherelabs.authimpl.presentation.signin.SignInState
 import io.spherelabs.authimpl.presentation.signin.SignInViewModel
 import io.spherelabs.authimpl.presentation.signin.SignInWish
-import io.spherelabs.authnavigation.AuthSharedScreen
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useInject
@@ -34,7 +33,8 @@ import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
+import io.spherelabs.navigationapi.AuthDestination
+import io.spherelabs.navigationapi.KeyPasswordDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -46,9 +46,10 @@ class SignInScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val signUpScreen = rememberScreen(AuthSharedScreen.SignUpScreen)
+
         val viewModel: SignInViewModel = useInject()
-        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
+        val keyPasswordScreen = rememberScreen(KeyPasswordDestination.KeyPassword)
+        val signUpScreen = rememberScreen(AuthDestination.SignUp)
         val uiState = viewModel.state.collectAsStateWithLifecycle()
 
         BasicSignInScreen(

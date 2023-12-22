@@ -8,35 +8,46 @@ import io.spherelabs.authenticatorapi.model.RealTimeOtpDomain
 import io.spherelabs.authenticatorimpl.mapper.asManager
 import io.spherelabs.otp.OtpConfiguration
 import io.spherelabs.otp.OtpManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.transformLatest
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 
 class DefaultGetRealTimeOneTimePassword(
     private val repository: AuthenticatorRepository,
     private val manager: OtpManager,
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ) : GetRealTimeOneTimePassword {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun execute(): Flow<Map<String, RealTimeOtpDomain?>> {
-        return combine(repository.getAllOtp(), repository.getCounters()) { otp, counter ->
-            Pair(
-                otp.associateBy { it.id },
-                counter.associateBy { it.otpId },
-            )
-        }.transformLatest { (otp, counter) ->
-            while (true) {
-                val realTimeOtp =
-                    generateRealTimeOneTimePassword(otpContainer = otp, counterContainer = counter)
-                emit(realTimeOtp)
-                delay(UPDATE_INTERVAL_MS)
+    private var currentJob: Job? = null
+
+    override fun execute(onResult: suspend (Map<String, RealTimeOtpDomain?>) -> Unit) {
+        currentJob?.cancel()
+        currentJob = coroutineScope.launch {
+            repository.getAllOtp().combine(repository.getCounters()) { otp, counter ->
+                Pair(
+                    otp.associateBy { it.id },
+                    counter.associateBy { it.otpId },
+                )
+            }.collectLatest { (otp, counter) ->
+                while (isActive) {
+                    val realTimeOtp = generateRealTimeOneTimePassword(otp, counter)
+                    onResult(realTimeOtp)
+                    delay(UPDATE_INTERVAL_MS)
+                }
             }
-
         }
+    }
 
+    override fun cancel() {
+        currentJob?.cancel()
     }
 
     private suspend fun generateRealTimeOneTimePassword(
@@ -44,10 +55,15 @@ class DefaultGetRealTimeOneTimePassword(
         counterContainer: CounterContainer,
     ): Map<String, RealTimeOtpDomain?> {
         return otpContainer.mapValues { (id, otpResult) ->
-            counterContainer[id]?.counter?.let { newCounter ->
+            counterContainer[id]?.counter?.let {
+                val seconds = Clock.System.now().toEpochMilliseconds() / 1000
+                val diff = seconds % otpResult.duration.value
+                val progress = 1f - (diff / otpResult.duration.value.toFloat())
+                val countdown = otpResult.duration.value - diff
+
                 RealTimeOtpDomain(
                     code = manager.generate(
-                        count = newCounter,
+                        timestamp = seconds,
                         secret = otpResult.secret,
                         configuration = OtpConfiguration(
                             period = otpResult.duration.asManager(),
@@ -55,7 +71,8 @@ class DefaultGetRealTimeOneTimePassword(
                             algorithmType = otpResult.type.asManager(),
                         ),
                     ),
-                    count = newCounter,
+                    countdown = countdown.toInt(),
+                    progress = progress,
                 )
             }
 

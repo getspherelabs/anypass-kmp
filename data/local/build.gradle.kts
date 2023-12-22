@@ -51,6 +51,7 @@ kotlin {
                 api(projects.features.home.homeApi)
                 api(projects.features.account.accountApi)
                 api(projects.features.authenticator.authenticatorApi)
+                api(projects.features.passwordhealth.passwordhealthApi)
                 api(libs.moko.resource)
 
                 implementation(projects.manager.otp)

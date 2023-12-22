@@ -28,7 +28,7 @@ kotlin {
                 api(projects.features.account.accountImpl)
 
                 implementation(projects.features.account.accountApi)
-                implementation(projects.features.account.accountNavigation)
+                implementation(projects.features.navigation.navigationApi)
                 implementation(libs.koin.core)
 
                 implementation(libs.voyager)

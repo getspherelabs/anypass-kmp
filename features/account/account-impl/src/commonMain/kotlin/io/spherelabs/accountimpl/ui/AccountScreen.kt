@@ -6,9 +6,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.spherelabs.accountimpl.presentation.AccountViewModel
-import io.spherelabs.changepasswordnavigation.ChangePasswordDestination
 import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
+import io.spherelabs.navigationapi.ChangePasswordDestination
 
 class AccountScreen : Screen {
 

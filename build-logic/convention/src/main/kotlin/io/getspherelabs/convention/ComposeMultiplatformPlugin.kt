@@ -11,7 +11,7 @@ class ComposeMultiplatformPlugin : Plugin<Project> {
         with(pluginManager) {
             apply("org.jetbrains.compose")
         }
-        configureCompose()
+        // configureCompose()
     }
 
 }

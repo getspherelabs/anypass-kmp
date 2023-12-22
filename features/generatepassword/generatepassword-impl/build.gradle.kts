@@ -12,7 +12,8 @@ kotlin {
             dependencies {
                 api(projects.core.designsystem)
                 api(projects.resource.images)
-                api(projects.features.addnewpassword.addnewpasswordNavigation)
+                api(projects.features.navigation.navigationApi)
+
                 api(projects.manager.password)
                 api(projects.features.generatepassword.generatepasswordApi)
 

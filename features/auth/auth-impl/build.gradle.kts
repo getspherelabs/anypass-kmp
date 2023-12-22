@@ -12,11 +12,11 @@ kotlin {
                 api(projects.data.local)
                 api(projects.data.authManager)
                 api(projects.data.prefs)
-                api(projects.features.keypassword.keypasswordNavigation)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.core.common)
                 implementation(projects.features.auth.authApi)
-                implementation(projects.features.auth.authNavigation)
+                api(projects.features.navigation.navigationApi)
                 api(projects.core.validation)
                 implementation(compose.ui)
                 implementation(compose.material)

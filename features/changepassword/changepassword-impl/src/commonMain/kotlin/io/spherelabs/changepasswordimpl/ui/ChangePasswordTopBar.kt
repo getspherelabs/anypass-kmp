@@ -15,7 +15,7 @@ import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
 
 @Composable
-fun ChangePasswordTopBar(
+internal fun ChangePasswordTopBar(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
 ) {

@@ -3,6 +3,9 @@ package io.spherelabs.data.local.db
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
+import io.spherelabs.data.local.extension.countReusedPassword
+import io.spherelabs.data.local.extension.isStrongPassword
+import io.spherelabs.data.local.extension.reusedPasswords
 import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.PasswordEntity
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +24,10 @@ interface PasswordDao {
     fun getSizeOfStrongPasswords(): Flow<Int>
     fun getSizeOfWeakPasswords(): Flow<Int>
     fun getTotalPasswords(): Flow<Int>
+    fun getStrongPasswords(): Flow<List<PasswordEntity>>
+    fun getWeakPasswords(): Flow<List<PasswordEntity>>
+    fun getSizeOfReusedPasswords(): Flow<Int>
+    fun getReusedPasswords(): Flow<List<PasswordEntity>>
 }
 
 class DefaultPasswordDao(
@@ -125,6 +132,42 @@ class DefaultPasswordDao(
             .mapToList(Dispatchers.IO)
             .map { currentPasswords ->
                 currentPasswords.size
+            }
+    }
+
+    override fun getStrongPasswords(): Flow<List<PasswordEntity>> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPasswords ->
+                currentPasswords.filter { password -> password.isStrongPassword() }
+            }
+    }
+
+    override fun getWeakPasswords(): Flow<List<PasswordEntity>> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPasswords ->
+                currentPasswords.filterNot { password -> password.isStrongPassword() }
+            }
+    }
+
+    override fun getSizeOfReusedPasswords(): Flow<Int> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPasswords ->
+                currentPasswords.countReusedPassword()
+            }
+    }
+
+    override fun getReusedPasswords(): Flow<List<PasswordEntity>> {
+        return queries.getAllPasswords()
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { currentPasswords ->
+                currentPasswords.reusedPasswords()
             }
     }
 }

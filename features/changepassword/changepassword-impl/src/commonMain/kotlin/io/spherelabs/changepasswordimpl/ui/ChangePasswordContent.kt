@@ -35,8 +35,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChangePasswordContent(
-    state: ChangePasswordState,
-    effect: Flow<ChangePasswordEffect>,
+    uiState: ChangePasswordState,
+    uiEffect: Flow<ChangePasswordEffect>,
     wish: (ChangePasswordWish) -> Unit,
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
@@ -46,7 +46,7 @@ fun ChangePasswordContent(
 
     useEffect(true) {
         wish.invoke(ChangePasswordWish.GetStartedCurrentKeyPassword)
-        effect.collectLatest { newEffect ->
+        uiEffect.collectLatest { newEffect ->
             when (newEffect) {
                 is ChangePasswordEffect.Failure -> {
                     scope.launch {
@@ -92,7 +92,7 @@ fun ChangePasswordContent(
         modifier = modifier,
     ) { newPaddingValues ->
         ChangePasswordContent(
-            state = state,
+            state = uiState,
             wish = { newWish -> wish.invoke(newWish) },
             paddingValues = newPaddingValues,
         )
@@ -112,6 +112,7 @@ fun ChangePasswordContent(
     Column(
         modifier = modifier.fillMaxSize().padding(paddingValues = paddingValues),
     ) {
+        Spacer(modifier.height(16.dp))
         KeyPasswordTextField(
             title = strings.currentKeyPassword,
             textValue = state.currentKeyPassword,

@@ -39,7 +39,7 @@ import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
+import io.spherelabs.navigationapi.KeyPasswordDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -52,7 +52,8 @@ class SignUpScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: SignUpViewModel = useInject()
         val uiState = viewModel.state.collectAsStateWithLifecycle()
-        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
+
+        val keyPasswordScreen = rememberScreen(KeyPasswordDestination.KeyPassword)
 
         BasicSignUpScreen(
             modifier = Modifier,
