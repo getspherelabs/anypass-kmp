@@ -11,7 +11,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -23,7 +23,16 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                api(projects.features.help.helpApi)
+                api(projects.features.help.helpStore)
+                api(projects.features.help.helpImpl)
+
+                implementation(libs.voyager)
+                implementation(libs.coroutine)
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
