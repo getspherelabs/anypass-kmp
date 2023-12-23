@@ -92,9 +92,9 @@ fun ChangePasswordContent(
         modifier = modifier,
     ) { newPaddingValues ->
         ChangePasswordContent(
+            modifier = modifier.padding(newPaddingValues),
             state = uiState,
-            wish = { newWish -> wish.invoke(newWish) },
-            paddingValues = newPaddingValues,
+            wish = { newWish -> wish.invoke(newWish) }
         )
     }
 }
@@ -104,13 +104,12 @@ fun ChangePasswordContent(
 fun ChangePasswordContent(
     state: ChangePasswordState,
     wish: (ChangePasswordWish) -> Unit,
-    paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
     val strings = LocalStrings.current
 
     Column(
-        modifier = modifier.fillMaxSize().padding(paddingValues = paddingValues),
+        modifier = modifier.fillMaxSize(),
     ) {
         Spacer(modifier.height(16.dp))
         KeyPasswordTextField(
@@ -187,7 +186,7 @@ fun ChangePasswordContent(
 }
 
 @Composable
-fun RowScope.BackButton(
+fun BackButton(
     modifier: Modifier,
     backgroundColor: Color = LavenderBlue.copy(0.7f),
     iconColor: Color = Color.White,

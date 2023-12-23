@@ -67,4 +67,5 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     createAccount = "Create an account",
     newToken = "New Token",
     save = "Save",
+    helpCenter = "Help Center"
 )
