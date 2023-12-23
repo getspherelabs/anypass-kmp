@@ -18,6 +18,9 @@ import io.spherelabs.data.settings.di.settingModule
 import io.spherelabs.firebase.di.firebaseAuthModule
 import io.spherelabs.generatepassworddi.generatePasswordPresentationModule
 import io.spherelabs.generatepassworddi.generatePasswordUseCaseDomainModule
+import io.spherelabs.help.helpDomainModule
+import io.spherelabs.help.helpPresentationModule
+import io.spherelabs.help.helpStoreModule
 import io.spherelabs.homedi.homeDomainModule
 import io.spherelabs.homedi.homePresentationModule
 import io.spherelabs.manager.password.di.passwordManagerModule
@@ -74,18 +77,10 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             authenticatorPresentationModule,
             passwordHealthDomainModule,
             passwordHealthPresentationModule,
+            helpStoreModule,
+            helpDomainModule,
+            helpPresentationModule,
         )
     }
 
 fun initKoin() = initKoin {}
-
-@Composable
-inline fun <reified T> useInject(
-    qualifier: Qualifier? = null,
-    scope: Scope = LocalKoinScope.current,
-    noinline parameters: ParametersDefinition? = null,
-): T {
-    return remember(qualifier, scope, parameters) {
-        scope.get(qualifier, parameters)
-    }
-}

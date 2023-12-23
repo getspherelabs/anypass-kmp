@@ -54,6 +54,7 @@ import io.spherelabs.resource.icons.anypassicons.Skype
 import io.spherelabs.resource.icons.anypassicons.Telegram
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PasswordHealthColumn(
     modifier: Modifier = Modifier,
