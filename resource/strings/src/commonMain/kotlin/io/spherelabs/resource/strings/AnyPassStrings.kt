@@ -68,5 +68,6 @@ data class AnyPassStrings(
     val updateKeyPassword: String,
     val currentKeyPasswordDoesNotMatch: String,
     val newToken: String,
+    val helpCenter: String
 )
 
