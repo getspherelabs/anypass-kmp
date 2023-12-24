@@ -10,6 +10,7 @@ data class AccountState(
     val sizeOfTotalPassword: Int = 0,
     val isFingerPrintEnabled: Boolean = false,
     val user: AccountUser? = null,
+    val isLogout: Boolean = false
 ) {
   companion object {
     val Empty = AccountState()

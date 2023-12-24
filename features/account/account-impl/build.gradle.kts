@@ -17,6 +17,7 @@ kotlin {
         api(projects.resource.images)
         api(projects.features.navigation.navigationApi)
         api(projects.data.prefs)
+        api(projects.data.authManager)
 
         implementation(projects.core.admob)
         implementation(projects.features.account.accountApi)
