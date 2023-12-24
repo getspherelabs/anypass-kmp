@@ -1,6 +1,5 @@
 package io.spherelabs.designsystem.button
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,27 +29,27 @@ fun LKNewItemButton(
     iconColor: Color = Color.White,
     onNewItemClick: () -> Unit,
 ) {
-    Button(
-        modifier = modifier,
-        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
-        shape = RoundedCornerShape(16.dp),
-        onClick = { onNewItemClick.invoke() },
-    ) {
-        Text(
-            text = contentText,
-            color = contentColor,
-            fontSize = 14.sp,
-            fontFamily = contentFontFamily,
-            fontWeight = FontWeight.Medium,
-        )
+  Button(
+      modifier = modifier,
+      colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
+      shape = RoundedCornerShape(16.dp),
+      onClick = { onNewItemClick.invoke() },
+  ) {
+    Text(
+        text = contentText,
+        color = contentColor,
+        fontSize = 14.sp,
+        fontFamily = contentFontFamily,
+        fontWeight = FontWeight.Medium,
+    )
 
-        Icon(
-            modifier = modifier.size(14.dp),
-            imageVector = Icons.Default.Add,
-            contentDescription = null,
-            tint = iconColor,
-        )
-    }
+    Icon(
+        modifier = modifier.size(14.dp),
+        imageVector = Icons.Default.Add,
+        contentDescription = null,
+        tint = iconColor,
+    )
+  }
 }
 
 @Composable
@@ -60,30 +59,30 @@ fun LKBackButton(
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit,
 ) {
-    Box(
-        modifier =
-        modifier
-            .width(75.dp)
-            .height(32.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .clickable { onButtonClick.invoke() }
-            .background(color = backgroundColor),
+  Box(
+      modifier =
+          modifier
+              .width(75.dp)
+              .height(32.dp)
+              .clip(RoundedCornerShape(24.dp))
+              .clickable { onButtonClick.invoke() }
+              .background(color = backgroundColor),
+  ) {
+    Row(
+        modifier = modifier.fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
     ) {
-        Row(
-            modifier = modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Icon(
-                modifier = modifier.size(12.dp),
-                tint = Color.White,
-                imageVector = Icons.Outlined.ArrowBackIos,
-                contentDescription = null,
-            )
-            Spacer(modifier = modifier.width(4.dp))
-            Text(text, fontSize = 12.sp, color = Color.White)
-        }
+      Icon(
+          modifier = modifier.size(12.dp),
+          tint = Color.White,
+          imageVector = Icons.Outlined.ArrowBackIos,
+          contentDescription = null,
+      )
+      Spacer(modifier = modifier.width(4.dp))
+      Text(text, fontSize = 12.sp, color = Color.White)
     }
+  }
 }
 
 @Composable
@@ -93,32 +92,30 @@ fun LKUseButton(
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit,
 ) {
-    Box(
-        modifier =
-        modifier
-            .width(75.dp)
-            .height(32.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .clickable {
-                onButtonClick.invoke()
-            }
-            .background(color = backgroundColor),
+  Box(
+      modifier =
+          modifier
+              .width(75.dp)
+              .height(32.dp)
+              .clip(RoundedCornerShape(24.dp))
+              .clickable { onButtonClick.invoke() }
+              .background(color = backgroundColor),
+  ) {
+    Row(
+        modifier = modifier.fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
     ) {
-        Row(
-            modifier = modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(text, fontSize = 12.sp, color = Color.White)
-            Spacer(modifier = modifier.width(4.dp))
-            Icon(
-                modifier = modifier.size(12.dp),
-                tint = Color.White,
-                imageVector = Icons.Outlined.ArrowForwardIos,
-                contentDescription = null,
-            )
-        }
+      Text(text, fontSize = 12.sp, color = Color.White)
+      Spacer(modifier = modifier.width(4.dp))
+      Icon(
+          modifier = modifier.size(12.dp),
+          tint = Color.White,
+          imageVector = Icons.Outlined.ArrowForwardIos,
+          contentDescription = null,
+      )
     }
+  }
 }
 
 @Composable
@@ -128,16 +125,16 @@ fun LKNumberButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    Box(
-        modifier = modifier.size(55.dp).clickable { onClick.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = value,
-            color = Color.White,
-            style = MaterialTheme.typography.h4,
-            fontFamily = fontFamily,
-            fontWeight = FontWeight.Medium,
-        )
-    }
+  Box(
+      modifier = modifier.size(55.dp).clickable { onClick.invoke() },
+      contentAlignment = Alignment.Center,
+  ) {
+    Text(
+        text = value,
+        color = Color.White,
+        style = MaterialTheme.typography.h4,
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Medium,
+    )
+  }
 }

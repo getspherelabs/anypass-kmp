@@ -7,11 +7,11 @@ import kotlin.math.abs
 
 @Composable
 internal fun CorrectValueSideEffect(
-  scaleToOffset: (Float) -> Float,
-  valueRange: ClosedFloatingPointRange<Float>,
-  trackRange: ClosedFloatingPointRange<Float>,
-  valueState: MutableState<Float>,
-  value: Float
+    scaleToOffset: (Float) -> Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+    trackRange: ClosedFloatingPointRange<Float>,
+    valueState: MutableState<Float>,
+    value: Float
 ) {
   SideEffect {
     val error = (valueRange.endInclusive - valueRange.start) / 1000

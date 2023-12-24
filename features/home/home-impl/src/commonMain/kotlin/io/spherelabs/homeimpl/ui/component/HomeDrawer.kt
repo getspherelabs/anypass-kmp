@@ -43,162 +43,163 @@ internal fun HomeDrawer(
     navigateToGenerator: () -> Unit,
     navigateToHelp: () -> Unit,
 ) {
-    val strings = LocalStrings.current
+  val strings = LocalStrings.current
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = BlackRussian)
-            .padding(start = 8.dp, top = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        LazyColumn(modifier = modifier.weight(1f)) {
-            item {
-                Row(
-                    modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    RoundedImage(
-                        imageSize = 75,
-                        painter = painterResource(MR.images.avatar),
-                        contentDescription = null,
-                    )
-                }
-
-                Spacer(modifier.height(16.dp))
-
-                Spacer(
-                    modifier.padding(horizontal = 8.dp).height(1.dp).fillMaxWidth()
-                        .background(
-                            Color.Black.copy(
-                                0.5f,
-                            ),
-                        ),
-                )
-
-                Spacer(modifier.height(16.dp))
-                Row(
-                    modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                        navigateToMyAccount.invoke()
-                    },
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        tint = Color.White,
-                        imageVector = Icons.Default.AccountBox,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier.width(8.dp))
-                    Text(
-                        modifier = modifier,
-                        text = strings.myAccount,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-                Spacer(modifier.height(16.dp))
-
-                Row(
-                    modifier = modifier
-                        .padding(start = 24.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            navigateToPasswordHealth.invoke()
-                        },
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        tint = Color.White,
-                        imageVector = Icons.Default.HealthAndSafety,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier.width(8.dp))
-                    Text(
-                        modifier = modifier,
-                        text = strings.passwordHealth,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-                Spacer(modifier.height(16.dp))
-                Row(
-                    modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                        navigateToAuthenticator.invoke()
-                    },
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.CastConnected,
-                        tint = Color.White,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier.width(8.dp))
-                    Text(
-                        modifier = modifier,
-                        text = strings.authenticator,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-                Spacer(modifier.height(16.dp))
-
-                Row(
-                    modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                        navigateToGenerator.invoke()
-                    },
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Password,
-                        tint = Color.White,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier.width(8.dp))
-                    Text(
-                        modifier = modifier,
-                        text = strings.generator,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-
-                Spacer(modifier.height(16.dp))
-
-                Row(
-                    modifier = modifier.padding(start = 24.dp).fillMaxWidth().clickable {
-                        navigateToHelp.invoke()
-                    },
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Icon(
-                        tint = Color.White,
-                        imageVector = Icons.Default.HelpCenter,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier.width(8.dp))
-                    Text(
-                        modifier = modifier,
-                        text = strings.help,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-
-            }
-
-
+  Column(
+      modifier =
+          modifier
+              .fillMaxSize()
+              .background(color = BlackRussian)
+              .padding(start = 8.dp, top = 32.dp),
+      horizontalAlignment = Alignment.CenterHorizontally,
+  ) {
+    LazyColumn(modifier = modifier.weight(1f)) {
+      item {
+        Row(
+            modifier = modifier.padding(start = 24.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+        ) {
+          RoundedImage(
+              imageSize = 75,
+              painter = painterResource(MR.images.avatar),
+              contentDescription = null,
+          )
         }
 
+        Spacer(modifier.height(16.dp))
 
+        Spacer(
+            modifier
+                .padding(horizontal = 8.dp)
+                .height(1.dp)
+                .fillMaxWidth()
+                .background(
+                    Color.Black.copy(
+                        0.5f,
+                    ),
+                ),
+        )
+
+        Spacer(modifier.height(16.dp))
+        Row(
+            modifier =
+                modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                  navigateToMyAccount.invoke()
+                },
+            horizontalArrangement = Arrangement.Start,
+        ) {
+          Icon(
+              tint = Color.White,
+              imageVector = Icons.Default.AccountBox,
+              contentDescription = null,
+          )
+          Spacer(modifier.width(8.dp))
+          Text(
+              modifier = modifier,
+              text = strings.myAccount,
+              fontSize = 20.sp,
+              color = Color.White,
+              fontFamily = GoogleSansFontFamily,
+              fontWeight = FontWeight.Bold,
+          )
+        }
+        Spacer(modifier.height(16.dp))
+
+        Row(
+            modifier =
+                modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                  navigateToPasswordHealth.invoke()
+                },
+            horizontalArrangement = Arrangement.Start,
+        ) {
+          Icon(
+              tint = Color.White,
+              imageVector = Icons.Default.HealthAndSafety,
+              contentDescription = null,
+          )
+          Spacer(modifier.width(8.dp))
+          Text(
+              modifier = modifier,
+              text = strings.passwordHealth,
+              fontSize = 20.sp,
+              color = Color.White,
+              fontFamily = GoogleSansFontFamily,
+              fontWeight = FontWeight.Bold,
+          )
+        }
+        Spacer(modifier.height(16.dp))
+        Row(
+            modifier =
+                modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                  navigateToAuthenticator.invoke()
+                },
+            horizontalArrangement = Arrangement.Start,
+        ) {
+          Icon(
+              imageVector = Icons.Default.CastConnected,
+              tint = Color.White,
+              contentDescription = null,
+          )
+          Spacer(modifier.width(8.dp))
+          Text(
+              modifier = modifier,
+              text = strings.authenticator,
+              fontSize = 20.sp,
+              color = Color.White,
+              fontFamily = GoogleSansFontFamily,
+              fontWeight = FontWeight.Bold,
+          )
+        }
+        Spacer(modifier.height(16.dp))
+
+        Row(
+            modifier =
+                modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                  navigateToGenerator.invoke()
+                },
+            horizontalArrangement = Arrangement.Start,
+        ) {
+          Icon(
+              imageVector = Icons.Default.Password,
+              tint = Color.White,
+              contentDescription = null,
+          )
+          Spacer(modifier.width(8.dp))
+          Text(
+              modifier = modifier,
+              text = strings.generator,
+              fontSize = 20.sp,
+              color = Color.White,
+              fontFamily = GoogleSansFontFamily,
+              fontWeight = FontWeight.Bold,
+          )
+        }
+
+        Spacer(modifier.height(16.dp))
+
+        Row(
+            modifier =
+                modifier.padding(start = 24.dp).fillMaxWidth().clickable {
+                  navigateToHelp.invoke()
+                },
+            horizontalArrangement = Arrangement.Start,
+        ) {
+          Icon(
+              tint = Color.White,
+              imageVector = Icons.Default.HelpCenter,
+              contentDescription = null,
+          )
+          Spacer(modifier.width(8.dp))
+          Text(
+              modifier = modifier,
+              text = strings.help,
+              fontSize = 20.sp,
+              color = Color.White,
+              fontFamily = GoogleSansFontFamily,
+              fontWeight = FontWeight.Bold,
+          )
+        }
+      }
     }
+  }
 }

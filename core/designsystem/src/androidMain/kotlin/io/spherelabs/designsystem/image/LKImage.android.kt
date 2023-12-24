@@ -15,23 +15,22 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 actual fun RoundedImage(
-  painter: Painter,
-  imageSize: Int,
-  contentDescription: String?,
-  modifier: Modifier,
-  alignment: Alignment,
-  contentScale: ContentScale,
-  alpha: Float,
-  colorFilter: ColorFilter?,
-  filterQuality: FilterQuality
+    painter: Painter,
+    imageSize: Int,
+    contentDescription: String?,
+    modifier: Modifier,
+    alignment: Alignment,
+    contentScale: ContentScale,
+    alpha: Float,
+    colorFilter: ColorFilter?,
+    filterQuality: FilterQuality
 ) {
   Image(
-    painter = painter,
-    contentDescription = contentDescription,
-    modifier.clip(CircleShape).size(imageSize.dp),
-    alignment,
-    contentScale,
-    alpha,
-    colorFilter
-  )
+      painter = painter,
+      contentDescription = contentDescription,
+      modifier.clip(CircleShape).size(imageSize.dp),
+      alignment,
+      contentScale,
+      alpha,
+      colorFilter)
 }

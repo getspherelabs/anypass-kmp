@@ -27,28 +27,30 @@ internal fun HomeTag(
     category: String,
     pagerState: PagerState,
 ) {
-    val scope = useScope()
-    val isSelected = pagerState.currentPage == index
+  val scope = useScope()
+  val isSelected = pagerState.currentPage == index
 
-    val color: Color by animateColorAsState(
-        if (isSelected) Jaguar else Color.White.copy(alpha = 0.5f),
-    )
+  val color: Color by
+      animateColorAsState(
+          if (isSelected) Jaguar else Color.White.copy(alpha = 0.5f),
+      )
 
-    Tab(
-        modifier = modifier.background(Color.Transparent).height(36.dp).zIndex(6f)
-            .clip(RoundedCornerShape(50.dp)),
-        text = {
-            Text(
-                text = category,
-                color = color,
-            )
-        },
-        selected = isSelected,
-        onClick = {
-            scope.launch {
-                pagerState.animateScrollToPage(index, pagerState.currentPageOffsetFraction)
-            }
-        },
-    )
-
+  Tab(
+      modifier =
+          modifier
+              .background(Color.Transparent)
+              .height(36.dp)
+              .zIndex(6f)
+              .clip(RoundedCornerShape(50.dp)),
+      text = {
+        Text(
+            text = category,
+            color = color,
+        )
+      },
+      selected = isSelected,
+      onClick = {
+        scope.launch { pagerState.animateScrollToPage(index, pagerState.currentPageOffsetFraction) }
+      },
+  )
 }

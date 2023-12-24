@@ -28,33 +28,30 @@ data class NewTokenState(
     val isDurationExpanded: Boolean = false,
     val isDigitExpanded: Boolean = false,
 ) {
-    companion object {
-        fun types(): List<String> {
-            return NewTokenType.values().map {
-                it.name
-            }
-        }
-
-        fun digits(): List<Int> {
-            return NewTokenDigit.values().map { newDigit ->
-                when(newDigit) {
-                    NewTokenDigit.SIX -> 6
-                    NewTokenDigit.EIGHT -> 8
-                }
-            }
-        }
-
-        fun duration(): List<Int> {
-            return NewTokenDuration.values().map { newDuration ->
-                when(newDuration) {
-                    NewTokenDuration.FIFTEEN -> 15
-                    NewTokenDuration.THIRTY -> 30
-                    NewTokenDuration.SIXTY -> 60
-                }
-            }
-        }
-
-
-        val Empty = NewTokenState()
+  companion object {
+    fun types(): List<String> {
+      return NewTokenType.values().map { it.name }
     }
+
+    fun digits(): List<Int> {
+      return NewTokenDigit.values().map { newDigit ->
+        when (newDigit) {
+          NewTokenDigit.SIX -> 6
+          NewTokenDigit.EIGHT -> 8
+        }
+      }
+    }
+
+    fun duration(): List<Int> {
+      return NewTokenDuration.values().map { newDuration ->
+        when (newDuration) {
+          NewTokenDuration.FIFTEEN -> 15
+          NewTokenDuration.THIRTY -> 30
+          NewTokenDuration.SIXTY -> 60
+        }
+      }
+    }
+
+    val Empty = NewTokenState()
+  }
 }

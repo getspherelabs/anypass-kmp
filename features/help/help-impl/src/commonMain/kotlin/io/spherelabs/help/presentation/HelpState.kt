@@ -7,7 +7,7 @@ data class HelpState(
     val email: String = String.Empty,
     val list: FAQs = emptyList(),
 ) {
-    companion object {
-        val Empty = HelpState()
-    }
+  companion object {
+    val Empty = HelpState()
+  }
 }

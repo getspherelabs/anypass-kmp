@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 
 @Composable
 expect fun LKSpinner(
-  expanded: Boolean,
-  modifier: Modifier = Modifier,
-  onExpandedChange: (Boolean) -> Unit,
-  options: List<String>,
-  onOptionChosen: (String) -> Unit,
-  current: String
+    expanded: Boolean,
+    modifier: Modifier = Modifier,
+    onExpandedChange: (Boolean) -> Unit,
+    options: List<String>,
+    onOptionChosen: (String) -> Unit,
+    current: String
 )

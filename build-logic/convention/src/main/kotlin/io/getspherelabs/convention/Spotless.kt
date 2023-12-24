@@ -16,13 +16,13 @@ fun Project.configureSpotless() {
 
         kotlin {
             target("src/**/*.kt")
-            ktfmt("0.44").googleStyle()
+            ktfmt("0.44")
             licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"))
                 .onlyIfContentMatches("missingString")
         }
         kotlinGradle {
             target("*.kts")
-            ktfmt("0.44").googleStyle()
+            ktfmt("0.44")
             licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"), "(^(?![\\/ ]\\*).*$)")
                 .onlyIfContentMatches("missingString")
         }

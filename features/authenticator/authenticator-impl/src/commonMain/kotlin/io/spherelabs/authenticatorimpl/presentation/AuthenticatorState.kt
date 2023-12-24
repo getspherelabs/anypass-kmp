@@ -14,7 +14,7 @@ data class AuthenticatorState(
     val realTimeOtp: Map<String, RealTimeOtpDomain?> = emptyMap(),
     val isRunning: Boolean = true,
 ) {
-    companion object {
-        val Empty = AuthenticatorState()
-    }
+  companion object {
+    val Empty = AuthenticatorState()
+  }
 }

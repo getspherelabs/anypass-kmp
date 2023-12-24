@@ -1,2 +1,1 @@
-class OnboardingDomainArchitectureTest {
-}
+class OnboardingDomainArchitectureTest {}

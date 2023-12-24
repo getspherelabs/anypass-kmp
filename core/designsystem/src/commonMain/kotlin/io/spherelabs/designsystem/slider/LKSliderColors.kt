@@ -5,12 +5,12 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 class LKSliderColors(
-  private val thumbColor: Color,
-  private val disabledThumbColor: Color,
-  private val trackColor: Color,
-  private val disabledTrackColor: Color,
-  private val tickColor: Color,
-  private val disabledTickColor: Color
+    private val thumbColor: Color,
+    private val disabledThumbColor: Color,
+    private val trackColor: Color,
+    private val disabledTrackColor: Color,
+    private val tickColor: Color,
+    private val disabledTickColor: Color
 ) {
   @Composable
   internal fun thumbColor(enabled: Boolean): State<Color> {

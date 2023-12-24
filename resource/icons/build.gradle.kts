@@ -1,9 +1,6 @@
-plugins {
-    id("anypass.multiplatform.resource")
-}
+plugins { id("anypass.multiplatform.resource") }
 
 kotlin {
-
   sourceSets {
     val commonMain by getting {
       dependencies {

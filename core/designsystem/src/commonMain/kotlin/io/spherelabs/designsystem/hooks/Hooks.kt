@@ -57,7 +57,7 @@ inline fun useTransition(defaultValue: Boolean): MutableTransitionState<Boolean>
 
 @Composable
 inline fun <T> useUpdatedState(newValue: T): State<T> =
-  remember { mutableStateOf(newValue) }.apply { value = newValue }
+    remember { mutableStateOf(newValue) }.apply { value = newValue }
 
 @Composable
 fun useScroll(initialValue: Int = 0): ScrollState {

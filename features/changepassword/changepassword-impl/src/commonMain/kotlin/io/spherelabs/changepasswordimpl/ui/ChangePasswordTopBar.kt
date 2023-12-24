@@ -13,31 +13,27 @@ import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
-
 @Composable
 internal fun ChangePasswordTopBar(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
 ) {
-    val strings = LocalStrings.current
+  val strings = LocalStrings.current
 
-    Row(
-        modifier = modifier.fillMaxWidth().padding(top = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        BackButton(
-            modifier,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
-        )
-        Headline(
-            text = strings.changePassword,
-            modifier = modifier,
-            fontFamily = GoogleSansFontFamily,
-            fontWeight = FontWeight.Medium,
-            textColor = Color.White,
-        )
-
-    }
+  Row(
+      modifier = modifier.fillMaxWidth().padding(top = 16.dp),
+      verticalAlignment = Alignment.CenterVertically,
+  ) {
+    BackButton(
+        modifier,
+        navigateToBack = { navigateToBack.invoke() },
+    )
+    Headline(
+        text = strings.changePassword,
+        modifier = modifier,
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium,
+        textColor = Color.White,
+    )
+  }
 }

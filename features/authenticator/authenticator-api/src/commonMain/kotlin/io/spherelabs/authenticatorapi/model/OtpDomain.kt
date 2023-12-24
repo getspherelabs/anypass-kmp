@@ -1,6 +1,5 @@
 package io.spherelabs.authenticatorapi.model
 
-
 data class OtpDomain(
     val id: String,
     val secret: String,

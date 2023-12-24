@@ -26,16 +26,16 @@ import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 fun BasicLKDialog(
-  dialogState: LKDialogState = useDialogState(),
-  properties: LKDialogProperties = LKDialogProperties(),
-  backgroundColor: Color = Jaguar,
-  shape: Shape = MaterialTheme.shapes.medium,
-  border: BorderStroke? = null,
-  elevation: Dp = 24.dp,
-  autoDismiss: Boolean = true,
-  onCloseRequest: (LKDialogState) -> Unit = { it.hide() },
-  buttons: @Composable LKDialogButtons.() -> Unit = {},
-  content: @Composable LKDialogScope.() -> Unit
+    dialogState: LKDialogState = useDialogState(),
+    properties: LKDialogProperties = LKDialogProperties(),
+    backgroundColor: Color = Jaguar,
+    shape: Shape = MaterialTheme.shapes.medium,
+    border: BorderStroke? = null,
+    elevation: Dp = 24.dp,
+    autoDismiss: Boolean = true,
+    onCloseRequest: (LKDialogState) -> Unit = { it.hide() },
+    buttons: @Composable LKDialogButtons.() -> Unit = {},
+    content: @Composable LKDialogScope.() -> Unit
 ) {
   val dialogScope = remember { LKDialogScopeImpl(dialogState, autoDismiss) }
 
@@ -46,8 +46,8 @@ fun BasicLKDialog(
 
   if (dialogState.showing) {
     dialogState.dialogBackgroundColor =
-      LocalElevationOverlay.current?.apply(color = backgroundColor, elevation = elevation)
-        ?: MaterialTheme.colors.surface
+        LocalElevationOverlay.current?.apply(color = backgroundColor, elevation = elevation)
+            ?: MaterialTheme.colors.surface
 
     BoxWithConstraints {
       LKDialog(properties = properties, onDismissRequest = { onCloseRequest(dialogState) }) {
@@ -57,47 +57,44 @@ fun BasicLKDialog(
 
         val maxHeightPx = with(LocalDensity.current) { maxHeight.toPx().toInt() }
         Surface(
-          modifier =
-            Modifier.fillMaxWidth()
-              .padding(horizontal = 24.dp)
-              .clipToBounds()
-              .dialogHeight()
-              .testTag("dialog"),
-          shape = getDialogShape(shape),
-          color = backgroundColor,
-          border = border,
-          elevation = elevation
-        ) {
-          Layout(
-            content = {
-              dialogScope.DialogButtonsLayout(
-                modifier = Modifier.layoutId("buttons"),
-                content = buttons
-              )
-              Column(Modifier.layoutId("content")) { content(dialogScope) }
+            modifier =
+                Modifier.fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .clipToBounds()
+                    .dialogHeight()
+                    .testTag("dialog"),
+            shape = getDialogShape(shape),
+            color = backgroundColor,
+            border = border,
+            elevation = elevation) {
+              Layout(
+                  content = {
+                    dialogScope.DialogButtonsLayout(
+                        modifier = Modifier.layoutId("buttons"), content = buttons)
+                    Column(Modifier.layoutId("content")) { content(dialogScope) }
+                  }) { measurables, constraints ->
+                    val buttonsHeight = measurables[0].minIntrinsicHeight(constraints.maxWidth)
+                    val buttonsPlaceable =
+                        measurables[0].measure(
+                            constraints.copy(maxHeight = buttonsHeight, minHeight = 0))
+
+                    val contentPlaceable =
+                        measurables[1].measure(
+                            constraints.copy(
+                                maxHeight = maxHeightPx - buttonsPlaceable.height,
+                                minHeight = 0,
+                            ))
+
+                    val height =
+                        getLayoutHeight(
+                            maxHeightPx, buttonsPlaceable.height + contentPlaceable.height)
+
+                    return@Layout layout(constraints.maxWidth, height) {
+                      contentPlaceable.place(0, 0)
+                      buttonsPlaceable.place(0, height - buttonsPlaceable.height)
+                    }
+                  }
             }
-          ) { measurables, constraints ->
-            val buttonsHeight = measurables[0].minIntrinsicHeight(constraints.maxWidth)
-            val buttonsPlaceable =
-              measurables[0].measure(constraints.copy(maxHeight = buttonsHeight, minHeight = 0))
-
-            val contentPlaceable =
-              measurables[1].measure(
-                constraints.copy(
-                  maxHeight = maxHeightPx - buttonsPlaceable.height,
-                  minHeight = 0,
-                )
-              )
-
-            val height =
-              getLayoutHeight(maxHeightPx, buttonsPlaceable.height + contentPlaceable.height)
-
-            return@Layout layout(constraints.maxWidth, height) {
-              contentPlaceable.place(0, 0)
-              buttonsPlaceable.place(0, height - buttonsPlaceable.height)
-            }
-          }
-        }
       }
     }
   }

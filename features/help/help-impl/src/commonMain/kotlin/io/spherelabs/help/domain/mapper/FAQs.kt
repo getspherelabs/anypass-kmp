@@ -6,11 +6,13 @@ import io.spherelabs.model.FAQ
 import io.spherelabs.model.FAQs as DomainFAQs
 
 fun StoreFAQs.asDomain(): DomainFAQs {
-    return this.map { data -> data.asDomain() }
+  return this.map { data -> data.asDomain() }
 }
 
 fun AskedQuestion.asDomain(): FAQ {
-    return FAQ(
-        uuid, question, answer,
-    )
+  return FAQ(
+      uuid,
+      question,
+      answer,
+  )
 }

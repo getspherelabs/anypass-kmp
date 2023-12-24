@@ -10,21 +10,17 @@ import passwordhealthimpl.presentation.PasswordHealthViewModel
 
 class PasswordHealthScreen : Screen {
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel: PasswordHealthViewModel = useInject()
-        val currentUiState = viewModel.state.collectAsStateWithLifecycle()
+  @Composable
+  override fun Content() {
+    val navigator = LocalNavigator.currentOrThrow
+    val viewModel: PasswordHealthViewModel = useInject()
+    val currentUiState = viewModel.state.collectAsStateWithLifecycle()
 
-        PasswordHealthContent(
-            wish = { newWish ->
-                viewModel.wish(newWish)
-            },
-            uiState = currentUiState.value,
-            uiEffect = viewModel.effect,
-            navigateToHome = {
-                navigator.pop()
-            },
-        )
-    }
+    PasswordHealthContent(
+        wish = { newWish -> viewModel.wish(newWish) },
+        uiState = currentUiState.value,
+        uiEffect = viewModel.effect,
+        navigateToHome = { navigator.pop() },
+    )
+  }
 }

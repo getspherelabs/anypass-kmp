@@ -10,16 +10,18 @@ class HelpViewModel(
     private val helpMiddleware: HelpMiddleware,
 ) : CommonViewModel<HelpState, HelpWish, HelpEffect>() {
 
-    override val store: Store<HelpState, HelpWish, HelpEffect> = createMeteor(
-        configs = MeteorConfigs.build {
-            initialState = HelpState.Empty
-            storeName = STORE_NAME
-            reducer = helpReducer
-            middlewares = listOf(helpMiddleware)
-        },
-    )
+  override val store: Store<HelpState, HelpWish, HelpEffect> =
+      createMeteor(
+          configs =
+              MeteorConfigs.build {
+                initialState = HelpState.Empty
+                storeName = STORE_NAME
+                reducer = helpReducer
+                middlewares = listOf(helpMiddleware)
+              },
+      )
 
-    companion object {
-        private const val STORE_NAME = "io.spherelabs.help.presentation.HelpViewModel"
-    }
+  companion object {
+    private const val STORE_NAME = "io.spherelabs.help.presentation.HelpViewModel"
+  }
 }

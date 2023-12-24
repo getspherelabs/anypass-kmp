@@ -36,63 +36,57 @@ import platform.UIKit.UIScreen
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 @Composable
 internal actual fun LKDialog(
-  onDismissRequest: () -> Unit,
-  properties: LKDialogProperties,
-  content: @Composable () -> Unit,
+    onDismissRequest: () -> Unit,
+    properties: LKDialogProperties,
+    content: @Composable () -> Unit,
 ) {
   val size = remember {
     UIScreen.mainScreen.bounds.useContents { IntSize(size.width.toInt(), size.height.toInt()) }
   }
   CompositionLocalProvider(
-    LocalScreenConfiguration provides ScreenConfiguration(size.width, size.height, size)
-  ) {
-    Popup(
-      popupPositionProvider = IosPopupPositionProvider,
-      onDismissRequest = onDismissRequest,
-      properties = PopupProperties(focusable = true),
-      onPreviewKeyEvent = { false },
-      onKeyEvent = {
-        if (
-          properties.dismissOnBackPress &&
-            it.type == KeyEventType.KeyDown &&
-            it.nativeKeyEvent.key == SkikoKey.KEY_ESCAPE
-        ) {
-          onDismissRequest()
-          true
-        } else {
-          false
-        }
-      }
-    ) {
-      Box(
-        modifier = Modifier.fillMaxSize().background(DrawerDefaults.scrimColor),
-        contentAlignment = Alignment.Center
-      ) {
-        if (properties.dismissOnClickOutside) {
-          Box(
-            modifier =
-              Modifier.fillMaxSize().pointerInput(onDismissRequest) {
-                detectTapGestures(onTap = { onDismissRequest() })
+      LocalScreenConfiguration provides ScreenConfiguration(size.width, size.height, size)) {
+        Popup(
+            popupPositionProvider = IosPopupPositionProvider,
+            onDismissRequest = onDismissRequest,
+            properties = PopupProperties(focusable = true),
+            onPreviewKeyEvent = { false },
+            onKeyEvent = {
+              if (properties.dismissOnBackPress &&
+                  it.type == KeyEventType.KeyDown &&
+                  it.nativeKeyEvent.key == SkikoKey.KEY_ESCAPE) {
+                onDismissRequest()
+                true
+              } else {
+                false
               }
-          )
-        }
-        content()
+            }) {
+              Box(
+                  modifier = Modifier.fillMaxSize().background(DrawerDefaults.scrimColor),
+                  contentAlignment = Alignment.Center) {
+                    if (properties.dismissOnClickOutside) {
+                      Box(
+                          modifier =
+                              Modifier.fillMaxSize().pointerInput(onDismissRequest) {
+                                detectTapGestures(onTap = { onDismissRequest() })
+                              })
+                    }
+                    content()
+                  }
+            }
       }
-    }
-  }
 }
 
 object IosPopupPositionProvider : PopupPositionProvider {
   override fun calculatePosition(
-    anchorBounds: IntRect,
-    windowSize: IntSize,
-    layoutDirection: LayoutDirection,
-    popupContentSize: IntSize
+      anchorBounds: IntRect,
+      windowSize: IntSize,
+      layoutDirection: LayoutDirection,
+      popupContentSize: IntSize
   ): IntOffset = IntOffset.Zero
 }
 
 internal actual fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier =
-  sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
+    sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
 
 @Composable internal actual fun getDialogShape(shape: Shape): Shape = shape
 

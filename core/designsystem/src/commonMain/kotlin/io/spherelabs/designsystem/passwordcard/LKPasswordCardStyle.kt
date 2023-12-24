@@ -10,15 +10,15 @@ import io.spherelabs.designsystem.hooks.useUpdatedState
 
 @Immutable
 class LKPasswordCardStyle(
-  private val titleFontFamily: FontFamily,
-  private val emailFontFamily: FontFamily,
-  private val passwordFontFamily: FontFamily,
-  private val copyFontFamily: FontFamily,
-  private val titleFontSize: TextUnit,
-  private val emailFontSize: TextUnit,
-  private val passwordFontSize: TextUnit,
-  private val copyFontSize: TextUnit,
-  private val cardCornerShape: Dp
+    private val titleFontFamily: FontFamily,
+    private val emailFontFamily: FontFamily,
+    private val passwordFontFamily: FontFamily,
+    private val copyFontFamily: FontFamily,
+    private val titleFontSize: TextUnit,
+    private val emailFontSize: TextUnit,
+    private val passwordFontSize: TextUnit,
+    private val copyFontSize: TextUnit,
+    private val cardCornerShape: Dp
 ) {
   @Composable
   fun titleFontFamily(): State<FontFamily> {

@@ -10,21 +10,23 @@ class AuthenticatorViewModel(
     private val authenticatorReducer: AuthenticatorReducer,
 ) : CommonViewModel<AuthenticatorState, AuthenticatorWish, AuthenticatorEffect>() {
 
-    override val store: Store<AuthenticatorState, AuthenticatorWish, AuthenticatorEffect> =
-        createMeteor(
-            configs = MeteorConfigs.build {
+  override val store: Store<AuthenticatorState, AuthenticatorWish, AuthenticatorEffect> =
+      createMeteor(
+          configs =
+              MeteorConfigs.build {
                 initialState = AuthenticatorState.Empty
                 storeName = STORE_NAME
                 reducer = authenticatorReducer
                 middlewares = listOf(authenticatorMiddleware)
-            },
-        )
-    companion object {
-        private const val STORE_NAME =
-            "io.spherelabs.authenticatorimpl.presentation.AuthenticatorViewModel"
-    }
+              },
+      )
 
-    override fun onCleared() {
-        super.onCleared()
-    }
+  companion object {
+    private const val STORE_NAME =
+        "io.spherelabs.authenticatorimpl.presentation.AuthenticatorViewModel"
+  }
+
+  override fun onCleared() {
+    super.onCleared()
+  }
 }

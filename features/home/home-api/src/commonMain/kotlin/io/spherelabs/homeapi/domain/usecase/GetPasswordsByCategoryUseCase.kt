@@ -4,5 +4,5 @@ import io.spherelabs.homeapi.models.HomePassword
 import kotlinx.coroutines.flow.Flow
 
 interface GetPasswordsByCategoryUseCase {
-    fun execute(categoryId: String): Flow<List<HomePassword>>
+  fun execute(categoryId: String): Flow<List<HomePassword>>
 }

@@ -6,7 +6,7 @@ import io.spherelabs.onboardingapi.domain.usecase.SetIsFirstTimeUseCase
 class DefaultSetIsFirstTimeUseCase(private val onboardingSetting: OnboardingSetting) :
     SetIsFirstTimeUseCase {
 
-    override suspend fun execute(value: Boolean) {
-        onboardingSetting.setIsFirstTime(value)
-    }
+  override suspend fun execute(value: Boolean) {
+    onboardingSetting.setIsFirstTime(value)
+  }
 }

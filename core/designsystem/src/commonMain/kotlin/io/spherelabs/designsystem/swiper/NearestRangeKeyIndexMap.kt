@@ -6,8 +6,8 @@ import androidx.compose.foundation.lazy.layout.getDefaultLazyLayoutKey
 
 @OptIn(ExperimentalFoundationApi::class)
 internal class NearestRangeKeyIndexMap(
-  nearestRange: IntRange,
-  intervalContent: LazyLayoutIntervalContent<*>
+    nearestRange: IntRange,
+    intervalContent: LazyLayoutIntervalContent<*>
 ) {
   private val map: Map<Any, Int>
   private val keys: Array<Any?>
@@ -28,21 +28,21 @@ internal class NearestRangeKeyIndexMap(
       keys = arrayOfNulls<Any?>(last - first + 1)
       keysStartIndex = first
       map =
-        hashMapOf<Any, Int>().also { map ->
-          list.forEach(
-            fromIndex = first,
-            toIndex = last,
-          ) {
-            val keyFactory = it.value.key
-            val start = maxOf(first, it.startIndex)
-            val end = minOf(last, it.startIndex + it.size - 1)
-            for (i in start..end) {
-              val key = keyFactory?.invoke(i - it.startIndex) ?: getDefaultLazyLayoutKey(i)
-              map[key] = i
-              keys[i - keysStartIndex] = key
+          hashMapOf<Any, Int>().also { map ->
+            list.forEach(
+                fromIndex = first,
+                toIndex = last,
+            ) {
+              val keyFactory = it.value.key
+              val start = maxOf(first, it.startIndex)
+              val end = minOf(last, it.startIndex + it.size - 1)
+              for (i in start..end) {
+                val key = keyFactory?.invoke(i - it.startIndex) ?: getDefaultLazyLayoutKey(i)
+                map[key] = i
+                keys[i - keysStartIndex] = key
+              }
             }
           }
-        }
     }
   }
 

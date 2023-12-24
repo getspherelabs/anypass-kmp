@@ -25,64 +25,62 @@ fun HomeHeadline(
     modifier: Modifier = Modifier,
 ) {
 
-    val strings = LocalStrings.current
+  val strings = LocalStrings.current
 
-    LazyColumn(
-        modifier = modifier.padding(start = 24.dp),
-    ) {
-        item {
-            Row {
-                Text(
-                    text = strings.keep,
-                    color = Color.White,
-                    fontSize = fontSize,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Bold,
-                )
-                Spacer(modifier = modifier.width(12.dp))
-                RoundedImage(
-                    imageSize = 56,
-                    painter = painterResource(MR.images.avatar3), contentDescription = null,
-                )
-
-            }
-        }
-        item {
-            Row {
-                RoundedImage(
-                    imageSize = 56,
-                    painter = painterResource(MR.images.avatar6), contentDescription = null,
-                )
-                Spacer(modifier = modifier.width(12.dp))
-                Text(
-                    text = strings.yourLife,
-                    color = Color.White,
-                    fontSize = fontSize,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Bold,
-                )
-
-            }
-        }
-
-        item {
-            Row {
-                Text(
-                    text = strings.safe,
-                    color = Color.White,
-                    fontSize = fontSize,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Bold,
-                )
-                Spacer(modifier = modifier.width(12.dp))
-                RoundedImage(
-                    imageSize = 56,
-                    painter = painterResource(MR.images.avatar4),
-                    contentDescription = null,
-                )
-
-            }
-        }
-
+  LazyColumn(
+      modifier = modifier.padding(start = 24.dp),
+  ) {
+    item {
+      Row {
+        Text(
+            text = strings.keep,
+            color = Color.White,
+            fontSize = fontSize,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = modifier.width(12.dp))
+        RoundedImage(
+            imageSize = 56,
+            painter = painterResource(MR.images.avatar3),
+            contentDescription = null,
+        )
+      }
     }
+    item {
+      Row {
+        RoundedImage(
+            imageSize = 56,
+            painter = painterResource(MR.images.avatar6),
+            contentDescription = null,
+        )
+        Spacer(modifier = modifier.width(12.dp))
+        Text(
+            text = strings.yourLife,
+            color = Color.White,
+            fontSize = fontSize,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Bold,
+        )
+      }
+    }
+
+    item {
+      Row {
+        Text(
+            text = strings.safe,
+            color = Color.White,
+            fontSize = fontSize,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = modifier.width(12.dp))
+        RoundedImage(
+            imageSize = 56,
+            painter = painterResource(MR.images.avatar4),
+            contentDescription = null,
+        )
+      }
+    }
+  }
 }

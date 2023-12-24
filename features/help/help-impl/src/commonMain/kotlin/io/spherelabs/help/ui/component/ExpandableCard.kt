@@ -41,92 +41,85 @@ fun ExpandableCard(
     question: String,
     answer: String,
 ) {
-    var expandedState by remember { mutableStateOf(ExpandableCardState.Collapsed) }
+  var expandedState by remember { mutableStateOf(ExpandableCardState.Collapsed) }
 
-    val rotationState by animateFloatAsState(
-        targetValue = expandedState.changeSizeOfCard(),
-    )
+  val rotationState by
+      animateFloatAsState(
+          targetValue = expandedState.changeSizeOfCard(),
+      )
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = LinearOutSlowInEasing,
-                ),
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = Jaguar,
-        ),
-        shape = RoundedCornerShape(16.dp),
-        onClick = {
-            expandedState = expandedState.toggle()
-        },
+  Card(
+      modifier =
+          Modifier.fillMaxWidth()
+              .animateContentSize(
+                  animationSpec =
+                      tween(
+                          durationMillis = 300,
+                          easing = LinearOutSlowInEasing,
+                      ),
+              ),
+      colors =
+          CardDefaults.cardColors(
+              containerColor = Jaguar,
+          ),
+      shape = RoundedCornerShape(16.dp),
+      onClick = { expandedState = expandedState.toggle() },
+  ) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(12.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+      Row(
+          verticalAlignment = Alignment.CenterVertically,
+      ) {
+        Text(
+            modifier = Modifier.weight(6f),
+            text = question,
+            fontSize = 14.sp,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            color = Color.White,
+            overflow = TextOverflow.Ellipsis,
+        )
+        IconButton(
+            modifier = Modifier.weight(1f).alpha(ContentAlpha.medium).rotate(rotationState),
+            onClick = { expandedState = expandedState.toggle() },
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    modifier = Modifier
-                        .weight(6f),
-                    text = question,
-                    fontSize = 14.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    color = Color.White,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                IconButton(
-                    modifier = Modifier
-                        .weight(1f)
-                        .alpha(ContentAlpha.medium)
-                        .rotate(rotationState),
-                    onClick = {
-                        expandedState = expandedState.toggle()
-                    },
-                ) {
-                    Icon(
-                        tint = Color.White,
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Drop-Down Arrow",
-                    )
-                }
-            }
-            if (expandedState == ExpandableCardState.Expanded) {
-                Text(
-                    text = answer,
-                    fontSize = 12.sp,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontFamily = GoogleSansFontFamily,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
+          Icon(
+              tint = Color.White,
+              imageVector = Icons.Default.ArrowDropDown,
+              contentDescription = "Drop-Down Arrow",
+          )
         }
+      }
+      if (expandedState == ExpandableCardState.Expanded) {
+        Text(
+            text = answer,
+            fontSize = 12.sp,
+            color = Color.White.copy(alpha = 0.7f),
+            fontFamily = GoogleSansFontFamily,
+            overflow = TextOverflow.Ellipsis,
+        )
+      }
     }
+  }
 }
 
 enum class ExpandableCardState {
-    Expanded,
-    Collapsed;
+  Expanded,
+  Collapsed;
 
-    fun toggle(): ExpandableCardState {
-        return when (this) {
-            Expanded -> Collapsed
-            Collapsed -> Expanded
-        }
+  fun toggle(): ExpandableCardState {
+    return when (this) {
+      Expanded -> Collapsed
+      Collapsed -> Expanded
     }
+  }
 
-    fun changeSizeOfCard(): Float {
-        return when (this) {
-            Expanded -> ExpandableCardDefaults.SIZE_OF_EXPANDED
-            Collapsed -> ExpandableCardDefaults.SIZE_OF_COLLAPSED
-        }
+  fun changeSizeOfCard(): Float {
+    return when (this) {
+      Expanded -> ExpandableCardDefaults.SIZE_OF_EXPANDED
+      Collapsed -> ExpandableCardDefaults.SIZE_OF_COLLAPSED
     }
+  }
 }

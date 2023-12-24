@@ -1,7 +1,6 @@
 package io.spherelabs.designsystem.slider
 
 import androidx.compose.ui.graphics.Color
-import io.spherelabs.foundation.color.Jaguar
 
 object LKSliderTokens {
   val ThumbColor: Color = Color.Green

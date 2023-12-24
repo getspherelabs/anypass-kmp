@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.map
 class DefaultGetFAQsUseCase(
     private val storeManager: HelpStoreManager,
 ) : GetFAQsUseCase {
-    override fun execute(): Flow<FAQs> {
-        return storeManager.getAskedQuestions().map { faqs ->
-            faqs.asDomain()
-        }
-    }
+  override fun execute(): Flow<FAQs> {
+    return storeManager.getAskedQuestions().map { faqs -> faqs.asDomain() }
+  }
 }

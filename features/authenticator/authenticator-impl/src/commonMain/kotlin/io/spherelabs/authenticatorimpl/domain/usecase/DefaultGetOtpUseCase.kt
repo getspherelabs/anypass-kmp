@@ -9,7 +9,7 @@ class DefaultGetOtpUseCase(
     private val authenticatorRepository: AuthenticatorRepository,
 ) : GetOtpUseCase {
 
-    override fun execute(): Flow<List<OtpDomain>> {
-        return authenticatorRepository.getAllOtp()
-    }
+  override fun execute(): Flow<List<OtpDomain>> {
+    return authenticatorRepository.getAllOtp()
+  }
 }

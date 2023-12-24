@@ -24,60 +24,59 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import io.spherelabs.homeimpl.ui.HomeDefaults
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun HomeIndicator(tabPositions: List<TabPosition>, pagerState: PagerState) {
-    val transition = updateTransition(pagerState.currentPage, label = "")
+  val transition = updateTransition(pagerState.currentPage, label = "")
 
-    val indicatorStart by transition.animateDp(
-        transitionSpec = {
+  val indicatorStart by
+      transition.animateDp(
+          transitionSpec = {
             if (initialState < targetState) {
-                spring(
-                    dampingRatio = HomeDefaults.minDampingRatio,
-                    stiffness = HomeDefaults.minStiffness,
-                )
+              spring(
+                  dampingRatio = HomeDefaults.minDampingRatio,
+                  stiffness = HomeDefaults.minStiffness,
+              )
             } else {
-                spring(
-                    dampingRatio = HomeDefaults.minDampingRatio,
-                    stiffness = HomeDefaults.maxStiffness,
-                )
+              spring(
+                  dampingRatio = HomeDefaults.minDampingRatio,
+                  stiffness = HomeDefaults.maxStiffness,
+              )
             }
-        },
-        label = "${pagerState.currentPage}",
-    ) {
+          },
+          label = "${pagerState.currentPage}",
+      ) {
         tabPositions[it].left
-    }
+      }
 
-    val indicatorEnd by transition.animateDp(
-        transitionSpec = {
+  val indicatorEnd by
+      transition.animateDp(
+          transitionSpec = {
             if (initialState < targetState) {
-                spring(
-                    dampingRatio = HomeDefaults.minDampingRatio,
-                    stiffness = HomeDefaults.maxStiffness,
-                )
+              spring(
+                  dampingRatio = HomeDefaults.minDampingRatio,
+                  stiffness = HomeDefaults.maxStiffness,
+              )
             } else {
-                spring(
-                    dampingRatio = HomeDefaults.minDampingRatio,
-                    stiffness = HomeDefaults.minStiffness,
-                )
+              spring(
+                  dampingRatio = HomeDefaults.minDampingRatio,
+                  stiffness = HomeDefaults.minStiffness,
+              )
             }
-        },
-        label = "",
-    ) {
+          },
+          label = "",
+      ) {
         tabPositions[it].right
-    }
+      }
 
-    Box(
-        Modifier
-            .offset(x = indicatorStart)
-            .wrapContentSize(align = Alignment.BottomStart)
-            .width(indicatorEnd - indicatorStart)
-            .requiredHeight(30.dp)
-            .padding(2.dp)
-            .fillMaxSize()
-            .background(color = Color.White, RoundedCornerShape(HomeDefaults.cornerShape))
-            .zIndex(HomeDefaults.zIndex),
-
-        )
+  Box(
+      Modifier.offset(x = indicatorStart)
+          .wrapContentSize(align = Alignment.BottomStart)
+          .width(indicatorEnd - indicatorStart)
+          .requiredHeight(30.dp)
+          .padding(2.dp)
+          .fillMaxSize()
+          .background(color = Color.White, RoundedCornerShape(HomeDefaults.cornerShape))
+          .zIndex(HomeDefaults.zIndex),
+  )
 }

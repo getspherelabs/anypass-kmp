@@ -11,8 +11,9 @@ import io.spherelabs.resource.EnAnyPassStrings
 import io.spherelabs.resource.strings.AnyPassStrings
 import io.spherelabs.resource.strings.Strings
 
-val LocalStrings: ProvidableCompositionLocal<AnyPassStrings> =
-    compositionLocalOf { EnAnyPassStrings }
+val LocalStrings: ProvidableCompositionLocal<AnyPassStrings> = compositionLocalOf {
+  EnAnyPassStrings
+}
 
 @Composable
 fun useStrings(
@@ -24,6 +25,5 @@ fun ProvideStrings(
     lyricist: Lyricist<AnyPassStrings> = useStrings(),
     content: @Composable () -> Unit,
 ) {
-    ProvideStrings(lyricist, LocalStrings, content)
+  ProvideStrings(lyricist, LocalStrings, content)
 }
-

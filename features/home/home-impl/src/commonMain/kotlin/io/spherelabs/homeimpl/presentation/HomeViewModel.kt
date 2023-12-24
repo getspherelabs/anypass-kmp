@@ -11,15 +11,14 @@ class HomeViewModel(
 ) : CommonViewModel<HomeState, HomeWish, HomeEffect>() {
 
   override val store: Store<HomeState, HomeWish, HomeEffect> =
-    viewModelScope.createMeteor(
-      configs =
-        MeteorConfigs.build {
-          initialState = HomeState.Empty
-          storeName = HOME_STORE_NAME
-          reducer = homeReducer
-          middlewares = listOf(homeMiddleware)
-        }
-    )
+      viewModelScope.createMeteor(
+          configs =
+              MeteorConfigs.build {
+                initialState = HomeState.Empty
+                storeName = HOME_STORE_NAME
+                reducer = homeReducer
+                middlewares = listOf(homeMiddleware)
+              })
 
   companion object {
     const val HOME_STORE_NAME = "io.spherelabs.homeimpl.presentation.HomeViewModel"

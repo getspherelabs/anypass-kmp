@@ -12,29 +12,27 @@ import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
-
 @Composable
 internal fun AuthenticatorTopBar(
     modifier: Modifier = Modifier,
     navigateToNewToken: () -> Unit,
 ) {
-    val strings = LocalStrings.current
-    val dimensions = LocalDimensions.current
+  val strings = LocalStrings.current
+  val dimensions = LocalDimensions.current
 
-    Row(
-        modifier = modifier.fillMaxWidth()
-            .padding(start = dimensions.large, end = dimensions.large, top = dimensions.medium),
-        horizontalArrangement = Arrangement.End,
+  Row(
+      modifier =
+          modifier
+              .fillMaxWidth()
+              .padding(start = dimensions.large, end = dimensions.large, top = dimensions.medium),
+      horizontalArrangement = Arrangement.End,
+  ) {
+    LKNewItemButton(
+        contentText = strings.newToken,
+        backgroundColor = LavenderBlue.copy(0.7f),
+        contentFontFamily = GoogleSansFontFamily,
     ) {
-
-        LKNewItemButton(
-            contentText = strings.newToken,
-            backgroundColor = LavenderBlue.copy(0.7f),
-            contentFontFamily = GoogleSansFontFamily,
-        ) {
-            navigateToNewToken.invoke()
-        }
-
+      navigateToNewToken.invoke()
     }
-
+  }
 }

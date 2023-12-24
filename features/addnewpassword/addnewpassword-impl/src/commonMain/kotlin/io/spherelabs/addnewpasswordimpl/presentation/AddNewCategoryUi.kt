@@ -6,7 +6,7 @@ data class AddNewCategoryUi(val id: String, val title: String)
 
 fun AddNewCategory.asUi(): AddNewCategoryUi {
   return AddNewCategoryUi(
-    id,
-    title,
+      id,
+      title,
   )
 }

@@ -14,23 +14,21 @@ class AccountFacadeManager(
     private val getSizeOfStrongPasswordUseCase: GetSizeOfStrongPasswordUseCase,
 ) {
 
-    fun getAllPasswords(): Flow<AllPasswords> {
-        return flow {
-            combine(
-                getTotalPasswordUseCase.execute(),
-                getSizeOfStrongPasswordUseCase.execute(),
-                getSizeOfWeakPasswordUseCase.execute(),
-            ) { totalPassword, weakPassword, strongPassword ->
-                emit(
-                    AllPasswords(
-                        totalPassword = totalPassword,
-                        sizeOfWeakPassword = weakPassword,
-                        sizeOfStrongPassword = strongPassword,
-                    ),
-                )
-            }
-        }
+  fun getAllPasswords(): Flow<AllPasswords> {
+    return flow {
+      combine(
+          getTotalPasswordUseCase.execute(),
+          getSizeOfStrongPasswordUseCase.execute(),
+          getSizeOfWeakPasswordUseCase.execute(),
+      ) { totalPassword, weakPassword, strongPassword ->
+        emit(
+            AllPasswords(
+                totalPassword = totalPassword,
+                sizeOfWeakPassword = weakPassword,
+                sizeOfStrongPassword = strongPassword,
+            ),
+        )
+      }
     }
-
-
+  }
 }

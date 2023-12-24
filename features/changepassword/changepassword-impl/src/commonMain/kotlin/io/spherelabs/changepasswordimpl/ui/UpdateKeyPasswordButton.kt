@@ -17,32 +17,27 @@ import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
-
 @Composable
 internal fun UpdateKeyPasswordButton(
     modifier: Modifier = Modifier,
     onUpdateClicked: () -> Unit,
 ) {
-    val strings = LocalStrings.current
-    Button(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(65.dp)
-            .padding(start = 24.dp, end = 24.dp),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = LavenderBlue.copy(0.7f),
-        ),
-        shape = RoundedCornerShape(24.dp),
-        onClick = {
-            onUpdateClicked.invoke()
-        },
-    ) {
-        Text(
-            text = strings.updateKeyPassword,
-            color = Color.White,
-            fontSize = 18.sp,
-            fontFamily = GoogleSansFontFamily,
-            fontWeight = FontWeight.Medium,
-        )
-    }
+  val strings = LocalStrings.current
+  Button(
+      modifier = modifier.fillMaxWidth().height(65.dp).padding(start = 24.dp, end = 24.dp),
+      colors =
+          ButtonDefaults.buttonColors(
+              backgroundColor = LavenderBlue.copy(0.7f),
+          ),
+      shape = RoundedCornerShape(24.dp),
+      onClick = { onUpdateClicked.invoke() },
+  ) {
+    Text(
+        text = strings.updateKeyPassword,
+        color = Color.White,
+        fontSize = 18.sp,
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium,
+    )
+  }
 }

@@ -13,7 +13,7 @@ data class ChangePasswordState(
     val isNewKeyPasswordFailed: Boolean = false,
     val isKeyPasswordNotSame: Boolean = false
 ) {
-    companion object {
-        val Empty = ChangePasswordState()
-    }
+  companion object {
+    val Empty = ChangePasswordState()
+  }
 }

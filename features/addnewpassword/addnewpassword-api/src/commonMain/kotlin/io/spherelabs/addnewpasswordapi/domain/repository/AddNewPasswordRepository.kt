@@ -5,7 +5,7 @@ import io.spherelabs.addnewpasswordapi.model.AddNewPassword
 import kotlinx.coroutines.flow.Flow
 
 interface AddNewPasswordRepository {
-    suspend fun insertPassword(password: AddNewPassword)
+  suspend fun insertPassword(password: AddNewPassword)
 
-    fun getCategories(): Flow<List<AddNewCategory>>
+  fun getCategories(): Flow<List<AddNewCategory>>
 }

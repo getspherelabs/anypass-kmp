@@ -7,11 +7,11 @@ import io.spherelabs.meteor.extension.unexpected
 import io.spherelabs.meteor.reducer.Reducer
 
 class GeneratePasswordReducer :
-  Reducer<GeneratePasswordState, GeneratePasswordWish, GeneratePasswordEffect> {
+    Reducer<GeneratePasswordState, GeneratePasswordWish, GeneratePasswordEffect> {
 
   override fun reduce(
-    currentState: GeneratePasswordState,
-    currentWish: GeneratePasswordWish
+      currentState: GeneratePasswordState,
+      currentWish: GeneratePasswordWish
   ): Change<GeneratePasswordState, GeneratePasswordEffect> {
     return when (currentWish) {
       is GeneratePasswordWish.GeneratePasswordFailed -> {

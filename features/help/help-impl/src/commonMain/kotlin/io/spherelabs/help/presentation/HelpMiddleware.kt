@@ -8,23 +8,23 @@ class HelpMiddleware(
     private val getFAQsUseCase: GetFAQsUseCase,
 ) : Middleware<HelpState, HelpWish> {
 
-    override suspend fun process(
-        state: HelpState,
-        wish: HelpWish,
-        next: suspend (HelpWish) -> Unit,
-    ) {
-        when (wish) {
-            HelpWish.StartLoadingGetFaqs -> {
-                handleLoadedGetFaqs(next)
-            }
-            else -> {}
-        }
+  override suspend fun process(
+      state: HelpState,
+      wish: HelpWish,
+      next: suspend (HelpWish) -> Unit,
+  ) {
+    when (wish) {
+      HelpWish.StartLoadingGetFaqs -> {
+        handleLoadedGetFaqs(next)
+      }
+      else -> {}
     }
+  }
 
-    private suspend fun handleLoadedGetFaqs(next: suspend (HelpWish) -> Unit) {
-        getFAQsUseCase.execute().collectLatest { faqs ->
-            println("FAQs: Loaded faqs are $faqs")
-            next.invoke(HelpWish.LoadedGetFaqs(faqs))
-        }
+  private suspend fun handleLoadedGetFaqs(next: suspend (HelpWish) -> Unit) {
+    getFAQsUseCase.execute().collectLatest { faqs ->
+      println("FAQs: Loaded faqs are $faqs")
+      next.invoke(HelpWish.LoadedGetFaqs(faqs))
     }
+  }
 }

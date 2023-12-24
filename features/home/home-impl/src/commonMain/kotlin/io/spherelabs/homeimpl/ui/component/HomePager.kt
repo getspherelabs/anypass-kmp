@@ -48,78 +48,72 @@ internal fun HomePager(
     onGetStartingPasswordByCategory: (HomeWish) -> Unit,
     onCopyClick: (String) -> Unit,
 ) {
-    val scope = useScope()
-    val cardStackState = useLKCardStackState()
-    val previousTotalItemCount = rememberSaveable(cardStackState) { mutableIntStateOf(0) }
-    val clipboardManager = LocalClipboardManager.current
+  val scope = useScope()
+  val cardStackState = useLKCardStackState()
+  val previousTotalItemCount = rememberSaveable(cardStackState) { mutableIntStateOf(0) }
+  val clipboardManager = LocalClipboardManager.current
 
-    usePagerEffect(pagerState) {
-        scope.launch {
-            onGetStartingPasswordByCategory.invoke(HomeWish.GetStartedPasswordByCategory(category[it].id))
-        }
-
+  usePagerEffect(pagerState) {
+    scope.launch {
+      onGetStartingPasswordByCategory.invoke(HomeWish.GetStartedPasswordByCategory(category[it].id))
     }
+  }
 
-    LaunchedEffect(cardStackState) {
-        snapshotFlow { cardStackState.visibleItemIndex }
-            .collect { firstIndex ->
-                if (cardStackState.itemsCount < HomeDefaults.minItemCount) return@collect
-                val countHasChanged = previousTotalItemCount.intValue != cardStackState.itemsCount
-                if (countHasChanged && firstIndex + 1 > cardStackState.itemsCount) {
-                    previousTotalItemCount.intValue = cardStackState.itemsCount
-                    val lastValue = passwords.last()
-                    val newList = buildList {
-                        repeat(20) { index -> add(lastValue.copy(id = index.toString())) }
-                    }
-                    onPasswordChanged.invoke(HomeWish.OnPasswordsChanged(newList))
-                }
+  LaunchedEffect(cardStackState) {
+    snapshotFlow { cardStackState.visibleItemIndex }
+        .collect { firstIndex ->
+          if (cardStackState.itemsCount < HomeDefaults.minItemCount) return@collect
+          val countHasChanged = previousTotalItemCount.intValue != cardStackState.itemsCount
+          if (countHasChanged && firstIndex + 1 > cardStackState.itemsCount) {
+            previousTotalItemCount.intValue = cardStackState.itemsCount
+            val lastValue = passwords.last()
+            val newList = buildList {
+              repeat(20) { index -> add(lastValue.copy(id = index.toString())) }
             }
-    }
-
-
-    HorizontalPager(
-        modifier = modifier.fillMaxSize().background(color = Color(0xff141419)),
-        verticalAlignment = Alignment.Top,
-        state = pagerState,
-        userScrollEnabled = false,
-    ) {
-
-        if (passwords.isNotEmpty()) {
-            LKCardStack(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxSize(),
-                state = cardStackState,
-            ) {
-                items(items = passwords, key = { it.id.hashCode() }) { newData ->
-                    val img = SocialIcons.get(newData.image).value?.image ?: AnyPassIcons.Behance
-
-                    LKPasswordCard(
-                        password = newData.password,
-                        title = newData.title,
-                        icon = img,
-                        email = newData.email,
-                        passwordCardColor = LKPasswordCardDefaults.passwordCardColor(
-                            backgroundColor = Jaguar,
-                            titleColor = Color.White,
-                            emailColor = Color.White.copy(0.5f),
-                        ),
-                        passwordCardStyle = LKPasswordCardDefaults.passwordCardStyle(
-                            titleFontFamily = GoogleSansFontFamily,
-                            passwordFontFamily = GoogleSansFontFamily,
-                            emailFontFamily = GoogleSansFontFamily,
-                            copyFontFamily = GoogleSansFontFamily,
-                        ),
-                        onCopyClick = {
-                            onCopyClick.invoke(newData.password)
-                            clipboardManager.setText(AnnotatedString(newData.password))
-                        },
-                    )
-                }
-            }
+            onPasswordChanged.invoke(HomeWish.OnPasswordsChanged(newList))
+          }
         }
+  }
 
+  HorizontalPager(
+      modifier = modifier.fillMaxSize().background(color = Color(0xff141419)),
+      verticalAlignment = Alignment.Top,
+      state = pagerState,
+      userScrollEnabled = false,
+  ) {
+    if (passwords.isNotEmpty()) {
+      LKCardStack(
+          modifier = Modifier.padding(24.dp).fillMaxSize(),
+          state = cardStackState,
+      ) {
+        items(items = passwords, key = { it.id.hashCode() }) { newData ->
+          val img = SocialIcons.get(newData.image).value?.image ?: AnyPassIcons.Behance
 
+          LKPasswordCard(
+              password = newData.password,
+              title = newData.title,
+              icon = img,
+              email = newData.email,
+              passwordCardColor =
+                  LKPasswordCardDefaults.passwordCardColor(
+                      backgroundColor = Jaguar,
+                      titleColor = Color.White,
+                      emailColor = Color.White.copy(0.5f),
+                  ),
+              passwordCardStyle =
+                  LKPasswordCardDefaults.passwordCardStyle(
+                      titleFontFamily = GoogleSansFontFamily,
+                      passwordFontFamily = GoogleSansFontFamily,
+                      emailFontFamily = GoogleSansFontFamily,
+                      copyFontFamily = GoogleSansFontFamily,
+                  ),
+              onCopyClick = {
+                onCopyClick.invoke(newData.password)
+                clipboardManager.setText(AnnotatedString(newData.password))
+              },
+          )
+        }
+      }
     }
-
+  }
 }

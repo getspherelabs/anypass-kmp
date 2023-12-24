@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 class ShakeController {
-    var shakeConfig: ShakeConfig? by mutableStateOf(null)
-        private set
+  var shakeConfig: ShakeConfig? by mutableStateOf(null)
+    private set
 
-    fun shake(shakeConfig: ShakeConfig) {
-        this.shakeConfig = shakeConfig
-    }
+  fun shake(shakeConfig: ShakeConfig) {
+    this.shakeConfig = shakeConfig
+  }
 }

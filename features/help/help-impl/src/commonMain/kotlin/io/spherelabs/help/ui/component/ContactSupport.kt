@@ -1,6 +1,5 @@
 package io.spherelabs.help.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,51 +33,46 @@ fun ContactSupport(
     title: String,
     email: String,
 ) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = LavenderBlue.copy(alpha = 0.4f),
-        ),
-        modifier = modifier
-            .height(95.dp)
-            .fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
-        shape = RoundedCornerShape(16.dp),
+  Card(
+      colors =
+          CardDefaults.cardColors(
+              containerColor = LavenderBlue.copy(alpha = 0.4f),
+          ),
+      modifier =
+          modifier.height(95.dp).fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
+      shape = RoundedCornerShape(16.dp),
+  ) {
+    Row(
+        modifier = modifier.fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                modifier = modifier
-                    .padding(start = 8.dp)
-                    .size(48.dp)
-                    .clip(CircleShape),
-                imageVector = Icons.Filled.Email,
-                tint = Color.White,
-                contentDescription = null,
-            )
+      Icon(
+          modifier = modifier.padding(start = 8.dp).size(48.dp).clip(CircleShape),
+          imageVector = Icons.Filled.Email,
+          tint = Color.White,
+          contentDescription = null,
+      )
 
-            Column(modifier = modifier) {
-                Text(
-                    modifier = modifier.padding(start = 24.dp),
-                    text = title,
-                    fontSize = 14.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    color = Color.White.copy(alpha = 0.5f),
-                    textAlign = TextAlign.Center,
-                )
+      Column(modifier = modifier) {
+        Text(
+            modifier = modifier.padding(start = 24.dp),
+            text = title,
+            fontSize = 14.sp,
+            fontFamily = GoogleSansFontFamily,
+            color = Color.White.copy(alpha = 0.5f),
+            textAlign = TextAlign.Center,
+        )
 
-                Text(
-                    modifier = modifier.padding(top = 4.dp, start = 24.dp),
-                    text = email,
-                    fontSize = 18.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White.copy(alpha = 0.9f),
-                )
-            }
-        }
-
-
+        Text(
+            modifier = modifier.padding(top = 4.dp, start = 24.dp),
+            text = email,
+            fontSize = 18.sp,
+            fontFamily = GoogleSansFontFamily,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            color = Color.White.copy(alpha = 0.9f),
+        )
+      }
     }
+  }
 }

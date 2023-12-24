@@ -14,9 +14,9 @@ import org.koin.dsl.module
 expect fun platformModule(): Module
 
 val settingModule = module {
-    includes(platformModule())
-    factory<OnboardingSetting> { DefaultOnboardingSetting(get()) }
-    factory<MasterPasswordSetting> { DefaultMasterPasswordSetting(get()) }
-    factory<FingerPrintSetting> { DefaultFingerPrintSetting(get()) }
-    single<ChangePasswordRepository> { DefaultChangePasswordRepository(get()) }
+  includes(platformModule())
+  factory<OnboardingSetting> { DefaultOnboardingSetting(get()) }
+  factory<MasterPasswordSetting> { DefaultMasterPasswordSetting(get()) }
+  factory<FingerPrintSetting> { DefaultFingerPrintSetting(get()) }
+  single<ChangePasswordRepository> { DefaultChangePasswordRepository(get()) }
 }

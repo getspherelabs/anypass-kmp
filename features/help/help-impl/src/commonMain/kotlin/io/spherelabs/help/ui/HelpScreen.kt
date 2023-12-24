@@ -10,21 +10,17 @@ import io.spherelabs.help.presentation.HelpViewModel
 
 class HelpScreen : Screen {
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel: HelpViewModel = useInject()
-        val currentUiState = viewModel.state.collectAsStateWithLifecycle()
+  @Composable
+  override fun Content() {
+    val navigator = LocalNavigator.currentOrThrow
+    val viewModel: HelpViewModel = useInject()
+    val currentUiState = viewModel.state.collectAsStateWithLifecycle()
 
-        HelpContent(
-            uiState = currentUiState.value,
-            uiEffect = viewModel.effect,
-            wish = { newWish ->
-                viewModel.wish(newWish)
-            },
-            navigateToBack = {
-                navigator.pop()
-            },
-        )
-    }
+    HelpContent(
+        uiState = currentUiState.value,
+        uiEffect = viewModel.effect,
+        wish = { newWish -> viewModel.wish(newWish) },
+        navigateToBack = { navigator.pop() },
+    )
+  }
 }

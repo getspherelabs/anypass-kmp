@@ -13,7 +13,7 @@ object LKDropdownTokens {
   val MenuItemDefaultMaxWidth = 280.dp
   val MenuItemDefaultMinHeight = 48.dp
   val DropdownMenuItemContentPadding =
-    PaddingValues(horizontal = MenuItemHorizontalPadding, vertical = MenuItemVerticalPadding)
+      PaddingValues(horizontal = MenuItemHorizontalPadding, vertical = MenuItemVerticalPadding)
   const val InTransitionDuration = 120
   const val OutTransitionDuration = 75
   const val InTransitioningDuration = 30
