@@ -4,9 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Replay
@@ -27,302 +26,183 @@ import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.meterprogress.LKMeterProgress
-import io.spherelabs.designsystem.slider.LKSlider
-import io.spherelabs.designsystem.slider.LKSliderDefaults
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.foundation.color.*
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordEffect
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordState
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordWish
+import io.spherelabs.generatepasswordimpl.ui.component.DigitSlider
+import io.spherelabs.generatepasswordimpl.ui.component.RandomPassword
+import io.spherelabs.generatepasswordimpl.ui.component.SpecialSlider
+import io.spherelabs.generatepasswordimpl.ui.component.UppercaseSlider
 import io.spherelabs.navigationapi.AddNewPasswordDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun GeneratePasswordContent(
     modifier: Modifier = Modifier,
     wish: (GeneratePasswordWish) -> Unit,
-    state: GeneratePasswordState,
-    flow: Flow<GeneratePasswordEffect>,
-    navigateToBack: () -> Unit,
-    navigateToCopy: (String) -> Unit,
+    uiState: GeneratePasswordState,
+    uiEffect: Flow<GeneratePasswordEffect>,
 ) {
+    val navigator = LocalNavigator.currentOrThrow
+    val snackbarState = useSnackbar()
+    val strings = LocalStrings.current
 
-  val snackbarHostState = useSnackbar()
-  val strings = LocalStrings.current
-  val navigator = LocalNavigator.currentOrThrow
-  val backScreen = rememberScreen(AddNewPasswordDestination.Back(state.password))
-  useEffect(true) { wish.invoke(GeneratePasswordWish.GeneratePassword()) }
+    val useAndBackScreen = rememberScreen(AddNewPasswordDestination.Back(uiState.password))
 
-  Scaffold(
-      containerColor = BlackRussian,
-      topBar = {
-        Row(
-            modifier = modifier.padding(top = 16.dp, start = 8.dp).fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-          Headline(
-              text = strings.generatePassword,
-              modifier = modifier,
-              fontFamily = GoogleSansFontFamily,
-              fontWeight = FontWeight.Medium,
-              textColor = Color.White,
-          )
-        }
-      },
-  ) {
-    Column(
-        modifier = modifier.fillMaxSize().background(color = Grey).padding(it),
-    ) {
-      Row(
-          modifier = modifier.fillMaxWidth().padding(16.dp),
-          verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.Center,
-      ) {
-        Column {
-          Text(
-              modifier = modifier,
-              text = strings.uppercase,
-              fontSize = 12.sp,
-              fontFamily = GoogleSansFontFamily,
-              fontWeight = FontWeight.Medium,
-              color = Color.White.copy(alpha = 0.5f),
-          )
-          LKSlider(
-              modifier = modifier.width(100.dp),
-              value = state.uppercaseLength,
-              onValueChange = { value, _ ->
-                wish.invoke(
-                    GeneratePasswordWish.OnUppercaseLengthChanged(
-                        value,
-                    ),
-                )
-              },
-              colors =
-                  LKSliderDefaults.sliderColors(
-                      thumbColor = LavenderBlue.copy(0.7f),
-                      trackColor = LavenderBlue.copy(0.7f),
-                      disabledTrackColor = Jaguar,
-                  ),
-              trackHeight = 8.dp,
-              valueRange = 0f..10f,
-          ) {
-            Box(
-                modifier =
-                    Modifier.size(18.dp)
-                        .background(
-                            color = Cinderella,
-                            RoundedCornerShape(8.dp),
-                        ),
-                contentAlignment = Alignment.Center,
-            ) {
-              Text(
-                  text = "${state.uppercaseLength.toInt()}",
-                  fontSize = 10.sp,
-                  color = Color.Black,
-                  fontFamily = GoogleSansFontFamily,
-                  fontWeight = FontWeight.Medium,
-              )
+    useEffect(true) {
+        wish.invoke(GeneratePasswordWish.GeneratePassword())
+
+        uiEffect.collectLatest { newEffect ->
+            when (newEffect) {
+                is GeneratePasswordEffect.Failure -> {
+                    snackbarState.showSnackbar(newEffect.message)
+                }
+
+                GeneratePasswordEffect.RouteToBack -> {
+                    navigator.pop()
+                }
+
             }
-          }
         }
-
-        Column {
-          Text(
-              modifier = modifier.padding(start = 24.dp),
-              text = strings.digits,
-              fontSize = 12.sp,
-              fontFamily = GoogleSansFontFamily,
-              fontWeight = FontWeight.Medium,
-              color = Color.White.copy(alpha = 0.5f),
-          )
-          LKSlider(
-              modifier = modifier.width(100.dp),
-              value = state.digitLength,
-              onValueChange = { value, _ ->
-                wish.invoke(GeneratePasswordWish.OnDigitLengthChanged(value))
-              },
-              trackHeight = 8.dp,
-              colors =
-                  LKSliderDefaults.sliderColors(
-                      thumbColor = LavenderBlue.copy(0.7f),
-                      trackColor = LavenderBlue.copy(0.7f),
-                      disabledTrackColor = Jaguar,
-                  ),
-              valueRange = 0f..10f,
-          ) {
-            Box(
-                modifier =
-                    Modifier.size(18.dp)
-                        .background(
-                            color = Cinderella,
-                            RoundedCornerShape(8.dp),
-                        ),
-                contentAlignment = Alignment.Center,
-            ) {
-              Text(
-                  text = "${state.digitLength.toInt()}",
-                  fontSize = 10.sp,
-                  color = Color.Black,
-                  fontFamily = GoogleSansFontFamily,
-                  fontWeight = FontWeight.Medium,
-              )
-            }
-          }
-        }
-
-        Column {
-          Text(
-              modifier = modifier.padding(start = 24.dp),
-              text = strings.special,
-              fontSize = 12.sp,
-              fontFamily = GoogleSansFontFamily,
-              fontWeight = FontWeight.Medium,
-              color = Color.White.copy(alpha = 0.5f),
-          )
-          LKSlider(
-              modifier = modifier.width(100.dp),
-              value = 0f,
-              onValueChange = { value, offset -> },
-              colors =
-                  LKSliderDefaults.sliderColors(
-                      thumbColor = LavenderBlue.copy(0.7f),
-                      trackColor = LavenderBlue.copy(0.7f),
-                      disabledTrackColor = Jaguar,
-                  ),
-              trackHeight = 8.dp,
-              valueRange = 0f..50f,
-          ) {
-            Box(
-                modifier =
-                    Modifier.size(18.dp)
-                        .background(
-                            color = Cinderella,
-                            RoundedCornerShape(8.dp),
-                        ),
-                contentAlignment = Alignment.Center,
-            ) {
-              Text(
-                  text = "0",
-                  fontSize = 10.sp,
-                  color = Color.Black,
-                  fontFamily = GoogleSansFontFamily,
-                  fontWeight = FontWeight.Medium,
-              )
-            }
-          }
-        }
-      }
-
-      Box(
-          modifier = modifier.fillMaxWidth().size(250.dp).padding(top = 24.dp),
-      ) {
-        LKMeterProgress(
-            state.length,
-            color = LavenderBlue,
-            valueFontWeight = FontWeight.Bold,
-            valueFontFamily = GoogleSansFontFamily,
-            valueColor = Color.White,
-        )
-      }
-
-      Text(
-          text = strings.maximumLimitCharacter.invoke("30"),
-          fontFamily = GoogleSansFontFamily,
-          fontWeight = FontWeight.Medium,
-          color = Color.White.copy(alpha = 0.5f),
-          fontSize = 18.sp,
-          modifier = modifier.align(Alignment.CenterHorizontally).padding(top = 32.dp),
-      )
-      Card(
-          modifier =
-              modifier
-                  .padding(start = 24.dp, end = 24.dp, top = 12.dp, bottom = 12.dp)
-                  .fillMaxWidth()
-                  .height(150.dp),
-          backgroundColor = Jaguar,
-          shape = RoundedCornerShape(16.dp),
-      ) {
-        Column(
-            modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-          Text(
-              modifier = modifier.padding(top = 12.dp),
-              text = strings.randomPassword,
-              fontSize = 14.sp,
-              fontFamily = GoogleSansFontFamily,
-              fontWeight = FontWeight.Medium,
-              color = Color.White.copy(0.3f),
-          )
-          Spacer(modifier = modifier.height(24.dp))
-
-          Text(
-              text = state.password,
-              fontSize = 24.sp,
-              fontFamily = GoogleSansFontFamily,
-              fontWeight = FontWeight.Medium,
-              color = Color.White,
-              modifier = modifier.align(Alignment.CenterHorizontally),
-          )
-        }
-      }
-      Row(
-          modifier = modifier.fillMaxWidth().padding(top = 12.dp),
-          verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.Center,
-      ) {
-        LKBackButton(
-            text = strings.back,
-            backgroundColor = LavenderBlue.copy(0.7f),
-        ) {
-          navigateToBack.invoke()
-        }
-        Box(
-            modifier =
-                modifier
-                    .size(70.dp)
-                    .background(
-                        color = LavenderBlue.copy(0.7f),
-                        shape = CircleShape,
-                    )
-                    .clickable {
-                      wish.invoke(
-                          GeneratePasswordWish.GeneratePassword(
-                              uppercaseLength = state.uppercaseLength.toInt(),
-                              digitLength = state.digitLength.toInt(),
-                          ),
-                      )
-                    },
-            contentAlignment = Alignment.Center,
-        ) {
-          Box(
-              modifier =
-                  modifier
-                      .size(55.dp)
-                      .background(
-                          color = Jaguar,
-                          shape = CircleShape,
-                      ),
-              contentAlignment = Alignment.Center,
-          ) {
-            Icon(
-                imageVector = Icons.Default.Replay,
-                contentDescription = null,
-                tint = Color.White,
-            )
-          }
-        }
-        LKUseButton(
-            text = strings.use,
-            backgroundColor = LavenderBlue.copy(0.7f),
-        ) {
-          if (state.password.isNotEmpty()) {
-            navigator.replace(backScreen)
-          }
-        }
-      }
     }
-  }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarState,
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
+            )
+        },
+        containerColor = BlackRussian,
+        topBar = {
+            Row(
+                modifier = modifier.padding(top = 16.dp, start = 8.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Headline(
+                    text = strings.generatePassword,
+                    modifier = modifier,
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    textColor = Color.White,
+                )
+            }
+        },
+    ) {
+        Column(
+            modifier = modifier.fillMaxSize().background(color = Grey).padding(it),
+        ) {
+            Row(
+                modifier = modifier.fillMaxWidth().padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                UppercaseSlider(
+                    modifier = modifier,
+                    uppercaseLength = uiState.uppercaseLength,
+                    onUppercaseChanged = { newValue ->
+                        wish.invoke(GeneratePasswordWish.OnUppercaseLengthChanged(newValue))
+                    },
+                )
+
+                DigitSlider(
+                    modifier = modifier,
+                    length = uiState.digitLength,
+                    onDigitChanged = { newValue ->
+                        wish.invoke(GeneratePasswordWish.OnDigitLengthChanged(newValue))
+                    },
+                )
+                SpecialSlider(
+                    modifier = modifier,
+                    specialLength = uiState.specialLength,
+                    onSpecialChanged = { newValue ->
+                        wish.invoke(GeneratePasswordWish.OnSpecialLengthChanged(newValue))
+                    },
+                )
+            }
+
+            Box(
+                modifier = modifier.fillMaxWidth().size(250.dp).padding(top = 24.dp),
+            ) {
+                LKMeterProgress(
+                    uiState.length,
+                    color = LavenderBlue,
+                    valueFontWeight = FontWeight.Bold,
+                    valueFontFamily = GoogleSansFontFamily,
+                    valueColor = Color.White,
+                )
+            }
+
+            Text(
+                text = strings.maximumLimitCharacter.invoke("30"),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Medium,
+                color = Color.White.copy(alpha = 0.5f),
+                fontSize = 18.sp,
+                modifier = modifier.align(Alignment.CenterHorizontally).padding(top = 32.dp),
+            )
+            RandomPassword(modifier, password = uiState.password)
+
+            Row(
+                modifier = modifier.fillMaxWidth().padding(top = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                LKBackButton(
+                    text = strings.back,
+                    backgroundColor = LavenderBlue.copy(0.7f),
+                ) {
+                    wish.invoke(GeneratePasswordWish.RouteToBack)
+                }
+                Box(
+                    modifier =
+                    modifier
+                        .size(70.dp)
+                        .background(
+                            color = LavenderBlue.copy(0.7f),
+                            shape = CircleShape,
+                        )
+                        .clickable {
+                            wish.invoke(
+                                GeneratePasswordWish.GeneratePassword(
+                                    uppercaseLength = uiState.uppercaseLength.toInt(),
+                                    digitLength = uiState.digitLength.toInt(),
+                                    specialLength = uiState.specialLength.toInt(),
+                                ),
+                            )
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(
+                        modifier =
+                        modifier
+                            .size(55.dp)
+                            .background(
+                                color = Jaguar,
+                                shape = CircleShape,
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Replay,
+                            contentDescription = null,
+                            tint = Color.White,
+                        )
+                    }
+                }
+                LKUseButton(
+                    text = strings.use,
+                    backgroundColor = LavenderBlue.copy(0.7f),
+                ) {
+                    if (uiState.isPasswordValid()) {
+                        navigator.replace(useAndBackScreen)
+                    }
+                }
+            }
+        }
+    }
 }

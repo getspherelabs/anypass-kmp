@@ -41,132 +41,137 @@ fun ChangePasswordContent(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
 ) {
-  val snackbarState = useSnackbar()
-  val scope = useScope()
+    val snackbarState = useSnackbar()
+    val scope = useScope()
 
-  useEffect(true) {
-    wish.invoke(ChangePasswordWish.GetStartedCurrentKeyPassword)
-    uiEffect.collectLatest { newEffect ->
-      when (newEffect) {
-        is ChangePasswordEffect.Failure -> {
-          scope.launch {
-            snackbarState.showSnackbar(
-                newEffect.message,
-            )
-          }
+    useEffect(true) {
+        wish.invoke(ChangePasswordWish.GetStartedCurrentKeyPassword)
+        uiEffect.collectLatest { newEffect ->
+            when (newEffect) {
+                is ChangePasswordEffect.Failure -> {
+                    scope.launch {
+                        snackbarState.showSnackbar(
+                            newEffect.message,
+                        )
+                    }
+                }
+
+                is ChangePasswordEffect.Info -> {
+                    scope.launch {
+                        snackbarState.showSnackbar(
+                            newEffect.message,
+                        )
+                    }
+                }
+
+                ChangePasswordEffect.Back -> {
+                    navigateToBack.invoke()
+                }
+            }
         }
-        is ChangePasswordEffect.Info -> {
-          scope.launch {
-            snackbarState.showSnackbar(
-                newEffect.message,
-            )
-          }
-        }
-        ChangePasswordEffect.Back -> {
-          navigateToBack.invoke()
-        }
-      }
     }
-  }
 
-  Scaffold(
-      containerColor = BlackRussian,
-      snackbarHost = {
-        SnackbarHost(
-            hostState = snackbarState,
-            modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
+    Scaffold(
+        containerColor = BlackRussian,
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarState,
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
+            )
+        },
+        topBar = {
+            ChangePasswordTopBar(
+                modifier,
+                navigateToBack = { wish.invoke(ChangePasswordWish.NavigateToBack) },
+            )
+        },
+        modifier = modifier,
+    ) { newPaddingValues ->
+        ChangePasswordContent(
+            paddingValues = newPaddingValues,
+            modifier = modifier,
+            state = uiState,
+            wish = { newWish -> wish.invoke(newWish) },
         )
-      },
-      topBar = {
-        ChangePasswordTopBar(
-            modifier,
-            navigateToBack = { wish.invoke(ChangePasswordWish.NavigateToBack) },
-        )
-      },
-      modifier = modifier,
-  ) { newPaddingValues ->
-    ChangePasswordContent(
-        modifier = modifier.padding(newPaddingValues),
-        state = uiState,
-        wish = { newWish -> wish.invoke(newWish) })
-  }
+    }
 }
 
 @Composable
 fun ChangePasswordContent(
+    paddingValues: PaddingValues,
     state: ChangePasswordState,
     wish: (ChangePasswordWish) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-  val strings = LocalStrings.current
+    val strings = LocalStrings.current
 
-  Column(
-      modifier = modifier.fillMaxSize(),
-  ) {
-    Spacer(modifier.height(16.dp))
-    KeyPasswordTextField(
-        title = strings.currentKeyPassword,
-        textValue = state.currentKeyPassword,
-        passwordVisibility = state.isCurrentKeyPasswordVisibility,
-        description = strings.keyPasswordRequirement,
-        fontFamily = GoogleSansFontFamily,
-        onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleCurrentKeyPasswordVisibility) },
-        onValueChanged = { newValue ->
-          wish.invoke(ChangePasswordWish.OnCurrentKeyPasswordChanged(newValue))
-        },
-    )
+    Column(
+        modifier = modifier.fillMaxSize().padding(paddingValues),
+    ) {
+        Spacer(modifier.height(16.dp))
+        KeyPasswordTextField(
+            title = strings.currentKeyPassword,
+            textValue = state.currentKeyPassword,
+            passwordVisibility = state.isCurrentKeyPasswordVisibility,
+            description = strings.keyPasswordRequirement,
+            fontFamily = GoogleSansFontFamily,
+            onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleCurrentKeyPasswordVisibility) },
+            onValueChanged = { newValue ->
+                wish.invoke(ChangePasswordWish.OnCurrentKeyPasswordChanged(newValue))
+            },
+        )
 
-    if (state.isCurrentKeyPasswordFailed) {
-      Text(
-          modifier = modifier.padding(start = 24.dp, top = 4.dp),
-          text = strings.passwordSameFailure,
-          color = Color.Red.copy(0.7f),
-          fontFamily = GoogleSansFontFamily,
-          fontWeight = FontWeight.Normal,
-          fontSize = 12.sp,
-      )
+        if (state.isCurrentKeyPasswordFailed) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.passwordSameFailure,
+                color = Color.Red.copy(0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+        KeyPasswordTextField(
+            title = strings.newKeyPassword,
+            textValue = state.newKeyPassword,
+            passwordVisibility = state.isNewKeyPasswordVisibility,
+            description = strings.keyPasswordRequirement,
+            fontFamily = GoogleSansFontFamily,
+            onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleNewKeyPasswordVisibility) },
+            onValueChanged = { newValue ->
+                wish.invoke(ChangePasswordWish.OnNewKeyPasswordChanged(newValue))
+            },
+        )
+
+        KeyPasswordTextField(
+            title = strings.confirmNewKeyPassword,
+            textValue = state.confirmNewKeyPassword,
+            passwordVisibility = state.isConfirmNewKeyPasswordVisibility,
+            description = strings.keyPasswordRequirement,
+            fontFamily = GoogleSansFontFamily,
+            onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleConfirmNewKeyPasswordVisibility) },
+            onValueChanged = { newValue ->
+                wish.invoke(ChangePasswordWish.OnConfirmNewKeyPasswordChanged(newValue))
+            },
+        )
+
+        if (state.isKeyPasswordNotSame) {
+            Text(
+                modifier = modifier.padding(start = 24.dp, top = 4.dp),
+                text = strings.passwordSameFailure,
+                color = Color.White.copy(alpha = 0.7f),
+                fontFamily = GoogleSansFontFamily,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+            )
+        }
+        Spacer(modifier.height(24.dp))
+
+        UpdateKeyPasswordButton(
+            modifier = modifier,
+            onUpdateClicked = { wish.invoke(ChangePasswordWish.OnUpdateClicked) },
+        )
     }
-    KeyPasswordTextField(
-        title = strings.newKeyPassword,
-        textValue = state.newKeyPassword,
-        passwordVisibility = state.isNewKeyPasswordVisibility,
-        description = strings.keyPasswordRequirement,
-        fontFamily = GoogleSansFontFamily,
-        onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleNewKeyPasswordVisibility) },
-        onValueChanged = { newValue ->
-          wish.invoke(ChangePasswordWish.OnNewKeyPasswordChanged(newValue))
-        },
-    )
-
-    KeyPasswordTextField(
-        title = strings.confirmNewKeyPassword,
-        textValue = state.confirmNewKeyPassword,
-        passwordVisibility = state.isConfirmNewKeyPasswordVisibility,
-        description = strings.keyPasswordRequirement,
-        fontFamily = GoogleSansFontFamily,
-        onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleConfirmNewKeyPasswordVisibility) },
-        onValueChanged = { newValue ->
-          wish.invoke(ChangePasswordWish.OnConfirmNewKeyPasswordChanged(newValue))
-        },
-    )
-
-    if (state.isKeyPasswordNotSame) {
-      Text(
-          modifier = modifier.padding(start = 24.dp, top = 4.dp),
-          text = strings.passwordSameFailure,
-          color = Color.White.copy(alpha = 0.7f),
-          fontFamily = GoogleSansFontFamily,
-          fontWeight = FontWeight.Normal,
-          fontSize = 12.sp,
-      )
-    }
-    Spacer(modifier.height(24.dp))
-
-    UpdateKeyPasswordButton(
-        modifier = modifier,
-        onUpdateClicked = { wish.invoke(ChangePasswordWish.OnUpdateClicked) },
-    )
-  }
 }
 
 @Composable
@@ -177,20 +182,20 @@ fun BackButton(
     navigateToBack: () -> Unit,
 ) {
 
-  Box(
-      modifier =
-          modifier
-              .padding(start = 24.dp)
-              .size(42.dp)
-              .clip(RoundedCornerShape(12.dp))
-              .background(color = backgroundColor)
-              .clickable { navigateToBack.invoke() },
-      contentAlignment = Alignment.Center,
-  ) {
-    Icon(
-        imageVector = Icons.Default.ArrowBack,
-        tint = iconColor,
-        contentDescription = "Back",
-    )
-  }
+    Box(
+        modifier =
+        modifier
+            .padding(start = 24.dp)
+            .size(42.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = backgroundColor)
+            .clickable { navigateToBack.invoke() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            tint = iconColor,
+            contentDescription = "Back",
+        )
+    }
 }
