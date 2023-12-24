@@ -11,20 +11,19 @@ import io.spherelabs.meteorviewmodel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 
 class MasterPasswordViewModel(
-  private val masterPasswordReducer: MasterPasswordReducer,
-  private val masterPasswordMiddleware: MasterPasswordMiddleware
+    private val masterPasswordReducer: MasterPasswordReducer,
+    private val masterPasswordMiddleware: MasterPasswordMiddleware
 ) : ViewModel() {
 
   private val store: Store<MasterPasswordState, MasterPasswordWish, MasterPasswordEffect> =
-    viewModelScope.createMeteor(
-      configs =
-        MeteorConfigs.build {
-          initialState = MasterPasswordState.Empty
-          storeName = MASTER_PASSWORD_STORE
-          reducer = masterPasswordReducer
-          middlewares = listOf(masterPasswordMiddleware)
-        }
-    )
+      viewModelScope.createMeteor(
+          configs =
+              MeteorConfigs.build {
+                initialState = MasterPasswordState.Empty
+                storeName = MASTER_PASSWORD_STORE
+                reducer = masterPasswordReducer
+                middlewares = listOf(masterPasswordMiddleware)
+              })
 
   init {
     viewModelScope.launch { store.wish(MasterPasswordWish.CheckMasterPassword) }

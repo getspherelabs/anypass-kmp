@@ -22,7 +22,7 @@ data class AddNewPasswordState(
     val isExpanded: Boolean = false,
     val isPasswordVisibility: Boolean = false
 ) {
-    companion object {
-        val Empty = AddNewPasswordState()
-    }
+  companion object {
+    val Empty = AddNewPasswordState()
+  }
 }

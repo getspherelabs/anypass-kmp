@@ -6,7 +6,7 @@ import io.spherelabs.passphraseapi.domain.usecase.SetKeyPasswordUseCase
 class DefaultSetKeyPasswordUseCase(private val prefs: MasterPasswordSetting) :
     SetKeyPasswordUseCase {
 
-    override suspend fun execute(value: String) {
-        prefs.setMasterPassword(value)
-    }
+  override suspend fun execute(value: String) {
+    prefs.setMasterPassword(value)
+  }
 }

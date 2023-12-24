@@ -9,6 +9,7 @@ import io.spherelabs.authdi.authScreenModule
 import io.spherelabs.authenticatordi.authenticatorUiModule
 import io.spherelabs.changepassworddi.changePasswordUiModule
 import io.spherelabs.generatepassworddi.generatePasswordUiModule
+import io.spherelabs.help.helpUiModule
 import io.spherelabs.homedi.homeScreenUiModule
 import io.spherelabs.newtokendi.newTokenUiModule
 import io.spherelabs.onboardingdi.onboardingScreenModule
@@ -31,6 +32,7 @@ fun AnyPassNavHost() {
         authenticatorUiModule()
         newTokenUiModule()
         passwordHealthUiModule()
+        helpUiModule()
     }
 
     Navigator(OnboardingScreen())

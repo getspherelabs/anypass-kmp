@@ -9,9 +9,7 @@ import kotlinx.coroutines.withContext
 class DefaultGetCurrentKeyPasswordUseCase(
     private val repository: ChangePasswordRepository,
 ) : GetCurrentKeyPasswordUseCase {
-    override suspend fun execute(): String {
-        return withContext(Dispatchers.IO) {
-            repository.getCurrentKeyPassword()
-        }
-    }
+  override suspend fun execute(): String {
+    return withContext(Dispatchers.IO) { repository.getCurrentKeyPassword() }
+  }
 }

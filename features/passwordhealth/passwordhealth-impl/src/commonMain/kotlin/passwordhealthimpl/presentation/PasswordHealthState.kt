@@ -1,7 +1,6 @@
 package passwordhealthimpl.presentation
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import domain.model.PasswordHealth
 import domain.model.PasswordStats
 
@@ -12,11 +11,11 @@ data class PasswordHealthState(
     val isNotAvailable: Boolean = false,
     val currentProgress: Float = 0F,
 ) {
-    companion object {
-        val Empty = PasswordHealthState()
-    }
+  companion object {
+    val Empty = PasswordHealthState()
+  }
 
-    fun toggleNotAvailable(): Boolean {
-        return !isNotAvailable
-    }
+  fun toggleNotAvailable(): Boolean {
+    return !isNotAvailable
+  }
 }

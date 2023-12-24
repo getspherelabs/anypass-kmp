@@ -15,7 +15,7 @@ class ResourceMultiplatformPlugin: Plugin<Project> {
             apply("org.jetbrains.compose")
         }
         configureCompose()
-        // configureSpotless()
+        configureSpotless()
         extensions.configure<KotlinMultiplatformExtension>() {
             configureResourceMultiplatform(this)
         }

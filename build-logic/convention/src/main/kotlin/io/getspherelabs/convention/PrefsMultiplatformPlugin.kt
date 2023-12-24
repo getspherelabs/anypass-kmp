@@ -13,7 +13,7 @@ class PrefsMultiplatformPlugin : Plugin<Project> {
             apply("com.android.library")
             apply("org.jetbrains.kotlin.multiplatform")
         }
-        // configureSpotless()
+        configureSpotless()
         extensions.configure<KotlinMultiplatformExtension>() {
             configurePrefsMultiplatform(this)
         }

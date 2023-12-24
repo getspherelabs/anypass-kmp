@@ -1,6 +1,7 @@
 package io.spherelabs.designsystem.animation
 
 typealias Intensity = Float
+
 typealias Rotation = Float
 
 data class ShakeConfig(
@@ -15,10 +16,8 @@ data class ShakeConfig(
     val translateY: Float = ZERO_FLOAT,
 //    val trigger: Long = Cloc,
 ) {
-    companion object {
-        private const val ZERO_FLOAT = 0F
-        private const val INTENSITY_VALUE = 100_000F
-    }
+  companion object {
+    private const val ZERO_FLOAT = 0F
+    private const val INTENSITY_VALUE = 100_000F
+  }
 }
-
-

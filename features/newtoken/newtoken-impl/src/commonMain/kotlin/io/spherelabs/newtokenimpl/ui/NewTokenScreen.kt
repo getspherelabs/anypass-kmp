@@ -10,21 +10,17 @@ import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
 
 class NewTokenScreen : Screen {
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel: NewTokenViewModel = useInject()
-        val uiState = viewModel.state.collectAsStateWithLifecycle()
+  @Composable
+  override fun Content() {
+    val navigator = LocalNavigator.currentOrThrow
+    val viewModel: NewTokenViewModel = useInject()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
 
-        NewTokenContent(
-            wish = { newWish ->
-                viewModel.wish(newWish)
-            },
-            state = uiState.value,
-            effect = viewModel.effect,
-            navigateToBack = {
-                navigator.pop()
-            },
-        )
-    }
+    NewTokenContent(
+        wish = { newWish -> viewModel.wish(newWish) },
+        state = uiState.value,
+        effect = viewModel.effect,
+        navigateToBack = { navigator.pop() },
+    )
+  }
 }

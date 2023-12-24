@@ -1,5 +1,6 @@
 package io.spherelabs.common.exception
 
-class NotAvailableException constructor(
+class NotAvailableException
+constructor(
     override val message: String,
 ) : Exception(message)

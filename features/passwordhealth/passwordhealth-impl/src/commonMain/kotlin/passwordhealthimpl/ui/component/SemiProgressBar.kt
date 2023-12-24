@@ -1,7 +1,5 @@
 package passwordhealthimpl.ui.component
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -16,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
@@ -31,46 +28,38 @@ fun SemiProgressBar(
     animationDuration: Int = SemiProgressBarTokens.animationDuration,
     style: SemiProgressBarStyle = SemiProgressBarDefaults.style(),
 ) {
-    val foregroundColor: Color by style.foregroundColor()
-    val backgroundColor: Color by style.backgroundColor()
+  val foregroundColor: Color by style.foregroundColor()
+  val backgroundColor: Color by style.backgroundColor()
 
+  val gapBetweenEnds = (startAngle - 90) * 2
 
-
-    val gapBetweenEnds = (startAngle - 90) * 2
-
-
-
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(size = size),
+  Box(
+      contentAlignment = Alignment.Center,
+      modifier = Modifier.size(size = size),
+  ) {
+    Canvas(
+        modifier = Modifier.size(size = size),
     ) {
-        Canvas(
-            modifier = Modifier
-                .size(size = size),
-        ) {
+      drawArc(
+          color = backgroundColor,
+          startAngle = startAngle,
+          sweepAngle = 360f - gapBetweenEnds,
+          useCenter = false,
+          style = Stroke(width = thickness.toPx(), cap = StrokeCap.Round),
+      )
 
-            drawArc(
-                color = backgroundColor,
-                startAngle = startAngle,
-                sweepAngle = 360f - gapBetweenEnds,
-                useCenter = false,
-                style = Stroke(width = thickness.toPx(), cap = StrokeCap.Round),
-            )
+      val sweepAngle = currentProgress.calculateSweepAngle(gapBetweenEnds)
 
-            val sweepAngle = currentProgress.calculateSweepAngle(gapBetweenEnds)
-
-            drawArc(
-                color = foregroundColor,
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = false,
-                style = Stroke(thickness.toPx(), cap = StrokeCap.Round),
-            )
-        }
-        ShowCurrentProgress(currentProgress)
+      drawArc(
+          color = foregroundColor,
+          startAngle = startAngle,
+          sweepAngle = sweepAngle,
+          useCenter = false,
+          style = Stroke(thickness.toPx(), cap = StrokeCap.Round),
+      )
     }
-
+    ShowCurrentProgress(currentProgress)
+  }
 }
 
 @Composable
@@ -78,33 +67,35 @@ internal fun ShowCurrentProgress(
     currentProgress: Float,
     description: String = SemiProgressBarTokens.description,
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = (currentProgress).toInt().toString(),
-            style = TextStyle(
+  Column(
+      verticalArrangement = Arrangement.Center,
+      horizontalAlignment = Alignment.CenterHorizontally,
+  ) {
+    Text(
+        text = (currentProgress).toInt().toString(),
+        style =
+            TextStyle(
                 fontFamily = GoogleSansFontFamily,
                 fontSize = 45.sp,
                 fontWeight = FontWeight.Bold,
                 color = LavenderBlue,
             ),
-        )
+    )
 
-        Spacer(modifier = Modifier.height(2.dp))
+    Spacer(modifier = Modifier.height(2.dp))
 
-        Text(
-            text = description,
-            style = TextStyle(
+    Text(
+        text = description,
+        style =
+            TextStyle(
                 fontFamily = GoogleSansFontFamily,
                 fontSize = 16.sp,
                 color = Color.White,
-                ),
-        )
-    }
+            ),
+    )
+  }
 }
 
 internal fun Float.calculateSweepAngle(gapBetweenEnds: Float): Float {
-    return (this / SemiProgressBarTokens.maxTotalProgress) * (360F - gapBetweenEnds)
+  return (this / SemiProgressBarTokens.maxTotalProgress) * (360F - gapBetweenEnds)
 }

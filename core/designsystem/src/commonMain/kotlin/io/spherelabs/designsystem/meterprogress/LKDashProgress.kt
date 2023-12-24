@@ -18,24 +18,24 @@ import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 internal fun LKDashProgress(
-  value: Int,
-  modifier: Modifier = Modifier,
-  valueFontWeight: FontWeight,
-  valueFontFamily: FontFamily,
-  valueColor: Color = Color.White,
+    value: Int,
+    modifier: Modifier = Modifier,
+    valueFontWeight: FontWeight,
+    valueFontFamily: FontFamily,
+    valueColor: Color = Color.White,
 ) {
 
   Box(
-    modifier =
-      modifier.fillMaxSize().padding(105.dp).background(color = Jaguar, shape = CircleShape),
+      modifier =
+          modifier.fillMaxSize().padding(105.dp).background(color = Jaguar, shape = CircleShape),
   ) {
     Text(
-      text = "$value",
-      fontSize = 42.sp,
-      fontFamily = valueFontFamily,
-      fontWeight = valueFontWeight,
-      color = valueColor,
-      modifier = Modifier.align(alignment = Alignment.Center),
+        text = "$value",
+        fontSize = 42.sp,
+        fontFamily = valueFontFamily,
+        fontWeight = valueFontWeight,
+        color = valueColor,
+        modifier = Modifier.align(alignment = Alignment.Center),
     )
   }
 }

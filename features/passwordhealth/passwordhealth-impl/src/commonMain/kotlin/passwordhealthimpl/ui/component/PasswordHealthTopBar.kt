@@ -29,27 +29,24 @@ internal fun PasswordHealthTopBar(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
 ) {
-    val strings = LocalStrings.current
+  val strings = LocalStrings.current
 
-    Row(
-        modifier = modifier.fillMaxWidth().padding(top = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        BackButton(
-            modifier,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
-        )
-        Headline(
-            text = strings.passwordHealth,
-            modifier = modifier,
-            fontFamily = GoogleSansFontFamily,
-            fontWeight = FontWeight.Medium,
-            textColor = Color.White,
-        )
-
-    }
+  Row(
+      modifier = modifier.fillMaxWidth().padding(top = 16.dp),
+      verticalAlignment = Alignment.CenterVertically,
+  ) {
+    BackButton(
+        modifier,
+        navigateToBack = { navigateToBack.invoke() },
+    )
+    Headline(
+        text = strings.passwordHealth,
+        modifier = modifier,
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium,
+        textColor = Color.White,
+    )
+  }
 }
 
 @Composable
@@ -60,17 +57,20 @@ fun RowScope.BackButton(
     navigateToBack: () -> Unit,
 ) {
 
-    Box(
-        modifier = modifier.padding(start = 24.dp).size(42.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = backgroundColor)
-            .clickable { navigateToBack.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            tint = iconColor,
-            contentDescription = "Back",
-        )
-    }
+  Box(
+      modifier =
+          modifier
+              .padding(start = 24.dp)
+              .size(42.dp)
+              .clip(RoundedCornerShape(12.dp))
+              .background(color = backgroundColor)
+              .clickable { navigateToBack.invoke() },
+      contentAlignment = Alignment.Center,
+  ) {
+    Icon(
+        imageVector = Icons.Default.ArrowBack,
+        tint = iconColor,
+        contentDescription = "Back",
+    )
+  }
 }

@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-//    id("com.diffplug.spotless").version("6.23.0")
+    id("com.diffplug.spotless").version("6.23.0")
 }
 
 group = "io.spherelabs.anypass.buildlogic"
@@ -11,29 +11,30 @@ java {
     }
 }
 
-//spotless {
-//    kotlin {
-//        target("src/**/*.kt")
-//        ktfmt("0.44").googleStyle()
-//        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"))
-//            .onlyIfContentMatches("missingString")
-//    }
-//    kotlinGradle {
-//        target("*.kts")
-//        ktfmt("0.44").googleStyle()
-//        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt"), "(^(?![\\/ ]\\*).*$)")
-//            .onlyIfContentMatches("missingString")
-//    }
-//    format("xml") {
-//        target("src/**/*.xml")
-//        targetExclude("**/build/", ".idea/")
-//        trimTrailingWhitespace()
-//        endWithNewline()
-//    }
-//}
+spotless {
+    kotlin {
+        target("src/**/*.kt")
+        ktfmt()
+        licenseHeaderFile(rootProject.file("spotless/anypass-copyright.txt")).onlyIfContentMatches("missingString")
+    }
+    kotlinGradle {
+        target("*.kts")
+        ktfmt()
+        licenseHeaderFile(
+            rootProject.file("spotless/anypass-copyright.txt"),
+            "(^(?![\\/ ]\\*).*$)",
+        ).onlyIfContentMatches("missingString")
+    }
+    format("xml") {
+        target("src/**/*.xml")
+        targetExclude("**/build/", ".idea/")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
 
 dependencies {
-    compileOnly("com.diffplug.spotless:spotless-plugin-gradle:6.21.0")
+    compileOnly("com.diffplug.spotless:spotless-plugin-gradle:6.23.0")
     compileOnly("org.jetbrains.compose:compose-gradle-plugin:1.5.1")
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
 }

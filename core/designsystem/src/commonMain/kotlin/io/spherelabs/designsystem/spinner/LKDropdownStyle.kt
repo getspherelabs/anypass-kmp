@@ -9,14 +9,14 @@ import io.spherelabs.designsystem.hooks.useUpdatedState
 
 @Immutable
 class LKDropdownStyle(
-  private val elevation: Dp,
-  private val verticalMargin: Dp,
-  private val verticalPadding: Dp,
-  private val menuItemHorizontalPadding: Dp,
-  private val menuItemDefaultMinWidth: Dp,
-  private val menuItemDefaultMaxWidth: Dp,
-  private val menuItemDefaultMinHeight: Dp,
-  private val itemContentPadding: PaddingValues
+    private val elevation: Dp,
+    private val verticalMargin: Dp,
+    private val verticalPadding: Dp,
+    private val menuItemHorizontalPadding: Dp,
+    private val menuItemDefaultMinWidth: Dp,
+    private val menuItemDefaultMaxWidth: Dp,
+    private val menuItemDefaultMinHeight: Dp,
+    private val itemContentPadding: PaddingValues
 ) {
   @Composable
   internal fun elevation(): State<Dp> {

@@ -15,18 +15,18 @@ import kotlin.math.sin
 
 @Composable
 internal fun LKOuterMarker(
-  angle: Int,
-  color: Color = LKMeterProgressTokens.OuterMarkerColor,
-  modifier: Modifier = Modifier
+    angle: Int,
+    color: Color = LKMeterProgressTokens.OuterMarkerColor,
+    modifier: Modifier = Modifier
 ) {
   Box(modifier.fillMaxSize().drawOuterMarker(angle, color))
 }
 
 @Composable
 internal fun LKInnerMarker(
-  angle: Int,
-  color: Color = LKMeterProgressTokens.InnerMarkerColor,
-  modifier: Modifier = Modifier
+    angle: Int,
+    color: Color = LKMeterProgressTokens.InnerMarkerColor,
+    modifier: Modifier = Modifier
 ) {
   Box(modifier.fillMaxSize().drawInnerMarker(angle, color))
 }
@@ -54,18 +54,17 @@ internal fun Modifier.drawOuterMarker(angle: Int, color: Color): Modifier {
 }
 
 private fun DrawScope.drawMarkerLine(
-  color: Color,
-  start: Offset,
-  end: Offset,
-  strokeWidth: Float = 4f
+    color: Color,
+    start: Offset,
+    end: Offset,
+    strokeWidth: Float = 4f
 ) {
   drawLine(
-    color = color,
-    start = center + start,
-    end = center + end,
-    strokeWidth = strokeWidth,
-    cap = StrokeCap.Round
-  )
+      color = color,
+      start = center + start,
+      end = center + end,
+      strokeWidth = strokeWidth,
+      cap = StrokeCap.Round)
 }
 
 private fun calculateStartPos(theta: Float, startRadius: Float, endRadius: Float): Offset {

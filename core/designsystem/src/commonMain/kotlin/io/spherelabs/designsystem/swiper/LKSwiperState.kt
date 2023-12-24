@@ -37,7 +37,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class LKSwiperState(
-  private val animationSpec: AnimationSpec<Offset> = SpringSpec(),
+    private val animationSpec: AnimationSpec<Offset> = SpringSpec(),
 ) {
 
   private var maxHeight: Int by mutableIntStateOf(0)
@@ -71,17 +71,16 @@ class LKSwiperState(
   internal val swiperDraggableState = SwiperDraggableState { delta ->
     offset += delta
     scale =
-      normalize(
-        min = 0.0f,
-        max = maxWidth.toFloat() / 3,
-        value = sqrt(offset.x.pow(2) + offset.y.pow(2)),
-        startRange = 0.8f
-      )
+        normalize(
+            min = 0.0f,
+            max = maxWidth.toFloat() / 3,
+            value = sqrt(offset.x.pow(2) + offset.y.pow(2)),
+            startRange = 0.8f)
     rotation = computeRotation(startDragAmount, offset)
   }
 
   suspend fun animateToCenter(
-    animation: AnimationSpec<Offset> = animationSpec,
+      animation: AnimationSpec<Offset> = animationSpec,
   ) {
     try {
       internalAnimateTo(Offset.Zero, animation)
@@ -91,8 +90,8 @@ class LKSwiperState(
   }
 
   suspend fun animateTo(
-    target: LKSwipeDirection,
-    animation: AnimationSpec<Offset> = animationSpec,
+      target: LKSwipeDirection,
+      animation: AnimationSpec<Offset> = animationSpec,
   ) {
     try {
       animateToDirection(target, animation)
@@ -112,13 +111,12 @@ class LKSwiperState(
 
   internal suspend fun performFling(velocity: Velocity): LKSwipeDirection? {
     val target =
-      computeTarget(
-        offset = offset,
-        velocity = velocity,
-        velocityThreshold = velocityThreshold,
-        horizontalThreshold = horizontalThreshold,
-        verticalThreshold = verticalThreshold
-      )
+        computeTarget(
+            offset = offset,
+            velocity = velocity,
+            velocityThreshold = velocityThreshold,
+            horizontalThreshold = horizontalThreshold,
+            verticalThreshold = verticalThreshold)
     val realTarget = target?.takeIf { it in directions }?.takeIf { isEnabled }
     if (realTarget != null) {
       try {
@@ -133,35 +131,35 @@ class LKSwiperState(
   }
 
   private suspend fun internalSnapTo(
-    target: Offset,
-    dragPriority: MutatePriority = MutatePriority.Default
+      target: Offset,
+      dragPriority: MutatePriority = MutatePriority.Default
   ) {
     swiperDraggableState.drag(dragPriority) { dragBy(target - offset) }
   }
 
   fun offsetByDirection(direction: LKSwipeDirection): Offset =
-    when (direction) {
-      LKSwipeDirection.Left -> {
-        val distance = -maxWidth - (horizontalThreshold / 2)
-        Offset(distance, offset.y)
+      when (direction) {
+        LKSwipeDirection.Left -> {
+          val distance = -maxWidth - (horizontalThreshold / 2)
+          Offset(distance, offset.y)
+        }
+        LKSwipeDirection.Right -> {
+          val distance = maxWidth + (horizontalThreshold / 2)
+          Offset(distance, offset.y)
+        }
+        LKSwipeDirection.Up -> {
+          val distance = -maxHeight - (verticalThreshold / 5)
+          Offset(offset.x, distance)
+        }
+        LKSwipeDirection.Down -> {
+          val distance = maxHeight + (verticalThreshold / 5)
+          Offset(offset.x, distance)
+        }
       }
-      LKSwipeDirection.Right -> {
-        val distance = maxWidth + (horizontalThreshold / 2)
-        Offset(distance, offset.y)
-      }
-      LKSwipeDirection.Up -> {
-        val distance = -maxHeight - (verticalThreshold / 5)
-        Offset(offset.x, distance)
-      }
-      LKSwipeDirection.Down -> {
-        val distance = maxHeight + (verticalThreshold / 5)
-        Offset(offset.x, distance)
-      }
-    }
 
   private suspend fun animateToDirection(
-    target: LKSwipeDirection,
-    animation: AnimationSpec<Offset> = animationSpec,
+      target: LKSwipeDirection,
+      animation: AnimationSpec<Offset> = animationSpec,
   ) {
     val targetOffset = offsetByDirection(target)
     internalAnimateTo(targetOffset, animation)
@@ -174,20 +172,19 @@ class LKSwiperState(
 
   private fun computeRotation(startDragPosition: Offset, offset: Offset): Float {
     val targetRotation =
-      normalize(
-        min = 0.0f,
-        max = maxWidth.toFloat(),
-        value = abs(offset.x),
-        startRange = 0f,
-        endRange = 15f
-      )
+        normalize(
+            min = 0.0f,
+            max = maxWidth.toFloat(),
+            value = abs(offset.x),
+            startRange = 0f,
+            endRange = 15f)
 
     val sign =
-      if (startDragPosition.y < maxHeight.toFloat() / 2) {
-        offset.x.sign
-      } else {
-        -offset.x.sign
-      }
+        if (startDragPosition.y < maxHeight.toFloat() / 2) {
+          offset.x.sign
+        } else {
+          -offset.x.sign
+        }
     return targetRotation * sign
   }
 
@@ -197,14 +194,13 @@ class LKSwiperState(
         var prevValue = offset
         isAnimationRunning = true
         animate(
-          typeConverter = Offset.VectorConverter,
-          initialValue = offset,
-          targetValue = target,
-          animationSpec = animationSpec
-        ) { value, _ ->
-          dragBy(value - prevValue)
-          prevValue = value
-        }
+            typeConverter = Offset.VectorConverter,
+            initialValue = offset,
+            targetValue = target,
+            animationSpec = animationSpec) { value, _ ->
+              dragBy(value - prevValue)
+              prevValue = value
+            }
       } finally {
         isAnimationRunning = false
       }
@@ -212,11 +208,11 @@ class LKSwiperState(
   }
 
   private fun computeTarget(
-    offset: Offset,
-    velocity: Velocity,
-    velocityThreshold: Float,
-    horizontalThreshold: Float,
-    verticalThreshold: Float
+      offset: Offset,
+      velocity: Velocity,
+      velocityThreshold: Float,
+      horizontalThreshold: Float,
+      verticalThreshold: Float
   ): LKSwipeDirection? {
     return when {
       offset.x <= 0f && abs(velocity.x) >= velocityThreshold -> LKSwipeDirection.Left
@@ -232,11 +228,11 @@ class LKSwiperState(
   }
 
   private fun normalize(
-    min: Float,
-    max: Float,
-    value: Float,
-    startRange: Float = 0f,
-    endRange: Float = 1f
+      min: Float,
+      max: Float,
+      value: Float,
+      startRange: Float = 0f,
+      endRange: Float = 1f
   ): Float {
     require(startRange < endRange) { "startRange must be less than endRange." }
     val coercedValue = value.coerceIn(min, max)
@@ -246,22 +242,22 @@ class LKSwiperState(
 
 @OptIn(ExperimentalMaterialApi::class)
 internal fun Modifier.swiper(
-  state: LKSwiperState,
-  directions: Set<LKSwipeDirection> = emptySet(),
-  threshold: (Orientation) -> ThresholdConfig = { FractionalThreshold(0.3f) },
-  onSwiped: (LKSwipeDirection) -> Unit = {},
-  velocityThreshold: Dp = 125.dp,
+    state: LKSwiperState,
+    directions: Set<LKSwipeDirection> = emptySet(),
+    threshold: (Orientation) -> ThresholdConfig = { FractionalThreshold(0.3f) },
+    onSwiped: (LKSwipeDirection) -> Unit = {},
+    velocityThreshold: Dp = 125.dp,
 ): Modifier = composed {
   val density = LocalDensity.current
 
   val maxWidth =
-    with(rememberScreenConfiguration()) {
-      LocalDensity.current.run { screenWidthDp.dp.roundToPx() }
-    }
+      with(rememberScreenConfiguration()) {
+        LocalDensity.current.run { screenWidthDp.dp.roundToPx() }
+      }
   val maxHeight =
-    with(rememberScreenConfiguration()) {
-      LocalDensity.current.run { screenHeightDp.dp.roundToPx() }
-    }
+      with(rememberScreenConfiguration()) {
+        LocalDensity.current.run { screenHeightDp.dp.roundToPx() }
+      }
 
   SideEffect {
     state.directions = directions
@@ -269,7 +265,7 @@ internal fun Modifier.swiper(
 
     val horizontal = threshold(Orientation.Horizontal)
     state.horizontalThreshold =
-      with(horizontal) { density.computeThreshold(0.0f, maxWidth.toFloat()) }
+        with(horizontal) { density.computeThreshold(0.0f, maxWidth.toFloat()) }
 
     val vertical = threshold(Orientation.Vertical)
     state.verticalThreshold = with(vertical) { density.computeThreshold(0.0f, maxHeight.toFloat()) }
@@ -278,34 +274,32 @@ internal fun Modifier.swiper(
   }
 
   draggableSwiper(
-    state = state.swiperDraggableState,
-    onDragStopped = { velocity ->
-      val direction = state.performFling(velocity)
-      if (direction != null) onSwiped(direction)
-      state.startDragAmount = Offset.Zero
-    },
-    onDragStarted = { offset -> state.startDragAmount = offset }
-  )
+      state = state.swiperDraggableState,
+      onDragStopped = { velocity ->
+        val direction = state.performFling(velocity)
+        if (direction != null) onSwiped(direction)
+        state.startDragAmount = Offset.Zero
+      },
+      onDragStarted = { offset -> state.startDragAmount = offset })
 }
 
 internal fun Modifier.draggableSwiper(
-  state: SwiperDraggableState,
-  onDragStarted: suspend CoroutineScope.(startedPosition: Offset) -> Unit = {},
-  onDragStopped: suspend CoroutineScope.(velocity: Velocity) -> Unit = {},
+    state: SwiperDraggableState,
+    onDragStarted: suspend CoroutineScope.(startedPosition: Offset) -> Unit = {},
+    onDragStopped: suspend CoroutineScope.(velocity: Velocity) -> Unit = {},
 ) = composed {
   val scope = rememberCoroutineScope()
   var velocity by remember { mutableStateOf(Offset(0f, 0f)) }
 
   pointerInput(Unit) {
     detectDragGestures(
-      onDragCancel = { scope.launch { onDragStopped(Velocity.Zero) } },
-      onDragEnd = { scope.launch { onDragStopped(Velocity(velocity.x, velocity.y)) } },
-      onDrag = { change, dragAmount ->
-        if (change.positionChange() != Offset.Zero) change.consume()
-        velocity = dragAmount
-        scope.launch { state.drag(MutatePriority.UserInput) { dragBy(dragAmount) } }
-      },
-      onDragStart = { dragAmount -> scope.launch { onDragStarted(dragAmount) } }
-    )
+        onDragCancel = { scope.launch { onDragStopped(Velocity.Zero) } },
+        onDragEnd = { scope.launch { onDragStopped(Velocity(velocity.x, velocity.y)) } },
+        onDrag = { change, dragAmount ->
+          if (change.positionChange() != Offset.Zero) change.consume()
+          velocity = dragAmount
+          scope.launch { state.drag(MutatePriority.UserInput) { dragBy(dragAmount) } }
+        },
+        onDragStart = { dragAmount -> scope.launch { onDragStarted(dragAmount) } })
   }
 }

@@ -14,6 +14,7 @@ import io.spherelabs.changepasswordimpl.presentation.ChangePasswordViewModel
 import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
 import passwordhealthimpl.presentation.PasswordHealthViewModel
+import io.spherelabs.help.presentation.HelpViewModel
 
 actual val viewModelModule = module {
     viewModelOf(::OnboardingViewModel)
@@ -28,4 +29,5 @@ actual val viewModelModule = module {
     viewModelOf(::NewTokenViewModel)
     viewModelOf(::AuthenticatorViewModel)
     viewModelOf(::PasswordHealthViewModel)
+    viewModelOf(::HelpViewModel)
 }

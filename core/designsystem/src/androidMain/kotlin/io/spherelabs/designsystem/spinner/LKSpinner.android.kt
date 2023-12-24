@@ -29,25 +29,25 @@ actual fun LKSpinner(
     current: String,
 ) {
 
-    ExposedDropdownMenuBox(
-        modifier =
-        modifier
-            .fillMaxWidth()
-            .height(65.dp)
-            .padding(horizontal = 24.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(color = Jaguar),
-        expanded = expanded,
-        onExpandedChange = onExpandedChange,
-    ) {
-        TextField(
-            modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)),
-            readOnly = true,
-            value = current,
-            onValueChange = {},
-            placeholder = { Text(text = "Choose a category", color = Color.White.copy(0.5f)) },
-            trailingIcon = { LKDropdownDefaults.TrailingIcon(expanded) },
-            colors =
+  ExposedDropdownMenuBox(
+      modifier =
+          modifier
+              .fillMaxWidth()
+              .height(65.dp)
+              .padding(horizontal = 24.dp)
+              .clip(RoundedCornerShape(8.dp))
+              .background(color = Jaguar),
+      expanded = expanded,
+      onExpandedChange = onExpandedChange,
+  ) {
+    TextField(
+        modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)),
+        readOnly = true,
+        value = current,
+        onValueChange = {},
+        placeholder = { Text(text = "Choose a category", color = Color.White.copy(0.5f)) },
+        trailingIcon = { LKDropdownDefaults.TrailingIcon(expanded) },
+        colors =
             TextFieldDefaults.textFieldColors(
                 backgroundColor = Jaguar,
                 cursorColor = Color.White,
@@ -55,18 +55,18 @@ actual fun LKSpinner(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
-        )
-        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { onExpandedChange(false) }) {
-            options.forEach {
-                DropdownMenuItem(
-                    onClick = {
-                        onOptionChosen(it)
-                        onExpandedChange(false)
-                    },
-                ) {
-                    Text(it)
-                }
-            }
+    )
+    ExposedDropdownMenu(expanded = expanded, onDismissRequest = { onExpandedChange(false) }) {
+      options.forEach {
+        DropdownMenuItem(
+            onClick = {
+              onOptionChosen(it)
+              onExpandedChange(false)
+            },
+        ) {
+          Text(it)
         }
+      }
     }
+  }
 }

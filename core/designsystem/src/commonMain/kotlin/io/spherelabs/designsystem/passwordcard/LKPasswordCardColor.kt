@@ -8,12 +8,12 @@ import io.spherelabs.designsystem.hooks.useUpdatedState
 
 @Immutable
 class LKPasswordCardColor(
-  private val backgroundColor: Color,
-  private val copyBackgroundColor: Color,
-  private val titleColor: Color,
-  private val emailColor: Color,
-  private val passwordColor: Color,
-  private val copyColor: Color,
+    private val backgroundColor: Color,
+    private val copyBackgroundColor: Color,
+    private val titleColor: Color,
+    private val emailColor: Color,
+    private val passwordColor: Color,
+    private val copyColor: Color,
 ) {
   @Composable
   fun backgroundColor(): State<Color> {

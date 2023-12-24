@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 class DefaultGetPasswordByCategoryUseCase(private val homeRepository: HomeRepository) :
     GetPasswordsByCategoryUseCase {
-    override fun execute(categoryId: String): Flow<List<HomePassword>> {
-        if (categoryId.isEmpty()) throw Exception("Invalid a category id.")
-        return homeRepository.getPasswordsByCategory(categoryId)
-    }
+  override fun execute(categoryId: String): Flow<List<HomePassword>> {
+    if (categoryId.isEmpty()) throw Exception("Invalid a category id.")
+    return homeRepository.getPasswordsByCategory(categoryId)
+  }
 }

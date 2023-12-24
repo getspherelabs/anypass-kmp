@@ -11,21 +11,20 @@ import io.spherelabs.meteorviewmodel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 
 class SignInViewModel(
-  private val signInReducer: SignInReducer,
-  private val signInMiddleware: SignInMiddleware,
-  private val signInValidateMiddleware: SignInValidateMiddleware
+    private val signInReducer: SignInReducer,
+    private val signInMiddleware: SignInMiddleware,
+    private val signInValidateMiddleware: SignInValidateMiddleware
 ) : ViewModel() {
 
   private val store: Store<SignInState, SignInWish, SignInEffect> =
-    viewModelScope.createMeteor(
-      configs =
-        MeteorConfigs.build {
-          initialState = SignInState.Empty
-          storeName = SIGN_IN_STORE_NAME
-          reducer = signInReducer
-          middlewares = listOf(signInMiddleware, signInValidateMiddleware)
-        }
-    )
+      viewModelScope.createMeteor(
+          configs =
+              MeteorConfigs.build {
+                initialState = SignInState.Empty
+                storeName = SIGN_IN_STORE_NAME
+                reducer = signInReducer
+                middlewares = listOf(signInMiddleware, signInValidateMiddleware)
+              })
 
   init {
     viewModelScope.launch { wish(SignInWish.CheckCurrentUser) }
@@ -45,6 +44,7 @@ class SignInViewModel(
   }
 
   companion object {
-    private const val SIGN_IN_STORE_NAME = "io.spherelabs.authimpl.presentation.signin.SignInViewModel"
+    private const val SIGN_IN_STORE_NAME =
+        "io.spherelabs.authimpl.presentation.signin.SignInViewModel"
   }
 }

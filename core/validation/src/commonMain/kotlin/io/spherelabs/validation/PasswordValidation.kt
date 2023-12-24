@@ -1,6 +1,6 @@
 package io.spherelabs.validation
 
-interface  PasswordValidation {
+interface PasswordValidation {
   suspend fun execute(password: String): Boolean
 }
 

@@ -8,20 +8,20 @@ import io.spherelabs.meteor.viewmodel.createMeteor
 class PasswordHealthViewModel(
     private val passwordHealthMiddleware: PasswordHealthMiddleware,
     private val passwordHealthReducer: PasswordHealthReducer,
-) :
-    CommonViewModel<PasswordHealthState, PasswordHealthWish, PasswordHealthEffect>() {
+) : CommonViewModel<PasswordHealthState, PasswordHealthWish, PasswordHealthEffect>() {
 
-    override val store: Store<PasswordHealthState, PasswordHealthWish, PasswordHealthEffect> =
-        createMeteor(
-            configs = MeteorConfigs.build {
+  override val store: Store<PasswordHealthState, PasswordHealthWish, PasswordHealthEffect> =
+      createMeteor(
+          configs =
+              MeteorConfigs.build {
                 initialState = PasswordHealthState.Empty
                 storeName = STORE_NAME
                 reducer = passwordHealthReducer
                 middlewares = listOf(passwordHealthMiddleware)
-            },
-        )
+              },
+      )
 
-    companion object {
-        private const val STORE_NAME = "passwordhealthimpl.presentation.PasswordHealthViewModel"
-    }
+  companion object {
+    private const val STORE_NAME = "passwordhealthimpl.presentation.PasswordHealthViewModel"
+  }
 }

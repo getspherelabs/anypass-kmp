@@ -21,29 +21,20 @@ data class AddNewPasswordScreen(
     val password: String? = null,
 ) : Screen {
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel: AddNewPasswordViewModel = useInject()
-        val uiState = viewModel.state.collectAsStateWithLifecycle()
-        val generatePasswordScreen =
-            rememberScreen(GeneratePasswordDestination.GeneratePassword)
+  @Composable
+  override fun Content() {
+    val navigator = LocalNavigator.currentOrThrow
+    val viewModel: AddNewPasswordViewModel = useInject()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
+    val generatePasswordScreen = rememberScreen(GeneratePasswordDestination.GeneratePassword)
 
-        AddNewPasswordContent(
-            usePassword = password,
-            wish = { newWish ->
-                viewModel.wish(newWish)
-            },
-            state = uiState.value,
-            flow = viewModel.effect,
-            navigateToBack = {
-                navigator.pop()
-            },
-            navigateToGeneratePassword = {
-                navigator.push(generatePasswordScreen)
-            },
-        )
-    }
+    AddNewPasswordContent(
+        usePassword = password,
+        wish = { newWish -> viewModel.wish(newWish) },
+        state = uiState.value,
+        flow = viewModel.effect,
+        navigateToBack = { navigator.pop() },
+        navigateToGeneratePassword = { navigator.push(generatePasswordScreen) },
+    )
+  }
 }
-
-

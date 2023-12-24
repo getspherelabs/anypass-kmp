@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class DefaultGetCategoriesUseCaseUseCase(private val repository: AddNewPasswordRepository) :
     GetCategoriesUseCase {
 
-    override fun execute(): Flow<List<AddNewCategory>> {
-        return repository.getCategories()
-    }
+  override fun execute(): Flow<List<AddNewCategory>> {
+    return repository.getCategories()
+  }
 }

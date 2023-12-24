@@ -109,3 +109,8 @@ include(":features:passwordhealth:passwordhealth-impl")
 
 include(":features:navigation")
 include(":features:navigation:navigation-api")
+include(":features:help")
+include(":features:help:help-api")
+include(":features:help:help-impl")
+include(":features:help:help-di")
+include(":features:help:help-store")

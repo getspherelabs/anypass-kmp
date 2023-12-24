@@ -7,11 +7,11 @@ import io.spherelabs.addnewpasswordapi.model.AddNewPassword
 class DefaultAddNewPasswordUseCaseUseCase(private val repository: AddNewPasswordRepository) :
     AddNewPasswordUseCase {
 
-    override suspend fun execute(password: AddNewPassword): Result<Unit> {
-        return runCatching {
-            if (password.category.isNotEmpty()) {
-                repository.insertPassword(password)
-            }
-        }
+  override suspend fun execute(password: AddNewPassword): Result<Unit> {
+    return runCatching {
+      if (password.category.isNotEmpty()) {
+        repository.insertPassword(password)
+      }
     }
+  }
 }

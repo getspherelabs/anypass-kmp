@@ -8,10 +8,10 @@ import io.spherelabs.designsystem.hooks.useIntState
 
 @Composable
 internal fun LKSocialIconGridLayout(
-  modifier: Modifier = Modifier,
-  socialIcons: List<SocialMedia>,
-  selectedSocialIcon: MutableState<SocialMedia>,
-  initialSelection: Int,
+    modifier: Modifier = Modifier,
+    socialIcons: List<SocialMedia>,
+    selectedSocialIcon: MutableState<SocialMedia>,
+    initialSelection: Int,
 ) {
   val (mainIndex, setMainIndex) = useIntState(initialSelection)
 

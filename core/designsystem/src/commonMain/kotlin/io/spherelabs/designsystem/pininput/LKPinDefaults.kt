@@ -9,22 +9,21 @@ object LKPinDefaults {
 
   @Composable
   fun style(
-    elevation: Dp = LKPinTokens.Elevation,
-    cursorColor: Color = LKPinTokens.CursorColor,
-    cellsCount: Int = 4,
-    obscureText: String = "*",
-    cellModifier: Modifier = LKPinTokens.CellModifier,
-    placeHolder: String = LKPinTokens.PlaceHolder,
-    borderColor: Color = LKPinTokens.BorderColor,
+      elevation: Dp = LKPinTokens.Elevation,
+      cursorColor: Color = LKPinTokens.CursorColor,
+      cellsCount: Int = 4,
+      obscureText: String = "*",
+      cellModifier: Modifier = LKPinTokens.CellModifier,
+      placeHolder: String = LKPinTokens.PlaceHolder,
+      borderColor: Color = LKPinTokens.BorderColor,
   ): LKPinStyle {
     return LKPinStyle(
-      elevation = elevation,
-      cursorColor = cursorColor,
-      cellCount = cellsCount,
-      obscureText = obscureText,
-      placeHolder = placeHolder,
-      borderColor = borderColor,
-      cellModifier = cellModifier
-    )
+        elevation = elevation,
+        cursorColor = cursorColor,
+        cellCount = cellsCount,
+        obscureText = obscureText,
+        placeHolder = placeHolder,
+        borderColor = borderColor,
+        cellModifier = cellModifier)
   }
 }

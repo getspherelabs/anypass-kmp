@@ -28,35 +28,35 @@ import io.spherelabs.foundation.color.Jaguar
 
 @Composable
 fun LKSocialMediaPicker(
-  modifier: Modifier = Modifier,
-  content: @Composable LKDialogScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable LKDialogScope.() -> Unit,
 ) {
 
   val dialogState = useDialogState()
 
   BasicLKDialog(
-    dialogState = dialogState,
-    buttons = {
-      negativeButton("Cancel")
-      positiveButton("Ok")
-    },
-    properties = LKDialogProperties(),
+      dialogState = dialogState,
+      buttons = {
+        negativeButton("Cancel")
+        positiveButton("Ok")
+      },
+      properties = LKDialogProperties(),
   ) {
     content()
   }
 
   Box(
-    modifier =
-      modifier
-        .size(56.dp)
-        .clip(RoundedCornerShape(8.dp))
-        .border(
-          width = 2.dp,
-          color = Jaguar,
-          shape = RoundedCornerShape(8.dp),
-        )
-        .clickable { dialogState.show() },
-    contentAlignment = Alignment.Center,
+      modifier =
+          modifier
+              .size(56.dp)
+              .clip(RoundedCornerShape(8.dp))
+              .border(
+                  width = 2.dp,
+                  color = Jaguar,
+                  shape = RoundedCornerShape(8.dp),
+              )
+              .clickable { dialogState.show() },
+      contentAlignment = Alignment.Center,
   ) {
     Icon(imageVector = Icons.Default.ImageSearch, contentDescription = null, tint = Color.White)
   }
@@ -65,10 +65,10 @@ fun LKSocialMediaPicker(
 @ExperimentalMaterialApi
 @Composable
 fun LKDialogScope.socialIconsPicker(
-  socialIcons: List<SocialMedia>,
-  initialSelection: Int = 0,
-  waitForPositiveButton: Boolean = true,
-  onSocialIconSelected: (SocialMedia) -> Unit = {},
+    socialIcons: List<SocialMedia>,
+    initialSelection: Int = 0,
+    waitForPositiveButton: Boolean = true,
+    onSocialIconSelected: (SocialMedia) -> Unit = {},
 ) {
   BoxWithConstraints {
     val selectedSocialIcon = remember { mutableStateOf(socialIcons[initialSelection]) }
@@ -85,14 +85,14 @@ fun LKDialogScope.socialIconsPicker(
 
     Column(Modifier.padding(bottom = 8.dp)) {
       Layout(
-        content = {
-          LKSocialIconGridLayout(
-            Modifier.width(this@BoxWithConstraints.maxWidth),
-            socialIcons = socialIcons,
-            selectedSocialIcon = selectedSocialIcon,
-            initialSelection = initialSelection,
-          )
-        },
+          content = {
+            LKSocialIconGridLayout(
+                Modifier.width(this@BoxWithConstraints.maxWidth),
+                socialIcons = socialIcons,
+                selectedSocialIcon = selectedSocialIcon,
+                initialSelection = initialSelection,
+            )
+          },
       ) { measurables, constraints ->
         val placeables = measurables.map { it.measure(constraints) }
         val height = placeables.maxByOrNull { it.height }?.height ?: 0
@@ -100,8 +100,8 @@ fun LKDialogScope.socialIconsPicker(
         layout(constraints.maxWidth, height) {
           placeables.forEachIndexed { index, placeable ->
             placeable.place(
-              x = -swipeState.offset.value.toInt() + index * constraints.maxWidth,
-              y = 0,
+                x = -swipeState.offset.value.toInt() + index * constraints.maxWidth,
+                y = 0,
             )
           }
         }
@@ -112,6 +112,6 @@ fun LKDialogScope.socialIconsPicker(
 
 @Immutable
 data class SocialMedia(
-  val title: String,
-  val image: ImageVector,
+    val title: String,
+    val image: ImageVector,
 )

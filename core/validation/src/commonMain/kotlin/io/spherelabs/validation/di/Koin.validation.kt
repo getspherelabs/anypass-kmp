@@ -13,9 +13,9 @@ import io.spherelabs.validation.WebsiteValidation
 import org.koin.dsl.module
 
 val validationModule = module {
-    single<EmailValidation> { DefaultEmailValidation() }
-    single<NameValidation> { DefaultNameValidation() }
-    single<PasswordValidation> { DefaultPasswordValidation() }
-    single<WebsiteValidation> { DefaultWebsiteValidation() }
-    single<KeyPasswordValidation> { DefaultKeyPasswordValidation() }
+  single<EmailValidation> { DefaultEmailValidation() }
+  single<NameValidation> { DefaultNameValidation() }
+  single<PasswordValidation> { DefaultPasswordValidation() }
+  single<WebsiteValidation> { DefaultWebsiteValidation() }
+  single<KeyPasswordValidation> { DefaultKeyPasswordValidation() }
 }

@@ -32,8 +32,8 @@ internal enum class LKDialogButtonTypes(val testTag: String) {
  */
 @Composable
 internal fun LKDialogScope.DialogButtonsLayout(
-  modifier: Modifier = Modifier,
-  content: @Composable LKDialogButtons.() -> Unit
+    modifier: Modifier = Modifier,
+    content: @Composable LKDialogButtons.() -> Unit
 ) {
   val interButtonPadding = with(LocalDensity.current) { 12.dp.toPx().toInt() }
   val defaultBoxHeight = with(LocalDensity.current) { 52.dp.toPx().toInt() }
@@ -41,117 +41,110 @@ internal fun LKDialogScope.DialogButtonsLayout(
   val verticalPadding = with(LocalDensity.current) { 8.dp.toPx().toInt() }
 
   Layout(
-    { content(dialogButtons) },
-    modifier
-      .fillMaxWidth()
-      .padding(horizontal = 8.dp)
-      .background(dialogState.dialogBackgroundColor!!),
-    { measurables, constraints ->
-      if (measurables.isEmpty()) {
-        return@Layout layout(0, 0) {}
-      }
-
-      val placeables =
-        measurables.map {
-          (it.layoutId as LKDialogButtonTypes) to
-            it.measure(constraints.copy(minWidth = 0, maxHeight = defaultButtonHeight))
-        }
-      val totalWidth = placeables.sumOf { it.second.width }
-      val column = totalWidth > 0.8 * constraints.maxWidth
-
-      val height =
-        if (column) {
-          val buttonHeight = placeables.sumOf { it.second.height }
-          val heightPadding = (placeables.size - 1) * interButtonPadding
-          buttonHeight + heightPadding + 2 * verticalPadding
-        } else {
-          defaultBoxHeight
+      { content(dialogButtons) },
+      modifier
+          .fillMaxWidth()
+          .padding(horizontal = 8.dp)
+          .background(dialogState.dialogBackgroundColor!!),
+      { measurables, constraints ->
+        if (measurables.isEmpty()) {
+          return@Layout layout(0, 0) {}
         }
 
-      layout(constraints.maxWidth, height) {
-        var currX = constraints.maxWidth
-        var currY = verticalPadding
+        val placeables =
+            measurables.map {
+              (it.layoutId as LKDialogButtonTypes) to
+                  it.measure(constraints.copy(minWidth = 0, maxHeight = defaultButtonHeight))
+            }
+        val totalWidth = placeables.sumOf { it.second.width }
+        val column = totalWidth > 0.8 * constraints.maxWidth
 
-        val posButtons = placeables.buttons(LKDialogButtonTypes.Positive)
-        val negButtons = placeables.buttons(LKDialogButtonTypes.Negative)
+        val height =
+            if (column) {
+              val buttonHeight = placeables.sumOf { it.second.height }
+              val heightPadding = (placeables.size - 1) * interButtonPadding
+              buttonHeight + heightPadding + 2 * verticalPadding
+            } else {
+              defaultBoxHeight
+            }
 
-        val buttonInOrder = posButtons + negButtons
+        layout(constraints.maxWidth, height) {
+          var currX = constraints.maxWidth
+          var currY = verticalPadding
 
-        buttonInOrder.forEach { button ->
-          if (column) {
-            button.place(currX - button.width, currY)
-            currY += button.height + interButtonPadding
-          } else {
-            currX -= button.width
-            button.place(currX, currY)
+          val posButtons = placeables.buttons(LKDialogButtonTypes.Positive)
+          val negButtons = placeables.buttons(LKDialogButtonTypes.Negative)
+
+          val buttonInOrder = posButtons + negButtons
+
+          buttonInOrder.forEach { button ->
+            if (column) {
+              button.place(currX - button.width, currY)
+              currY += button.height + interButtonPadding
+            } else {
+              currX -= button.width
+              button.place(currX, currY)
+            }
           }
         }
-      }
-    }
-  )
+      })
 }
 
 class LKDialogButtons(private val scope: LKDialogScope) {
 
   @Composable
   fun positiveButton(
-    text: String,
-    textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.textButtonColors(
-        contentColor = Color.White
-    ),
-    disableDismiss: Boolean = false,
-    onClick: () -> Unit = {}
+      text: String,
+      textStyle: TextStyle = MaterialTheme.typography.button,
+      colors: ButtonColors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+      disableDismiss: Boolean = false,
+      onClick: () -> Unit = {}
   ) {
     val buttonText = text.uppercase()
     val buttonEnabled = scope.positiveButtonEnabled.values.all { it }
     val focusManager = LocalFocusManager.current
 
     TextButton(
-      onClick = {
-        if (scope.autoDismiss && !disableDismiss) {
-          scope.dialogState.hide(focusManager)
+        onClick = {
+          if (scope.autoDismiss && !disableDismiss) {
+            scope.dialogState.hide(focusManager)
+          }
+
+          scope.callbacks.values.forEach { it() }
+
+          onClick()
+        },
+        modifier =
+            Modifier.layoutId(LKDialogButtonTypes.Positive)
+                .testTag(LKDialogButtonTypes.Positive.testTag),
+        enabled = buttonEnabled,
+        colors = colors) {
+          Text(text = buttonText, style = textStyle)
         }
-
-        scope.callbacks.values.forEach { it() }
-
-        onClick()
-      },
-      modifier =
-        Modifier.layoutId(LKDialogButtonTypes.Positive)
-          .testTag(LKDialogButtonTypes.Positive.testTag),
-      enabled = buttonEnabled,
-      colors = colors
-    ) {
-      Text(text = buttonText, style = textStyle)
-    }
   }
 
   @Composable
   fun negativeButton(
-    text: String,
-    textStyle: TextStyle = MaterialTheme.typography.button,
-    colors: ButtonColors = ButtonDefaults.textButtonColors(
-        contentColor = Color.White
-    ),
-    onClick: () -> Unit = {}
+      text: String,
+      textStyle: TextStyle = MaterialTheme.typography.button,
+      colors: ButtonColors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+      onClick: () -> Unit = {}
   ) {
     val buttonText = text.uppercase()
     val focusManager = LocalFocusManager.current
 
     TextButton(
-      onClick = {
-        if (scope.autoDismiss) {
-          scope.dialogState.hide(focusManager)
+        onClick = {
+          if (scope.autoDismiss) {
+            scope.dialogState.hide(focusManager)
+          }
+          onClick()
+        },
+        modifier =
+            Modifier.layoutId(LKDialogButtonTypes.Negative)
+                .testTag(LKDialogButtonTypes.Negative.testTag),
+        colors = colors) {
+          Text(text = buttonText, style = textStyle)
         }
-        onClick()
-      },
-      modifier =
-        Modifier.layoutId(LKDialogButtonTypes.Negative)
-          .testTag(LKDialogButtonTypes.Negative.testTag),
-      colors = colors
-    ) {
-      Text(text = buttonText, style = textStyle)
-    }
   }
 }

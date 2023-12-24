@@ -43,54 +43,46 @@ fun NewTokenContent(
     wish: (NewTokenWish) -> Unit,
     navigateToBack: () -> Unit,
 ) {
-    val snackbarHostState = useSnackbar()
-    val scope = useScope()
+  val snackbarHostState = useSnackbar()
+  val scope = useScope()
 
-    useEffect(true) {
-        effect.collectLatest { newEffect ->
-            when (newEffect) {
-                is NewTokenEffect.Failure -> {
-                    scope.launch {
-                        snackbarHostState.showSnackbar(
-                            newEffect.message,
-                        )
-                    }
-                }
-
-                is NewTokenEffect.Info -> {
-                    scope.launch {
-                        snackbarHostState.showSnackbar(
-                            newEffect.message,
-                        )
-                    }
-                }
-            }
-        }
-    }
-    Scaffold(
-        containerColor = BlackRussian,
-        topBar = {
-            NewTokenTopBar {
-            }
-        },
-        snackbarHost = {
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom),
+  useEffect(true) {
+    effect.collectLatest { newEffect ->
+      when (newEffect) {
+        is NewTokenEffect.Failure -> {
+          scope.launch {
+            snackbarHostState.showSnackbar(
+                newEffect.message,
             )
-        },
-    ) { newPaddingValues ->
-        BasicNewTokenContent(
-            paddingValues = newPaddingValues,
-            state = state,
-            wish = wish,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
-        )
+          }
+        }
+        is NewTokenEffect.Info -> {
+          scope.launch {
+            snackbarHostState.showSnackbar(
+                newEffect.message,
+            )
+          }
+        }
+      }
     }
+  }
+  Scaffold(
+      containerColor = BlackRussian,
+      topBar = { NewTokenTopBar {} },
+      snackbarHost = {
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
+        )
+      },
+  ) { newPaddingValues ->
+    BasicNewTokenContent(
+        paddingValues = newPaddingValues,
+        state = state,
+        wish = wish,
+        navigateToBack = { navigateToBack.invoke() },
+    )
+  }
 }
 
 @Composable
@@ -101,23 +93,23 @@ fun BasicNewTokenContent(
     wish: (NewTokenWish) -> Unit,
     navigateToBack: () -> Unit,
 ) {
-    val focusManager = LocalFocusManager.current
-    val strings = LocalStrings.current
-    val scrollState = rememberScrollState()
+  val focusManager = LocalFocusManager.current
+  val strings = LocalStrings.current
+  val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(paddingValues)
-            .background(color = BlackRussian)
-    ) {
+  Column(
+      modifier =
+          modifier
+              .fillMaxSize()
+              .verticalScroll(scrollState)
+              .padding(paddingValues)
+              .background(color = BlackRussian)) {
         ServiceTextField(
             modifier = modifier,
             focusManager = focusManager,
             textValue = state.serviceName,
             onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnServiceNameChanged(newValue))
+              wish.invoke(NewTokenWish.OnServiceNameChanged(newValue))
             },
         )
         SecretTextField(
@@ -125,7 +117,7 @@ fun BasicNewTokenContent(
             focusManager = focusManager,
             textValue = state.secret,
             onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnSecretChanged(newValue))
+              wish.invoke(NewTokenWish.OnSecretChanged(newValue))
             },
         )
 
@@ -133,17 +125,14 @@ fun BasicNewTokenContent(
             modifier = modifier,
             focusManager = focusManager,
             textValue = state.info,
-            onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnInfoChanged(newValue))
-            },
+            onTextValueChanged = { newValue -> wish.invoke(NewTokenWish.OnInfoChanged(newValue)) },
         )
         NewTokenTypeSpinner(modifier, state, wish)
         NewTokenDigitSpinner(modifier, state, wish)
         NewTokenDurationSpinner(modifier, state, wish)
         SaveButton(modifier, wish)
-    }
+      }
 }
-
 
 @Composable
 private fun ServiceTextField(
@@ -152,28 +141,28 @@ private fun ServiceTextField(
     focusManager: FocusManager,
     onTextValueChanged: (String) -> Unit,
 ) {
-    Column {
-        Text(
-            text = "Service name",
-            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
-            textAlign = TextAlign.Start,
-            color = Color.White,
-            fontWeight = FontWeight.Medium,
-            fontSize = 18.sp,
-            fontFamily = GoogleSansFontFamily,
-        )
-        TextField(
-            modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
-            value = textValue,
-            keyboardOptions = KeyboardOptions(
+  Column {
+    Text(
+        text = "Service name",
+        modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
+        textAlign = TextAlign.Start,
+        color = Color.White,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        fontFamily = GoogleSansFontFamily,
+    )
+    TextField(
+        modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
+        value = textValue,
+        keyboardOptions =
+            KeyboardOptions(
                 imeAction = ImeAction.Next,
             ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Down)
-                },
+        keyboardActions =
+            KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Down) },
             ),
-            colors =
+        colors =
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
@@ -182,10 +171,9 @@ private fun ServiceTextField(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
-            onValueChange = { newValue -> onTextValueChanged.invoke(newValue) },
-            shape = RoundedCornerShape(8.dp),
-            singleLine = true,
-        )
-    }
+        onValueChange = { newValue -> onTextValueChanged.invoke(newValue) },
+        shape = RoundedCornerShape(8.dp),
+        singleLine = true,
+    )
+  }
 }
-

@@ -10,13 +10,13 @@ import io.spherelabs.designsystem.hooks.useUpdatedState
 
 @Immutable
 class LKPinStyle(
-  private val elevation: Dp,
-  private val borderColor: Color,
-  private val cursorColor: Color,
-  private val cellModifier: Modifier,
-  private val placeHolder: String,
-  private val obscureText: String,
-  private val cellCount: Int
+    private val elevation: Dp,
+    private val borderColor: Color,
+    private val cursorColor: Color,
+    private val cellModifier: Modifier,
+    private val placeHolder: String,
+    private val obscureText: String,
+    private val cellCount: Int
 ) {
   @Composable
   internal fun borderColor(): State<Color> {

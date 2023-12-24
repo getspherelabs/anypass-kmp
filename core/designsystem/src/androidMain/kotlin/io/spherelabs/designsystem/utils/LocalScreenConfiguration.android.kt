@@ -11,9 +11,8 @@ internal actual fun rememberScreenConfiguration(): ScreenConfiguration {
 
   return remember(config.screenWidthDp, config.screenHeightDp) {
     ScreenConfiguration(
-      screenWidthDp = config.screenWidthDp,
-      screenHeightDp = config.screenHeightDp,
-      size = IntSize(config.screenWidthDp, config.screenHeightDp)
-    )
+        screenWidthDp = config.screenWidthDp,
+        screenHeightDp = config.screenHeightDp,
+        size = IntSize(config.screenWidthDp, config.screenHeightDp))
   }
 }

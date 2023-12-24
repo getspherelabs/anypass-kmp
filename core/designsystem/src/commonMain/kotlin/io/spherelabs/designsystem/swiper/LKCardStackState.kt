@@ -25,8 +25,8 @@ import kotlin.coroutines.suspendCoroutine
 @Stable
 @Composable
 fun useLKCardStackState(
-  firstVisibleItemIndex: Int = 0,
-  animationSpec: AnimationSpec<Offset> = SpringSpec(),
+    firstVisibleItemIndex: Int = 0,
+    animationSpec: AnimationSpec<Offset> = SpringSpec(),
 ): LKCardStackState {
   return rememberSaveable(saver = LKCardStackState.Saver(animationSpec)) {
     LKCardStackState(firstVisibleItemIndex = firstVisibleItemIndex, animationSpec = animationSpec)
@@ -37,8 +37,8 @@ fun useLKCardStackState(
 @Stable
 class LKCardStackState
 internal constructor(
-  firstVisibleItemIndex: Int = 0,
-  private val animationSpec: AnimationSpec<Offset>,
+    firstVisibleItemIndex: Int = 0,
+    private val animationSpec: AnimationSpec<Offset>,
 ) {
 
   internal val swiperState = LKSwiperState(animationSpec)
@@ -71,15 +71,15 @@ internal constructor(
   internal val prefetchState = LazyLayoutPrefetchState()
 
   internal val remeasurementModifier =
-    object : RemeasurementModifier {
-      override fun onRemeasurementAvailable(remeasurement: Remeasurement) {
-        this@LKCardStackState.remeasurement = remeasurement
+      object : RemeasurementModifier {
+        override fun onRemeasurementAvailable(remeasurement: Remeasurement) {
+          this@LKCardStackState.remeasurement = remeasurement
+        }
       }
-    }
 
   suspend fun animateToBack(
-    fromDirection: LKSwipeDirection,
-    animation: AnimationSpec<Offset> = animationSpec,
+      fromDirection: LKSwipeDirection,
+      animation: AnimationSpec<Offset> = animationSpec,
   ) {
     awaitLayoutModifier.waitForFirstLayout()
 
@@ -114,8 +114,8 @@ internal constructor(
   }
 
   suspend fun animateToNext(
-    direction: LKSwipeDirection,
-    animation: AnimationSpec<Offset> = animationSpec,
+      direction: LKSwipeDirection,
+      animation: AnimationSpec<Offset> = animationSpec,
   ) {
     awaitLayoutModifier.waitForFirstLayout()
 
@@ -139,18 +139,18 @@ internal constructor(
   }
 
   internal fun updateScrollPositionIfTheFirstItemWasDeleted(
-    itemProvider: LazyLayoutItemProvider,
-    index: Int
+      itemProvider: LazyLayoutItemProvider,
+      index: Int
   ): Int {
     if (itemsCount < itemProvider.itemCount) {
       return index
     }
 
     val newIndex =
-      itemProvider.findIndexByKey(
-        key = lastKnownFirstItemKey,
-        lastKnownIndex = index,
-      )
+        itemProvider.findIndexByKey(
+            key = lastKnownFirstItemKey,
+            lastKnownIndex = index,
+        )
     if (index != newIndex) {
       visibleItemIndex = newIndex
     }
@@ -158,8 +158,8 @@ internal constructor(
   }
 
   private fun LazyLayoutItemProvider.findIndexByKey(
-    key: Any?,
-    lastKnownIndex: Int,
+      key: Any?,
+      lastKnownIndex: Int,
   ): Int {
     if (key == null) {
       return lastKnownIndex
@@ -177,12 +177,13 @@ internal constructor(
   companion object {
 
     fun Saver(
-      animationSpec: AnimationSpec<Offset>,
+        animationSpec: AnimationSpec<Offset>,
     ) =
-      Saver<LKCardStackState, Int>(
-        save = { it.visibleItemIndex },
-        restore = { LKCardStackState(firstVisibleItemIndex = it, animationSpec = animationSpec) }
-      )
+        Saver<LKCardStackState, Int>(
+            save = { it.visibleItemIndex },
+            restore = {
+              LKCardStackState(firstVisibleItemIndex = it, animationSpec = animationSpec)
+            })
   }
 }
 

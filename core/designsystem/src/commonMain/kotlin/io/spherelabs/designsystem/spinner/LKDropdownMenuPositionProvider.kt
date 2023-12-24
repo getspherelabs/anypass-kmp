@@ -11,16 +11,16 @@ import androidx.compose.ui.window.PopupPositionProvider
 
 @Immutable
 internal data class LKDropdownMenuPositionProvider(
-  val contentOffset: DpOffset,
-  val density: Density,
-  val onPositionCalculated: (IntRect, IntRect) -> Unit = { _, _ -> }
+    val contentOffset: DpOffset,
+    val density: Density,
+    val onPositionCalculated: (IntRect, IntRect) -> Unit = { _, _ -> }
 ) : PopupPositionProvider {
 
   override fun calculatePosition(
-    anchorBounds: IntRect,
-    windowSize: IntSize,
-    layoutDirection: LayoutDirection,
-    popupContentSize: IntSize
+      anchorBounds: IntRect,
+      windowSize: IntSize,
+      layoutDirection: LayoutDirection,
+      popupContentSize: IntSize
   ): IntOffset {
 
     val verticalMargin = with(density) { LKDropdownTokens.MenuVerticalMargin.roundToPx() }
@@ -35,32 +35,30 @@ internal data class LKDropdownMenuPositionProvider(
     val toDisplayLeft = 0
 
     val x =
-      if (layoutDirection == LayoutDirection.Ltr) {
-          sequenceOf(toRight, toLeft, if (anchorBounds.left >= 0) toDisplayRight else toDisplayLeft)
-        } else {
-          sequenceOf(
-            toLeft,
-            toRight,
-            if (anchorBounds.right <= windowSize.width) toDisplayLeft else toDisplayRight
-          )
-        }
-        .firstOrNull { it >= 0 && it + popupContentSize.width <= windowSize.width }
-        ?: toLeft
+        if (layoutDirection == LayoutDirection.Ltr) {
+              sequenceOf(
+                  toRight, toLeft, if (anchorBounds.left >= 0) toDisplayRight else toDisplayLeft)
+            } else {
+              sequenceOf(
+                  toLeft,
+                  toRight,
+                  if (anchorBounds.right <= windowSize.width) toDisplayLeft else toDisplayRight)
+            }
+            .firstOrNull { it >= 0 && it + popupContentSize.width <= windowSize.width }
+            ?: toLeft
 
     val toBottom = maxOf(anchorBounds.bottom + contentOffsetY, verticalMargin)
     val toTop = anchorBounds.top - contentOffsetY - popupContentSize.height
     val toCenter = anchorBounds.top - popupContentSize.height / 2
     val toDisplayBottom = windowSize.height - popupContentSize.height - verticalMargin
     val y =
-      sequenceOf(toBottom, toTop, toCenter, toDisplayBottom).firstOrNull {
-        it >= verticalMargin && it + popupContentSize.height <= windowSize.height - verticalMargin
-      }
-        ?: toTop
+        sequenceOf(toBottom, toTop, toCenter, toDisplayBottom).firstOrNull {
+          it >= verticalMargin && it + popupContentSize.height <= windowSize.height - verticalMargin
+        }
+            ?: toTop
 
     onPositionCalculated(
-      anchorBounds,
-      IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height)
-    )
+        anchorBounds, IntRect(x, y, x + popupContentSize.width, y + popupContentSize.height))
     return IntOffset(x, y)
   }
 }

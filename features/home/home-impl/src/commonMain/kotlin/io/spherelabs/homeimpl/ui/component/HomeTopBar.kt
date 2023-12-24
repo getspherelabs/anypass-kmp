@@ -22,28 +22,24 @@ fun HomeTopBar(
     onOpenClick: () -> Unit,
     navigateToAddNewPassword: () -> Unit,
 ) {
-    val strings = LocalStrings.current
+  val strings = LocalStrings.current
 
-    Row(
-        modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+  Row(
+      modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 16.dp),
+      horizontalArrangement = Arrangement.SpaceBetween,
+  ) {
+    RoundedImage(
+        modifier = modifier.clickable { onOpenClick.invoke() },
+        painter = painterResource(MR.images.avatar),
+        contentDescription = null,
+    )
+
+    LKNewItemButton(
+        contentText = strings.newItem,
+        backgroundColor = LavenderBlue.copy(0.7f),
+        contentFontFamily = GoogleSansFontFamily,
     ) {
-        RoundedImage(
-            modifier = modifier.clickable {
-                onOpenClick.invoke()
-            },
-            painter = painterResource(MR.images.avatar),
-            contentDescription = null,
-        )
-
-        LKNewItemButton(
-            contentText = strings.newItem,
-            backgroundColor = LavenderBlue.copy(0.7f),
-            contentFontFamily = GoogleSansFontFamily,
-        ) {
-            navigateToAddNewPassword.invoke()
-
-        }
-
+      navigateToAddNewPassword.invoke()
     }
+  }
 }
