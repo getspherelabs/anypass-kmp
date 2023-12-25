@@ -3,6 +3,7 @@ package io.spherelabs.accountimpl.presentation
 import io.spherelabs.accountapi.domain.usecase.*
 import io.spherelabs.meteor.middleware.Middleware
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 
 class AccountMiddleware(
@@ -14,6 +15,8 @@ class AccountMiddleware(
     private val getFingerPrintUseCase: GetFingerPrintUseCase,
     private val getUserUseCase: GetUserUseCase,
     private val logoutUseCase: LogoutUseCase,
+    private val setRestrictScreenshotUseCase: SetRestrictScreenshotUseCase,
+    private val getRestrictScreenshotUseCase: GetRestrictScreenshotUseCase,
 ) : Middleware<AccountState, AccountWish> {
 
     override suspend fun process(
@@ -48,6 +51,7 @@ class AccountMiddleware(
                 }
                     .collect()
             }
+
             AccountWish.Logout -> {
                 val result = logoutUseCase.execute()
 
@@ -60,6 +64,14 @@ class AccountMiddleware(
                         next.invoke(AccountWish.Failure(failureMsg))
                     },
                 )
+            }
+
+            AccountWish.GetStartedRestrictScreenshot -> {
+                handleGetRestrictScreenshot(next)
+            }
+
+            is AccountWish.SetRestrictScreenshotChanged -> {
+                handleSetRestrictScreenshot(isEnabled = wish.isEnabled, next)
             }
 
             else -> {}
@@ -85,8 +97,23 @@ class AccountMiddleware(
             .onSuccess { next.invoke(AccountWish.OnFingerPrintChanged(isEnabled)) }
     }
 
+    private suspend inline fun handleSetRestrictScreenshot(
+        isEnabled: Boolean,
+        noinline next: suspend (AccountWish) -> Unit,
+    ) {
+        runCatching { setRestrictScreenshotUseCase.execute(isEnabled) }
+            .onSuccess { next.invoke(AccountWish.OnRestrictScreenshotChanged(isEnabled)) }
+    }
+
+
     private suspend inline fun handleGetFingerPrint(noinline next: suspend (AccountWish) -> Unit) {
         runCatching { getFingerPrintUseCase.execute() }
             .onSuccess { newResult -> next.invoke(AccountWish.GetFingerPrint(newResult)) }
+    }
+
+    private suspend inline fun handleGetRestrictScreenshot(noinline next: suspend (AccountWish) -> Unit) {
+        getRestrictScreenshotUseCase.execute().collectLatest { newResult ->
+            next.invoke(AccountWish.GetRestrictScreenshot(newResult))
+        }
     }
 }

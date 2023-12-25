@@ -4,7 +4,6 @@ import io.spherelabs.accountapi.model.AccountUser
 import io.spherelabs.meteor.configs.Change
 import io.spherelabs.meteor.extension.expect
 import io.spherelabs.meteor.extension.route
-import io.spherelabs.meteor.extension.unexpected
 import io.spherelabs.meteor.reducer.Reducer
 
 class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
@@ -62,7 +61,15 @@ class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
                 currentState.logoutChanged(currentWish.isLogout)
             }
 
-            else -> unexpected { currentState }
+            is AccountWish.OnRestrictScreenshotChanged -> {
+                currentState.restrictScreenshotChanged(currentWish.isEnabled)
+            }
+
+            is AccountWish.GetRestrictScreenshot -> {
+                currentState.restrictScreenshotChanged(currentWish.isEnabled)
+            }
+
+            else -> currentState.unexpected()
         }
     }
 }
@@ -80,5 +87,18 @@ fun AccountState.userChanged(user: AccountUser): Change<AccountState, AccountEff
 fun AccountState.fingerPrintChanged(isFingerPrintEnabled: Boolean): Change<AccountState, AccountEffect> {
     return Change(
         state = this.copy(isFingerPrintEnabled = isFingerPrintEnabled),
+    )
+}
+
+fun AccountState.restrictScreenshotChanged(isRestrictEnabled: Boolean): Change<AccountState, AccountEffect> {
+    return Change(
+        state = this.copy(isRestrictScreenshotEnabled = isRestrictEnabled),
+    )
+}
+
+fun <State : Any, Effect : Any> State.unexpected(): Change<State, Effect> {
+    return Change(
+        effect = null,
+        state = this,
     )
 }

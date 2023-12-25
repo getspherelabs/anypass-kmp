@@ -68,5 +68,6 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     newToken = "New Token",
     save = "Save",
     helpCenter = "Help Center",
-    logout = "Log out"
+    logout = "Log out",
+    restrictScreenshot = "Restrict a screenshot",
 )
