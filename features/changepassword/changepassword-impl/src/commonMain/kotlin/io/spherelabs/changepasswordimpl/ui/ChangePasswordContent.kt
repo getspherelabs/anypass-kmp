@@ -1,19 +1,13 @@
 package io.spherelabs.changepasswordimpl.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,7 +21,6 @@ import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.textfield.KeyPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
-import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -170,32 +163,6 @@ fun ChangePasswordContent(
         UpdateKeyPasswordButton(
             modifier = modifier,
             onUpdateClicked = { wish.invoke(ChangePasswordWish.OnUpdateClicked) },
-        )
-    }
-}
-
-@Composable
-fun BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-    Box(
-        modifier =
-        modifier
-            .padding(start = 24.dp)
-            .size(42.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = backgroundColor)
-            .clickable { navigateToBack.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            tint = iconColor,
-            contentDescription = "Back",
         )
     }
 }
