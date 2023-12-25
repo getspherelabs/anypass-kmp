@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.outlined.ArrowBackIos
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.spherelabs.foundation.color.LavenderBlue
 
 @Composable
 fun LKNewItemButton(
@@ -174,6 +176,33 @@ fun ClearButton(
         )
     }
 }
+
+@Composable
+fun BackButton(
+    modifier: Modifier,
+    backgroundColor: Color = LavenderBlue.copy(0.7f),
+    iconColor: Color = Color.White,
+    navigateToBack: () -> Unit,
+) {
+
+    Box(
+        modifier =
+        modifier
+            .padding(start = 24.dp)
+            .size(42.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = backgroundColor)
+            .clickable { navigateToBack.invoke() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            tint = iconColor,
+            contentDescription = "Back",
+        )
+    }
+}
+
 
 enum class KeypadType {
     Number,

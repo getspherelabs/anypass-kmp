@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -420,31 +419,5 @@ fun BasicAddNewPasswordContent(
           fontWeight = FontWeight.Medium,
       )
     }
-  }
-}
-
-@Composable
-fun RowScope.BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-  Box(
-      modifier =
-          modifier
-              .padding(start = 24.dp)
-              .size(42.dp)
-              .clip(RoundedCornerShape(12.dp))
-              .background(color = backgroundColor)
-              .clickable { navigateToBack.invoke() },
-      contentAlignment = Alignment.Center,
-  ) {
-    Icon(
-        imageVector = Icons.Default.ArrowBack,
-        tint = iconColor,
-        contentDescription = "Back",
-    )
   }
 }

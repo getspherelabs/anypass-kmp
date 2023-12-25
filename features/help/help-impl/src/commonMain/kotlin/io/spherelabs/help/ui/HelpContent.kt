@@ -1,40 +1,32 @@
 package io.spherelabs.help.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.foundation.color.BlackRussian
-import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.help.presentation.HelpEffect
 import io.spherelabs.help.presentation.HelpState
 import io.spherelabs.help.presentation.HelpWish
@@ -165,28 +157,3 @@ internal fun HelpTopBar(
   }
 }
 
-@Composable
-fun BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-  Box(
-      modifier =
-          modifier
-              .padding(start = 24.dp)
-              .size(42.dp)
-              .clip(RoundedCornerShape(12.dp))
-              .background(color = backgroundColor)
-              .clickable { navigateToBack.invoke() },
-      contentAlignment = Alignment.Center,
-  ) {
-    Icon(
-        imageVector = Icons.Default.ArrowBack,
-        tint = iconColor,
-        contentDescription = "Back",
-    )
-  }
-}

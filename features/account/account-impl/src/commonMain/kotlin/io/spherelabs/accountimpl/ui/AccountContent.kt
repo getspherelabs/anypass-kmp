@@ -1,21 +1,14 @@
 package io.spherelabs.accountimpl.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +24,7 @@ import io.spherelabs.accountimpl.ui.component.FingerPrint
 import io.spherelabs.accountimpl.ui.component.Logout
 import io.spherelabs.accountimpl.ui.component.SendFeedback
 import io.spherelabs.admob.GADBannerView
+import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.dimension.LocalDimensions
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
@@ -256,31 +250,5 @@ fun AccountContent(
             Spacer(modifier.weight(1f))
             GADBannerView(modifier = modifier.padding(bottom = 16.dp), adId = BuildKonfig.AD_ID)
         }
-    }
-}
-
-@Composable
-fun BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-    Box(
-        modifier =
-        modifier
-            .padding(start = 24.dp)
-            .size(42.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = backgroundColor)
-            .clickable { navigateToBack.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            tint = iconColor,
-            contentDescription = "Back",
-        )
     }
 }
