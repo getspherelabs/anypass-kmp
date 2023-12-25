@@ -7,64 +7,49 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import io.spherelabs.designsystem.button.ClearButton
+import io.spherelabs.designsystem.button.FingerPrintButton
+import io.spherelabs.designsystem.button.KeypadType
 import io.spherelabs.designsystem.button.LKNumberButton
 
 @Composable
 fun LKGridLayout(
-    items: List<String>,
+    items: List<Pair<KeypadType, String>>,
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
-    onValueChanged: (String) -> Unit,
+    onValueChanged: (Pair<KeypadType, String>) -> Unit,
 ) {
-  LazyRow(
-      horizontalArrangement = Arrangement.SpaceEvenly,
-      modifier = Modifier.fillMaxWidth().padding(top = 18.dp),
-      content = {
-        itemsIndexed(items) { _, item ->
-          LKNumberButton(
-              value = item,
-              fontFamily = fontFamily,
-          ) {
-            onValueChanged.invoke(item)
-          }
-        }
-      },
-  )
-}
+    LazyRow(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxWidth().padding(top = 18.dp),
+        content = {
+            itemsIndexed(items) { _, (keypadType, itemValue) ->
+                when (keypadType) {
+                    KeypadType.Number -> {
+                        LKNumberButton(
+                            value = itemValue,
+                            fontFamily = fontFamily,
+                        ) {
+                            onValueChanged.invoke(keypadType to itemValue)
+                        }
+                    }
 
-@Composable
-fun CreateBoxes(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
-) {
-  Layout(
-      modifier = modifier,
-      content = content,
-  ) { measurables, constraints ->
-    val box1 = measurables[0]
-    val box2 = measurables[1]
-    val box3 = measurables[2]
+                    KeypadType.FingerPrint -> {
+                        FingerPrintButton {
+                            onValueChanged.invoke(keypadType to itemValue)
+                        }
+                    }
 
-    val looseConstraints =
-        constraints.copy(
-            minWidth = 0,
-            minHeight = 0,
-        )
+                    KeypadType.Clear -> {
+                        ClearButton {
+                            onValueChanged.invoke(keypadType to itemValue)
+                        }
+                    }
+                }
 
-    val box1Placeable = box1.measure(looseConstraints)
-    val box2Placeable = box2.measure(looseConstraints)
-    val box3Placeable = box3.measure(looseConstraints)
-
-    layout(width = constraints.maxWidth, height = constraints.maxHeight) {
-      box1Placeable.placeRelative(constraints.maxWidth / 4, box2Placeable.height / 4)
-      box2Placeable.placeRelative(constraints.maxWidth / 4 + box1Placeable.width - 12, 0)
-      box3Placeable.placeRelative(
-          (constraints.maxWidth / 4) + (box2Placeable.width + box1Placeable.width) - 22,
-          box2Placeable.height / 4,
-      )
-    }
-  }
+            }
+        },
+    )
 }

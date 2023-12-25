@@ -60,17 +60,17 @@ fun ContactSupport(
             fontSize = 14.sp,
             fontFamily = GoogleSansFontFamily,
             color = Color.White.copy(alpha = 0.5f),
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
         )
 
         Text(
             modifier = modifier.padding(top = 4.dp, start = 24.dp),
             text = email,
-            fontSize = 18.sp,
+            fontSize = 14.sp,
             fontFamily = GoogleSansFontFamily,
-            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             color = Color.White.copy(alpha = 0.9f),
+            textAlign = TextAlign.Start,
         )
       }
     }
