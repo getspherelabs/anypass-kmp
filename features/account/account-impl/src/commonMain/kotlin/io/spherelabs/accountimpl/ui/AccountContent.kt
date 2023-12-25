@@ -61,6 +61,7 @@ fun AccountContent(
     useEffect(true) {
         wish.invoke(AccountWish.GetAccount)
         wish.invoke(AccountWish.GetStartedFingerPrint)
+        wish.invoke(AccountWish.GetStartedRestrictScreenshot)
 
         effect.collectLatest { newEffect ->
             when (newEffect) {
