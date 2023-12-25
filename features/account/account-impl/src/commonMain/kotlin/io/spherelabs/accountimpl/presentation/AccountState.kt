@@ -1,14 +1,15 @@
 package io.spherelabs.accountimpl.presentation
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import io.spherelabs.accountapi.model.AccountUser
 
-@Stable
+@Immutable
 data class AccountState(
     val sizeOfStrongPassword: Int = 0,
     val sizeOfWeakPassword: Int = 0,
     val sizeOfTotalPassword: Int = 0,
     val isFingerPrintEnabled: Boolean = false,
+    val isRestrictScreenshotEnabled: Boolean = false,
     val user: AccountUser? = null,
     val isLogout: Boolean = false
 ) {

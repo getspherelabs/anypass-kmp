@@ -17,6 +17,10 @@ sealed interface AccountWish {
 
     data class SetFingerPrint(val isEnabled: Boolean) : AccountWish
 
+    object GetStartedRestrictScreenshot : AccountWish
+    data class OnRestrictScreenshotChanged(val isEnabled: Boolean) : AccountWish
+    data class SetRestrictScreenshotChanged(val isEnabled: Boolean) : AccountWish
+    data class GetRestrictScreenshot(val isEnabled: Boolean) : AccountWish
     object GetStartedFingerPrint : AccountWish
 
     data class GetFingerPrint(val isEnabled: Boolean) : AccountWish

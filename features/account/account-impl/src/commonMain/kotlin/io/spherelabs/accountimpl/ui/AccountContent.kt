@@ -22,6 +22,7 @@ import io.spherelabs.accountimpl.presentation.AccountWish
 import io.spherelabs.accountimpl.ui.component.ChangePassword
 import io.spherelabs.accountimpl.ui.component.FingerPrint
 import io.spherelabs.accountimpl.ui.component.Logout
+import io.spherelabs.accountimpl.ui.component.RestrictScreenshot
 import io.spherelabs.accountimpl.ui.component.SendFeedback
 import io.spherelabs.admob.GADBannerView
 import io.spherelabs.designsystem.button.BackButton
@@ -60,6 +61,7 @@ fun AccountContent(
     useEffect(true) {
         wish.invoke(AccountWish.GetAccount)
         wish.invoke(AccountWish.GetStartedFingerPrint)
+        wish.invoke(AccountWish.GetStartedRestrictScreenshot)
 
         effect.collectLatest { newEffect ->
             when (newEffect) {
@@ -144,7 +146,7 @@ fun AccountContent(
                 Text(
                     text = name,
                     textAlign = TextAlign.Center,
-                    fontSize = 32.sp,
+                    fontSize = 24.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
@@ -154,14 +156,14 @@ fun AccountContent(
                 Text(
                     text = email,
                     textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
+                    fontSize = 12.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Normal,
                 )
             }
 
-            Spacer(modifier.height(24.dp))
+            Spacer(modifier.height(12.dp))
 
             Row(
                 modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
@@ -171,7 +173,7 @@ fun AccountContent(
                 Row {
                     Text(
                         text = "${state.sizeOfTotalPassword}",
-                        fontSize = 45.sp,
+                        fontSize = 32.sp,
                         color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -189,7 +191,7 @@ fun AccountContent(
                 Column {
                     Text(
                         text = "${state.sizeOfStrongPassword}",
-                        fontSize = 32.sp,
+                        fontSize = 26.sp,
                         color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -206,7 +208,7 @@ fun AccountContent(
                 Column {
                     Text(
                         text = "${state.sizeOfWeakPassword}",
-                        fontSize = 32.sp,
+                        fontSize = 26.sp,
                         color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -237,16 +239,28 @@ fun AccountContent(
                 wish.invoke(AccountWish.NavigateToChangePassword)
             }
 
+
+            Spacer(modifier.height(12.dp))
+            RestrictScreenshot(modifier, isEnabled = state.isRestrictScreenshotEnabled) { newChecked ->
+                wish.invoke(
+                    AccountWish.SetRestrictScreenshotChanged(
+                        newChecked
+                    )
+                )
+            }
+
             Spacer(modifier = modifier.height(12.dp))
             SendFeedback(modifier) { newUrl ->
                 wish.invoke(AccountWish.OpenUrl(newUrl))
             }
 
 
-            Spacer(modifier = modifier.height(16.dp))
+            Spacer(modifier = modifier.height(12.dp))
             Logout(modifier) {
                 wish.invoke(AccountWish.Logout)
             }
+
+
             Spacer(modifier.weight(1f))
             GADBannerView(modifier = modifier.padding(bottom = 16.dp), adId = BuildKonfig.AD_ID)
         }

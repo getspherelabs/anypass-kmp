@@ -70,5 +70,6 @@ data class AnyPassStrings(
     val newToken: String,
     val helpCenter: String,
     val logout: String,
+    val restrictScreenshot: String
 )
 
