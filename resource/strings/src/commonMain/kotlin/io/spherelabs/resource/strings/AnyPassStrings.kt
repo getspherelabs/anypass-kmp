@@ -69,6 +69,6 @@ data class AnyPassStrings(
     val currentKeyPasswordDoesNotMatch: String,
     val newToken: String,
     val helpCenter: String,
-    val logout: String
+    val logout: String,
 )
 
