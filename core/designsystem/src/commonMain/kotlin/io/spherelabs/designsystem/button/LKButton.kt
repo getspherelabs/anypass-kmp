@@ -7,6 +7,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.outlined.ArrowBackIos
 import androidx.compose.material.icons.outlined.ArrowForwardIos
 import androidx.compose.runtime.Composable
@@ -137,4 +139,44 @@ fun LKNumberButton(
         fontWeight = FontWeight.Medium,
     )
   }
+}
+
+@Composable
+fun FingerPrintButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier.size(65.dp).clickable { onClick.invoke() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Fingerprint,
+            tint = Color.White,
+            contentDescription = "Finger print button"
+        )
+    }
+}
+
+@Composable
+fun ClearButton(
+    modifier: Modifier = Modifier,
+    onClearClick: () -> Unit
+) {
+    Box(
+        modifier = modifier.size(65.dp).clickable { onClearClick.invoke() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Clear,
+            tint = Color.White,
+            contentDescription = "Clear button"
+        )
+    }
+}
+
+enum class KeypadType {
+    Number,
+    FingerPrint,
+    Clear;
 }
