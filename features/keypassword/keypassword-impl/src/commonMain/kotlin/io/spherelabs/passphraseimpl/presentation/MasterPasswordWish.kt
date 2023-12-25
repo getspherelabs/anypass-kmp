@@ -22,4 +22,5 @@ sealed interface MasterPasswordWish {
     data class IsNotMatched(val message: String) : MasterPasswordWish
 
     object ShowFingerPrint : MasterPasswordWish
+    data class FingerPrintFailure(val failureMessage: String) : MasterPasswordWish
 }

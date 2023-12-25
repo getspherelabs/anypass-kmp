@@ -38,10 +38,7 @@ class MasterPasswordReducer :
             }
 
             MasterPasswordWish.ShowFingerPrint -> {
-                expect(
-                    stateAction = { currentState.copy(isFingerprintEnabled = currentState.isFingerprintEnabled) },
-                    effectAction = { MasterPasswordEffect.ShowFingerPrint },
-                )
+                currentState.showFingerPrint()
             }
 
             is MasterPasswordWish.OnPasswordCellChanged -> {
@@ -58,6 +55,10 @@ class MasterPasswordReducer :
 
             is MasterPasswordWish.IsNotMatched -> {
                 effect { MasterPasswordEffect.Failure(currentWish.message) }
+            }
+
+            is MasterPasswordWish.FingerPrintFailure -> {
+                effect { MasterPasswordEffect.Failure(currentWish.failureMessage) }
             }
 
             else -> {
@@ -80,5 +81,12 @@ private fun MasterPasswordState.keyPasswordChanged(newPassword: String): Change<
 
     return Change(
         state = this.copy(password = currentPassword),
+    )
+}
+
+private fun MasterPasswordState.showFingerPrint(): Change<MasterPasswordState, MasterPasswordEffect> {
+    return Change(
+        state = this.copy(isFingerprintEnabled = this.isFingerprintEnabled),
+        effect = MasterPasswordEffect.ShowFingerPrint,
     )
 }

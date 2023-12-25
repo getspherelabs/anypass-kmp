@@ -89,15 +89,21 @@ fun KeyPasswordContent(
 
                 MasterPasswordEffect.ShowFingerPrint -> {
                     if (state.isFingerprintEnabled) {
-                        biometryAuthenticatorFactory.createBiometryAuthenticator().biometricAuthentication(
-                            title = "Sign in with your fingerprint?",
-                            description = "Use your fingerprint to sign in with AnyPass",
-                            failureContext = "Accessing fingerprint is failed",
-                        ) { result ->
-                            if (result.isSuccess) {
-                                navigateToHome.invoke()
+                        biometryAuthenticatorFactory.createBiometryAuthenticator()
+                            .biometricAuthentication(
+                                title = "Sign in with your fingerprint?",
+                                description = "Use your fingerprint to sign in with AnyPass",
+                                failureContext = "Accessing fingerprint is failed",
+                            ) { result ->
+                                result.onSuccess { isAccepted ->
+                                    if (isAccepted) {
+                                        navigateToHome.invoke()
+                                    }
+                                }.onFailure {
+                                    val failureMessage = it.message ?: "Error is occurred."
+                                    wish.invoke(MasterPasswordWish.FingerPrintFailure(failureMessage))
+                                }
                             }
-                        }
                     }
                 }
             }
@@ -154,13 +160,15 @@ fun KeyPasswordContent(
                     items = keypad,
                     fontFamily = GoogleSansFontFamily,
                 ) { (type, value) ->
-                    when(type) {
+                    when (type) {
                         KeypadType.Number -> {
                             wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(value))
                         }
+
                         KeypadType.FingerPrint -> {
                             wish.invoke(MasterPasswordWish.ShowFingerPrint)
                         }
+
                         KeypadType.Clear -> {
                             wish.invoke(MasterPasswordWish.ClearPassword)
                         }

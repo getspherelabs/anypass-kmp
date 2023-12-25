@@ -42,7 +42,6 @@ actual class BiometricManager(
                             callback.invoke(Result.failure(Exception(errString.toString())))
                         }
                     }
-
                     override fun onAuthenticationSucceeded(
                         result: BiometricPrompt.AuthenticationResult,
                     ) {
