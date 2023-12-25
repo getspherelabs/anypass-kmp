@@ -17,7 +17,7 @@ class DefaultFingerPrintSetting(
   }
 
   override suspend fun getFingerPrint(): Boolean {
-    return prefs.getBoolean(FINGER_PRINT_PREFS, false)
+    return prefs.getBoolean(FINGER_PRINT_PREFS, true)
   }
 
   companion object {
