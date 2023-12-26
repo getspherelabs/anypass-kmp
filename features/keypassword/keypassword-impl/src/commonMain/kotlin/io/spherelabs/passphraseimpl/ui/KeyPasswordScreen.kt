@@ -1,8 +1,6 @@
 package io.spherelabs.passphraseimpl.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,18 +16,13 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.spherelabs.biometry.BiometryAuthenticatorFactory
 import io.spherelabs.biometry.rememberBiometricManager
-import io.spherelabs.designsystem.button.KeypadType
 import io.spherelabs.designsystem.fonts.LocalStrings
-import io.spherelabs.designsystem.grid.LKGridLayout
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
-import io.spherelabs.designsystem.pininput.LKPinInput
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian
-import io.spherelabs.foundation.color.Jaguar
-import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.navigationapi.HomeDestination
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordEffect
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordState
@@ -50,8 +43,8 @@ class KeyPasswordScreen : Screen {
 
         KeyPasswordContent(
             wish = { newWish -> viewModel.wish(newWish) },
-            state = uiState.value,
-            effect = viewModel.effect,
+            uiState = uiState.value,
+            uiEffect = viewModel.effect,
             navigateToHome = { navigator.replace(homeScreen) },
         )
     }
@@ -61,8 +54,8 @@ class KeyPasswordScreen : Screen {
 fun KeyPasswordContent(
     modifier: Modifier = Modifier,
     wish: (MasterPasswordWish) -> Unit,
-    state: MasterPasswordState,
-    effect: Flow<MasterPasswordEffect>,
+    uiState: MasterPasswordState,
+    uiEffect: Flow<MasterPasswordEffect>,
     navigateToHome: () -> Unit,
 ) {
     val snackbarState = useSnackbar()
@@ -72,8 +65,8 @@ fun KeyPasswordContent(
 
     val biometryAuthenticatorFactory: BiometryAuthenticatorFactory = rememberBiometricManager()
 
-    useEffect(effect) {
-        effect.collect { newEffect ->
+    useEffect(uiEffect) {
+        uiEffect.collect { newEffect ->
             when (newEffect) {
                 is MasterPasswordEffect.Failure -> {
                     coroutineScope.launch {
@@ -88,7 +81,7 @@ fun KeyPasswordContent(
                 }
 
                 MasterPasswordEffect.ShowFingerPrint -> {
-                    if (state.isFingerprintEnabled) {
+                    if (uiState.isFingerprintEnabled) {
                         biometryAuthenticatorFactory.createBiometryAuthenticator()
                             .biometricAuthentication(
                                 title = "Sign in with your fingerprint?",
@@ -137,70 +130,14 @@ fun KeyPasswordContent(
             )
         },
     ) { newPaddingValues ->
-        Column(
-            modifier = modifier.fillMaxSize().padding(newPaddingValues),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Row(
-                modifier = modifier.weight(1f).fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                LKPinInput(
-                    cellColor = Jaguar,
-                    value = state.password,
-                    disableKeypad = true,
-                ) {
-                    wish.invoke(MasterPasswordWish.OnPasswordCellChanged(it))
-                }
-            }
-
-            keypads.forEach { keypad ->
-                LKGridLayout(
-                    modifier = modifier.background(color = BlackRussian),
-                    items = keypad,
-                    fontFamily = GoogleSansFontFamily,
-                ) { (type, value) ->
-                    when (type) {
-                        KeypadType.Number -> {
-                            wish.invoke(MasterPasswordWish.OnMasterPasswordChanged(value))
-                        }
-
-                        KeypadType.FingerPrint -> {
-                            wish.invoke(MasterPasswordWish.ShowFingerPrint)
-                        }
-
-                        KeypadType.Clear -> {
-                            wish.invoke(MasterPasswordWish.ClearPassword)
-                        }
-                    }
-                }
-            }
-
-            Spacer(modifier = modifier.height(32.dp))
-
-            Button(
-                modifier =
-                modifier
-                    .padding(bottom = 32.dp)
-                    .fillMaxWidth()
-                    .height(65.dp)
-                    .padding(start = 24.dp, end = 24.dp),
-                colors =
-                ButtonDefaults.buttonColors(
-                    backgroundColor = LavenderBlue.copy(0.7f),
-                ),
-                shape = RoundedCornerShape(24.dp),
-                onClick = { wish.invoke(MasterPasswordWish.SubmitClicked) },
-            ) {
-                Text(
-                    text = strings.submit,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
-                )
-            }
-            Spacer(modifier = modifier.height(16.dp))
-        }
+        BasicKeyPasswordContent(
+            paddingValues = newPaddingValues,
+            modifier = modifier,
+            wish = { newWish ->
+                wish.invoke(newWish)
+            },
+            state  = uiState
+        )
     }
 }
+

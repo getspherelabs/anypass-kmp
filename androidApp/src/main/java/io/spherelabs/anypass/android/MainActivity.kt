@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import io.spherelabs.anypass.MainView
@@ -22,13 +24,14 @@ class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         checkInAppUpdate()
         setRestrictScreenshot()
 
         setContent {
             MaterialTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background,
+                    modifier = Modifier.fillMaxSize().safeDrawingPadding(), color = MaterialTheme.colors.background,
                 ) {
                     MainView()
                 }
