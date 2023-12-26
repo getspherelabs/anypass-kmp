@@ -55,7 +55,7 @@ internal fun SecretTextField(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -100,7 +100,7 @@ internal fun AdditionalInfoTextField(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,

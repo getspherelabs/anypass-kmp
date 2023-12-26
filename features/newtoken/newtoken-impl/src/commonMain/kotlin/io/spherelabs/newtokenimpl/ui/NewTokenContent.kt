@@ -2,6 +2,7 @@ package io.spherelabs.newtokenimpl.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -67,6 +68,7 @@ fun NewTokenContent(
         }
     }
     Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         containerColor = BlackRussian,
         topBar = {
             NewTokenTopBar {
@@ -88,51 +90,76 @@ fun NewTokenContent(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BasicNewTokenContent(
     paddingValues: PaddingValues,
     state: NewTokenState,
     modifier: Modifier = Modifier,
-    wish: (NewTokenWish) -> Unit
+    wish: (NewTokenWish) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier =
-        modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(paddingValues)
-            .background(color = BlackRussian),
+    Box(
+        modifier = modifier.fillMaxSize().padding(paddingValues).consumeWindowInsets(paddingValues),
     ) {
-        ServiceTextField(
-            modifier = modifier,
-            focusManager = focusManager,
-            textValue = state.serviceName,
-            onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnServiceNameChanged(newValue))
-            },
-        )
-        SecretTextField(
-            modifier = modifier,
-            focusManager = focusManager,
-            textValue = state.secret,
-            onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnSecretChanged(newValue))
-            },
-        )
+        LazyColumn(
+            modifier = modifier.fillMaxWidth(),
+        ) {
+            item {
+                ServiceTextField(
+                    modifier = modifier,
+                    focusManager = focusManager,
+                    textValue = state.serviceName,
+                    onTextValueChanged = { newValue ->
+                        wish.invoke(NewTokenWish.OnServiceNameChanged(newValue))
+                    },
+                )
+            }
+            item {
+                SecretTextField(
+                    modifier = modifier,
+                    focusManager = focusManager,
+                    textValue = state.secret,
+                    onTextValueChanged = { newValue ->
+                        wish.invoke(NewTokenWish.OnSecretChanged(newValue))
+                    },
+                )
+            }
 
-        AdditionalInfoTextField(
-            modifier = modifier,
-            focusManager = focusManager,
-            textValue = state.info,
-            onTextValueChanged = { newValue -> wish.invoke(NewTokenWish.OnInfoChanged(newValue)) },
-        )
-        NewTokenTypeSpinner(modifier, state, wish)
-        NewTokenDigitSpinner(modifier, state, wish)
-        NewTokenDurationSpinner(modifier, state, wish)
-        SaveButton(modifier, wish)
+            item {
+                AdditionalInfoTextField(
+                    modifier = modifier,
+                    focusManager = focusManager,
+                    textValue = state.info,
+                    onTextValueChanged = { newValue ->
+                        wish.invoke(
+                            NewTokenWish.OnInfoChanged(
+                                newValue,
+                            ),
+                        )
+                    },
+                )
+
+            }
+
+            item {
+                NewTokenTypeSpinner(modifier, state, wish)
+            }
+
+            item {
+                NewTokenDigitSpinner(modifier, state, wish)
+            }
+
+            item {
+                NewTokenDurationSpinner(modifier, state, wish)
+            }
+
+            item {
+                SaveButton(modifier, wish)
+            }
+        }
     }
 }
 
@@ -168,7 +195,7 @@ private fun ServiceTextField(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,

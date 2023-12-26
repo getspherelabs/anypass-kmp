@@ -2,6 +2,7 @@ package io.spherelabs.passphraseimpl.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material3.Scaffold as KeyPasswordScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -103,9 +104,10 @@ fun KeyPasswordContent(
         }
     }
 
-    Scaffold(
+    KeyPasswordScaffold(
         modifier = modifier.fillMaxSize(),
-        backgroundColor = BlackRussian,
+        containerColor = BlackRussian,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             Row(
                 modifier = modifier.fillMaxWidth().padding(24.dp),
@@ -136,7 +138,7 @@ fun KeyPasswordContent(
             wish = { newWish ->
                 wish.invoke(newWish)
             },
-            state  = uiState
+            state = uiState,
         )
     }
 }

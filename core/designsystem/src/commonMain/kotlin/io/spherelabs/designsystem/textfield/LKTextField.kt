@@ -36,23 +36,21 @@ import io.spherelabs.foundation.color.Jaguar
 fun LKTitleTextField(
     textValue: String,
     modifier: Modifier = Modifier,
-    keyboardActions: KeyboardActions = KeyboardActions(),
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChanged: (String) -> Unit,
 ) {
     Column {
         TextField(
             modifier = modifier.width(240.dp).padding(start = 12.dp, end = 12.dp),
             value = textValue,
-            keyboardOptions =
-            KeyboardOptions(
-                imeAction = ImeAction.Next,
-            ),
+            keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -322,6 +320,8 @@ fun LKNotesTextField(
     textValue: String,
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onValueChanged: (String) -> Unit,
     onDoneCallback: () -> Boolean? = { null },
 ) {
@@ -339,18 +339,13 @@ fun LKNotesTextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
             keyboardOptions =
-            KeyboardOptions(
-                imeAction = ImeAction.Done,
-            ),
-            keyboardActions =
-            KeyboardActions(
-                onDone = { onDoneCallback.invoke() },
-            ),
+            keyboardOptions,
+            keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -369,6 +364,8 @@ fun LKWebsiteAddressTextField(
     fontFamily: FontFamily,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onNextCallback: () -> Boolean? = { null },
 ) {
     Column {
@@ -384,19 +381,13 @@ fun LKWebsiteAddressTextField(
         TextField(
             modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
-            keyboardOptions =
-            KeyboardOptions(
-                imeAction = ImeAction.Next,
-            ),
-            keyboardActions =
-            KeyboardActions(
-                onNext = { onNextCallback.invoke() },
-            ),
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             colors =
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(alpha = 0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -413,6 +404,8 @@ fun LKWebsiteAddressTextField(
 fun LKUserNameTextField(
     textValue: String,
     fontFamily: FontFamily,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     modifier: Modifier = Modifier,
     onValueChanged: (String) -> Unit,
     textLength: Int = 0,
@@ -435,11 +428,13 @@ fun LKUserNameTextField(
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
+            keyboardActions = keyboardActions,
+            keyboardOptions = keyboardOptions,
             onValueChange = { newValue ->
                 if (newValue.length <= maxLength) {
                     onValueChanged.invoke(newValue)

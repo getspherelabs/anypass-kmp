@@ -3,8 +3,7 @@ package io.spherelabs.anypass.android
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
@@ -31,7 +30,9 @@ class MainActivity : FragmentActivity() {
         setContent {
             MaterialTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize().safeDrawingPadding(), color = MaterialTheme.colors.background,
+                    modifier = Modifier
+                        .fillMaxSize().safeDrawingPadding(),
+                    color = MaterialTheme.colors.background,
                 ) {
                     MainView()
                 }
@@ -61,7 +62,7 @@ class MainActivity : FragmentActivity() {
                 if (isEnabled) {
                     window.setFlags(
                         WindowManager.LayoutParams.FLAG_SECURE,
-                        WindowManager.LayoutParams.FLAG_SECURE
+                        WindowManager.LayoutParams.FLAG_SECURE,
                     )
                 } else {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
