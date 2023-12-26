@@ -1,8 +1,8 @@
 package io.spherelabs.homeimpl.presentation
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class HomeState(
     val categories: List<HomeCategoryUi> = emptyList(),
     val passwords: List<HomePasswordUi> = emptyList(),

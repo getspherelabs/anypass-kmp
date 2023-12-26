@@ -20,24 +20,24 @@ internal fun AddNewPasswordTopBar(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
 ) {
-  val strings = LocalStrings.current
+    val strings = LocalStrings.current
 
-  Row(
-      modifier = modifier.padding(top = 16.dp).fillMaxWidth(),
-      verticalAlignment = Alignment.CenterVertically,
-  ) {
-    BackButton(
-        modifier = modifier,
-        backgroundColor = LavenderBlue.copy(0.7f),
-        iconColor = Color.White,
-        navigateToBack = { navigateToBack.invoke() },
-    )
-    Headline(
-        text = strings.addNewPassword,
-        modifier = modifier,
-        fontFamily = GoogleSansFontFamily,
-        fontWeight = FontWeight.Medium,
-        textColor = Color.White,
-    )
-  }
+    Row(
+        modifier = modifier.padding(top = 16.dp).fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        BackButton(
+            modifier = modifier,
+            backgroundColor = LavenderBlue.copy(0.7f),
+            iconColor = Color.White,
+            navigateToBack = { navigateToBack.invoke() },
+        )
+        Headline(
+            text = strings.addNewPassword,
+            modifier = modifier,
+            fontFamily = GoogleSansFontFamily,
+            fontWeight = FontWeight.Medium,
+            textColor = Color.White,
+        )
+    }
 }

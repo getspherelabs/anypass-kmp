@@ -21,12 +21,15 @@ fun List<PasswordEntity>.calculatePasswordHealth(): Double {
     val totalPasswords = this.size
     val strongPasswords = this.count { it.isStrongPassword() }
     val reusedPasswords = this.countReusedPassword()
+    val weakPasswords = totalPasswords - strongPasswords - reusedPasswords
 
     val healthPercentage = (strongPasswords.toDouble() / totalPasswords) * 100
     val reusedPercentage = (reusedPasswords.toDouble() / totalPasswords) * 100
-    val weakPercentage = 100 - healthPercentage - reusedPercentage
+    val weakPercentage = (weakPasswords.toDouble() / totalPasswords) * 100
 
-    return healthPercentage - reusedPercentage - weakPercentage
+    return ((strongPasswords * healthPercentage) +
+        (reusedPasswords * reusedPercentage) +
+        (weakPasswords * weakPercentage)) / totalPasswords
 }
 
 

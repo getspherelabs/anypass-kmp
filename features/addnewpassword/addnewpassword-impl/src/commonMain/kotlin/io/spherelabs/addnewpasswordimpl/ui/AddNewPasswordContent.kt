@@ -290,7 +290,7 @@ fun BasicAddNewPasswordContent(
                     Text(
                         modifier = modifier.padding(start = 24.dp, top = 4.dp),
                         text = strings.nameFailure,
-                        color = Color.Black.copy(alpha = 0.7f),
+                        color = Color.White.copy(alpha = 0.7f),
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Normal,
                         fontSize = 12.sp,

@@ -78,7 +78,7 @@ class AddNewPasswordReducer :
       is AddNewPasswordWish.OnNotesChanged -> {
         expect {
           currentState.copy(
-              notes = currentWish.notes.trim(),
+              notes = currentWish.notes,
               isNotesFailed = false,
           )
         }
@@ -97,7 +97,7 @@ class AddNewPasswordReducer :
       is AddNewPasswordWish.OnUserNameChanged -> {
         expect {
           currentState.copy(
-              username = currentWish.username.trim(),
+              username = currentWish.username,
               isUserNameFailed = false,
           )
         }
