@@ -77,6 +77,7 @@ fun GeneratePasswordContent(
                 modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
             )
         },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         containerColor = BlackRussian,
         topBar = {
             Row(

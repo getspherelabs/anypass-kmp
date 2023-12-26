@@ -1,7 +1,7 @@
 package io.spherelabs.data.settings.repository
 
 import io.spherelabs.changepasswordapi.domain.repository.ChangePasswordRepository
-import io.spherelabs.data.settings.masterpassword.MasterPasswordSetting
+import io.spherelabs.data.settings.keypassword.MasterPasswordSetting
 
 class DefaultChangePasswordRepository(
     private val prefs: MasterPasswordSetting,

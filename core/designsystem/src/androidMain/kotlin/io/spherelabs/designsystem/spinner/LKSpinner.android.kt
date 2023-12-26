@@ -49,6 +49,7 @@ actual fun LKSpinner(
         trailingIcon = { LKDropdownDefaults.TrailingIcon(expanded) },
         colors =
             TextFieldDefaults.textFieldColors(
+                textColor = Color.White,
                 backgroundColor = Jaguar,
                 cursorColor = Color.White,
                 disabledLabelColor = Jaguar,

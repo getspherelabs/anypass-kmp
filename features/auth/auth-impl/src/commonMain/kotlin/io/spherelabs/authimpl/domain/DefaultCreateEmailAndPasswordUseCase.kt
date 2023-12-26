@@ -4,7 +4,7 @@ import io.spherelabs.authapi.domain.usecase.CreateEmailAndPassword
 import io.spherelabs.common.exception.AuthException
 import io.spherelabs.common.exception.IdNotAvailableException
 import io.spherelabs.data.local.db.UserDao
-import io.spherelabs.data.settings.masterpassword.MasterPasswordSetting
+import io.spherelabs.data.settings.keypassword.MasterPasswordSetting
 import io.spherelabs.firebase.FirebaseAuthManager
 import io.spherelabs.local.db.UserEntity
 
