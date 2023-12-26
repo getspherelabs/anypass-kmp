@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -26,6 +27,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.voyager)
+                implementation(compose.runtime)
+                implementation(compose.runtimeSaveable)
             }
         }
         val commonTest by getting {
