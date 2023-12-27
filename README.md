@@ -42,7 +42,7 @@ In an offline-first application, the source of truth for application data is typ
 
 ## Screenshots
 
-<p style="text-align: center;">
+<p align="center">
   <img src="media/sign_in.png" width="150" alt="SignIn Screen"/>
   <img src="media/sign_up.png" width="150" alt="SignUp Screen"/> 
   <img src="media/confirm_key_password.png" width="150" alt="ConfirmKeyPassword Screen"/>
