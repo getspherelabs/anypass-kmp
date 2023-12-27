@@ -43,16 +43,16 @@ In an offline-first application, the source of truth for application data is typ
 ## Screenshots
 
 <p style="text-align: center;">
-  <img src="media/sign_in.png" width="250" alt="SignIn Screen"/>
-  <img src="media/sign_up.png" width="250" alt="SignUp Screen"/> 
-  <img src="media/confirm_key_password.png" width="250" alt="ConfirmKeyPassword Screen"/>
-  <img src="media/home.png" width="250" alt="Home Screen"/>
-  <img src="media/add_new_password.png" width="250" alt="Add new password Screen"/>
-  <img src="media/generate_password.png" width="250" alt="GeneratePassword Screen"/>
-  <img src="media/account.png" width="250" alt="Account Screen"/>
-  <img src="media/authenticator.png" width="250" alt="Authenticator Screen"/>
-  <img src="media/password_health.png" width="250" alt="PasswordHealth Screen"/>
-
+  <img src="media/sign_in.png" width="150" alt="SignIn Screen"/>
+  <img src="media/sign_up.png" width="150" alt="SignUp Screen"/> 
+  <img src="media/confirm_key_password.png" width="150" alt="ConfirmKeyPassword Screen"/>
+  <img src="media/home.png" width="150" alt="Home Screen"/>
+  <img src="media/add_new_password.png" width="150" alt="Add new password Screen"/>
+  <img src="media/generate_password.png" width="150" alt="GeneratePassword Screen"/>
+  <img src="media/account.png" width="150" alt="Account Screen"/>
+  <img src="media/authenticator.png" width="150" alt="Authenticator Screen"/>
+  <img src="media/password_health.png" width="150" alt="PasswordHealth Screen"/>
+  <img src="media/help.png" width="150" alt="Help Screen"/>
 </p>
 
 # Technology
