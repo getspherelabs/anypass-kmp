@@ -41,7 +41,6 @@ android {
     dependencies {
         implementation(projects.shared)
         implementation(projects.data.prefs)
-
         implementation(libs.androidx.compose.ui)
         implementation(libs.androidx.compose.ui.tooling)
         implementation(libs.androidx.compose.ui.tooling.preview)

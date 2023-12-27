@@ -93,12 +93,7 @@ fun OnboardingScreenContent(
       horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     when {
-      state.isUserExisted -> {
-        useEffect(true) { navigateToHome.invoke() }
-      }
-      state.isLogged -> {
-        useEffect(true) { navigateToSignIn.invoke() }
-      }
+
       state.isLoading -> {
         CircularProgressIndicator(
             modifier = modifier.align(Alignment.CenterHorizontally),

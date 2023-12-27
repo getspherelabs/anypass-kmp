@@ -242,7 +242,7 @@ fun APSNameTextField(
     Column {
         Text(
             text = "Name",
-            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp),
+            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
             color = Color.White,
             fontSize = 18.sp,
@@ -286,7 +286,7 @@ fun LKEmailTextField(
         val blue = Color(0xff76a9ff)
         Text(
             text = "Email",
-            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp),
+            modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 8.dp, bottom = 4.dp),
             textAlign = TextAlign.Start,
             color = titleColor,
             fontSize = 18.sp,

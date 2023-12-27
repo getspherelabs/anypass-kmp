@@ -126,6 +126,7 @@ kotlin {
                 implementation(libs.sentry)
                 implementation(libs.voyager)
                 implementation(libs.koin.compose)
+                implementation(libs.koin.core)
 
             }
         }
