@@ -42,18 +42,16 @@ fun LKCircleProgress(angle: Float, color: Color, modifier: Modifier = Modifier) 
 private fun Modifier.drawCircleProgress(angle: Float, color: Color): Modifier {
   return drawBehind {
     drawArc(
-      color = Color.Transparent,
-      startAngle = 0f,
-      sweepAngle = 360f,
-      useCenter = false,
-      style = Stroke(width = 20f)
-    )
+        color = Color.Transparent,
+        startAngle = 0f,
+        sweepAngle = 360f,
+        useCenter = false,
+        style = Stroke(width = 20f))
     drawArc(
-      color = color,
-      startAngle = -90f,
-      sweepAngle = angle,
-      useCenter = false,
-      style = Stroke(width = 30f, cap = StrokeCap.Round)
-    )
+        color = color,
+        startAngle = -90f,
+        sweepAngle = angle,
+        useCenter = false,
+        style = Stroke(width = 30f, cap = StrokeCap.Round))
   }
 }

@@ -67,6 +67,9 @@ data class AnyPassStrings(
     val confirmNewKeyPassword: String,
     val updateKeyPassword: String,
     val currentKeyPasswordDoesNotMatch: String,
-    val newToken: String
+    val newToken: String,
+    val helpCenter: String,
+    val logout: String,
+    val restrictScreenshot: String
 )
 

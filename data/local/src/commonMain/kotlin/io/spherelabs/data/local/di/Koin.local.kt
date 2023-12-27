@@ -1,6 +1,7 @@
 package io.spherelabs.data.local.di
 
 
+import domain.repository.PasswordHealthRepository
 import io.spherelabs.accountapi.domain.repository.AccountRepository
 import io.spherelabs.addnewpasswordapi.domain.repository.AddNewPasswordRepository
 import io.spherelabs.authenticatorapi.domain.repository.AuthenticatorRepository
@@ -30,4 +31,5 @@ val localModule = module {
     single<AccountRepository> { DefaultAccountRepository(get(), get()) }
     single<AuthenticatorRepository> { DefaultAuthenticatorRepository(get(), get()) }
     single<NewTokenRepository> { DefaultNewTokenRepository(get(), get()) }
+    single<PasswordHealthRepository> { DefaultPasswordHealthRepository(get()) }
 }

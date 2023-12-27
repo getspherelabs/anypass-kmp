@@ -1,19 +1,13 @@
 package io.spherelabs.changepasswordimpl.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,7 +21,6 @@ import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.textfield.KeyPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
-import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -35,8 +28,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChangePasswordContent(
-    state: ChangePasswordState,
-    effect: Flow<ChangePasswordEffect>,
+    uiState: ChangePasswordState,
+    uiEffect: Flow<ChangePasswordEffect>,
     wish: (ChangePasswordWish) -> Unit,
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
@@ -46,7 +39,7 @@ fun ChangePasswordContent(
 
     useEffect(true) {
         wish.invoke(ChangePasswordWish.GetStartedCurrentKeyPassword)
-        effect.collectLatest { newEffect ->
+        uiEffect.collectLatest { newEffect ->
             when (newEffect) {
                 is ChangePasswordEffect.Failure -> {
                     scope.launch {
@@ -76,51 +69,46 @@ fun ChangePasswordContent(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarState,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom),
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
             )
         },
         topBar = {
             ChangePasswordTopBar(
                 modifier,
-                navigateToBack = {
-                    wish.invoke(ChangePasswordWish.NavigateToBack)
-                },
+                navigateToBack = { wish.invoke(ChangePasswordWish.NavigateToBack) },
             )
         },
         modifier = modifier,
     ) { newPaddingValues ->
         ChangePasswordContent(
-            state = state,
-            wish = { newWish -> wish.invoke(newWish) },
             paddingValues = newPaddingValues,
+            modifier = modifier,
+            state = uiState,
+            wish = { newWish -> wish.invoke(newWish) },
         )
     }
 }
 
-
 @Composable
 fun ChangePasswordContent(
+    paddingValues: PaddingValues,
     state: ChangePasswordState,
     wish: (ChangePasswordWish) -> Unit,
-    paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
     val strings = LocalStrings.current
 
     Column(
-        modifier = modifier.fillMaxSize().padding(paddingValues = paddingValues),
+        modifier = modifier.fillMaxSize().padding(paddingValues),
     ) {
+        Spacer(modifier.height(16.dp))
         KeyPasswordTextField(
             title = strings.currentKeyPassword,
             textValue = state.currentKeyPassword,
             passwordVisibility = state.isCurrentKeyPasswordVisibility,
             description = strings.keyPasswordRequirement,
             fontFamily = GoogleSansFontFamily,
-            onToggleChanged = {
-                wish.invoke(ChangePasswordWish.ToggleCurrentKeyPasswordVisibility)
-            },
+            onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleCurrentKeyPasswordVisibility) },
             onValueChanged = { newValue ->
                 wish.invoke(ChangePasswordWish.OnCurrentKeyPasswordChanged(newValue))
             },
@@ -142,9 +130,7 @@ fun ChangePasswordContent(
             passwordVisibility = state.isNewKeyPasswordVisibility,
             description = strings.keyPasswordRequirement,
             fontFamily = GoogleSansFontFamily,
-            onToggleChanged = {
-                wish.invoke(ChangePasswordWish.ToggleNewKeyPasswordVisibility)
-            },
+            onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleNewKeyPasswordVisibility) },
             onValueChanged = { newValue ->
                 wish.invoke(ChangePasswordWish.OnNewKeyPasswordChanged(newValue))
             },
@@ -156,9 +142,7 @@ fun ChangePasswordContent(
             passwordVisibility = state.isConfirmNewKeyPasswordVisibility,
             description = strings.keyPasswordRequirement,
             fontFamily = GoogleSansFontFamily,
-            onToggleChanged = {
-                wish.invoke(ChangePasswordWish.ToggleConfirmNewKeyPasswordVisibility)
-            },
+            onToggleChanged = { wish.invoke(ChangePasswordWish.ToggleConfirmNewKeyPasswordVisibility) },
             onValueChanged = { newValue ->
                 wish.invoke(ChangePasswordWish.OnConfirmNewKeyPasswordChanged(newValue))
             },
@@ -178,32 +162,7 @@ fun ChangePasswordContent(
 
         UpdateKeyPasswordButton(
             modifier = modifier,
-            onUpdateClicked = {
-                wish.invoke(ChangePasswordWish.OnUpdateClicked)
-            },
-        )
-    }
-}
-
-@Composable
-fun RowScope.BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-    Box(
-        modifier = modifier.padding(start = 24.dp).size(42.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = backgroundColor)
-            .clickable { navigateToBack.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            tint = iconColor,
-            contentDescription = "Back",
+            onUpdateClicked = { wish.invoke(ChangePasswordWish.OnUpdateClicked) },
         )
     }
 }

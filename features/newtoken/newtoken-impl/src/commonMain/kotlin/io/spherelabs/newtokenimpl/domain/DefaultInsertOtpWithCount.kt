@@ -7,7 +7,7 @@ import io.spherelabs.newtokenapi.model.NewTokenDomain
 class DefaultInsertOtpWithCount(
     private val repository: NewTokenRepository,
 ) : InsertOtpWithCountUseCase {
-    override suspend fun execute(data: NewTokenDomain, count: Long) {
-        repository.insertOtpWithCount(data, count)
-    }
+  override suspend fun execute(data: NewTokenDomain, count: Long) {
+    repository.insertOtpWithCount(data, count)
+  }
 }

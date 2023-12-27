@@ -16,4 +16,7 @@ val accountDomainModule = module {
     single<SetFingerPrintUseCase> { DefaultSetFingerPrintUseCase(get()) }
     single<GetFingerPrintUseCase> { DefaultGetFingerPrintUseCase(get()) }
     single<GetUserUseCase> { DefaultGetUserUseCase(get()) }
+    single<LogoutUseCase> { DefaultLogoutUseCase(get()) }
+    single<GetRestrictScreenshotUseCase> { DefaultGetRestrictScreenshotUseCase(get()) }
+    single<SetRestrictScreenshotUseCase> { DefaultSetRestrictScreenshotUseCase(get()) }
 }

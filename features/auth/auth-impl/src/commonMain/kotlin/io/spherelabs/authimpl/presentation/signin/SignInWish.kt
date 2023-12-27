@@ -24,5 +24,4 @@ sealed interface SignInWish {
   object CheckCurrentUser : SignInWish
 
   data class HasCurrentUser(val value: Boolean) : SignInWish
-
 }

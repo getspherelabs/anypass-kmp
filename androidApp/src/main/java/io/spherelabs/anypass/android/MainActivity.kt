@@ -1,28 +1,40 @@
 package io.spherelabs.anypass.android
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import io.spherelabs.anypass.MainView
+import io.spherelabs.data.settings.screenshot.RestrictScreenshotSettings
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : FragmentActivity() {
 
     private val inAppUpdate = InAppUpdate(activity = this, onUpdateFailed = { finish() })
+    private val screenshotSettings: RestrictScreenshotSettings by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         checkInAppUpdate()
+        setRestrictScreenshot()
+
         setContent {
             MaterialTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding(),
+                    color = BlackRussian,
                 ) {
                     MainView()
                 }
@@ -44,22 +56,22 @@ class MainActivity : FragmentActivity() {
         inAppUpdate.onResume()
     }
 
-}
+    private fun setRestrictScreenshot() {
+        lifecycleScope.launch {
+            val result = screenshotSettings.getRestrictScreenshot()
 
-@Preview
-@Composable
-fun AuthenticatorCardPreview() {
-    Surface {
-        Column(modifier = Modifier.fillMaxSize()) {
-//            AuthenticatorCard(
-//                token = "232323232",
-//                serviceName = "Behance",
-//                info = "It is test",
-//                time = "15s",
-//                realTimeOtpDomain = RealTimeOtpDomain(12,"")
-//            )
+            result.collectLatest { isEnabled ->
+                if (isEnabled) {
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE,
+                        WindowManager.LayoutParams.FLAG_SECURE,
+                    )
+                } else {
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                }
+            }
         }
-
     }
-
 }
+
+val BlackRussian: Color = Color(0xff141419)

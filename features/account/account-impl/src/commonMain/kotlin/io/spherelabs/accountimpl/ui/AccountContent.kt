@@ -1,24 +1,15 @@
 package io.spherelabs.accountimpl.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,22 +19,27 @@ import io.spherelabs.accountimp.BuildKonfig
 import io.spherelabs.accountimpl.presentation.AccountEffect
 import io.spherelabs.accountimpl.presentation.AccountState
 import io.spherelabs.accountimpl.presentation.AccountWish
+import io.spherelabs.accountimpl.ui.component.ChangePassword
+import io.spherelabs.accountimpl.ui.component.FingerPrint
+import io.spherelabs.accountimpl.ui.component.Logout
+import io.spherelabs.accountimpl.ui.component.RestrictScreenshot
+import io.spherelabs.accountimpl.ui.component.SendFeedback
 import io.spherelabs.admob.GADBannerView
+import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.dimension.LocalDimensions
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.image.RoundedImage
-import io.spherelabs.designsystem.switch.CupertinoSwitch
 import io.spherelabs.designsystem.text.Headline
+import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.images.MR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun AccountContent(
@@ -53,6 +49,7 @@ fun AccountContent(
     wish: (AccountWish) -> Unit,
     navigateToBack: () -> Unit,
     navigateToChangePassword: () -> Unit,
+    navigateToSignIn: () -> Unit,
 ) {
 
     val snackbarState = useSnackbar()
@@ -64,6 +61,7 @@ fun AccountContent(
     useEffect(true) {
         wish.invoke(AccountWish.GetAccount)
         wish.invoke(AccountWish.GetStartedFingerPrint)
+        wish.invoke(AccountWish.GetStartedRestrictScreenshot)
 
         effect.collectLatest { newEffect ->
             when (newEffect) {
@@ -72,18 +70,18 @@ fun AccountContent(
                 }
 
                 is AccountEffect.Failure -> {
-                    scope.launch {
-                        snackbarState
-                            .showSnackbar(newEffect.message)
-                    }
+                    scope.launch { snackbarState.showSnackbar(newEffect.message) }
                 }
 
                 AccountEffect.Back -> {
                     navigateToBack.invoke()
                 }
+
+                AccountEffect.SignInScreen -> {
+                    navigateToSignIn.invoke()
+                }
             }
         }
-
     }
 
     Scaffold(
@@ -91,25 +89,20 @@ fun AccountContent(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarState,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom),
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
             )
         },
-        containerColor = Color(0xff141419),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        containerColor = BlackRussian,
         topBar = {
             Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = dimensions.medium),
+                modifier = modifier.fillMaxWidth().padding(top = dimensions.medium),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 BackButton(
-                    backgroundColor = Color(0xff9C98F6).copy(0.7f),
+                    backgroundColor = LavenderBlue.copy(0.7f),
                     modifier = modifier,
-                    navigateToBack = {
-                        wish.invoke(AccountWish.NavigateToBack)
-                    },
+                    navigateToBack = { wish.invoke(AccountWish.NavigateToBack) },
                 )
                 Headline(
                     text = strings.account,
@@ -129,12 +122,15 @@ fun AccountContent(
                 contentAlignment = Alignment.Center,
             ) {
                 RoundedImage(
-                    imageSize = 150,
-                    modifier = modifier.padding(top = dimensions.medium).border(
-                        width = dimensions.divider,
-                        color = Color.Black,
-                        shape = CircleShape,
-                    ),
+                    imageSize = 100,
+                    modifier =
+                    modifier
+                        .padding(top = dimensions.medium)
+                        .border(
+                            width = dimensions.divider,
+                            color = Color.Black,
+                            shape = CircleShape,
+                        ),
                     painter = painterResource(MR.images.avatar),
                     contentDescription = null,
                 )
@@ -151,7 +147,7 @@ fun AccountContent(
                 Text(
                     text = name,
                     textAlign = TextAlign.Center,
-                    fontSize = 32.sp,
+                    fontSize = 24.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Medium,
@@ -161,14 +157,14 @@ fun AccountContent(
                 Text(
                     text = email,
                     textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
+                    fontSize = 12.sp,
                     color = Color.White,
                     fontFamily = GoogleSansFontFamily,
                     fontWeight = FontWeight.Normal,
                 )
             }
 
-            Spacer(modifier.height(24.dp))
+            Spacer(modifier.height(12.dp))
 
             Row(
                 modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
@@ -178,7 +174,7 @@ fun AccountContent(
                 Row {
                     Text(
                         text = "${state.sizeOfTotalPassword}",
-                        fontSize = 45.sp,
+                        fontSize = 32.sp,
                         color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -196,7 +192,7 @@ fun AccountContent(
                 Column {
                     Text(
                         text = "${state.sizeOfStrongPassword}",
-                        fontSize = 32.sp,
+                        fontSize = 26.sp,
                         color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -213,7 +209,7 @@ fun AccountContent(
                 Column {
                     Text(
                         text = "${state.sizeOfWeakPassword}",
-                        fontSize = 32.sp,
+                        fontSize = 26.sp,
                         color = Color.White,
                         fontFamily = GoogleSansFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -230,119 +226,44 @@ fun AccountContent(
             }
 
             Spacer(modifier = modifier.height(36.dp))
-
-            Row(
-                modifier = modifier.padding(horizontal = dimensions.large).fillMaxWidth().height(48.dp)
-                    .clip(
-                        RoundedCornerShape(16.dp),
-                    ).background(color = Color(0xff292933)),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    modifier = modifier.padding(start = dimensions.large),
-                    text = strings.fingerPrint,
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
+            FingerPrint(modifier, isFingerPrintEnabled = state.isFingerPrintEnabled) { newChecked ->
+                wish.invoke(
+                    AccountWish.SetFingerPrint(
+                        newChecked,
+                    ),
                 )
-                CupertinoSwitch(
-                    state.isFingerPrintEnabled,
-                    onCheckedChange = { newChecked ->
-                        wish.invoke(AccountWish.SetFingerPrint(newChecked))
-                    },
-                    modifier = modifier.padding(end = 24.dp),
+            }
+
+
+            Spacer(modifier = modifier.height(12.dp))
+            ChangePassword(modifier) {
+                wish.invoke(AccountWish.NavigateToChangePassword)
+            }
+
+
+            Spacer(modifier.height(12.dp))
+            RestrictScreenshot(modifier, isEnabled = state.isRestrictScreenshotEnabled) { newChecked ->
+                wish.invoke(
+                    AccountWish.SetRestrictScreenshotChanged(
+                        newChecked
+                    )
                 )
             }
 
             Spacer(modifier = modifier.height(12.dp))
-
-            Row(
-                modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
-                    .clip(
-                        RoundedCornerShape(16.dp),
-                    ).background(color = Color(0xff292933))
-                    .clickable {
-                        wish.invoke(AccountWish.NavigateToChangePassword)
-                    },
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-
-                Text(
-                    modifier = modifier.padding(start = 24.dp),
-                    text = strings.changePassword,
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
-                )
-                Image(
-                    modifier = modifier.padding(end = 24.dp).size(20.dp),
-                    painter = painterResource(MR.images.change_password),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = Color.White),
-                )
-
+            SendFeedback(modifier) { newUrl ->
+                wish.invoke(AccountWish.OpenUrl(newUrl))
             }
+
 
             Spacer(modifier = modifier.height(12.dp))
-
-            Row(
-                modifier = modifier.padding(horizontal = 24.dp).fillMaxWidth().height(48.dp)
-                    .clip(
-                        RoundedCornerShape(16.dp),
-                    ).background(color = Color(0xff292933))
-                    .clickable {
-                        wish.invoke(AccountWish.OpenUrl("https://github.com/getspherelabs/anypass-kmp/issues/new/choose"))
-                    },
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-
-                Text(
-                    modifier = modifier.padding(start = 24.dp),
-                    text = strings.sendFeedback,
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    fontFamily = GoogleSansFontFamily,
-                    fontWeight = FontWeight.Medium,
-                )
-                Image(
-                    modifier = modifier.padding(end = 24.dp).size(20.dp),
-                    painter = painterResource(MR.images.message_square),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(color = Color.White),
-                )
-
+            Logout(modifier) {
+                wish.invoke(AccountWish.Logout)
             }
+
+
             Spacer(modifier.weight(1f))
             GADBannerView(modifier = modifier.padding(bottom = 16.dp), adId = BuildKonfig.AD_ID)
         }
-    }
-
-}
-
-@Composable
-fun RowScope.BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-    Box(
-        modifier = modifier.padding(start = 24.dp).size(42.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = backgroundColor)
-            .clickable { navigateToBack.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            tint = iconColor,
-            contentDescription = "Back",
-        )
     }
 }

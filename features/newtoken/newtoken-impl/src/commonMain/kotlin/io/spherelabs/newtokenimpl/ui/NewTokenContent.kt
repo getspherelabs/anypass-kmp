@@ -2,6 +2,7 @@ package io.spherelabs.newtokenimpl.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -21,7 +22,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useScope
 import io.spherelabs.designsystem.hooks.useSnackbar
@@ -68,17 +68,17 @@ fun NewTokenContent(
         }
     }
     Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         containerColor = BlackRussian,
         topBar = {
             NewTokenTopBar {
+                navigateToBack.invoke()
             }
         },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom),
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
             )
         },
     ) { newPaddingValues ->
@@ -86,64 +86,82 @@ fun NewTokenContent(
             paddingValues = newPaddingValues,
             state = state,
             wish = wish,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
         )
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BasicNewTokenContent(
     paddingValues: PaddingValues,
     state: NewTokenState,
     modifier: Modifier = Modifier,
     wish: (NewTokenWish) -> Unit,
-    navigateToBack: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
-    val strings = LocalStrings.current
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(paddingValues)
-            .background(color = BlackRussian)
+    Box(
+        modifier = modifier.fillMaxSize().padding(paddingValues).consumeWindowInsets(paddingValues),
     ) {
-        ServiceTextField(
-            modifier = modifier,
-            focusManager = focusManager,
-            textValue = state.serviceName,
-            onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnServiceNameChanged(newValue))
-            },
-        )
-        SecretTextField(
-            modifier = modifier,
-            focusManager = focusManager,
-            textValue = state.secret,
-            onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnSecretChanged(newValue))
-            },
-        )
+        LazyColumn(
+            modifier = modifier.fillMaxWidth(),
+        ) {
+            item {
+                ServiceTextField(
+                    modifier = modifier,
+                    focusManager = focusManager,
+                    textValue = state.serviceName,
+                    onTextValueChanged = { newValue ->
+                        wish.invoke(NewTokenWish.OnServiceNameChanged(newValue))
+                    },
+                )
+            }
+            item {
+                SecretTextField(
+                    modifier = modifier,
+                    focusManager = focusManager,
+                    textValue = state.secret,
+                    onTextValueChanged = { newValue ->
+                        wish.invoke(NewTokenWish.OnSecretChanged(newValue))
+                    },
+                )
+            }
 
-        AdditionalInfoTextField(
-            modifier = modifier,
-            focusManager = focusManager,
-            textValue = state.info,
-            onTextValueChanged = { newValue ->
-                wish.invoke(NewTokenWish.OnInfoChanged(newValue))
-            },
-        )
-        NewTokenTypeSpinner(modifier, state, wish)
-        NewTokenDigitSpinner(modifier, state, wish)
-        NewTokenDurationSpinner(modifier, state, wish)
-        SaveButton(modifier, wish)
+            item {
+                AdditionalInfoTextField(
+                    modifier = modifier,
+                    focusManager = focusManager,
+                    textValue = state.info,
+                    onTextValueChanged = { newValue ->
+                        wish.invoke(
+                            NewTokenWish.OnInfoChanged(
+                                newValue,
+                            ),
+                        )
+                    },
+                )
+
+            }
+
+            item {
+                NewTokenTypeSpinner(modifier, state, wish)
+            }
+
+            item {
+                NewTokenDigitSpinner(modifier, state, wish)
+            }
+
+            item {
+                NewTokenDurationSpinner(modifier, state, wish)
+            }
+
+            item {
+                SaveButton(modifier, wish)
+            }
+        }
     }
 }
-
 
 @Composable
 private fun ServiceTextField(
@@ -165,19 +183,19 @@ private fun ServiceTextField(
         TextField(
             modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp),
             value = textValue,
-            keyboardOptions = KeyboardOptions(
+            keyboardOptions =
+            KeyboardOptions(
                 imeAction = ImeAction.Next,
             ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Down)
-                },
+            keyboardActions =
+            KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Down) },
             ),
             colors =
             TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
                 backgroundColor = Jaguar,
-                cursorColor = Color.Black,
+                cursorColor = Color.White.copy(0.7f),
                 disabledLabelColor = Jaguar,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -188,4 +206,3 @@ private fun ServiceTextField(
         )
     }
 }
-

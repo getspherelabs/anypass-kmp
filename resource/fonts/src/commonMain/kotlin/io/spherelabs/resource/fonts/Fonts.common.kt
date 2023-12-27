@@ -8,31 +8,31 @@ import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 expect fun font(
-  resourceId: String,
-  weight: FontWeight = FontWeight.Normal,
-  style: FontStyle = FontStyle.Normal,
+    resourceId: String,
+    weight: FontWeight = FontWeight.Normal,
+    style: FontStyle = FontStyle.Normal,
 ): Font
 
 val GoogleSansFontFamily: FontFamily
   @Composable
   get() =
-    FontFamily(
-      font(
-        resourceId = "googlesans_regular",
-        weight = FontWeight.Normal,
-      ),
-      font(resourceId = "googlesans_medium", weight = FontWeight.Medium),
-      font(resourceId = "googlesans_bold", weight = FontWeight.Bold),
-    )
+      FontFamily(
+          font(
+              resourceId = "googlesans_regular",
+              weight = FontWeight.Normal,
+          ),
+          font(resourceId = "googlesans_medium", weight = FontWeight.Medium),
+          font(resourceId = "googlesans_bold", weight = FontWeight.Bold),
+      )
 
 val OpenSansFontFamily: FontFamily
   @Composable
   get() =
-    FontFamily(
-      font(
-        resourceId = "opensans_regular",
-        weight = FontWeight.Normal,
-      ),
-      font( resourceId = "opensans_medium", weight = FontWeight.Medium),
-      font(resourceId = "opensans_bold", weight = FontWeight.Bold),
-    )
+      FontFamily(
+          font(
+              resourceId = "opensans_regular",
+              weight = FontWeight.Normal,
+          ),
+          font(resourceId = "opensans_medium", weight = FontWeight.Medium),
+          font(resourceId = "opensans_bold", weight = FontWeight.Bold),
+      )

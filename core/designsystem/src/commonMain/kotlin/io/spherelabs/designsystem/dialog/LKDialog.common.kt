@@ -13,25 +13,25 @@ import io.spherelabs.designsystem.utils.ScreenConfiguration
 
 @Composable
 internal expect fun LKDialog(
-  onDismissRequest: () -> Unit,
-  properties: LKDialogProperties,
-  content: @Composable () -> Unit,
+    onDismissRequest: () -> Unit,
+    properties: LKDialogProperties,
+    content: @Composable () -> Unit,
 )
 
 @Immutable
 data class LKDialogProperties(
-  val dismissOnBackPress: Boolean = true,
-  val dismissOnClickOutside: Boolean = true,
-  val decorFitsSystemWindows: Boolean = true,
-  val usePlatformDefaultWidth: Boolean = false,
-  val size: DpSize = DpSize(400.dp, 300.dp),
-  val title: String = "Untitled",
-  val icon: Painter? = null,
-  val resizable: Boolean = true
+    val dismissOnBackPress: Boolean = true,
+    val dismissOnClickOutside: Boolean = true,
+    val decorFitsSystemWindows: Boolean = true,
+    val usePlatformDefaultWidth: Boolean = false,
+    val size: DpSize = DpSize(400.dp, 300.dp),
+    val title: String = "Untitled",
+    val icon: Painter? = null,
+    val resizable: Boolean = true
 )
 
 internal fun List<Pair<LKDialogButtonTypes, Placeable>>.buttons(type: LKDialogButtonTypes) =
-  this.filter { it.first == type }.map { it.second }
+    this.filter { it.first == type }.map { it.second }
 
 internal expect fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier
 

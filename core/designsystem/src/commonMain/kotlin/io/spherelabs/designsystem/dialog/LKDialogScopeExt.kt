@@ -16,27 +16,25 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LKDialogScope.title(
-  text: String,
-  color: Color = Color.White,
-  style: TextStyle = MaterialTheme.typography.h6,
-  center: Boolean = false
+    text: String,
+    color: Color = Color.White,
+    style: TextStyle = MaterialTheme.typography.h6,
+    center: Boolean = false
 ) {
   var modifier =
-    Modifier.fillMaxWidth()
-      .padding(start = 24.dp, end = 24.dp)
-      .height(64.dp)
-      .wrapContentHeight(Alignment.CenterVertically)
+      Modifier.fillMaxWidth()
+          .padding(start = 24.dp, end = 24.dp)
+          .height(64.dp)
+          .wrapContentHeight(Alignment.CenterVertically)
 
   modifier =
-    modifier.then(
-      Modifier.wrapContentWidth(
-        if (center) {
-          Alignment.CenterHorizontally
-        } else {
-          Alignment.Start
-        }
-      )
-    )
+      modifier.then(
+          Modifier.wrapContentWidth(
+              if (center) {
+                Alignment.CenterHorizontally
+              } else {
+                Alignment.Start
+              }))
 
   Text(text = text, color = color, style = style, modifier = modifier)
 }

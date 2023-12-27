@@ -12,13 +12,13 @@ import androidx.compose.ui.layout.ContentScale
 
 @Composable
 expect fun RoundedImage(
-  painter: Painter,
-  imageSize: Int = 48,
-  contentDescription: String?,
-  modifier: Modifier = Modifier,
-  alignment: Alignment = Alignment.Center,
-  contentScale: ContentScale = ContentScale.Fit,
-  alpha: Float = DefaultAlpha,
-  colorFilter: ColorFilter? = null,
-  filterQuality: FilterQuality = DrawScope.DefaultFilterQuality
+    painter: Painter,
+    imageSize: Int = 48,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.Center,
+    contentScale: ContentScale = ContentScale.Fit,
+    alpha: Float = DefaultAlpha,
+    colorFilter: ColorFilter? = null,
+    filterQuality: FilterQuality = DrawScope.DefaultFilterQuality
 )

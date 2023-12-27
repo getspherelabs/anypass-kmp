@@ -11,40 +11,35 @@ import io.spherelabs.designsystem.hooks.useUpdatedState
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun rememberLazyCardStackItemProviderLambda(
-  state: LKCardStackState,
-  customLazyListScope: LKCardStackScope.() -> Unit
+    state: LKCardStackState,
+    customLazyListScope: LKCardStackScope.() -> Unit
 ): () -> LazyLayoutItemProvider {
   val scope = LKCardStackItemScopeImpl()
   val latestContent = useUpdatedState(customLazyListScope)
   return remember(state) {
     val intervalContentState =
-      derivedStateOf(referentialEqualityPolicy()) {
-        LKCardStackIntervalContent(latestContent.value)
-      }
+        derivedStateOf(referentialEqualityPolicy()) {
+          LKCardStackIntervalContent(latestContent.value)
+        }
     val itemProviderState =
-      derivedStateOf(referentialEqualityPolicy()) {
-        val intervalContent = intervalContentState.value
-        val start = (state.visibleItemIndex - 10).coerceAtLeast(0)
-        val map =
-          NearestRangeKeyIndexMap(
-            nearestRange = start until start + 10,
-            intervalContent = intervalContent
-          )
-        LazyCardStackItemProviderImpl(
-          intervalContent = intervalContent,
-          keyIndexMap = map,
-          lazyCardItemScope = scope
-        )
-      }
+        derivedStateOf(referentialEqualityPolicy()) {
+          val intervalContent = intervalContentState.value
+          val start = (state.visibleItemIndex - 10).coerceAtLeast(0)
+          val map =
+              NearestRangeKeyIndexMap(
+                  nearestRange = start until start + 10, intervalContent = intervalContent)
+          LazyCardStackItemProviderImpl(
+              intervalContent = intervalContent, keyIndexMap = map, lazyCardItemScope = scope)
+        }
     itemProviderState::value
   }
 }
 
 @ExperimentalFoundationApi
 private class LazyCardStackItemProviderImpl(
-  private val intervalContent: LKCardStackIntervalContent,
-  private val keyIndexMap: NearestRangeKeyIndexMap,
-  private val lazyCardItemScope: LKCardStackItemScope
+    private val intervalContent: LKCardStackIntervalContent,
+    private val keyIndexMap: NearestRangeKeyIndexMap,
+    private val lazyCardItemScope: LKCardStackItemScope
 ) : LazyLayoutItemProvider {
 
   override val itemCount: Int

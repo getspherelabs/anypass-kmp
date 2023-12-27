@@ -10,45 +10,43 @@ object LKPasswordCardDefaults {
 
   @Composable
   fun passwordCardColor(
-    backgroundColor: Color = LKPasswordCardTokens.backgroundColor,
-    copyBackgroundColor: Color = LKPasswordCardTokens.copyBackgroundColor,
-    copyColor: Color = LKPasswordCardTokens.copyColor,
-    emailColor: Color = LKPasswordCardTokens.emailColor,
-    passwordColor: Color = LKPasswordCardTokens.passwordColor,
-    titleColor: Color = LKPasswordCardTokens.titleColor
+      backgroundColor: Color = LKPasswordCardTokens.backgroundColor,
+      copyBackgroundColor: Color = LKPasswordCardTokens.copyBackgroundColor,
+      copyColor: Color = LKPasswordCardTokens.copyColor,
+      emailColor: Color = LKPasswordCardTokens.emailColor,
+      passwordColor: Color = LKPasswordCardTokens.passwordColor,
+      titleColor: Color = LKPasswordCardTokens.titleColor
   ): LKPasswordCardColor {
     return LKPasswordCardColor(
-      backgroundColor = backgroundColor,
-      copyBackgroundColor = copyBackgroundColor,
-      copyColor = copyColor,
-      emailColor = emailColor,
-      passwordColor = passwordColor,
-      titleColor = titleColor
-    )
+        backgroundColor = backgroundColor,
+        copyBackgroundColor = copyBackgroundColor,
+        copyColor = copyColor,
+        emailColor = emailColor,
+        passwordColor = passwordColor,
+        titleColor = titleColor)
   }
 
   @Composable
   fun passwordCardStyle(
-    titleFontFamily: FontFamily = LKPasswordCardTokens.titleFontFamily,
-    emailFontFamily: FontFamily = LKPasswordCardTokens.emailFontFamily,
-    passwordFontFamily: FontFamily = LKPasswordCardTokens.passwordFontFamily,
-    copyFontFamily: FontFamily = LKPasswordCardTokens.copyFontFamily,
-    emailFontSize: TextUnit = LKPasswordCardTokens.emailFontSize,
-    passwordFontSize: TextUnit = LKPasswordCardTokens.passwordFontSize,
-    copyFontSize: TextUnit = LKPasswordCardTokens.copyFontSize,
-    titleFontSize: TextUnit = LKPasswordCardTokens.titleFontSize,
-    cardCornerShape: Dp = LKPasswordCardTokens.cardCornerShape,
+      titleFontFamily: FontFamily = LKPasswordCardTokens.titleFontFamily,
+      emailFontFamily: FontFamily = LKPasswordCardTokens.emailFontFamily,
+      passwordFontFamily: FontFamily = LKPasswordCardTokens.passwordFontFamily,
+      copyFontFamily: FontFamily = LKPasswordCardTokens.copyFontFamily,
+      emailFontSize: TextUnit = LKPasswordCardTokens.emailFontSize,
+      passwordFontSize: TextUnit = LKPasswordCardTokens.passwordFontSize,
+      copyFontSize: TextUnit = LKPasswordCardTokens.copyFontSize,
+      titleFontSize: TextUnit = LKPasswordCardTokens.titleFontSize,
+      cardCornerShape: Dp = LKPasswordCardTokens.cardCornerShape,
   ): LKPasswordCardStyle {
     return LKPasswordCardStyle(
-      titleFontFamily = titleFontFamily,
-      emailFontFamily = emailFontFamily,
-      passwordFontFamily = passwordFontFamily,
-      copyFontFamily = copyFontFamily,
-      emailFontSize = emailFontSize,
-      passwordFontSize = passwordFontSize,
-      copyFontSize = copyFontSize,
-      titleFontSize = titleFontSize,
-      cardCornerShape = cardCornerShape
-    )
+        titleFontFamily = titleFontFamily,
+        emailFontFamily = emailFontFamily,
+        passwordFontFamily = passwordFontFamily,
+        copyFontFamily = copyFontFamily,
+        emailFontSize = emailFontSize,
+        passwordFontSize = passwordFontSize,
+        copyFontSize = copyFontSize,
+        titleFontSize = titleFontSize,
+        cardCornerShape = cardCornerShape)
   }
 }

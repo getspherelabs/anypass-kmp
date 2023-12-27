@@ -29,9 +29,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.features.onboarding.onboardingImpl)
+                api(projects.features.navigation.navigationApi)
 
                 implementation(projects.features.onboarding.onboardingApi)
-                implementation(projects.features.onboarding.onboardingNavigation)
                 implementation(libs.koin.core)
                 implementation(libs.voyager)
 

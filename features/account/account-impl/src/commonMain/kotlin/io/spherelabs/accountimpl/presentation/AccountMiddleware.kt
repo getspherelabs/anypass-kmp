@@ -1,7 +1,6 @@
 package io.spherelabs.accountimpl.presentation
 
 import io.spherelabs.accountapi.domain.usecase.*
-import io.spherelabs.accountimpl.domain.AccountFacadeManager
 import io.spherelabs.meteor.middleware.Middleware
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -15,6 +14,9 @@ class AccountMiddleware(
     private val setFingerPrintUseCase: SetFingerPrintUseCase,
     private val getFingerPrintUseCase: GetFingerPrintUseCase,
     private val getUserUseCase: GetUserUseCase,
+    private val logoutUseCase: LogoutUseCase,
+    private val setRestrictScreenshotUseCase: SetRestrictScreenshotUseCase,
+    private val getRestrictScreenshotUseCase: GetRestrictScreenshotUseCase,
 ) : Middleware<AccountState, AccountWish> {
 
     override suspend fun process(
@@ -26,18 +28,16 @@ class AccountMiddleware(
             is AccountWish.OpenUrl -> {
                 handleOpenUrl(url = wish.url, next)
             }
+
             AccountWish.GetStartedFingerPrint -> {
                 handleGetFingerPrint(next)
             }
+
             is AccountWish.SetFingerPrint -> {
                 handleSetFingerPrint(wish.isEnabled, next)
             }
+
             AccountWish.GetAccount -> {
-                // TODO: Think the right approach
-//                accountFacadeManager.getAllPasswords().collectLatest { newAllPasswords ->
-//                    next.invoke(AccountWish.OnGetAllPasswords(newAllPasswords))
-//
-//                }
                 combine(
                     getTotalPasswordsUseCase.execute(),
                     getStrongPasswordSize.execute(),
@@ -48,30 +48,33 @@ class AccountMiddleware(
                     next.invoke(AccountWish.GetSizeOfStrongPassword(strongPassword))
                     next.invoke(AccountWish.GetSizeOfWeakPassword(weakPassword))
                     next.invoke(AccountWish.GetUser(newUser))
-                }.collect()
+                }
+                    .collect()
             }
-            is AccountWish.OnGetAllPasswords -> {
 
+            AccountWish.Logout -> {
+                val result = logoutUseCase.execute()
+
+                result.fold(
+                    onSuccess = { isLogout ->
+                        next.invoke(AccountWish.LogoutChanged(isLogout))
+                    },
+                    onFailure = {
+                        val failureMsg = it.message ?: "Error is occurred."
+                        next.invoke(AccountWish.Failure(failureMsg))
+                    },
+                )
             }
+
+            AccountWish.GetStartedRestrictScreenshot -> {
+                handleGetRestrictScreenshot(next)
+            }
+
+            is AccountWish.SetRestrictScreenshotChanged -> {
+                handleSetRestrictScreenshot(isEnabled = wish.isEnabled, next)
+            }
+
             else -> {}
-        }
-    }
-
-    private suspend inline fun handleStrongPassword(noinline next: suspend (AccountWish) -> Unit) {
-        getStrongPasswordSize.execute().collectLatest { result ->
-            next.invoke(AccountWish.GetSizeOfStrongPassword(result))
-        }
-    }
-
-    private suspend inline fun handleWeakPassword(noinline next: suspend (AccountWish) -> Unit) {
-        getWeakPasswordSize.execute().collectLatest { result ->
-            next.invoke(AccountWish.GetSizeOfWeakPassword(result))
-        }
-    }
-
-    private suspend inline fun handleTotalPassword(noinline next: suspend (AccountWish) -> Unit) {
-        getTotalPasswordsUseCase.execute().collectLatest { result ->
-            next.invoke(AccountWish.GetTotalPassword(result))
         }
     }
 
@@ -94,8 +97,23 @@ class AccountMiddleware(
             .onSuccess { next.invoke(AccountWish.OnFingerPrintChanged(isEnabled)) }
     }
 
+    private suspend inline fun handleSetRestrictScreenshot(
+        isEnabled: Boolean,
+        noinline next: suspend (AccountWish) -> Unit,
+    ) {
+        runCatching { setRestrictScreenshotUseCase.execute(isEnabled) }
+            .onSuccess { next.invoke(AccountWish.OnRestrictScreenshotChanged(isEnabled)) }
+    }
+
+
     private suspend inline fun handleGetFingerPrint(noinline next: suspend (AccountWish) -> Unit) {
         runCatching { getFingerPrintUseCase.execute() }
             .onSuccess { newResult -> next.invoke(AccountWish.GetFingerPrint(newResult)) }
+    }
+
+    private suspend inline fun handleGetRestrictScreenshot(noinline next: suspend (AccountWish) -> Unit) {
+        getRestrictScreenshotUseCase.execute().collectLatest { newResult ->
+            next.invoke(AccountWish.GetRestrictScreenshot(newResult))
+        }
     }
 }

@@ -1,21 +1,22 @@
 package io.spherelabs.authimpl.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.registry.rememberScreen
@@ -26,6 +27,7 @@ import io.spherelabs.authimpl.presentation.signup.SignUpEffect
 import io.spherelabs.authimpl.presentation.signup.SignUpState
 import io.spherelabs.authimpl.presentation.signup.SignUpViewModel
 import io.spherelabs.authimpl.presentation.signup.SignUpWish
+import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useInject
@@ -39,7 +41,7 @@ import io.spherelabs.designsystem.textfield.LKEmailTextField
 import io.spherelabs.designsystem.textfield.LKPasswordTextField
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.LavenderBlue
-import io.spherelabs.passphrasenavigation.KeyPasswordSharedScreen
+import io.spherelabs.navigationapi.KeyPasswordDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -52,25 +54,19 @@ class SignUpScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: SignUpViewModel = useInject()
         val uiState = viewModel.state.collectAsStateWithLifecycle()
-        val keyPasswordScreen = rememberScreen(KeyPasswordSharedScreen.KeyPassword)
+
+        val keyPasswordScreen = rememberScreen(KeyPasswordDestination.KeyPassword)
 
         BasicSignUpScreen(
             modifier = Modifier,
-            wish = { newWish ->
-                viewModel.wish(newWish)
-            },
+            wish = { newWish -> viewModel.wish(newWish) },
             state = uiState.value,
             effect = viewModel.effect,
-            navigateToBack = {
-                navigator.pop()
-            },
-            navigateToAddPrivatePassword = {
-                navigator.push(keyPasswordScreen)
-            },
+            navigateToBack = { navigator.pop() },
+            navigateToAddPrivatePassword = { navigator.push(keyPasswordScreen) },
         )
     }
 }
-
 
 @Composable
 fun BasicSignUpScreen(
@@ -84,14 +80,12 @@ fun BasicSignUpScreen(
     val snackbarState = useSnackbar()
     val coroutineScope = useScope()
 
-
     useEffect(true) {
         effect.collectLatest { newEffect ->
             when (newEffect) {
                 SignUpEffect.AddPrivatePassword -> {
                     navigateToAddPrivatePassword.invoke()
                 }
-
                 is SignUpEffect.Failure -> {
                     coroutineScope.launch {
                         snackbarState.showSnackbar(
@@ -99,7 +93,6 @@ fun BasicSignUpScreen(
                         )
                     }
                 }
-
                 SignUpEffect.Back -> {
                     navigateToBack.invoke()
                 }
@@ -109,17 +102,11 @@ fun BasicSignUpScreen(
 
     Scaffold(
         containerColor = BlackRussian,
-        topBar = {
-            SignUpTopBar(modifier) {
-                wish.invoke(SignUpWish.Back)
-            }
-        },
+        topBar = { SignUpTopBar(modifier) { wish.invoke(SignUpWish.Back) } },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarState,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(Alignment.Bottom),
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
             )
         },
     ) { newPaddingValues ->
@@ -127,13 +114,10 @@ fun BasicSignUpScreen(
             state = state,
             paddingValues = newPaddingValues,
             modifier = modifier,
-            wish = { newWish ->
-                wish.invoke(newWish)
-            },
+            wish = { newWish -> wish.invoke(newWish) },
         )
     }
 }
-
 
 @Composable
 private fun SignUpTopBar(
@@ -150,9 +134,7 @@ private fun SignUpTopBar(
             modifier = modifier,
             backgroundColor = LavenderBlue.copy(0.3f),
             iconColor = Color.White,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
+            navigateToBack = { navigateToBack.invoke() },
         )
         Headline(
             text = strings.createAccount,
@@ -172,20 +154,34 @@ fun SignUpContent(
     wish: (SignUpWish) -> Unit,
 ) {
     val strings = LocalStrings.current
+    val focusManager = LocalFocusManager.current
 
-    Box(modifier = modifier.fillMaxSize().padding(paddingValues)) {
+    Box(
+        modifier = modifier.fillMaxSize().padding(paddingValues).consumeWindowInsets(paddingValues),
+    ) {
         if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = modifier.align(Alignment.Center),
                 color = Color.Black.copy(alpha = 0.7f),
             )
         }
-        LazyColumn {
-
+        LazyColumn(
+            modifier = modifier.fillMaxWidth(),
+        ) {
             item {
                 APSNameTextField(
                     state.name,
                     fontFamily = GoogleSansFontFamily,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                        onDone = { focusManager.clearFocus() },
+                    ),
                 ) { newValue ->
                     wish.invoke(SignUpWish.OnNameChanged(newValue))
                 }
@@ -199,13 +195,21 @@ fun SignUpContent(
                         fontSize = 12.sp,
                     )
                 }
-
-
             }
             item {
                 LKEmailTextField(
                     state.email,
                     fontFamily = GoogleSansFontFamily,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                        onDone = { focusManager.clearFocus() },
+                    ),
                 ) { newValue ->
                     wish.invoke(SignUpWish.OnEmailChanged(newValue))
                 }
@@ -224,13 +228,19 @@ fun SignUpContent(
                 LKPasswordTextField(
                     textValue = state.password,
                     passwordVisibility = state.isPasswordVisibility,
-                    onToggleChanged = {
-                        wish.invoke(SignUpWish.TogglePasswordVisibility)
-                    },
+                    onToggleChanged = { wish.invoke(SignUpWish.TogglePasswordVisibility) },
                     fontFamily = GoogleSansFontFamily,
-                    onValueChanged = { newValue ->
-                        wish.invoke(SignUpWish.OnPasswordChanged(newValue))
-                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                        onDone = { focusManager.clearFocus() },
+                    ),
+                    onValueChanged = { newValue -> wish.invoke(SignUpWish.OnPasswordChanged(newValue)) },
                 )
                 if (state.passwordFailed) {
                     Text(
@@ -249,11 +259,22 @@ fun SignUpContent(
                     passwordVisibility = state.isKeyPasswordVisibility,
                     description = strings.keyPasswordRequirement,
                     fontFamily = GoogleSansFontFamily,
-                    onToggleChanged = {
-                        wish.invoke(SignUpWish.ToggleKeyPasswordVisibility)
-                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.NumberPassword,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    ),
+                    onToggleChanged = { wish.invoke(SignUpWish.ToggleKeyPasswordVisibility) },
                     onValueChanged = { newValue ->
-                        wish.invoke(SignUpWish.OnKeyPasswordChanged(newValue))
+                        wish.invoke(
+                            SignUpWish.OnKeyPasswordChanged(
+                                newValue,
+                            ),
+                        )
                     },
                 )
 
@@ -261,11 +282,18 @@ fun SignUpContent(
                     title = "Confirm a key password",
                     description = strings.keyPasswordRequirement,
                     textValue = state.confirmKeyPassword,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.NumberPassword,
+                        imeAction = ImeAction.Done,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onDone = { focusManager.clearFocus() },
+                    ),
                     passwordVisibility = state.isConfirmKeyPasswordVisibility,
                     fontFamily = GoogleSansFontFamily,
-                    onToggleChanged = {
-                        wish.invoke(SignUpWish.ToggleConfirmKeyPasswordVisibility)
-                    },
+                    onToggleChanged = { wish.invoke(SignUpWish.ToggleConfirmKeyPasswordVisibility) },
                     onValueChanged = { newValue ->
                         wish.invoke(SignUpWish.OnConfirmKeyPasswordChanged(newValue))
                     },
@@ -285,11 +313,10 @@ fun SignUpContent(
             }
             item {
                 Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(65.dp)
+                    modifier = Modifier.fillMaxWidth().height(65.dp)
                         .padding(start = 24.dp, end = 24.dp),
-                    colors = ButtonDefaults.buttonColors(
+                    colors =
+                    ButtonDefaults.buttonColors(
                         backgroundColor = LavenderBlue.copy(0.3f),
                     ),
                     shape = RoundedCornerShape(24.dp),
@@ -310,29 +337,5 @@ fun SignUpContent(
                 Spacer(modifier.height(16.dp))
             }
         }
-    }
-}
-
-
-@Composable
-fun RowScope.BackButton(
-    modifier: Modifier,
-    backgroundColor: Color = LavenderBlue.copy(0.7f),
-    iconColor: Color = Color.White,
-    navigateToBack: () -> Unit,
-) {
-
-    Box(
-        modifier = modifier.padding(start = 24.dp).size(42.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(color = backgroundColor)
-            .clickable { navigateToBack.invoke() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            tint = iconColor,
-            contentDescription = "Back",
-        )
     }
 }

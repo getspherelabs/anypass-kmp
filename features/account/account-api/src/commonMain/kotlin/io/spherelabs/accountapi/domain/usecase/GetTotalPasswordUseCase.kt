@@ -5,4 +5,3 @@ import kotlinx.coroutines.flow.Flow
 interface GetTotalPasswordUseCase {
   fun execute(): Flow<Int>
 }
-

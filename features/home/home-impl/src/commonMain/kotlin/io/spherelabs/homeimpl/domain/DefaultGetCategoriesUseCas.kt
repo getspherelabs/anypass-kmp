@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class DefaultGetCategoriesUseCase(private val repository: HomeRepository) : GetCategoriesUseCase {
 
-    override fun execute(): Flow<List<HomeCategory>> {
-        return repository.getCategories()
-    }
+  override fun execute(): Flow<List<HomeCategory>> {
+    return repository.getCategories()
+  }
 }

@@ -9,35 +9,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 
-
 @Composable
-fun ChangePasswordTopBar(
+internal fun ChangePasswordTopBar(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
 ) {
-    val strings = LocalStrings.current
+  val strings = LocalStrings.current
 
-    Row(
-        modifier = modifier.fillMaxWidth().padding(top = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        BackButton(
-            modifier,
-            navigateToBack = {
-                navigateToBack.invoke()
-            },
-        )
-        Headline(
-            text = strings.changePassword,
-            modifier = modifier,
-            fontFamily = GoogleSansFontFamily,
-            fontWeight = FontWeight.Medium,
-            textColor = Color.White,
-        )
-
-    }
+  Row(
+      modifier = modifier.fillMaxWidth().padding(top = 16.dp),
+      verticalAlignment = Alignment.CenterVertically,
+  ) {
+    BackButton(
+        modifier,
+        navigateToBack = { navigateToBack.invoke() },
+    )
+    Headline(
+        text = strings.changePassword,
+        modifier = modifier,
+        fontFamily = GoogleSansFontFamily,
+        fontWeight = FontWeight.Medium,
+        textColor = Color.White,
+    )
+  }
 }

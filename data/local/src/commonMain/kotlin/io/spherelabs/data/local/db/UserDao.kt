@@ -13,9 +13,7 @@ interface UserDao {
     suspend fun updateUser(password: UserEntity)
     fun getUserById(id: String): Flow<UserEntity>
     fun getUser(): Flow<UserEntity>
-
     fun deleteUserById(id: String)
-
 }
 
 class DefaultUserDao(

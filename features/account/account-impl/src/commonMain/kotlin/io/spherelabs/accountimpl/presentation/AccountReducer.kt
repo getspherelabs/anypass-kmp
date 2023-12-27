@@ -1,9 +1,9 @@
 package io.spherelabs.accountimpl.presentation
 
+import io.spherelabs.accountapi.model.AccountUser
 import io.spherelabs.meteor.configs.Change
 import io.spherelabs.meteor.extension.expect
 import io.spherelabs.meteor.extension.route
-import io.spherelabs.meteor.extension.unexpected
 import io.spherelabs.meteor.reducer.Reducer
 
 class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
@@ -20,6 +20,7 @@ class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
                     )
                 }
             }
+
             is AccountWish.GetSizeOfWeakPassword -> {
                 expect {
                     currentState.copy(
@@ -27,6 +28,7 @@ class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
                     )
                 }
             }
+
             is AccountWish.GetTotalPassword -> {
                 expect {
                     currentState.copy(
@@ -34,34 +36,69 @@ class AccountReducer : Reducer<AccountState, AccountWish, AccountEffect> {
                     )
                 }
             }
+
             is AccountWish.OnFingerPrintChanged -> {
-                expect {
-                    currentState.copy(
-                        isFingerPrintEnabled = currentWish.isEnabled,
-                    )
-                }
+                currentState.fingerPrintChanged(currentWish.isEnabled)
             }
+
             is AccountWish.GetFingerPrint -> {
-                expect {
-                    currentState.copy(
-                        isFingerPrintEnabled = currentWish.isEnabled,
-                    )
-                }
+                currentState.fingerPrintChanged(currentWish.isEnabled)
             }
+
             is AccountWish.GetUser -> {
-                expect {
-                    currentState.copy(
-                        user = currentWish.user,
-                    )
-                }
+                currentState.userChanged(currentWish.user)
             }
+
             AccountWish.NavigateToChangePassword -> {
-                route { AccountEffect.ChangePasswordRoute}
+                route { AccountEffect.ChangePasswordRoute }
             }
+
             AccountWish.NavigateToBack -> {
                 route { AccountEffect.Back }
             }
-            else -> unexpected { currentState }
+
+            is AccountWish.LogoutChanged -> {
+                currentState.logoutChanged(currentWish.isLogout)
+            }
+
+            is AccountWish.OnRestrictScreenshotChanged -> {
+                currentState.restrictScreenshotChanged(currentWish.isEnabled)
+            }
+
+            is AccountWish.GetRestrictScreenshot -> {
+                currentState.restrictScreenshotChanged(currentWish.isEnabled)
+            }
+
+            else -> currentState.unexpected()
         }
     }
+}
+
+fun AccountState.logoutChanged(isLogout: Boolean): Change<AccountState, AccountEffect> {
+    return if (isLogout) Change(effect = AccountEffect.SignInScreen) else Change(state = this)
+}
+
+fun AccountState.userChanged(user: AccountUser): Change<AccountState, AccountEffect> {
+    return Change(
+        state = this.copy(user = user),
+    )
+}
+
+fun AccountState.fingerPrintChanged(isFingerPrintEnabled: Boolean): Change<AccountState, AccountEffect> {
+    return Change(
+        state = this.copy(isFingerPrintEnabled = isFingerPrintEnabled),
+    )
+}
+
+fun AccountState.restrictScreenshotChanged(isRestrictEnabled: Boolean): Change<AccountState, AccountEffect> {
+    return Change(
+        state = this.copy(isRestrictScreenshotEnabled = isRestrictEnabled),
+    )
+}
+
+fun <State : Any, Effect : Any> State.unexpected(): Change<State, Effect> {
+    return Change(
+        effect = null,
+        state = this,
+    )
 }

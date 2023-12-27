@@ -9,7 +9,7 @@ interface FingerPrintSetting {
 }
 
 class DefaultFingerPrintSetting(
-  private val prefs: FlowSettings,
+    private val prefs: FlowSettings,
 ) : FingerPrintSetting {
 
   override suspend fun setFingerPrint(newValue: Boolean) {
@@ -17,7 +17,7 @@ class DefaultFingerPrintSetting(
   }
 
   override suspend fun getFingerPrint(): Boolean {
-    return prefs.getBoolean(FINGER_PRINT_PREFS, false)
+    return prefs.getBoolean(FINGER_PRINT_PREFS, true)
   }
 
   companion object {

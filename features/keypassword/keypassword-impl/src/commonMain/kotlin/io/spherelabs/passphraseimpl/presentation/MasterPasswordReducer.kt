@@ -6,6 +6,7 @@ import io.spherelabs.meteor.extension.expect
 import io.spherelabs.meteor.extension.route
 import io.spherelabs.meteor.extension.unexpected
 import io.spherelabs.meteor.reducer.Reducer
+import io.spherelabs.passphraseimpl.presentation.MasterPasswordState.Companion.MAX_LENGTH_OF_KEY_PASSWORD
 
 class MasterPasswordReducer :
     Reducer<MasterPasswordState, MasterPasswordWish, MasterPasswordEffect> {
@@ -21,33 +22,12 @@ class MasterPasswordReducer :
             }
 
             is MasterPasswordWish.OnMasterPasswordChanged -> {
-                val newPassword = when(currentWish.password) {
-                    "c" -> {
-                        ""
-                    }
-                    else -> {
-                       if (currentState.password.length <= MAX_PASSWORD_LENGTH) {
-                            buildString {
-                                append(currentState.password)
-                                append(currentWish.password)
-                            }
-                        } else {
-                            currentState.password
-                        }
-                    }
-                }
-
-                expect {
-                    currentState.copy(
-                        password = newPassword,
-                    )
-                }
+                currentState.keyPasswordChanged(currentWish.password)
             }
 
             is MasterPasswordWish.SetPasswordFailure -> {
                 effect { MasterPasswordEffect.Failure(currentWish.message) }
             }
-
 
             MasterPasswordWish.ClearPassword -> {
                 expect {
@@ -55,6 +35,10 @@ class MasterPasswordReducer :
                         password = "",
                     )
                 }
+            }
+
+            MasterPasswordWish.ShowFingerPrint -> {
+                currentState.showFingerPrint()
             }
 
             is MasterPasswordWish.OnPasswordCellChanged -> {
@@ -73,15 +57,36 @@ class MasterPasswordReducer :
                 effect { MasterPasswordEffect.Failure(currentWish.message) }
             }
 
+            is MasterPasswordWish.FingerPrintFailure -> {
+                effect { MasterPasswordEffect.Failure(currentWish.failureMessage) }
+            }
+
             else -> {
                 unexpected { currentState }
             }
         }
     }
+}
 
-    companion object {
-        private const val MAX_PASSWORD_LENGTH = 3
-        private const val CLEAR_SIGN = "c"
+private fun MasterPasswordState.keyPasswordChanged(newPassword: String): Change<MasterPasswordState, MasterPasswordEffect> {
+    val currentPassword =
+        if (this.password.length <= MAX_LENGTH_OF_KEY_PASSWORD) {
+            buildString {
+                append(password)
+                append(newPassword)
+            }
+        } else {
+            this.password
+        }
 
-    }
+    return Change(
+        state = this.copy(password = currentPassword),
+    )
+}
+
+private fun MasterPasswordState.showFingerPrint(): Change<MasterPasswordState, MasterPasswordEffect> {
+    return Change(
+        state = this.copy(isFingerprintEnabled = this.isFingerprintEnabled),
+        effect = MasterPasswordEffect.ShowFingerPrint,
+    )
 }

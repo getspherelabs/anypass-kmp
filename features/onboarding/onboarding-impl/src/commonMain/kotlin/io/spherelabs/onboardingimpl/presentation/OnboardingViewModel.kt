@@ -11,25 +11,25 @@ import io.spherelabs.meteorviewmodel.viewmodel.ViewModel
 import kotlinx.coroutines.launch
 
 class OnboardingViewModel(
-  private val onboardingReducer: OnboardingReducer,
-  private val onboardingMiddleware: OnboardingMiddleware
+    private val onboardingReducer: OnboardingReducer,
+    private val onboardingMiddleware: OnboardingMiddleware
 ) : ViewModel() {
 
   private var store: Store<OnboardingState, OnboardingWish, OnboardingEffect> =
-    viewModelScope.createMeteor(
-      configs =
-        MeteorConfigs.build {
-          initialState = OnboardingState.Empty
-          storeName = "OnboardingViewModel"
-          reducer = onboardingReducer
-          middlewares = listOf(onboardingMiddleware)
-        }
-    )
+      viewModelScope.createMeteor(
+          configs =
+              MeteorConfigs.build {
+                initialState = OnboardingState.Empty
+                storeName = "OnboardingViewModel"
+                reducer = onboardingReducer
+                middlewares = listOf(onboardingMiddleware)
+              })
 
   init {
     viewModelScope.launch {
-        store.wish(OnboardingWish.OnCheckCurrentUserExist)
-        store.wish(OnboardingWish.CheckFirstTime) }
+      store.wish(OnboardingWish.OnCheckCurrentUserExist)
+      store.wish(OnboardingWish.CheckFirstTime)
+    }
   }
 
   fun wish(wish: OnboardingWish) {

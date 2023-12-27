@@ -1,11 +1,13 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
         gradlePluginPortal()
     }
 
@@ -29,4 +31,24 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.20" apply false
 }
 
+allprojects {
+    tasks.withType<KotlinCompilationTask<*>>().configureEach {
+        compilerOptions {
+            allWarningsAsErrors.set(false)
+
+            if (project.providers.gradleProperty("anypass.enableComposeCompilerReports").isPresent) {
+                freeCompilerArgs.addAll(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                        layout.buildDirectory.asFile.get().absolutePath + "/compose_metrics",
+                )
+                freeCompilerArgs.addAll(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                        layout.buildDirectory.asFile.get().absolutePath + "/compose_metrics",
+                )
+            }
+        }
+    }
+}
 fun Project.spotless(action: SpotlessExtension.() -> Unit) = extensions.configure<SpotlessExtension>(action)

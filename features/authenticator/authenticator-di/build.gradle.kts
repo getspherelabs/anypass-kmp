@@ -26,9 +26,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.features.authenticator.authenticatorImpl)
-
+                api(projects.features.navigation.navigationApi)
                 implementation(projects.features.authenticator.authenticatorApi)
-                implementation(projects.features.authenticator.authenticatorNavigation)
+
                 implementation(libs.koin.core)
                 implementation(libs.voyager)
             }

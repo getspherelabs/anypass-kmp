@@ -10,10 +10,17 @@ import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 
 class ChangePasswordScreen : Screen {
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel: ChangePasswordViewModel = useInject()
-        val uiState = viewModel.state.collectAsStateWithLifecycle()
-    }
+  @Composable
+  override fun Content() {
+    val navigator = LocalNavigator.currentOrThrow
+    val viewModel: ChangePasswordViewModel = useInject()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
+
+    ChangePasswordContent(
+        uiState = uiState.value,
+        uiEffect = viewModel.effect,
+        wish = { newWish -> viewModel.wish(newWish) },
+        navigateToBack = { navigator.pop() },
+    )
+  }
 }

@@ -32,8 +32,8 @@ interface LKDialogScope {
 }
 
 internal class LKDialogScopeImpl(
-  override val dialogState: LKDialogState,
-  override val autoDismiss: Boolean = true
+    override val dialogState: LKDialogState,
+    override val autoDismiss: Boolean = true
 ) : LKDialogScope {
   override val dialogButtons = LKDialogButtons(this)
 
@@ -97,7 +97,7 @@ class LKDialogState(initialValue: Boolean = false) {
   companion object {
     /** The default [Saver] implementation for [LKDialogState]. */
     fun Saver(): Saver<LKDialogState, *> =
-      Saver(save = { it.showing }, restore = { LKDialogState(it) })
+        Saver(save = { it.showing }, restore = { LKDialogState(it) })
   }
 }
 

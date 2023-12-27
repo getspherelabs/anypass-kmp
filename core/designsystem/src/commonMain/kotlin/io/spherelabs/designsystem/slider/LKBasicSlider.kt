@@ -17,20 +17,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun LKBasicSlider(
-  enabled: Boolean,
-  fraction: Float,
-  trackStart: Float,
-  trackEnd: Float,
-  tickFractions: List<Float>,
-  colors: LKSliderColors,
-  trackHeight: Dp,
-  thumbRadius: Float,
-  thumbHeight: Float,
-  thumb: @Composable () -> Unit,
-  coerceThumbInTrack: Boolean,
-  drawInactiveTrack: Boolean,
-  borderStroke: BorderStroke? = null,
-  modifier: Modifier
+    enabled: Boolean,
+    fraction: Float,
+    trackStart: Float,
+    trackEnd: Float,
+    tickFractions: List<Float>,
+    colors: LKSliderColors,
+    trackHeight: Dp,
+    thumbRadius: Float,
+    thumbHeight: Float,
+    thumb: @Composable () -> Unit,
+    coerceThumbInTrack: Boolean,
+    drawInactiveTrack: Boolean,
+    borderStroke: BorderStroke? = null,
+    modifier: Modifier
 ) {
 
   val trackStrokeWidth: Float
@@ -49,30 +49,26 @@ internal fun LKBasicSlider(
   }
 
   Box(
-    modifier.heightIn(max = trackHeight.coerceAtLeast(thumbHeightDp).coerceAtLeast(4.dp)),
-    contentAlignment = Alignment.CenterStart
-  ) {
-    val thumbCenterPos = (trackStart + (trackEnd - trackStart) * fraction)
+      modifier.heightIn(max = trackHeight.coerceAtLeast(thumbHeightDp).coerceAtLeast(4.dp)),
+      contentAlignment = Alignment.CenterStart) {
+        val thumbCenterPos = (trackStart + (trackEnd - trackStart) * fraction)
 
-    Track(
-      modifier = Modifier.align(Alignment.CenterStart).fillMaxSize(),
-      fraction = fraction,
-      tickFractions = tickFractions,
-      thumbRadius = thumbRadius,
-      trackStart = trackStart,
-      trackHeight = trackStrokeWidth,
-      coerceThumbInTrack = coerceThumbInTrack,
-      colors = colors,
-      enabled = enabled,
-      borderBrush = borderBrush,
-      borderWidth = borderWidth,
-      drawInactiveTrack = drawInactiveTrack
-    )
+        Track(
+            modifier = Modifier.align(Alignment.CenterStart).fillMaxSize(),
+            fraction = fraction,
+            tickFractions = tickFractions,
+            thumbRadius = thumbRadius,
+            trackStart = trackStart,
+            trackHeight = trackStrokeWidth,
+            coerceThumbInTrack = coerceThumbInTrack,
+            colors = colors,
+            enabled = enabled,
+            borderBrush = borderBrush,
+            borderWidth = borderWidth,
+            drawInactiveTrack = drawInactiveTrack)
 
-    Box(modifier = modifier.offset { IntOffset((thumbCenterPos - thumbRadius).toInt(), 0) }) {
-      thumb()
-    }
-  }
+        Box(modifier = modifier.offset { IntOffset((thumbCenterPos - thumbRadius).toInt(), 0) }) {
+          thumb()
+        }
+      }
 }
-
-

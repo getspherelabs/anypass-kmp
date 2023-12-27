@@ -1,8 +1,6 @@
 package io.spherelabs.accountimpl.presentation
 
 import io.spherelabs.accountapi.model.AccountUser
-import io.spherelabs.accountimpl.domain.model.AllPasswords
-
 
 sealed interface AccountWish {
     data class GetSizeOfStrongPassword(val size: Int) : AccountWish
@@ -19,12 +17,23 @@ sealed interface AccountWish {
 
     data class SetFingerPrint(val isEnabled: Boolean) : AccountWish
 
+    object GetStartedRestrictScreenshot : AccountWish
+    data class OnRestrictScreenshotChanged(val isEnabled: Boolean) : AccountWish
+    data class SetRestrictScreenshotChanged(val isEnabled: Boolean) : AccountWish
+    data class GetRestrictScreenshot(val isEnabled: Boolean) : AccountWish
     object GetStartedFingerPrint : AccountWish
 
     data class GetFingerPrint(val isEnabled: Boolean) : AccountWish
+
     object GetAccount : AccountWish
+
     data class GetUser(val user: AccountUser) : AccountWish
+
     object NavigateToChangePassword : AccountWish
+
     object NavigateToBack : AccountWish
-    data class OnGetAllPasswords(val allPasswords: AllPasswords) : AccountWish
+
+    object Logout : AccountWish
+
+    data class LogoutChanged(val isLogout: Boolean) : AccountWish
 }

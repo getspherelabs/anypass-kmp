@@ -1,6 +1,5 @@
 package io.spherelabs.passphraseapi.domain.usecase
 
-
 interface GetFingerprintStatusUseCase {
-    suspend fun execute(): Boolean
+  suspend fun execute(): Boolean
 }

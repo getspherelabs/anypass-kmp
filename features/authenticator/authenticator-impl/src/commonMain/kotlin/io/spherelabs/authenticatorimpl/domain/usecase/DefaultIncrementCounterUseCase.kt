@@ -7,7 +7,7 @@ class DefaultIncrementCounterUseCase(
     private val repository: AuthenticatorRepository,
 ) : IncrementCounterUseCase {
 
-    override suspend fun execute(id: String) {
-        repository.incrementCounter(id)
-    }
+  override suspend fun execute(id: String) {
+    repository.incrementCounter(id)
+  }
 }

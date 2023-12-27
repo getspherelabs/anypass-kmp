@@ -4,7 +4,6 @@ import io.spherelabs.accountapi.domain.repository.AccountRepository
 import io.spherelabs.accountapi.domain.usecase.GetSizeOfStrongPasswordUseCase
 import kotlinx.coroutines.flow.Flow
 
-
 class DefaultGetSizeOfStrongPasswordUseCase(
     private val repository: AccountRepository,
 ) : GetSizeOfStrongPasswordUseCase {

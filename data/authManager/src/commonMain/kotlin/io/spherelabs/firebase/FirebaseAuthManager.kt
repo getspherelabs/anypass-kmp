@@ -15,4 +15,5 @@ expect class FirebaseAuthManager {
     val currentUser: FirebaseUser?
     suspend fun createEmailAndPassword(email: String, password: String): Result<AuthResult>
     suspend fun signInWithEmailAndPassword(email: String, password: String): Result<AuthResult>
+    suspend fun logout(): Result<Boolean>
 }

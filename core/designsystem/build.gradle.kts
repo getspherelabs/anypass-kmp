@@ -1,8 +1,6 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-plugins {
-    alias(libs.plugins.anypass.designsystem)
-}
+plugins { alias(libs.plugins.anypass.designsystem) }
 
 kotlin {
     sourceSets {
@@ -18,6 +16,7 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
                 implementation(libs.koin.compose)
+                implementation(libs.meteor)
             }
         }
         val androidMain by getting {

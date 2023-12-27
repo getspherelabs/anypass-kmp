@@ -18,27 +18,25 @@ internal actual fun getLayoutHeight(maxHeightPx: Int, layoutHeight: Int): Int {
 
 @Composable
 internal actual fun LKDialog(
-  onDismissRequest: () -> Unit,
-  properties: LKDialogProperties,
-  content: @Composable () -> Unit,
+    onDismissRequest: () -> Unit,
+    properties: LKDialogProperties,
+    content: @Composable () -> Unit,
 ) =
-  Dialog(
-    onDismissRequest = onDismissRequest,
-    properties =
-      DialogProperties(
-        dismissOnBackPress = properties.dismissOnBackPress,
-        dismissOnClickOutside = properties.dismissOnClickOutside,
-        usePlatformDefaultWidth = properties.usePlatformDefaultWidth,
-        decorFitsSystemWindows = properties.decorFitsSystemWindows
-      ),
-    content = content
-  )
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties =
+            DialogProperties(
+                dismissOnBackPress = properties.dismissOnBackPress,
+                dismissOnClickOutside = properties.dismissOnClickOutside,
+                usePlatformDefaultWidth = properties.usePlatformDefaultWidth,
+                decorFitsSystemWindows = properties.decorFitsSystemWindows),
+        content = content)
 
 @Composable internal actual fun getDialogShape(shape: Shape): Shape = shape
 
 internal actual fun Modifier.dialogHeight(): Modifier = wrapContentHeight()
 
 internal actual fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier =
-  sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
+    sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
 
 actual typealias AtomicInt = AtomicInteger

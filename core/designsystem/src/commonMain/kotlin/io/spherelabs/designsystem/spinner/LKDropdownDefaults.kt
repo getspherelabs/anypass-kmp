@@ -13,25 +13,24 @@ object LKDropdownDefaults {
 
   @Composable
   fun dropdownStyle(
-    elevation: Dp = LKDropdownTokens.MenuElevation,
-    verticalMargin: Dp = LKDropdownTokens.MenuVerticalMargin,
-    verticalPadding: Dp = LKDropdownTokens.MenuVerticalPadding,
-    menuItemHorizontalPadding: Dp = LKDropdownTokens.MenuItemHorizontalPadding,
-    menuItemDefaultMinWidth: Dp = LKDropdownTokens.MenuItemDefaultMinWidth,
-    menuItemDefaultMaxWidth: Dp = LKDropdownTokens.MenuItemDefaultMaxWidth,
-    menuItemDefaultMinHeight: Dp = LKDropdownTokens.MenuItemDefaultMinHeight,
-    itemContentPadding: PaddingValues = LKDropdownTokens.DropdownMenuItemContentPadding
+      elevation: Dp = LKDropdownTokens.MenuElevation,
+      verticalMargin: Dp = LKDropdownTokens.MenuVerticalMargin,
+      verticalPadding: Dp = LKDropdownTokens.MenuVerticalPadding,
+      menuItemHorizontalPadding: Dp = LKDropdownTokens.MenuItemHorizontalPadding,
+      menuItemDefaultMinWidth: Dp = LKDropdownTokens.MenuItemDefaultMinWidth,
+      menuItemDefaultMaxWidth: Dp = LKDropdownTokens.MenuItemDefaultMaxWidth,
+      menuItemDefaultMinHeight: Dp = LKDropdownTokens.MenuItemDefaultMinHeight,
+      itemContentPadding: PaddingValues = LKDropdownTokens.DropdownMenuItemContentPadding
   ): LKDropdownStyle {
     return LKDropdownStyle(
-      elevation = elevation,
-      verticalMargin = verticalMargin,
-      verticalPadding = verticalPadding,
-      menuItemHorizontalPadding = menuItemHorizontalPadding,
-      menuItemDefaultMinWidth = menuItemDefaultMinWidth,
-      menuItemDefaultMaxWidth = menuItemDefaultMaxWidth,
-      menuItemDefaultMinHeight = menuItemDefaultMinHeight,
-      itemContentPadding = itemContentPadding
-    )
+        elevation = elevation,
+        verticalMargin = verticalMargin,
+        verticalPadding = verticalPadding,
+        menuItemHorizontalPadding = menuItemHorizontalPadding,
+        menuItemDefaultMinWidth = menuItemDefaultMinWidth,
+        menuItemDefaultMaxWidth = menuItemDefaultMaxWidth,
+        menuItemDefaultMinHeight = menuItemDefaultMinHeight,
+        itemContentPadding = itemContentPadding)
   }
 
   @Composable

@@ -13,7 +13,5 @@ inline fun <reified T> useInject(
     scope: Scope = LocalKoinScope.current,
     noinline parameters: ParametersDefinition? = null,
 ): T {
-    return remember(qualifier, scope, parameters) {
-        scope.get(qualifier, parameters)
-    }
+  return remember(qualifier, scope, parameters) { scope.get(qualifier, parameters) }
 }

@@ -14,26 +14,26 @@ import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun LKMeterProgress(
-  value: Int,
-  color: Color,
-  modifier: Modifier = Modifier,
-  valueColor: Color,
-  valueFontFamily: FontFamily,
-  valueFontWeight: FontWeight,
+    value: Int,
+    color: Color,
+    modifier: Modifier = Modifier,
+    valueColor: Color,
+    valueFontFamily: FontFamily,
+    valueFontWeight: FontWeight,
 ) {
 
   val progressAngle by
-    animateFloatAsState(targetValue = 180f / 15f * value, animationSpec = tween(500))
+      animateFloatAsState(targetValue = 180f / 15f * value, animationSpec = tween(500))
 
   Box(modifier.fillMaxWidth().aspectRatio(1f)) {
     LKOuterProgress(modifier = modifier)
     LKCircleProgress(modifier = modifier, color = color, angle = progressAngle)
     LKDashProgress(
-      modifier = modifier,
-      value = value,
-      valueColor = valueColor,
-      valueFontFamily = valueFontFamily,
-      valueFontWeight = valueFontWeight,
+        modifier = modifier,
+        value = value,
+        valueColor = valueColor,
+        valueFontFamily = valueFontFamily,
+        valueFontWeight = valueFontWeight,
     )
     LKInnerProgress(modifier = modifier)
   }

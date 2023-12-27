@@ -30,7 +30,7 @@ agp = "7.4.2"
 kotlin = "1.9.0"
 datetime = "0.4.1"
 compose-multiplatform = "1.5.0"
-spotless-plugin = "6.21.0"
+spotless-plugin = "6.23.0"
 gms-service = "4.3.15"
 sentry-plugin = "3.13.0"
 buildkonfig = "0.14.0"
@@ -47,6 +47,8 @@ konsist = "0.13.0"
 spotify-ruler = "1.4.0"
 app-update = "2.1.0"
 voyager = "1.0.0-rc10"
+ksp = "1.9.10-1.0.13"
+kotlinx-immutable = "0.3.5"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -111,7 +113,7 @@ plugin-spotify-ruler = { module = "com.spotify.ruler:ruler-gradle-plugin", versi
 app-update = { group = "com.google.android.play", name = "app-update", version.ref = "app-update" }
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update" }
 voyager = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
-
+kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -135,5 +137,5 @@ anypass-prefs = { id = "anypass.multiplatform.prefs", version = "unspecified" }
 anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecified" }
 anypass-api = { id = "anypass.multiplatform.api", version = "unspecified" }
 dependencyanalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyanalysis" }
-
+kotlin-symbol-processing = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
