@@ -39,6 +39,22 @@ This pattern brings multiple benefits:
 - It makes changes to the data more traceable. Thus, bugs are easier to spot.
 
 In an offline-first application, the source of truth for application data is typically a database. In some other cases, the source of truth can be a ViewModel or even the UI.
+
+## Screenshots
+
+<p style="text-align: center;">
+  <img src="media/sign_in.png" width="250" alt="SignIn Screen"/>
+  <img src="media/sign_up.png" width="250" alt="SignUp Screen"/> 
+  <img src="media/confirm_key_password.png" width="250" alt="ConfirmKeyPassword Screen"/>
+  <img src="media/home.png" width="250" alt="Home Screen"/>
+  <img src="media/add_new_password.png" width="250" alt="Add new password Screen"/>
+  <img src="media/generate_password.png" width="250" alt="GeneratePassword Screen"/>
+  <img src="media/account.png" width="250" alt="Account Screen"/>
+  <img src="media/authenticator.png" width="250" alt="Authenticator Screen"/>
+  <img src="media/password_health.png" width="250" alt="PasswordHealth Screen"/>
+
+</p>
+
 # Technology
 
 - [Kotlin](https://kotlinlang.org)
