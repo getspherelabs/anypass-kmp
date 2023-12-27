@@ -25,6 +25,7 @@ kotlin {
         implementation(compose.materialIconsExtended)
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         implementation(compose.components.resources)
+        implementation(libs.kotlinx.immutable)
         implementation(project(":core:common"))
         implementation(projects.resource.fonts)
         implementation(projects.resource.icons)

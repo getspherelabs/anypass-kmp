@@ -30,6 +30,7 @@ fun PasswordHealthContent(
     modifier: Modifier = Modifier,
     wish: (PasswordHealthWish) -> Unit,
     uiState: PasswordHealthState,
+    // Flow is unstable. FIX!
     uiEffect: Flow<PasswordHealthEffect>,
     navigateToHome: () -> Unit,
 ) {
@@ -50,6 +51,8 @@ fun PasswordHealthContent(
     wish.invoke(PasswordHealthWish.StartLoadingPasswords)
     wish.invoke(PasswordHealthWish.StartLoadingPasswordProgress)
     wish.invoke(PasswordHealthWish.StartLoadingPasswordStats)
+
+
   }
 
   CollapsingToolbarScaffold(
@@ -83,7 +86,7 @@ fun Header(
     currentProgress: Float,
     stats: List<PasswordStats>,
 ) {
-  println("Test: current progress is $currentProgress")
+
   Column(
       modifier = modifier.fillMaxWidth().padding(top = 64.dp),
       horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,7 +100,6 @@ fun Header(
   }
 }
 
-// For fake data
 private fun getStats(): List<PasswordStats> {
   return listOf(
       PasswordStats(

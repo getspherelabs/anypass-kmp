@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -31,8 +32,9 @@ class MainActivity : FragmentActivity() {
             MaterialTheme {
                 Surface(
                     modifier = Modifier
-                        .fillMaxSize().safeDrawingPadding(),
-                    color = MaterialTheme.colors.background,
+                        .fillMaxSize()
+                        .safeDrawingPadding(),
+                    color = BlackRussian,
                 ) {
                     MainView()
                 }
@@ -72,3 +74,4 @@ class MainActivity : FragmentActivity() {
     }
 }
 
+val BlackRussian: Color = Color(0xff141419)
