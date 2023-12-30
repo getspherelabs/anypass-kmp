@@ -1,7 +1,6 @@
 package io.spherelabs.anypass.app
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import io.spherelabs.meteorviewmodel.viewmodel.ViewModel
 import io.spherelabs.onboardingapi.domain.usecase.HasCurrentUserExist
 import io.spherelabs.onboardingapi.domain.usecase.IsFirstTimeUseCase
 import kotlinx.coroutines.*
@@ -10,10 +9,10 @@ import kotlinx.coroutines.flow.*
 class SharedViewModel(
     private val isFirstTimeUseCase: IsFirstTimeUseCase,
     private val hasCurrentUserExistUseCase: HasCurrentUserExist,
-) : ScreenModel {
+) : ViewModel() {
 
     val uiSharedState: StateFlow<SharedState> = handleApp().stateIn(
-        scope = screenModelScope,
+        scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         initialValue = SharedState.Loading,
     )
