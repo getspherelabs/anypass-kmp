@@ -106,7 +106,7 @@ kotlin {
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)
-
+                api(projects.resource.images)
 
                 implementation(projects.core.admob)
                 implementation(projects.core.validation)
@@ -127,7 +127,6 @@ kotlin {
                 implementation(libs.voyager)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.core)
-
             }
         }
         val commonTest by getting {

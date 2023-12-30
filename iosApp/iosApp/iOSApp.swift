@@ -11,11 +11,12 @@ struct iOSApp: App {
         initializeFirebase()
         initializeGADMobileAds()
     }
+
 	var body: some Scene {
 		WindowGroup {
             ComposeView()
             .ignoresSafeArea(.keyboard)
-            .edgesIgnoringSafeArea(.all)
+
 		}
 	}
 }
