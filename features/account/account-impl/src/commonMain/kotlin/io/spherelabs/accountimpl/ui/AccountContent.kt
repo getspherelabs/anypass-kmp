@@ -242,11 +242,14 @@ fun AccountContent(
 
 
             Spacer(modifier.height(12.dp))
-            RestrictScreenshot(modifier, isEnabled = state.isRestrictScreenshotEnabled) { newChecked ->
+            RestrictScreenshot(
+                modifier,
+                isEnabled = state.isRestrictScreenshotEnabled,
+            ) { newChecked ->
                 wish.invoke(
                     AccountWish.SetRestrictScreenshotChanged(
-                        newChecked
-                    )
+                        newChecked,
+                    ),
                 )
             }
 
@@ -263,7 +266,10 @@ fun AccountContent(
 
 
             Spacer(modifier.weight(1f))
-            GADBannerView(modifier = modifier.padding(bottom = 16.dp), adId = BuildKonfig.AD_ID)
+            GADBannerView(
+                modifier = modifier.padding(top = 8.dp, bottom = 16.dp),
+                adId = BuildKonfig.AD_ID,
+            )
         }
     }
 }
