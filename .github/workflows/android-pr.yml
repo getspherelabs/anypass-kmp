@@ -45,13 +45,15 @@ jobs:
       - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-test
-      - name: Create google-services.json file
+      - name: Decrypt and save secrets
         env:
           PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
-        run: |
-          gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" --output androidApp/google-services.json release/google-services.gpg
+        run: ./scripts/decrypt-and-save.sh
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
+      - name: Clean secrets
+        if: always()
+        run: ./scripts/cleanup-secrets.sh
       - name: Upload test results
         uses: actions/upload-artifact@v3.1.0
         if: failure()
