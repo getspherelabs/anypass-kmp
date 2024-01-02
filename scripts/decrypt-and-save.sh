@@ -23,8 +23,8 @@ decrypt_and_save() {
   local INPUT_FILE="$2"
   local OUTPUT_FILE="$3"
 
-  if [[ -n "$ENCRYPT_KEY" ]]; then
-    decrypt "${ENCRYPT_KEY}" "${INPUT_FILE}" "${OUTPUT_FILE}"
+  if [[ -n "$PASSPHRASE" ]]; then
+    decrypt "${PASSPHRASE}" "${INPUT_FILE}" "${OUTPUT_FILE}"
   else
     echo "ENCRYPT_KEY is empty"
   fi
