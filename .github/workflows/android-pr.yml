@@ -49,7 +49,7 @@ jobs:
         env:
           PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
         run: |
-          gpg --quiet --batch --yes --decrypt --passphrase=$PASSPHRASE --output androidApp/google-services.json release/google-services.gpg
+          gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" --output androidApp/google-services.json release/google-services.gpg
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Upload test results
