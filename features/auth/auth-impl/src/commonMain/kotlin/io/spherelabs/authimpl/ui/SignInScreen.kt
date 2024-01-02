@@ -5,14 +5,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,7 +97,6 @@ fun BasicSignInScreen(
                 SignInEffect.KeyPassword -> {
                     navigateToKeyPassword.invoke()
                 }
-                else -> {}
             }
         }
     }
@@ -106,12 +111,17 @@ fun BasicSignInScreen(
             )
         },
     ) { newPaddingValues ->
-        SignInContent(
-            state = state,
-            modifier = modifier,
-            paddingValues = newPaddingValues,
-            wish = { newWish -> wish.invoke(newWish) },
-        )
+        if (state.isLoading) {
+            SignInLoading(paddingValues = newPaddingValues)
+        } else {
+            SignInContent(
+                state = state,
+                modifier = modifier,
+                paddingValues = newPaddingValues,
+                wish = { newWish -> wish.invoke(newWish) },
+            )
+        }
+
     }
 }
 
@@ -152,6 +162,22 @@ fun SignInTopBar(
 }
 
 @Composable
+internal fun SignInLoading(
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.fillMaxSize().padding(paddingValues).consumeWindowInsets(paddingValues),
+    ) {
+        CircularProgressIndicator(
+            modifier = modifier.align(Alignment.Center),
+            color = Color.White.copy(alpha = 0.5f),
+        )
+    }
+
+}
+
+@Composable
 fun SignInContent(
     state: SignInState,
     paddingValues: PaddingValues,
@@ -159,7 +185,7 @@ fun SignInContent(
     wish: (SignInWish) -> Unit,
 ) {
     val strings = LocalStrings.current
-
+    val focusManager = LocalFocusManager.current
     Box(
         modifier = modifier.fillMaxSize().padding(paddingValues).consumeWindowInsets(paddingValues),
     ) {
@@ -186,6 +212,15 @@ fun SignInContent(
                 LKEmailTextField(
                     state.email,
                     fontFamily = GoogleSansFontFamily,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    ),
                 ) { newEmail ->
                     wish.invoke(SignInWish.OnEmailChanged(newEmail))
                 }
@@ -204,6 +239,16 @@ fun SignInContent(
                     textValue = state.password,
                     passwordVisibility = state.isPasswordVisibility,
                     fontFamily = GoogleSansFontFamily,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        autoCorrect = true,
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Next,
+                    ),
+                    keyboardActions =
+                    KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                        onDone = { focusManager.clearFocus() },
+                    ),
                     onToggleChanged = { wish.invoke(SignInWish.TogglePasswordVisibility) },
                     onValueChanged = { newPassword ->
                         wish.invoke(SignInWish.OnPasswordChanged(newPassword))

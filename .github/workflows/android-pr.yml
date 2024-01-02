@@ -47,9 +47,9 @@ jobs:
           key-prefix: gradle-test
       - name: Create google-services.json file
         env:
-          GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
+          PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
         run: |
-          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
+          gpg --quiet --batch --yes --decrypt --passphrase=$PASSPHRASE --output androidApp/google-services.json release/google-services.gpg
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Upload test results
