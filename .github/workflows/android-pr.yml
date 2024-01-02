@@ -49,7 +49,7 @@ jobs:
         shell: bash
         env:
           PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
-        run: chmod +x /scripts/decrypt-and-save.sh && /scripts/decrypt-and-save.sh
+        run: chmod +x /scripts/decrypt-and-save.sh && ./scripts/decrypt-and-save.sh
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
       - name: Clean secrets
