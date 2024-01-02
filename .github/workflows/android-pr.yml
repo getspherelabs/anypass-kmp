@@ -31,8 +31,7 @@ jobs:
         run: ./gradlew spotlessCheck
   test:
     name: Unit tests
-    shell: bash
-    runs-on: ubuntu-22.04
+    runs-on: macos-latest
     env:
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
     steps:
@@ -47,6 +46,7 @@ jobs:
         with:
           key-prefix: gradle-test
       - name: Decrypt and save secrets
+        shell: bash
         env:
           PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
         run: ./scripts/decrypt-and-save.sh
