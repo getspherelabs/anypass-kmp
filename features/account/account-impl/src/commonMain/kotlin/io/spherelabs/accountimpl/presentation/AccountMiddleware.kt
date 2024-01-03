@@ -34,7 +34,7 @@ class AccountMiddleware(
             }
 
             is AccountWish.SetFingerPrint -> {
-                handleSetFingerPrint(wish.isEnabled, next)
+                manageFingerPrint(wish.isEnabled, next)
             }
 
             AccountWish.GetAccount -> {
@@ -89,7 +89,7 @@ class AccountMiddleware(
             }
     }
 
-    private suspend inline fun handleSetFingerPrint(
+    private suspend inline fun manageFingerPrint(
         isEnabled: Boolean,
         noinline next: suspend (AccountWish) -> Unit,
     ) {
