@@ -23,6 +23,7 @@ kotlin {
 
                 implementation(projects.core.common)
                 implementation(projects.features.auth.authApi)
+                implementation(projects.features.keypassword.keypasswordApi)
                 api(projects.features.navigation.navigationApi)
                 api(projects.core.validation)
                 implementation(compose.ui)

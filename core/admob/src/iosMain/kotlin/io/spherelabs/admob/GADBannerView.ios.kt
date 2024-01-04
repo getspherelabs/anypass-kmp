@@ -9,9 +9,11 @@ import androidx.compose.ui.interop.LocalUIViewController
 import androidx.compose.ui.interop.UIKitView
 import cocoapods.GoogleMobileAds.GADAdSize
 import cocoapods.GoogleMobileAds.GADBannerView as IosBannerView
+import cocoapods.GoogleMobileAds.GADCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth
 import cocoapods.GoogleMobileAds.GADRequest
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.cValue
+import platform.UIKit.UIView
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -29,7 +31,6 @@ actual fun GADBannerView(
 
     val bannerView = remember {
         IosBannerView(adSize = bannerSize).apply {
-            adSize = bannerSize
             adUnitID = adId
             rootViewController = uiViewController
             loadRequest(GADRequest())
@@ -38,7 +39,17 @@ actual fun GADBannerView(
 
     UIKitView(
         factory = {
-            bannerView
+            val iosView = UIView().apply {
+                bannerView.translatesAutoresizingMaskIntoConstraints = false
+                addSubview(bannerView)
+                NSLayoutConstraint.activate(listOf(
+                    label.topAnchor.constraintEqualToAnchor(topAnchor),
+                    label.bottomAnchor.constraintEqualToAnchor(bottomAnchor),
+                    label.leadingAnchor.constraintEqualToAnchor(leadingAnchor),
+                    label.trailingAnchor.constraintEqualToAnchor(trailingAnchor)
+                ))
+            }
+            iosView
         },
         modifier = modifier.fillMaxWidth(),
     )

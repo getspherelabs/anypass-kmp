@@ -23,7 +23,7 @@ kotlin {
         implementation(compose.foundation)
         @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
         implementation(compose.components.resources)
-        implementation(project(":core:common"))
+        implementation(projects.core.common)
         implementation(projects.resource.fonts)
         implementation(projects.resource.icons)
         implementation(projects.core.system.foundation)

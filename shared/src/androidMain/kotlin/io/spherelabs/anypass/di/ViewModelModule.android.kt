@@ -16,7 +16,6 @@ import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
 import passwordhealthimpl.presentation.PasswordHealthViewModel
 import io.spherelabs.help.presentation.HelpViewModel
 import io.spherelabs.anypass.app.SharedViewModel
-import org.koin.core.module.dsl.singleOf
 
 actual val viewModelModule = module {
     viewModelOf(::OnboardingViewModel)
@@ -32,5 +31,5 @@ actual val viewModelModule = module {
     viewModelOf(::AuthenticatorViewModel)
     viewModelOf(::PasswordHealthViewModel)
     viewModelOf(::HelpViewModel)
-    singleOf(::SharedViewModel)
+    viewModelOf(::SharedViewModel)
 }

@@ -1,8 +1,10 @@
 package io.spherelabs.homeimpl.presentation
 
+import androidx.compose.runtime.Stable
 import io.spherelabs.homeapi.models.HomePassword
 
-data class HomePasswordUi(
+@Stable
+data class UIHomePassword(
     val id: String,
     val title: String = "",
     val email: String = "",
@@ -14,8 +16,8 @@ data class HomePasswordUi(
     val image: String = "",
 )
 
-fun HomePassword.asUi(): HomePasswordUi {
-  return HomePasswordUi(
+fun HomePassword.asUi(): UIHomePassword {
+  return UIHomePassword(
       id,
       title,
       email,

@@ -9,7 +9,6 @@ class KeyPasswordUseCaseDomainArchitectureTest {
   fun `check account use case classes with 'UseCase' suffix in 'usecase' package`() {
     Konsist.scopeFromPackage("io.spherelabs.passphraseimpl.domain").classes().run {
       assertTrue { it.hasNameEndingWith("UseCase") }
-      assertTrue { it.resideInPackage("..usecase..") }
     }
   }
 

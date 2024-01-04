@@ -4,11 +4,12 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 data class HomeState(
-    val categories: List<HomeCategoryUi> = emptyList(),
-    val passwords: List<HomePasswordUi> = emptyList(),
-    val isVisible: Boolean = false
+    val categories: List<UIHomeCategory> = emptyList(),
+    val passwords: List<UIHomePassword> = emptyList(),
+    val isVisible: Boolean = false,
+    val isHidden: Boolean = true,
 ) {
-  companion object {
-    val Empty = HomeState()
-  }
+    companion object {
+        val Empty = HomeState()
+    }
 }

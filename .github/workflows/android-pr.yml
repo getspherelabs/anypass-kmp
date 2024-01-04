@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew spotlessCheck
   test:
     name: Unit tests
-    runs-on: ubuntu-22.04
+    runs-on: macos-latest
     env:
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
     steps:
@@ -45,13 +45,15 @@ jobs:
       - uses: ./.github/workflows/caches
         with:
           key-prefix: gradle-test
-      - name: Create google-services.json file
+      - name: Decrypt and save secrets
         env:
-          GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
-        run: |
-          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
+          PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
+        run: chmod +x ./scripts/decrypt-and-save.sh && ./scripts/decrypt-and-save.sh
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
+      - name: Clean secrets
+        if: always()
+        run: chmod +x ./scripts/cleanup-secrets.sh && ./scripts/cleanup-secrets.sh
       - name: Upload test results
         uses: actions/upload-artifact@v3.1.0
         if: failure()
