@@ -2,6 +2,7 @@ package io.spherelabs.authimpl.presentation.signin
 
 import io.spherelabs.authapi.domain.usecase.*
 import io.spherelabs.meteor.middleware.Middleware
+import io.spherelabs.passphraseapi.domain.usecase.SetKeyPasswordUseCase
 
 class SignInMiddleware(
     private val signInWithEmailAndPassword: SignInWithEmailAndPassword,
