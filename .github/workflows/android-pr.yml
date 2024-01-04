@@ -46,7 +46,6 @@ jobs:
         with:
           key-prefix: gradle-test
       - name: Decrypt and save secrets
-        shell: bash
         env:
           PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
         run: chmod +x ./scripts/decrypt-and-save.sh && ./scripts/decrypt-and-save.sh
