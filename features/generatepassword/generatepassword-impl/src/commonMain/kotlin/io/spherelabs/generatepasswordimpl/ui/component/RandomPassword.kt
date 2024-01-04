@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
+import io.spherelabs.system.ui.randompassword.AnimatedColorizedRandomPassword
 
 @Composable
 fun RandomPassword(
@@ -52,15 +53,11 @@ fun RandomPassword(
                 color = Color.White.copy(0.3f),
             )
             Spacer(modifier = modifier.height(24.dp))
-
-            Text(
-                text = password,
-                fontSize = 24.sp,
-                fontFamily = GoogleSansFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.White,
+            AnimatedColorizedRandomPassword(
                 modifier = modifier.align(Alignment.CenterHorizontally),
+                password = password
             )
+
         }
     }
 }
