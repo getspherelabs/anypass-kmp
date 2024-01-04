@@ -142,6 +142,10 @@ fun HomeContent(
                     onCopyClick = { newPassword ->
                         wish.invoke(HomeWish.OnCopyClipboardChanged(newPassword))
                     },
+                    isHidden = uiState.isHidden,
+                    onToggleVisibilityClick = {
+                        wish.invoke(HomeWish.ToggleHiddenVisibility)
+                    }
                 )
             }
         },

@@ -1,7 +1,7 @@
 package io.spherelabs.authimpl.domain
 
-import io.spherelabs.authapi.domain.usecase.SetKeyPasswordUseCase
 import io.spherelabs.data.settings.keypassword.MasterPasswordSetting
+import io.spherelabs.passphraseapi.domain.usecase.SetKeyPasswordUseCase
 
 class DefaultSetKeyPasswordUseCase(
     private val settings: MasterPasswordSetting,

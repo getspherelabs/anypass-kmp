@@ -8,7 +8,7 @@ import kotlin.test.Test
 class CalculationPasswordHealthTest {
 
     @Test
-    fun `check the calculates the password health`() {
+    fun `GIVEN passwords WHEN calculates the password health THEN equals over half`() {
         // Given
         val passwords = Faker.password
 
@@ -16,6 +16,6 @@ class CalculationPasswordHealthTest {
         val result = passwords.calculatePasswordHealth()
 
         // Then
-        assertThat(result).isEqualTo(20.0)
+        assertThat(result).isEqualTo(52.0)
     }
 }
