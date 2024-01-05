@@ -1,7 +1,7 @@
 package io.spherelabs.anypass.di
 
 import org.koin.dsl.module
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.factoryOf
 import io.spherelabs.onboardingimpl.presentation.OnboardingViewModel
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordViewModel
 import io.spherelabs.generatepasswordimpl.presentation.GeneratePasswordViewModel
@@ -15,19 +15,21 @@ import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
 import passwordhealthimpl.presentation.PasswordHealthViewModel
 import io.spherelabs.help.presentation.HelpViewModel
+import io.spherelabs.anypass.app.SharedViewModel
 
 actual val viewModelModule = module {
-    singleOf(::OnboardingViewModel)
-    singleOf(::AddNewPasswordViewModel)
-    singleOf(::GeneratePasswordViewModel)
-    singleOf(::HomeViewModel)
-    singleOf(::SignInViewModel)
-    singleOf(::SignUpViewModel)
-    singleOf(::MasterPasswordViewModel)
-    singleOf(::AccountViewModel)
-    singleOf(::ChangePasswordViewModel)
-    singleOf(::NewTokenViewModel)
-    singleOf(::AuthenticatorViewModel)
-    singleOf(::PasswordHealthViewModel)
-    singleOf(::HelpViewModel)
+    factoryOf(::OnboardingViewModel)
+    factoryOf(::AddNewPasswordViewModel)
+    factoryOf(::GeneratePasswordViewModel)
+    factoryOf(::HomeViewModel)
+    factoryOf(::SignInViewModel)
+    factoryOf(::SignUpViewModel)
+    factoryOf(::MasterPasswordViewModel)
+    factoryOf(::AccountViewModel)
+    factoryOf(::ChangePasswordViewModel)
+    factoryOf(::NewTokenViewModel)
+    factoryOf(::AuthenticatorViewModel)
+    factoryOf(::PasswordHealthViewModel)
+    factoryOf(::HelpViewModel)
+    factoryOf(::SharedViewModel)
 }

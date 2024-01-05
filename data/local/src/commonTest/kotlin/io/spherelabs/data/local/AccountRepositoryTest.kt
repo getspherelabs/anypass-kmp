@@ -66,7 +66,7 @@ class AccountRepositoryTest {
         val result = repository.getTotalPasswords()
 
         result.test {
-            assertThat(awaitItem()).isEqualTo(3)
+            assertThat(awaitItem()).isEqualTo(5)
         }
     }
 

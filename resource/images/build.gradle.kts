@@ -47,14 +47,14 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-
+                implementation(libs.atomicfu)
                 api(libs.moko.resource)
             }
         }
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                implementation(libs.atomicfu)
+
             }
         }
         val commonTest by getting {

@@ -51,8 +51,6 @@ fun PasswordHealthContent(
     wish.invoke(PasswordHealthWish.StartLoadingPasswords)
     wish.invoke(PasswordHealthWish.StartLoadingPasswordProgress)
     wish.invoke(PasswordHealthWish.StartLoadingPasswordStats)
-
-
   }
 
   CollapsingToolbarScaffold(

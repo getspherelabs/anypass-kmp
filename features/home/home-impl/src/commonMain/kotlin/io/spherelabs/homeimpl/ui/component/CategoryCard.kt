@@ -17,60 +17,65 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.spherelabs.homeimpl.presentation.HomeCategoryUi
-import io.spherelabs.homeimpl.presentation.HomePasswordUi
+import io.spherelabs.homeimpl.presentation.UIHomeCategory
+import io.spherelabs.homeimpl.presentation.UIHomePassword
 import io.spherelabs.homeimpl.presentation.HomeWish
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CategoryCard(
-    categories: List<HomeCategoryUi>,
-    passwords: List<HomePasswordUi>,
+    categories: List<UIHomeCategory>,
+    passwords: List<UIHomePassword>,
     modifier: Modifier = Modifier,
     isVisible: Boolean,
+    isHidden: Boolean,
     onPasswordChanged: (HomeWish) -> Unit,
     onGetStartingPasswordByCategory: (HomeWish) -> Unit,
     onCopyClick: (String) -> Unit,
+    onToggleVisibilityClick: () -> Unit,
 ) {
-  val pagerState = rememberPagerState { categories.size }
+    val pagerState = rememberPagerState { categories.size }
 
-  val indicator =
-      @Composable { tabPositions: List<TabPosition> -> HomeIndicator(tabPositions, pagerState) }
+    val indicator =
+        @Composable { tabPositions: List<TabPosition> -> HomeIndicator(tabPositions, pagerState) }
 
-  Column(
-      modifier = modifier.fillMaxSize(),
-  ) {
-    AnimatedVisibility(
-        visible = isVisible,
-        modifier = modifier.align(Alignment.CenterHorizontally),
-        enter = slideInHorizontally(),
-        exit = slideOutHorizontally(),
+    Column(
+        modifier = modifier.fillMaxSize(),
     ) {
-      ScrollableTabRow(
-          modifier = Modifier.padding(start = 24.dp, top = 12.dp).height(30.dp),
-          selectedTabIndex = pagerState.currentPage,
-          indicator = indicator,
-          backgroundColor = Color.Transparent,
-          edgePadding = 0.dp,
-          divider = { Divider(color = Color.Transparent) },
-      ) {
-        categories.forEachIndexed { index, category ->
-          HomeTag(index, category = category.title, pagerState = pagerState)
+        AnimatedVisibility(
+            visible = isVisible,
+            modifier = modifier.align(Alignment.CenterHorizontally),
+            enter = slideInHorizontally(),
+            exit = slideOutHorizontally(),
+        ) {
+            ScrollableTabRow(
+                modifier = Modifier.padding(start = 24.dp, top = 12.dp).height(30.dp),
+                selectedTabIndex = pagerState.currentPage,
+                indicator = indicator,
+                backgroundColor = Color.Transparent,
+                edgePadding = 0.dp,
+                divider = { Divider(color = Color.Transparent) },
+            ) {
+                categories.forEachIndexed { index, category ->
+                    HomeTag(index, category = category.title, pagerState = pagerState)
+                }
+            }
         }
-      }
+        if (categories.isNotEmpty()) {
+            HomePager(
+                modifier = modifier,
+                category = categories,
+                pagerState = pagerState,
+                passwords = passwords,
+                onPasswordChanged = { newWish -> onPasswordChanged.invoke(newWish) },
+                onGetStartingPasswordByCategory = { newWish ->
+                    onGetStartingPasswordByCategory.invoke(newWish)
+                },
+                isHidden = isHidden,
+                onToggleVisibility =
+                { onToggleVisibilityClick.invoke() },
+                onCopyClick = { newPassword -> onCopyClick.invoke(newPassword) },
+            )
+        }
     }
-    if (categories.isNotEmpty()) {
-      HomePager(
-          modifier = modifier,
-          category = categories,
-          pagerState = pagerState,
-          passwords = passwords,
-          onPasswordChanged = { newWish -> onPasswordChanged.invoke(newWish) },
-          onGetStartingPasswordByCategory = { newWish ->
-            onGetStartingPasswordByCategory.invoke(newWish)
-          },
-          onCopyClick = { newPassword -> onCopyClick.invoke(newPassword) },
-      )
-    }
-  }
 }

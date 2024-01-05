@@ -28,8 +28,11 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.voyager)
                 implementation(projects.features.auth.authApi)
+                implementation(projects.features.keypassword.keypasswordApi)
+
                 api(projects.features.auth.authImpl)
                 api(projects.features.navigation.navigationApi)
+
             }
         }
         val commonTest by getting {

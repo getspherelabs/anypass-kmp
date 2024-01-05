@@ -58,7 +58,6 @@ internal fun LKDashProgress(
                 fontFamily = valueFontFamily,
                 fontWeight = valueFontWeight,
                 color = valueColor,
-                // modifier = Modifier.align(alignment = Alignment.Center),
             )
         }
 

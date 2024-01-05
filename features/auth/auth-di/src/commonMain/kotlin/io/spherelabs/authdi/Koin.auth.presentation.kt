@@ -13,6 +13,6 @@ val authFeatureModule = module {
     single { SignUpMiddleware(get()) }
     single { SignUpValidateMiddleware(get(), get(), get(), get()) }
     single { SignInReducer() }
-    single { SignInMiddleware(get(), get()) }
+    single { SignInMiddleware(get(), get(),get(), get()) }
     single { SignInValidateMiddleware(get(), get()) }
 }
