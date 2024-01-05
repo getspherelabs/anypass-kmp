@@ -26,6 +26,7 @@ val localModule = module {
     single<UserDao> { DefaultUserDao(get()) }
     single<OtpDao> { DefaultOtpDao(get()) }
     single<CounterDao> { DefaultCounterDao(get()) }
+    single<PasswordHistoryDao> { DefaultPasswordHistoryDao(get()) }
     single<AddNewPasswordRepository> { DefaultAddNewPasswordRepository(get(), get()) }
     single<HomeRepository> { DefaultHomeRepository(get(), get()) }
     single<AccountRepository> { DefaultAccountRepository(get(), get()) }
