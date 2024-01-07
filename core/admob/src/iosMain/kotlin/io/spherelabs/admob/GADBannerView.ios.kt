@@ -7,12 +7,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.LocalUIViewController
 import androidx.compose.ui.interop.UIKitView
-import cocoapods.GoogleMobileAds.GADAdSize
 import cocoapods.GoogleMobileAds.GADBannerView as IosBannerView
-import cocoapods.GoogleMobileAds.GADCurrentOrientationInlineAdaptiveBannerAdSizeWithWidth
+import cocoapods.GoogleMobileAds.GADAdSizeBanner
 import cocoapods.GoogleMobileAds.GADRequest
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.cValue
+import platform.UIKit.NSLayoutConstraint
 import platform.UIKit.UIView
 
 @OptIn(ExperimentalForeignApi::class)
@@ -24,9 +23,7 @@ actual fun GADBannerView(
     val uiViewController = LocalUIViewController.current
 
     val bannerSize = remember {
-        cValue<GADAdSize> {
-            GADAdSize.size
-        }
+        GADAdSizeBanner
     }
 
     val bannerView = remember {
@@ -42,11 +39,11 @@ actual fun GADBannerView(
             val iosView = UIView().apply {
                 bannerView.translatesAutoresizingMaskIntoConstraints = false
                 addSubview(bannerView)
-                NSLayoutConstraint.activate(listOf(
-                    label.topAnchor.constraintEqualToAnchor(topAnchor),
-                    label.bottomAnchor.constraintEqualToAnchor(bottomAnchor),
-                    label.leadingAnchor.constraintEqualToAnchor(leadingAnchor),
-                    label.trailingAnchor.constraintEqualToAnchor(trailingAnchor)
+                NSLayoutConstraint.activateConstraints(listOf(
+                    bannerView.topAnchor.constraintEqualToAnchor(topAnchor),
+                    bannerView.bottomAnchor.constraintEqualToAnchor(bottomAnchor),
+                    bannerView.leadingAnchor.constraintEqualToAnchor(leadingAnchor),
+                    bannerView.trailingAnchor.constraintEqualToAnchor(trailingAnchor)
                 ))
             }
             iosView

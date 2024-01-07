@@ -5,11 +5,23 @@ import io.spherelabs.data.local.db.otp.OtpDigitEntity
 import io.spherelabs.data.local.db.otp.OtpDurationEntity
 import io.spherelabs.local.db.OtpEntity
 import io.spherelabs.local.db.PasswordEntity
+import io.spherelabs.local.db.PasswordHistoryEntity
 import kotlinx.datetime.Clock
 
 object Faker {
     val otp = Otp.get()
     val password = Password.get()
+    val passwordHistory = PasswordHistory.get()
+}
+
+object PasswordHistory {
+    fun get(): PasswordHistoryEntity {
+        return PasswordHistoryEntity(
+            id = "1",
+            password = "wewepo23a",
+            createdAt = Clock.System.now().toEpochMilliseconds(),
+        )
+    }
 }
 
 object Otp {

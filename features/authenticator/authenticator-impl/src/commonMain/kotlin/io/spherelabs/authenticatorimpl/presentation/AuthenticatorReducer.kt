@@ -17,9 +17,6 @@ class AuthenticatorReducer : Reducer<AuthenticatorState, AuthenticatorWish, Auth
       is AuthenticatorWish.Failure -> {
         effect { AuthenticatorEffect.Failure(currentWish.message) }
       }
-      is AuthenticatorWish.OnRunningChanged -> {
-        expect { currentState.copy(isRunning = false) }
-      }
       is AuthenticatorWish.GetAccounts -> {
         expect {
           currentState.copy(
