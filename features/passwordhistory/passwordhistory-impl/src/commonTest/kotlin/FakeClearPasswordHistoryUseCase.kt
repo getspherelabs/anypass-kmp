@@ -8,7 +8,6 @@ class FakeClearPasswordHistoryUseCase: ClearAllPasswordHistoryUseCase {
     override suspend fun execute() {
         withContext(Dispatchers.IO) {
             println("Run the clearing history")
-
         }
     }
 }
