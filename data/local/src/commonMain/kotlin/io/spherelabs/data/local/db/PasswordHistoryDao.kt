@@ -12,6 +12,8 @@ interface PasswordHistoryDao {
     suspend fun insertPasswordHistory(entity: PasswordHistoryEntity)
     suspend fun deletePasswordHistory(id: String)
     fun getAllPasswordHistory(): Flow<List<PasswordHistoryEntity>>
+
+    fun clearAllPasswordHistory()
 }
 
 class DefaultPasswordHistoryDao(
@@ -37,5 +39,11 @@ class DefaultPasswordHistoryDao(
 
     override fun getAllPasswordHistory(): Flow<List<PasswordHistoryEntity>> {
         return queries.getAllPasswordHistory().asFlow().mapToList(Dispatchers.IO)
+    }
+
+    override fun clearAllPasswordHistory() {
+        queries.transaction {
+            queries.clearAllPasswords()
+        }
     }
 }

@@ -65,4 +65,21 @@ class PasswordHistoryDaoTest {
             assertThat(newPasswordHistory.size).isEqualTo(0)
         }
     }
+
+    @Test
+    fun `GIVEN new history WHEN clear all passwords THEN not existing`() = runTest {
+        val passwordHistory = Faker.passwordHistory
+        dao.insertPasswordHistory(passwordHistory)
+
+        dao.clearAllPasswordHistory()
+
+        val result = dao.getAllPasswordHistory()
+
+        result.test {
+            val newPasswordHistory = awaitItem()
+
+            assertThat(newPasswordHistory.size).isEqualTo(0)
+        }
+    }
+
 }
