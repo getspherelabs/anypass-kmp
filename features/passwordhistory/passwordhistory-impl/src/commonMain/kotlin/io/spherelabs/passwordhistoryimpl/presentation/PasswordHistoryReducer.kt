@@ -19,9 +19,7 @@ class PasswordHistoryReducer :
             is PasswordHistoryWish.LoadedPasswordHistory -> {
                 currentState.loaded { currentWish.data }
             }
-            PasswordHistoryWish.OnToggleVisibility -> {
-                currentState.toggled()
-            }
+
             else -> unexpected { currentState }
         }
     }
@@ -30,11 +28,5 @@ class PasswordHistoryReducer :
 fun PasswordHistoryState.loaded(block: () -> List<UiPasswordHistory>): Change<PasswordHistoryState, PasswordHistoryEffect> {
     return Change(
         state = this.copy(history = block.invoke()),
-    )
-}
-
-fun PasswordHistoryState.toggled(): Change<PasswordHistoryState, PasswordHistoryEffect> {
-    return Change(
-        state = this.copy(isPasswordHidden = !this.isPasswordHidden),
     )
 }

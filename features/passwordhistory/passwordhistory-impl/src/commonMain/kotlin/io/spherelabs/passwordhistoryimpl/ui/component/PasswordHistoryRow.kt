@@ -1,9 +1,6 @@
 package io.spherelabs.passwordhistoryimpl.ui.component
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +12,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,14 +27,8 @@ import io.spherelabs.system.ui.randompassword.ColorizedRandomPassword
 fun PasswordHistoryRow(
     modifier: Modifier = Modifier,
     password: String,
-    createAd: String,
-    isHidden: Boolean,
-    onToggleVisibility: () -> Unit,
+    createAt: String,
 ) {
-    val animatedBlur by animateDpAsState(
-        targetValue = if (isHidden) 16.dp else 0.dp,
-        animationSpec = tween(500, easing = LinearEasing),
-    )
     Card(
         colors =
         CardDefaults.cardColors(
@@ -57,30 +45,17 @@ fun PasswordHistoryRow(
             Column(modifier = modifier) {
                 Text(
                     modifier = modifier.padding(start = 24.dp),
-                    text = createAd,
+                    text = createAt,
                     fontSize = 14.sp,
                     fontFamily = GoogleSansFontFamily,
                     color = Color.White.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center,
                 )
                 ColorizedRandomPassword(
-                    modifier = modifier.blur(
-                        animatedBlur,
-                        edgeTreatment = BlurredEdgeTreatment.Unbounded,
-                    ).clickable {
-                        onToggleVisibility.invoke()
-                    },
-                    password = password,
-                    fontSize = 35.sp,
-                )
-                Text(
                     modifier = modifier.padding(top = 4.dp, start = 24.dp),
-                    text = password,
+                    password = password,
                     fontSize = 18.sp,
-                    fontFamily = GoogleSansFontFamily,
-                    textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White.copy(alpha = 0.9f),
                 )
             }
         }
