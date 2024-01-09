@@ -30,6 +30,7 @@ kotlin {
                 implementation(projects.core.system.foundation)
                 implementation("me.onebone:toolbar-compose:2.3.5")
                 implementation(projects.core.system.ui)
+                implementation(libs.datetime)
             }
         }
         val commonTest by getting {

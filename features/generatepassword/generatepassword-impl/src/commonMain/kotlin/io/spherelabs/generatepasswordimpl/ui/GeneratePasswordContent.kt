@@ -38,6 +38,7 @@ import io.spherelabs.generatepasswordimpl.ui.component.RandomPassword
 import io.spherelabs.generatepasswordimpl.ui.component.SpecialSlider
 import io.spherelabs.generatepasswordimpl.ui.component.UppercaseSlider
 import io.spherelabs.navigationapi.AddNewPasswordDestination
+import io.spherelabs.navigationapi.PasswordHistoryDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -55,6 +56,7 @@ fun GeneratePasswordContent(
     val strings = LocalStrings.current
 
     val useAndBackScreen = rememberScreen(AddNewPasswordDestination.Back(uiState.password))
+    val passwordHistoryScreen = rememberScreen(PasswordHistoryDestination.PasswordHistory)
 
     useEffect(true) {
         wish.invoke(GeneratePasswordWish.GeneratePassword())
@@ -99,7 +101,8 @@ fun GeneratePasswordContent(
         },
     ) {
         Column(
-            modifier = modifier.fillMaxSize().background(color = Grey).padding(it).consumeWindowInsets(paddingValues = it),
+            modifier = modifier.fillMaxSize().background(color = Grey).padding(it)
+                .consumeWindowInsets(paddingValues = it),
         ) {
             Row(
                 modifier = modifier.fillMaxWidth().padding(16.dp),
@@ -155,7 +158,9 @@ fun GeneratePasswordContent(
                 )
                 Spacer(modifier.width(6.dp))
                 IconButton(
-                    onClick = {},
+                    onClick = {
+                        navigator.push(passwordHistoryScreen)
+                    },
                     content = {
                         Icon(
                             tint = Color.White,
