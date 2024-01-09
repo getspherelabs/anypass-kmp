@@ -10,12 +10,12 @@ import io.spherelabs.data.local.db.PasswordHistoryDao
 import io.spherelabs.data.local.db.adapter.OtpDigitColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpDurationColumnAdapter
 import io.spherelabs.data.local.db.adapter.OtpTypeColumnAdapter
-import io.spherelabs.data.local.faker.Faker
 import io.spherelabs.local.db.AnyPassDatabase
 import io.spherelabs.local.db.OtpEntity
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.Clock
 
 class PasswordHistoryDaoTest {
 
@@ -39,8 +39,7 @@ class PasswordHistoryDaoTest {
 
     @Test
     fun `GIVEN new passwords WHEN getting password THEN equals existing`() = runTest {
-        val passwordHistory = Faker.passwordHistory
-        dao.insertPasswordHistory(passwordHistory)
+        dao.insertPasswordHistory("wewepo23a", Clock.System.now().toEpochMilliseconds())
 
         val result = dao.getAllPasswordHistory()
 
@@ -53,10 +52,12 @@ class PasswordHistoryDaoTest {
 
     @Test
     fun `GIVEN new passwords WHEN delete password THEN equals not existing`() = runTest {
-        val passwordHistory = Faker.passwordHistory
-        dao.insertPasswordHistory(passwordHistory)
+        val id = dao.insertPasswordHistory(
+            password = "wewepo23a",
+            createdAt = Clock.System.now().toEpochMilliseconds(),
+        )
 
-        dao.deletePasswordHistory(passwordHistory.id)
+        dao.deletePasswordHistory(id)
         val result = dao.getAllPasswordHistory()
 
         result.test {
@@ -68,9 +69,7 @@ class PasswordHistoryDaoTest {
 
     @Test
     fun `GIVEN new history WHEN clear all passwords THEN not existing`() = runTest {
-        val passwordHistory = Faker.passwordHistory
-        dao.insertPasswordHistory(passwordHistory)
-
+        dao.insertPasswordHistory("wewepo23a", Clock.System.now().toEpochMilliseconds())
         dao.clearAllPasswordHistory()
 
         val result = dao.getAllPasswordHistory()
