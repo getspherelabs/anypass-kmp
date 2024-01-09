@@ -8,8 +8,7 @@ import io.spherelabs.meteor.viewmodel.createMeteor
 class PasswordHistoryViewModel(
     private val passwordHistoryReducer: PasswordHistoryReducer,
     private val passwordHistoryMiddleware: PasswordHistoryMiddleware,
-) :
-    CommonViewModel<PasswordHistoryState, PasswordHistoryWish, PasswordHistoryEffect>() {
+) : CommonViewModel<PasswordHistoryState, PasswordHistoryWish, PasswordHistoryEffect>() {
 
     override val store: Store<PasswordHistoryState, PasswordHistoryWish, PasswordHistoryEffect> =
         createMeteor(
