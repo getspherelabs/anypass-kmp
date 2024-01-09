@@ -21,9 +21,16 @@
 </a>  
 </p>
 
-# AnyPass (Work In Progress ⛏)
+# AnyPass
 
 [AnyPass]() is your one-stop solution for password management, password generation, and password health analysis.
+
+## Download
+
+<a href="https://play.google.com/store/apps/details?id=io.spherelabs.anypass.android" target="_blank">
+<img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width=240 />
+</a>
+
 
 # Architecture
 The app architecture has three layers: a data layer, a domain layer and a UI layer. AnyPass uses Meteor KMP to create application using MVI architecture. It provides a unidirectional data flow (UDF), allowing you to handle state changes and propagate them to the UI efficiently.
