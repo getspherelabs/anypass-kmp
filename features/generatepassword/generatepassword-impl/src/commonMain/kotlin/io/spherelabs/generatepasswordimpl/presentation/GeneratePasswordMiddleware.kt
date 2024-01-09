@@ -1,9 +1,14 @@
 package io.spherelabs.generatepasswordimpl.presentation
 
 import io.spherelabs.generatepasswordapi.domain.usecase.GeneratePasswordUseCase
+import io.spherelabs.generatepasswordapi.domain.usecase.InsertPasswordHistoryUseCase
 import io.spherelabs.meteor.middleware.Middleware
+import kotlinx.datetime.Clock
 
-class GeneratePasswordMiddleware(private val generatePasswordUseCase: GeneratePasswordUseCase) :
+class GeneratePasswordMiddleware(
+    private val generatePasswordUseCase: GeneratePasswordUseCase,
+    private val insertPasswordHistoryUseCase: InsertPasswordHistoryUseCase,
+) :
     Middleware<GeneratePasswordState, GeneratePasswordWish> {
 
     override suspend fun process(
@@ -22,7 +27,12 @@ class GeneratePasswordMiddleware(private val generatePasswordUseCase: GeneratePa
                         specialLength = wish.specialLength,
                     )
                     .onSuccess { newPassword ->
-
+                        next.invoke(
+                            GeneratePasswordWish.AddPasswordHistory(
+                                newPassword,
+                                createdAt = Clock.System.now().toEpochMilliseconds(),
+                            ),
+                        )
                         next.invoke(GeneratePasswordWish.OnPasswordChanged(newPassword))
                     }
                     .onFailure {
@@ -32,6 +42,19 @@ class GeneratePasswordMiddleware(private val generatePasswordUseCase: GeneratePa
                     }
             }
 
+            is GeneratePasswordWish.AddPasswordHistory -> {
+                runCatching {
+                    insertPasswordHistoryUseCase.execute(
+                        wish.password,
+                        wish.createdAt,
+                    )
+                }.onFailure {
+                    val failureMessage = it.message ?: "Error is occurred."
+
+                    next.invoke(GeneratePasswordWish.GeneratePasswordFailed(failureMessage))
+                }
+
+            }
             else -> {}
         }
     }

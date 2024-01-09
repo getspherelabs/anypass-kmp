@@ -32,6 +32,8 @@ import io.spherelabs.passphrasedi.keyPasswordDomainModule
 import io.spherelabs.passphrasedi.keyPasswordFeatureModule
 import io.spherelabs.passwordhealthdi.passwordHealthDomainModule
 import io.spherelabs.passwordhealthdi.passwordHealthPresentationModule
+import io.spherelabs.passwordhistorydi.passwordHistoryDomainModule
+import io.spherelabs.passwordhistorydi.passwordHistoryPresentationModule
 import io.spherelabs.validation.di.validationModule
 import org.koin.compose.LocalKoinScope
 import org.koin.core.context.startKoin
@@ -80,6 +82,8 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             helpStoreModule,
             helpDomainModule,
             helpPresentationModule,
+            passwordHistoryDomainModule,
+            passwordHistoryPresentationModule
         )
     }
 

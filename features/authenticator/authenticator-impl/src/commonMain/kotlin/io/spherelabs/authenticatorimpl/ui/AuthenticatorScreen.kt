@@ -174,12 +174,6 @@ fun AuthenticatorCard(
     duration: Long,
     wish: (AuthenticatorWish) -> Unit,
 ) {
-    useEffect(true) {
-        if (realTimeOtpDomain.countdown == 1) {
-            wish.invoke(AuthenticatorWish.OnRunningChanged(false))
-        }
-    }
-
     val dimension = LocalDimensions.current
 
     val progress by

@@ -16,6 +16,7 @@ import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
 import passwordhealthimpl.presentation.PasswordHealthViewModel
 import io.spherelabs.help.presentation.HelpViewModel
 import io.spherelabs.anypass.app.SharedViewModel
+import  io.spherelabs.passwordhistoryimpl.presentation.PasswordHistoryViewModel
 
 actual val viewModelModule = module {
     factoryOf(::OnboardingViewModel)
@@ -32,4 +33,5 @@ actual val viewModelModule = module {
     factoryOf(::PasswordHealthViewModel)
     factoryOf(::HelpViewModel)
     factoryOf(::SharedViewModel)
+    factoryOf(::PasswordHistoryViewModel)
 }

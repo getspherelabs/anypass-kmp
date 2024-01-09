@@ -10,6 +10,7 @@ val Strings: Map<String, AnyPassStrings> = mapOf(
 object Locales {
     const val EN = "en"
 }
+
 data class AnyPassStrings(
     val account: String,
     val strong: String,
@@ -70,6 +71,7 @@ data class AnyPassStrings(
     val newToken: String,
     val helpCenter: String,
     val logout: String,
-    val restrictScreenshot: String
+    val restrictScreenshot: String,
+    val passwordHistory: String,
 )
 

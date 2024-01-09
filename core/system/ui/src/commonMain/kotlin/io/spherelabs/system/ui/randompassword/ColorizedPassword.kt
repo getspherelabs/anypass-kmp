@@ -84,6 +84,7 @@ fun AnimatedColorizedRandomPassword(
 fun ColorizedRandomPassword(
     modifier: Modifier = Modifier,
     password: String,
+    fontWeight: FontWeight = FontWeight.Medium,
     fontSize: TextUnit = 24.sp,
     colors: RandomPasswordColors = RandomPasswordDefaults.randomPasswordColor(),
 ) {
@@ -120,7 +121,7 @@ fun ColorizedRandomPassword(
         text = annotatedPassword,
         fontSize = fontSize,
         fontFamily = GoogleSansFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = fontWeight,
         color = Color.White,
         modifier = modifier,
     )
