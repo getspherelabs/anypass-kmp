@@ -115,3 +115,8 @@ include(":features:help:help-impl")
 include(":features:help:help-di")
 include(":features:help:help-store")
 include(":core:system:ui")
+include(":features:passwordhistory")
+include(":features:passwordhistory:passwordhistory-api")
+include(":features:passwordhistory:passwordhistory-impl")
+include(":features:passwordhistory:passwordhistory-di")
+

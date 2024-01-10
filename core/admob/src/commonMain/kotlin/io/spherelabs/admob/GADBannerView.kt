@@ -6,5 +6,6 @@ import androidx.compose.ui.Modifier
 @Composable
 expect fun GADBannerView(
     adId: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAdLoaded: (loaded: Boolean) -> Unit
 )

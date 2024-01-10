@@ -16,7 +16,5 @@ sealed interface AuthenticatorWish {
 
   data class OnCountdownChanged(val countdown: Long) : AuthenticatorWish
 
-  data class OnRunningChanged(val isRunning: Boolean) : AuthenticatorWish
-
   object OnCancellationOtp : AuthenticatorWish
 }

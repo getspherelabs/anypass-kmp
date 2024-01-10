@@ -70,4 +70,5 @@ val EnAnyPassStrings: AnyPassStrings = AnyPassStrings(
     helpCenter = "Help Center",
     logout = "Log out",
     restrictScreenshot = "Restrict a screenshot",
+    passwordHistory = "Password History"
 )

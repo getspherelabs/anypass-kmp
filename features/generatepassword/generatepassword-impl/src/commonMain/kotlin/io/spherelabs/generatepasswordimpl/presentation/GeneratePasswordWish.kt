@@ -15,4 +15,5 @@ sealed interface GeneratePasswordWish {
     data class OnDigitLengthChanged(val digitValue: Float) : GeneratePasswordWish
     data class OnSpecialLengthChanged(val specialValue: Float) : GeneratePasswordWish
     object RouteToBack : GeneratePasswordWish
+    data class AddPasswordHistory(val password: String, val createdAt: Long) : GeneratePasswordWish
 }
