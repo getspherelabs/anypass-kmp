@@ -49,10 +49,10 @@ jobs:
         with:
           key-prefix: gradle-build
       - name: Create google-services.json file
+      - name: Decrypt and save secrets
         env:
-          GOOGLE_SERVICE_JSON: ${{ secrets.GOOGLE_SERVICE_JSON }}
-        run: |
-          echo $GOOGLE_SERVICE_JSON | base64 --decode > ./androidApp/google-services.json
+          PASSPHRASE: ${{ secrets.ENCRYPT_PASSPHRASE }}
+        run: chmod +x ./scripts/decrypt-and-save.sh && ./scripts/decrypt-and-save.sh
       - name: Build
         run: ./gradlew assembleDebug
   test:
@@ -72,7 +72,10 @@ jobs:
         with:
           key-prefix: gradle-test
       - name: Unit tests
-        run: ./gradlew :data:local:test
+        run: ./gradlew testDebugUnitTest
+      - name: Clean secrets
+        if: always()
+        run: chmod +x ./scripts/cleanup-secrets.sh && ./scripts/cleanup-secrets.sh
       - name: Upload test results
         uses: actions/upload-artifact@v3.1.0
         if: failure()
