@@ -8,22 +8,29 @@
 </a>
 <a href="">
     <img src="https://img.shields.io/badge/iOS-14.0%2B-green">
-</a>    
+</a>
 <a href="">
     <img src="https://img.shields.io/badge/Swift-5-F16D39.svg?style=flat">
-</a>   
+</a>
 <a href="">
     <img src="http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat">
-</a> 
-</a> 
+</a>
+</a>
 <a href="">
     <img src="http://img.shields.io/badge/platform-ios-EAEAEA.svg?style=flat">
-</a>  
+</a>
 </p>
 
-# AnyPass (Work In Progress ⛏)
+# AnyPass
 
 [AnyPass]() is your one-stop solution for password management, password generation, and password health analysis.
+
+## Download
+
+<a href="https://play.google.com/store/apps/details?id=io.spherelabs.anypass.android" target="_blank">
+<img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width=240 />
+</a>
+
 
 # Architecture
 The app architecture has three layers: a data layer, a domain layer and a UI layer. AnyPass uses Meteor KMP to create application using MVI architecture. It provides a unidirectional data flow (UDF), allowing you to handle state changes and propagate them to the UI efficiently.
@@ -39,6 +46,22 @@ This pattern brings multiple benefits:
 - It makes changes to the data more traceable. Thus, bugs are easier to spot.
 
 In an offline-first application, the source of truth for application data is typically a database. In some other cases, the source of truth can be a ViewModel or even the UI.
+
+## Screenshots
+
+<p align="center">
+  <img src="media/sign_in.png" width="150" alt="SignIn Screen"/>
+  <img src="media/sign_up.png" width="150" alt="SignUp Screen"/>
+  <img src="media/confirm_key_password.png" width="150" alt="ConfirmKeyPassword Screen"/>
+  <img src="media/home.png" width="150" alt="Home Screen"/>
+  <img src="media/add_new_password.png" width="150" alt="Add new password Screen"/>
+  <img src="media/generate_password.png" width="150" alt="GeneratePassword Screen"/>
+  <img src="media/account.png" width="150" alt="Account Screen"/>
+  <img src="media/authenticator.png" width="150" alt="Authenticator Screen"/>
+  <img src="media/password_health.png" width="150" alt="PasswordHealth Screen"/>
+  <img src="media/help.png" width="150" alt="Help Screen"/>
+</p>
+
 # Technology
 
 - [Kotlin](https://kotlinlang.org)
@@ -131,7 +154,7 @@ graph TD;
     features-->auth;
     features-->account;
     features-->generatepassword;
-   
+
     onboarding-->shared;
     auth-->shared;
     home-->shared;
@@ -142,7 +165,7 @@ graph TD;
 
 # Setup
 
-1. Check your **Xcode** version is 14.1 or newer. Additionally, check your **Android Studio** version is Flamingo or newer. 
+1. Check your **Xcode** version is 14.1 or newer. Additionally, check your **Android Studio** version is Flamingo or newer.
 
 2. Clone the repository using the following command:
 
@@ -154,34 +177,34 @@ graph TD;
 
     - **Issue**: ```Unicode Normalization not appropriate for ASCII-8BIT```
     - **Solution**: Try add your `~/.zprofile`, `~/.zshrc` files:
-      
+
       ```
        LANG=en_US.UTF-8
        LANGUAGE=en_US.UFT-8
        LC_ALL=en_US.UFT-8
       ```
-    - **Issue**: Sometimes you can not build your iOS app from Xcode 
+    - **Issue**: Sometimes you can not build your iOS app from Xcode
     - **Solution**: Follow these steps after executing the cleanup script:
-      
-      1. `pod deintegrate`
-      2. `pod init`
-      3. Copy the `pod` modules
-      4. `pod install`
+
+        1. `pod deintegrate`
+        2. `pod init`
+        3. Copy the `pod` modules
+        4. `pod install`
 
 4. Build and run the app on your **Android / iOS** device or simulator.
 
 > :warning: Make fake `google-services`.json for building properly.
 
 5. We recommend including linkers from Xcode. To include linkers from Xcode, follow these steps:
-   
+
     1. Navigate to **iosApp/Build Settings/Linking**.
     2. Add the following linkers to your **Other Linking Flags**:
         - `lsqlite3`
         - `ObjC`
-       
+
 ## Screenshots
 
-## Contributers 
+## Contributers
 
 **Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)** [![Fork AnyPass](https://img.shields.io/github/forks/getspherelabs/anypass-kmp?logo=github&style=social)](https://github.com/getspherelabs/anypass-kmp/fork)
 
@@ -196,7 +219,7 @@ graph TD;
         </a>
         <br>
         <a href="https://github.com/behzodhalil">Behzod Halil</a>
-      </td>        
+      </td>
       <td align="center">
         <a href="https://github.com/oybekjon94">
           <img src="https://avatars.githubusercontent.com/u/91370134?v=4" width="100" alt="John Doe">
