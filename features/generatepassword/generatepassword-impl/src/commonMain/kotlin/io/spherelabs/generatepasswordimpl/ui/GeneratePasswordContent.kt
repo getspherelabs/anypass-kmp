@@ -5,10 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Replay
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,10 +38,12 @@ import io.spherelabs.generatepasswordimpl.ui.component.RandomPassword
 import io.spherelabs.generatepasswordimpl.ui.component.SpecialSlider
 import io.spherelabs.generatepasswordimpl.ui.component.UppercaseSlider
 import io.spherelabs.navigationapi.AddNewPasswordDestination
+import io.spherelabs.navigationapi.PasswordHistoryDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GeneratePasswordContent(
     modifier: Modifier = Modifier,
@@ -52,6 +56,7 @@ fun GeneratePasswordContent(
     val strings = LocalStrings.current
 
     val useAndBackScreen = rememberScreen(AddNewPasswordDestination.Back(uiState.password))
+    val passwordHistoryScreen = rememberScreen(PasswordHistoryDestination.PasswordHistory)
 
     useEffect(true) {
         wish.invoke(GeneratePasswordWish.GeneratePassword())
@@ -77,7 +82,7 @@ fun GeneratePasswordContent(
                 modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        contentWindowInsets = WindowInsets(0, 0, 0),
         containerColor = BlackRussian,
         topBar = {
             Row(
@@ -91,11 +96,13 @@ fun GeneratePasswordContent(
                     fontWeight = FontWeight.Medium,
                     textColor = Color.White,
                 )
+
             }
         },
     ) {
         Column(
-            modifier = modifier.fillMaxSize().background(color = Grey).padding(it),
+            modifier = modifier.fillMaxSize().background(color = Grey).padding(it)
+                .consumeWindowInsets(paddingValues = it),
         ) {
             Row(
                 modifier = modifier.fillMaxWidth().padding(16.dp),
@@ -137,15 +144,33 @@ fun GeneratePasswordContent(
                     valueColor = Color.White,
                 )
             }
+            Row(
+                modifier = modifier.fillMaxWidth().padding(top = 32.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = strings.maximumLimitCharacter.invoke("30"),
+                    fontFamily = GoogleSansFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 18.sp,
+                )
+                Spacer(modifier.width(6.dp))
+                IconButton(
+                    onClick = {
+                        navigator.push(passwordHistoryScreen)
+                    },
+                    content = {
+                        Icon(
+                            tint = Color.White,
+                            imageVector = Icons.Outlined.History,
+                            contentDescription = null,
+                        )
+                    },
+                )
+            }
 
-            Text(
-                text = strings.maximumLimitCharacter.invoke("30"),
-                fontFamily = GoogleSansFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.White.copy(alpha = 0.5f),
-                fontSize = 18.sp,
-                modifier = modifier.align(Alignment.CenterHorizontally).padding(top = 32.dp),
-            )
             RandomPassword(modifier, password = uiState.password)
 
             Row(

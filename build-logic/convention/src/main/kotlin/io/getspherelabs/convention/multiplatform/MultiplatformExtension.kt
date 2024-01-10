@@ -273,6 +273,7 @@ internal fun Project.configureCommonMultiplatform(
             val commonMain by getting {
                 dependencies {
                     api(findLibrary(name = "coroutine"))
+                    api(findLibrary(name = "datetime"))
                 }
             }
             val commonTest by getting {

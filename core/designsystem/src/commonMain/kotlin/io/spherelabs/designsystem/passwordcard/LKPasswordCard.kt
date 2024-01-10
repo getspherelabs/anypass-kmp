@@ -77,14 +77,6 @@ fun LKPasswordCard(
             modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
         ) { password() }
 
-//    Text(
-//        modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
-//        text = password,
-//        fontFamily = passwordCardStyle.passwordFontFamily().value,
-//        fontWeight = FontWeight.Medium,
-//        fontSize = passwordCardStyle.passwordFontSize().value,
-//        color = passwordCardColor.passwordColor().value,
-//    )
         Spacer(modifier.weight(1f))
         Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
             Box(
