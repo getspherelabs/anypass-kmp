@@ -52,6 +52,8 @@ kotlin {
                 api(projects.features.account.accountApi)
                 api(projects.features.authenticator.authenticatorApi)
                 api(projects.features.passwordhealth.passwordhealthApi)
+                api(projects.features.generatepassword.generatepasswordApi)
+                api(projects.features.passwordhistory.passwordhistoryApi)
                 api(libs.moko.resource)
 
                 implementation(projects.manager.otp)
@@ -61,6 +63,7 @@ kotlin {
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.ext)
                 implementation(libs.sqldelight.adapter)
+                implementation(projects.core.common)
             }
         }
         val commonTest by getting {

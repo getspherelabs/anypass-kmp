@@ -15,6 +15,7 @@ import io.spherelabs.newtokenimpl.presentation.NewTokenViewModel
 import io.spherelabs.passphraseimpl.presentation.MasterPasswordViewModel
 import passwordhealthimpl.presentation.PasswordHealthViewModel
 import io.spherelabs.help.presentation.HelpViewModel
+import  io.spherelabs.passwordhistoryimpl.presentation.PasswordHistoryViewModel
 import io.spherelabs.anypass.app.SharedViewModel
 
 actual val viewModelModule = module {
@@ -32,4 +33,5 @@ actual val viewModelModule = module {
     viewModelOf(::PasswordHealthViewModel)
     viewModelOf(::HelpViewModel)
     viewModelOf(::SharedViewModel)
+    viewModelOf(::PasswordHistoryViewModel)
 }

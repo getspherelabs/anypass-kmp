@@ -20,6 +20,7 @@ import io.spherelabs.onboardingimpl.ui.OnboardingScreen
 import io.spherelabs.passphrasedi.keyPasswordUiModule
 import io.spherelabs.passphraseimpl.ui.KeyPasswordScreen
 import io.spherelabs.passwordhealthdi.passwordHealthUiModule
+import io.spherelabs.passwordhistorydi.passwordHistoryUiModule
 
 @Composable
 fun AnyPassApp(
@@ -40,6 +41,7 @@ fun AnyPassApp(
         newTokenUiModule()
         passwordHealthUiModule()
         helpUiModule()
+        passwordHistoryUiModule()
     }
 
 
