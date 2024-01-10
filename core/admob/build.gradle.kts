@@ -40,6 +40,8 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.ui)
+
+                implementation(projects.core.system.ui)
             }
         }
         val commonTest by getting {

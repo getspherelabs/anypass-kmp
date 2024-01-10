@@ -7,6 +7,7 @@ import androidx.compose.material.SnackbarHost
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,7 +58,6 @@ fun AccountContent(
 
     val strings = LocalStrings.current
     val dimensions = LocalDimensions.current
-
     useEffect(true) {
         wish.invoke(AccountWish.GetAccount)
         wish.invoke(AccountWish.GetStartedFingerPrint)
@@ -267,8 +267,11 @@ fun AccountContent(
 
             Spacer(modifier.weight(1f))
             GADBannerView(
-                modifier = modifier.padding(top = 8.dp, bottom = 16.dp),
+                modifier = modifier,
                 adId = BuildKonfig.AD_ID,
+                onAdLoaded = {
+
+                }
             )
         }
     }
