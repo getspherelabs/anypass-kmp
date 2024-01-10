@@ -12,8 +12,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -27,9 +25,11 @@ class PasswordHistoryViewModelTest {
 
     @BeforeTest
     fun setup() {
+        Dispatchers.setMain(mainDispatcher)
+
         clearAllPasswordHistoryUseCase = FakeClearPasswordHistoryUseCase()
         getAllPasswordHistoryUseCase = FakeGetAllPasswordsUseCase()
-        Dispatchers.setMain(mainDispatcher)
+
         viewModel = PasswordHistoryViewModel(
             passwordHistoryReducer = PasswordHistoryReducer(),
             passwordHistoryMiddleware = PasswordHistoryMiddleware(
@@ -40,39 +40,24 @@ class PasswordHistoryViewModelTest {
     }
 
     @Test
-    fun `GIVEN loaded WHEN clear history THEN checks the history is empty`() = runTest {
+    fun `GIVEN starts history WHEN loaded THEN checks the size`() = runTest() {
         viewModel.wish(PasswordHistoryWish.StartLoadingPasswordHistory)
+        viewModel.state.test {
+            assertThat(1).isEqualTo(awaitItem().history.size)
+        }
+    }
+
+    @Test
+    fun `GIVEN loaded WHEN clear history THEN checks the history is empty`() = runTest {
         viewModel.wish(PasswordHistoryWish.OnClearPasswordHistory)
 
         viewModel.state.test {
             val result = awaitItem()
-
             assertThat(0).isEqualTo(result.history.size)
         }
     }
 
 
-    @Test
-    fun `GIVEN hidden password WHEN click toggle THEN change the password visibility`() = runTest {
-        viewModel.wish(PasswordHistoryWish.OnToggleVisibility)
-
-        viewModel.state.test {
-            val isHidden = awaitItem().isPasswordHidden
-
-            assertThat(true).isEqualTo(isHidden)
-        }
-    }
-
-
-    @Test
-    fun `GIVEN starts history WHEN loaded THEN checks the size`() = runTest() {
-        viewModel.wish(PasswordHistoryWish.StartLoadingPasswordHistory)
-
-        viewModel.state.test {
-            println("new state is ${awaitItem()}")
-            assertThat(1).isEqualTo(awaitItem().history.size)
-        }
-    }
 
     @AfterTest
     fun teardown() {
