@@ -36,6 +36,7 @@ class SignInMiddleware(
             is SignInWish.CheckCurrentUser -> {
                 runCatching { hasCurrentUserExist.execute() }
                     .onSuccess { isExist ->
+                        println("Existing is $isExist")
                         if (isExist) {
                             next.invoke(SignInWish.SignInSuccess)
                         }
@@ -53,6 +54,7 @@ class SignInMiddleware(
                         password = state.password
                     )
                     setKeyPasswordUseCase.execute("1234")
+
                 }.onSuccess {
                     next.invoke(SignInWish.SignInSuccess)
                 }.onFailure {

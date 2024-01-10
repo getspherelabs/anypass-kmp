@@ -11,6 +11,8 @@ import io.spherelabs.data.local.db.otp.dao.DefaultCounterDao
 import io.spherelabs.data.local.db.otp.dao.DefaultOtpDao
 import io.spherelabs.data.local.db.otp.dao.OtpDao
 import io.spherelabs.data.local.repository.*
+import io.spherelabs.data.local.website.DefaultWebsiteService
+import io.spherelabs.data.local.website.WebsiteService
 import io.spherelabs.generatepasswordapi.domain.repository.GeneratePasswordRepository
 import io.spherelabs.homeapi.repository.HomeRepository
 import io.spherelabs.newtokenapi.domain.repository.NewTokenRepository
@@ -23,6 +25,7 @@ expect fun platformModule(): Module
 val localModule = module {
     includes(platformModule())
     factory { createDatabase(get()) }
+    factory<WebsiteService> { DefaultWebsiteService(get()) }
     single<PasswordDao> { DefaultPasswordDao(get()) }
     single<CategoryDao> { DefaultCategoryDao(get()) }
     single<UserDao> { DefaultUserDao(get()) }

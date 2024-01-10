@@ -59,6 +59,7 @@ kotlin {
                 implementation(projects.manager.otp)
                 implementation(projects.features.newtoken.newtokenApi)
                 implementation(libs.koin.core)
+                implementation(libs.koin.test)
                 implementation(libs.datetime)
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.ext)

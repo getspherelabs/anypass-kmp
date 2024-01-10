@@ -8,7 +8,8 @@ class DefaultHasCurrentUserExistUseCase(private val firebaseAuthManager: Firebas
 
   override fun execute(): Boolean {
     return firebaseAuthManager.currentUser?.let {
-        it.uid?.let { true }
+        println("Firebase user is ${it.email}")
+        it.email?.let { true }
     } ?: false
   }
 }

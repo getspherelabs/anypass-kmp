@@ -22,7 +22,7 @@ class SharedViewModel(
             val isFirstTime = isFirstTimeUseCase.execute()
             val currentUserExist = hasCurrentUserExistUseCase.execute()
             val result = SharedState.Success(isFirstTime, currentUserExist)
-
+            println("Shared state is $result")
             emit(result)
         }.flowOn(Dispatchers.IO)
     }

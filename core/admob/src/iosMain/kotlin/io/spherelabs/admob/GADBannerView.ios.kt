@@ -19,6 +19,7 @@ import platform.UIKit.UIView
 actual fun GADBannerView(
     adId: String,
     modifier: Modifier,
+    onAdLoaded: (loaded: Boolean) -> Unit
 ) {
     val uiViewController = LocalUIViewController.current
 

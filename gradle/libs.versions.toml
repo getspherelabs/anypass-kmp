@@ -84,6 +84,7 @@ coroutine-firebase = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 meteor = { group = "io.github.behzodhalil", name = "meteor-mvi", version.ref = "meteor" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin-core" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin-core" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin-core" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-compose" }
 sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
@@ -97,7 +98,8 @@ settings = { group = "com.russhwolf", name = "multiplatform-settings", version.r
 settings-coroutine = { group = "com.russhwolf", name = "multiplatform-settings-coroutines", version.ref = "settings" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "settings" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
-moko-resource = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko" }
+moko-resource-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko" }
+moko-resource = { group = "dev.icerock.moko", name = "resources", version.ref = "moko" }
 sentry = { group = "io.sentry", name = "sentry-kotlin-multiplatform", version.ref = "sentry" }
 gms = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "gms" }
 assertk = { group = "com.willowtreeapps.assertk", name = "assertk", version.ref = "assertk" }
