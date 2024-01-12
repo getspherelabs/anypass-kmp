@@ -49,6 +49,7 @@ app-update = "2.1.0"
 voyager = "1.0.0-rc10"
 ksp = "1.9.10-1.0.13"
 kotlinx-immutable = "0.3.5"
+kotlinx-serialization = "1.6.2"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -116,6 +117,8 @@ app-update = { group = "com.google.android.play", name = "app-update", version.r
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update" }
 voyager = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
 kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -140,4 +143,4 @@ anypass-resource = { id = "anypass.multiplatform.resource", version = "unspecifi
 anypass-api = { id = "anypass.multiplatform.api", version = "unspecified" }
 dependencyanalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyanalysis" }
 kotlin-symbol-processing = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

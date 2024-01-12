@@ -1,430 +1,432 @@
-[
-    {
-        "name": "Facebook",
-        "url": "https://www.facebook.com/"
-    },
-    {
-        "name": "YouTube",
-        "url": "https://www.youtube.com/"
-    },
-    {
-        "name": "WhatsApp",
-        "url": "https://www.whatsapp.com/"
-    },
-    {
-        "name": "Instagram",
-        "url": "https://www.instagram.com/"
-    },
-    {
-        "name": "WeChat",
-        "url": "https://www.wechat.com/"
-    },
-    {
-        "name": "Twitter",
-        "url": "https://www.twitter.com/"
-    },
-    {
-        "name": "Snapchat",
-        "url": "https://www.snapchat.com/"
-    },
-    {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/"
-    },
-    {
-        "name": "Pinterest",
-        "url": "https://www.pinterest.com/"
-    },
-    {
-        "name": "Reddit",
-        "url": "https://www.reddit.com/"
-    },
-    {
-        "name": "TikTok",
-        "url": "https://www.tiktok.com/"
-    },
-    {
-        "name": "Tumblr",
-        "url": "https://www.tumblr.com/"
-    },
-    {
-        "name": "Skype",
-        "url": "https://www.skype.com/"
-    },
-    {
-        "name": "Telegram",
-        "url": "https://www.telegram.org/"
-    },
-    {
-        "name": "Discord",
-        "url": "https://www.discord.com/"
-    },
-    {
-        "name": "Viber",
-        "url": "https://www.viber.com/"
-    },
-    {
-        "name": "Flickr",
-        "url": "https://www.flickr.com/"
-    },
-    {
-        "name": "Meetup",
-        "url": "https://www.meetup.com/"
-    },
-    {
-        "name": "VK",
-        "url": "https://www.vk.com/"
-    },
-    {
-        "name": "Goodreads",
-        "url": "https://www.goodreads.com/"
-    },
-    {
-        "name": "Quora",
-        "url": "https://www.quora.com/"
-    },
-    {
-        "name": "Periscope",
-        "url": "https://www.pscp.tv/"
-    },
-    {
-        "name": "SoundCloud",
-        "url": "https://www.soundcloud.com/"
-    },
-    {
-        "name": "Kik",
-        "url": "https://www.kik.com/"
-    },
-    {
-        "name": "Badoo",
-        "url": "https://www.badoo.com/"
-    },
-    {
-        "name": "Twitch",
-        "url": "https://www.twitch.tv/"
-    },
-    {
-        "name": "Medium",
-        "url": "https://www.medium.com/"
-    },
-    {
-        "name": "Houzz",
-        "url": "https://www.houzz.com/"
-    },
-    {
-        "name": "Foursquare",
-        "url": "https://www.foursquare.com/"
-    },
-    {
-        "name": "Nextdoor",
-        "url": "https://www.nextdoor.com/"
-    },
-    {
-        "name": "DeviantArt",
-        "url": "https://www.deviantart.com/"
-    },
-    {
-        "name": "Dribbble",
-        "url": "https://www.dribbble.com/"
-    },
-    {
-        "name": "Wattpad",
-        "url": "https://www.wattpad.com/"
-    },
-    {
-        "name": "Steemit",
-        "url": "https://www.steemit.com/"
-    },
-    {
-        "name": "Mix",
-        "url": "https://www.mix.com/"
-    },
-    {
-        "name": "ReverbNation",
-        "url": "https://www.reverbnation.com/"
-    },
-    {
-        "name": "Couchsurfing",
-        "url": "https://www.couchsurfing.com/"
-    },
-    {
-        "name": "Mastodon",
-        "url": "https://www.joinmastodon.org/"
-    },
-    {
-        "name": "Ello",
-        "url": "https://www.ello.co/"
-    },
-    {
-        "name": "Zynga",
-        "url": "https://www.zynga.com/"
-    },
-    {
-        "name": "Vimeo",
-        "url": "https://www.vimeo.com/"
-    },
-    {
-        "name": "Mixcloud",
-        "url": "https://www.mixcloud.com/"
-    },
-    {
-        "name": "Delicious",
-        "url": "https://www.delicious.com/"
-    },
-    {
-        "name": "Yelp",
-        "url": "https://www.yelp.com/"
-    },
-    {
-        "name": "Behance",
-        "url": "https://www.behance.net/"
-    },
-    {
-        "name": "Imgur",
-        "url": "https://www.imgur.com/"
-    },
-    {
-        "name": "Taringa",
-        "url": "https://www.taringa.net/"
-    },
-    {
-        "name": "Myspace",
-        "url": "https://www.myspace.com/"
-    },
-    {
-        "name": "500px",
-        "url": "https://www.500px.com/"
-    },
-    {
-        "name": "Trello",
-        "url": "https://www.trello.com/"
-    },
-    {
-        "name": "Yubo",
-        "url": "https://www.yubo.live/"
-    },
-    {
-        "name": "Giphy",
-        "url": "https://www.giphy.com/"
-    },
-    {
-        "name": "Houseparty",
-        "url": "https://www.houseparty.com/"
-    },
-    {
-        "name": "Duolingo",
-        "url": "https://www.duolingo.com/"
-    },
-    {
-        "name": "Anchor",
-        "url": "https://www.anchor.fm/"
-    },
-    {
-        "name": "Bandcamp",
-        "url": "https://www.bandcamp.com/"
-    },
-    {
-        "name": "Gfycat",
-        "url": "https://www.gfycat.com/"
-    },
-    {
-        "name": "Bitmoji",
-        "url": "https://www.bitmoji.com/"
-    },
-    {
-        "name": "Roblox",
-        "url": "https://www.roblox.com/"
-    },
-    {
-        "name": "MeetMe",
-        "url": "https://www.meetme.com/"
-    },
-    {
-        "name": "Triller",
-        "url": "https://www.triller.co/"
-    },
-    {
-        "name": "Marco Polo",
-        "url": "https://www.marcopolo.me/"
-    },
-    {
-        "name": "Whisper",
-        "url": "https://www.whisper.sh/"
-    },
-    {
-        "name": "Waze",
-        "url": "https://www.waze.com/"
-    },
-    {
-        "name": "Houseparty",
-        "url": "https://www.houseparty.com/"
-    },
-    {
-        "name": "Imgur",
-        "url": "https://www.imgur.com/"
-    },
-    {
-        "name": "Zynga",
-        "url": "https://www.zynga.com/"
-    },
-    {
-        "name": "500px",
-        "url": "https://www.500px.com/"
-    },
-    {
-        "name": "Taringa",
-        "url": "https://www.taringa.net/"
-    },
-    {
-        "name": "Clubhouse",
-        "url": "https://www.joinclubhouse.com/"
-    },
-    {
-        "name": "Sina Weibo",
-        "url": "https://www.weibo.com/"
-    },
-    {
-        "name": "Bumble",
-        "url": "https://www.bumble.com/"
-    },
-    {
-        "name": "Tencent QQ",
-        "url": "https://www.imqq.com/"
-    },
-    {
-        "name": "LINE",
-        "url": "https://www.line.me/"
-    },
-    {
-        "name": "Netflix Party",
-        "url": "https://www.netflixparty.com/"
-    },
-    {
-        "name": "House",
-        "url": "https://www.house.com/"
-    },
-    {
-        "name": "Crunchyroll",
-        "url": "https://www.crunchyroll.com/"
-    },
-    {
-        "name": "Foursquare Swarm",
-        "url": "https://www.swarmapp.com/"
-    },
-    {
-        "name": "Soundtrap",
-        "url": "https://www.soundtrap.com/"
-    },
-    {
-        "name": "Wordpress",
-        "url": "https://www.wordpress.com/"
-    },
-    {
-        "name": "Untappd",
-        "url": "https://www.untappd.com/"
-    },
-    {
-        "name": "We Heart It",
-        "url": "https://www.weheartit.com/"
-    },
-    {
-        "name": "Meetup",
-        "url": "https://www.meetup.com/"
-    },
-    {
-        "name": "Voxer",
-        "url": "https://www.voxer.com/"
-    },
-    {
-        "name": "Patreon",
-        "url": "https://www.patreon.com/"
-    },
-    {
-        "name": "Kahoot!",
-        "url": "https://www.kahoot.com/"
-    },
-    {
-        "name": "Flipgrid",
-        "url": "https://www.flipgrid.com/"
-    },
-    {
-        "name": "Marco Polo",
-        "url": "https://www.marcopolo.me/"
-    },
-    {
-        "name": "Wattpad",
-        "url": "https://www.wattpad.com/"
-    },
-    {
-        "name": "Ello",
-        "url": "https://www.ello.co/"
-    },
-    {
-        "name": "Zello",
-        "url": "https://www.zello.com/"
-    },
-    {
-        "name": "Tagged",
-        "url": "https://www.tagged.com/"
-    },
-    {
-        "name": "Houseparty",
-        "url": "https://www.houseparty.com/"
-    },
-    {
-        "name": "Imgur",
-        "url": "https://www.imgur.com/"
-    },
-    {
-        "name": "Zynga",
-        "url": "https://www.zynga.com/"
-    },
-    {
-        "name": "500px",
-        "url": "https://www.500px.com/"
-    },
-    {
-        "name": "Taringa",
-        "url": "https://www.taringa.net/"
-    },
-    {
-        "name": "Meetup",
-        "url": "https://www.meetup.com/"
-    },
-    {
-        "name": "Voxer",
-        "url": "https://www.voxer.com/"
-    },
-    {
-        "name": "Patreon",
-        "url": "https://www.patreon.com/"
-    },
-    {
-        "name": "Kahoot!",
-        "url": "https://www.kahoot.com/"
-    },
-    {
-        "name": "Flipgrid",
-        "url": "https://www.flipgrid.com/"
-    },
-    {
-        "name": "Marco Polo",
-        "url": "https://www.marcopolo.me/"
-    },
-    {
-        "name": "Wattpad",
-        "url": "https://www.wattpad.com/"
-    },
-    {
-        "name": "Ello",
-        "url": "https://www.ello.co/"
-    },
-    {
-        "name": "Zello",
-        "url": "https://www.zello.com/"
-    },
-    {
-        "name": "Tagged",
-        "url": "https://www.tagged.com/"
-    }
-]
+{
+    "list": [
+        {
+            "name": "Facebook",
+            "url": "https://www.facebook.com/"
+        },
+        {
+            "name": "YouTube",
+            "url": "https://www.youtube.com/"
+        },
+        {
+            "name": "WhatsApp",
+            "url": "https://www.whatsapp.com/"
+        },
+        {
+            "name": "Instagram",
+            "url": "https://www.instagram.com/"
+        },
+        {
+            "name": "WeChat",
+            "url": "https://www.wechat.com/"
+        },
+        {
+            "name": "Twitter",
+            "url": "https://www.twitter.com/"
+        },
+        {
+            "name": "Snapchat",
+            "url": "https://www.snapchat.com/"
+        },
+        {
+            "name": "LinkedIn",
+            "url": "https://www.linkedin.com/"
+        },
+        {
+            "name": "Pinterest",
+            "url": "https://www.pinterest.com/"
+        },
+        {
+            "name": "Reddit",
+            "url": "https://www.reddit.com/"
+        },
+        {
+            "name": "TikTok",
+            "url": "https://www.tiktok.com/"
+        },
+        {
+            "name": "Tumblr",
+            "url": "https://www.tumblr.com/"
+        },
+        {
+            "name": "Skype",
+            "url": "https://www.skype.com/"
+        },
+        {
+            "name": "Telegram",
+            "url": "https://www.telegram.org/"
+        },
+        {
+            "name": "Discord",
+            "url": "https://www.discord.com/"
+        },
+        {
+            "name": "Viber",
+            "url": "https://www.viber.com/"
+        },
+        {
+            "name": "Flickr",
+            "url": "https://www.flickr.com/"
+        },
+        {
+            "name": "Meetup",
+            "url": "https://www.meetup.com/"
+        },
+        {
+            "name": "VK",
+            "url": "https://www.vk.com/"
+        },
+        {
+            "name": "Goodreads",
+            "url": "https://www.goodreads.com/"
+        },
+        {
+            "name": "Quora",
+            "url": "https://www.quora.com/"
+        },
+        {
+            "name": "Periscope",
+            "url": "https://www.pscp.tv/"
+        },
+        {
+            "name": "SoundCloud",
+            "url": "https://www.soundcloud.com/"
+        },
+        {
+            "name": "Kik",
+            "url": "https://www.kik.com/"
+        },
+        {
+            "name": "Badoo",
+            "url": "https://www.badoo.com/"
+        },
+        {
+            "name": "Twitch",
+            "url": "https://www.twitch.tv/"
+        },
+        {
+            "name": "Medium",
+            "url": "https://www.medium.com/"
+        },
+        {
+            "name": "Houzz",
+            "url": "https://www.houzz.com/"
+        },
+        {
+            "name": "Foursquare",
+            "url": "https://www.foursquare.com/"
+        },
+        {
+            "name": "Nextdoor",
+            "url": "https://www.nextdoor.com/"
+        },
+        {
+            "name": "DeviantArt",
+            "url": "https://www.deviantart.com/"
+        },
+        {
+            "name": "Dribbble",
+            "url": "https://www.dribbble.com/"
+        },
+        {
+            "name": "Wattpad",
+            "url": "https://www.wattpad.com/"
+        },
+        {
+            "name": "Steemit",
+            "url": "https://www.steemit.com/"
+        },
+        {
+            "name": "Mix",
+            "url": "https://www.mix.com/"
+        },
+        {
+            "name": "ReverbNation",
+            "url": "https://www.reverbnation.com/"
+        },
+        {
+            "name": "Couchsurfing",
+            "url": "https://www.couchsurfing.com/"
+        },
+        {
+            "name": "Mastodon",
+            "url": "https://www.joinmastodon.org/"
+        },
+        {
+            "name": "Ello",
+            "url": "https://www.ello.co/"
+        },
+        {
+            "name": "Zynga",
+            "url": "https://www.zynga.com/"
+        },
+        {
+            "name": "Vimeo",
+            "url": "https://www.vimeo.com/"
+        },
+        {
+            "name": "Mixcloud",
+            "url": "https://www.mixcloud.com/"
+        },
+        {
+            "name": "Delicious",
+            "url": "https://www.delicious.com/"
+        },
+        {
+            "name": "Yelp",
+            "url": "https://www.yelp.com/"
+        },
+        {
+            "name": "Behance",
+            "url": "https://www.behance.net/"
+        },
+        {
+            "name": "Imgur",
+            "url": "https://www.imgur.com/"
+        },
+        {
+            "name": "Taringa",
+            "url": "https://www.taringa.net/"
+        },
+        {
+            "name": "Myspace",
+            "url": "https://www.myspace.com/"
+        },
+        {
+            "name": "500px",
+            "url": "https://www.500px.com/"
+        },
+        {
+            "name": "Trello",
+            "url": "https://www.trello.com/"
+        },
+        {
+            "name": "Yubo",
+            "url": "https://www.yubo.live/"
+        },
+        {
+            "name": "Giphy",
+            "url": "https://www.giphy.com/"
+        },
+        {
+            "name": "Houseparty",
+            "url": "https://www.houseparty.com/"
+        },
+        {
+            "name": "Duolingo",
+            "url": "https://www.duolingo.com/"
+        },
+        {
+            "name": "Anchor",
+            "url": "https://www.anchor.fm/"
+        },
+        {
+            "name": "Bandcamp",
+            "url": "https://www.bandcamp.com/"
+        },
+        {
+            "name": "Gfycat",
+            "url": "https://www.gfycat.com/"
+        },
+        {
+            "name": "Bitmoji",
+            "url": "https://www.bitmoji.com/"
+        },
+        {
+            "name": "Roblox",
+            "url": "https://www.roblox.com/"
+        },
+        {
+            "name": "MeetMe",
+            "url": "https://www.meetme.com/"
+        },
+        {
+            "name": "Triller",
+            "url": "https://www.triller.co/"
+        },
+        {
+            "name": "Marco Polo",
+            "url": "https://www.marcopolo.me/"
+        },
+        {
+            "name": "Whisper",
+            "url": "https://www.whisper.sh/"
+        },
+        {
+            "name": "Waze",
+            "url": "https://www.waze.com/"
+        },
+        {
+            "name": "Houseparty",
+            "url": "https://www.houseparty.com/"
+        },
+        {
+            "name": "Imgur",
+            "url": "https://www.imgur.com/"
+        },
+        {
+            "name": "Zynga",
+            "url": "https://www.zynga.com/"
+        },
+        {
+            "name": "500px",
+            "url": "https://www.500px.com/"
+        },
+        {
+            "name": "Taringa",
+            "url": "https://www.taringa.net/"
+        },
+        {
+            "name": "Clubhouse",
+            "url": "https://www.joinclubhouse.com/"
+        },
+        {
+            "name": "Sina Weibo",
+            "url": "https://www.weibo.com/"
+        },
+        {
+            "name": "Bumble",
+            "url": "https://www.bumble.com/"
+        },
+        {
+            "name": "Tencent QQ",
+            "url": "https://www.imqq.com/"
+        },
+        {
+            "name": "LINE",
+            "url": "https://www.line.me/"
+        },
+        {
+            "name": "Netflix Party",
+            "url": "https://www.netflixparty.com/"
+        },
+        {
+            "name": "House",
+            "url": "https://www.house.com/"
+        },
+        {
+            "name": "Crunchyroll",
+            "url": "https://www.crunchyroll.com/"
+        },
+        {
+            "name": "Foursquare Swarm",
+            "url": "https://www.swarmapp.com/"
+        },
+        {
+            "name": "Soundtrap",
+            "url": "https://www.soundtrap.com/"
+        },
+        {
+            "name": "Wordpress",
+            "url": "https://www.wordpress.com/"
+        },
+        {
+            "name": "Untappd",
+            "url": "https://www.untappd.com/"
+        },
+        {
+            "name": "We Heart It",
+            "url": "https://www.weheartit.com/"
+        },
+        {
+            "name": "Meetup",
+            "url": "https://www.meetup.com/"
+        },
+        {
+            "name": "Voxer",
+            "url": "https://www.voxer.com/"
+        },
+        {
+            "name": "Patreon",
+            "url": "https://www.patreon.com/"
+        },
+        {
+            "name": "Kahoot!",
+            "url": "https://www.kahoot.com/"
+        },
+        {
+            "name": "Flipgrid",
+            "url": "https://www.flipgrid.com/"
+        },
+        {
+            "name": "Marco Polo",
+            "url": "https://www.marcopolo.me/"
+        },
+        {
+            "name": "Wattpad",
+            "url": "https://www.wattpad.com/"
+        },
+        {
+            "name": "Ello",
+            "url": "https://www.ello.co/"
+        },
+        {
+            "name": "Zello",
+            "url": "https://www.zello.com/"
+        },
+        {
+            "name": "Tagged",
+            "url": "https://www.tagged.com/"
+        },
+        {
+            "name": "Houseparty",
+            "url": "https://www.houseparty.com/"
+        },
+        {
+            "name": "Imgur",
+            "url": "https://www.imgur.com/"
+        },
+        {
+            "name": "Zynga",
+            "url": "https://www.zynga.com/"
+        },
+        {
+            "name": "500px",
+            "url": "https://www.500px.com/"
+        },
+        {
+            "name": "Taringa",
+            "url": "https://www.taringa.net/"
+        },
+        {
+            "name": "Meetup",
+            "url": "https://www.meetup.com/"
+        },
+        {
+            "name": "Voxer",
+            "url": "https://www.voxer.com/"
+        },
+        {
+            "name": "Patreon",
+            "url": "https://www.patreon.com/"
+        },
+        {
+            "name": "Kahoot!",
+            "url": "https://www.kahoot.com/"
+        },
+        {
+            "name": "Flipgrid",
+            "url": "https://www.flipgrid.com/"
+        },
+        {
+            "name": "Marco Polo",
+            "url": "https://www.marcopolo.me/"
+        },
+        {
+            "name": "Wattpad",
+            "url": "https://www.wattpad.com/"
+        },
+        {
+            "name": "Ello",
+            "url": "https://www.ello.co/"
+        },
+        {
+            "name": "Zello",
+            "url": "https://www.zello.com/"
+        },
+        {
+            "name": "Tagged",
+            "url": "https://www.tagged.com/"
+        }
+    ]
+}

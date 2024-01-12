@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("app.cash.sqldelight") version "2.0.0"
     kotlin("native.cocoapods")
+    kotlin("plugin.serialization")
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -64,6 +65,7 @@ kotlin {
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.ext)
                 implementation(libs.sqldelight.adapter)
+                implementation(libs.kotlinx.serialization)
                 implementation(projects.core.common)
             }
         }
