@@ -180,7 +180,7 @@ internal fun Project.configurePresentationMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }

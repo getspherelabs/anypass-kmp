@@ -73,5 +73,6 @@ data class AnyPassStrings(
     val logout: String,
     val restrictScreenshot: String,
     val passwordHistory: String,
+    val addLogin: String
 )
 
