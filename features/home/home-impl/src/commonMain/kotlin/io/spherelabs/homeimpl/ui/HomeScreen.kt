@@ -19,12 +19,7 @@ import io.spherelabs.homeimpl.ui.component.CategoryCard
 import io.spherelabs.homeimpl.ui.component.HomeDrawer
 import io.spherelabs.homeimpl.ui.component.HomeHeadline
 import io.spherelabs.homeimpl.ui.component.HomeTopBar
-import io.spherelabs.navigationapi.AccountDestination
-import io.spherelabs.navigationapi.AddNewPasswordDestination
-import io.spherelabs.navigationapi.AuthenticatorDestination
-import io.spherelabs.navigationapi.GeneratePasswordDestination
-import io.spherelabs.navigationapi.HelpDestination
-import io.spherelabs.navigationapi.PasswordHealthDestination
+import io.spherelabs.navigationapi.*
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +35,7 @@ class HomeScreen : Screen {
 
         val viewModel: HomeViewModel = useInject()
 
-        val addNewPasswordScreen = rememberScreen(AddNewPasswordDestination.AddNewPasswordScreen)
+        val addNewPasswordScreen = rememberScreen(AddNewLoginDestination.AddNewLogin)
         val accountScreen = rememberScreen(AccountDestination.Account)
         val authenticatorScreen = rememberScreen(AuthenticatorDestination.Authenticator)
         val passwordHealthScreen = rememberScreen(PasswordHealthDestination.PasswordHealth)
@@ -145,7 +140,7 @@ fun HomeContent(
                     isHidden = uiState.isHidden,
                     onToggleVisibilityClick = {
                         wish.invoke(HomeWish.ToggleHiddenVisibility)
-                    }
+                    },
                 )
             }
         },

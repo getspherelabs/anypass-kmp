@@ -23,8 +23,7 @@ fun AddNewLoginScreenPreview() {
                         url = "https://google.com/"
                     )
                 )
-
             )
-        )
+        ){}
     }
 }

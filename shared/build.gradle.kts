@@ -130,6 +130,9 @@ kotlin {
                 implementation(libs.voyager)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.core)
+
+                implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha01")
+                implementation("io.coil-kt.coil3:coil-network:3.0.0-alpha01")
             }
         }
         val commonTest by getting {
@@ -145,6 +148,7 @@ kotlin {
                 implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
                 implementation("androidx.compose.material:material:1.5.1")
                 implementation("androidx.compose.ui:ui-tooling:1.5.1")
+                api(libs.ktor.engine.android)
             }
         }
         val androidUnitTest by getting
@@ -159,6 +163,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 api(libs.coroutine)
+                api(libs.ktor.engine.darwin)
             }
         }
         val iosX64Test by getting

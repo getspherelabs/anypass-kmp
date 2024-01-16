@@ -12,4 +12,5 @@ val addNewPasswordUseCaseDomainModule = module {
     single<AddNewPasswordUseCase> { DefaultAddNewPasswordUseCaseUseCase(get()) }
     single<GetCategoriesUseCase> { DefaultGetCategoriesUseCaseUseCase(get()) }
     single<GetWebsites> { DefaultGetWebsites(get()) }
+
 }

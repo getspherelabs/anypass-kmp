@@ -3,10 +3,14 @@ package io.spherelabs.addnewpassworddi
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordMiddleware
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordReducer
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordValidateMiddleware
+import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginMiddleware
+import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginReducer
 import org.koin.dsl.module
 
 val addNewPasswordFeatureModule = module {
     single { AddNewPasswordMiddleware(get(), get()) }
     single { AddNewPasswordReducer() }
     single { AddNewPasswordValidateMiddleware(get(), get(), get(), get()) }
+    single { AddNewLoginMiddleware(get()) }
+    single { AddNewLoginReducer() }
 }

@@ -13,9 +13,14 @@ class AddNewLoginViewModel(
     override val store: Store<AddNewLoginState, AddNewLoginWish, AddNewLoginEffect> = createMeteor(
         configs = MeteorConfigs.build {
             initialState = AddNewLoginState.Empty
-            storeName = ""
+            storeName = STORE_NAME
             reducer = addNewLoginReducer
             middlewares = listOf(addNewLoginMiddleware)
         },
     )
+
+    companion object {
+        private const val STORE_NAME =
+            "io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginViewModel"
+    }
 }

@@ -50,6 +50,7 @@ voyager = "1.0.0-rc10"
 ksp = "1.9.10-1.0.13"
 kotlinx-immutable = "0.3.5"
 kotlinx-serialization = "1.6.2"
+ktor = "2.3.7"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -118,6 +119,11 @@ app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", v
 voyager = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
 kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-engine-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-engine-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-engine-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-engine-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

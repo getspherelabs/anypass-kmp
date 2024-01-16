@@ -17,7 +17,7 @@ class AddNewLoginMiddleware (
             AddNewLoginWish.StartLoadedWebsites -> {
                 getWebsitesUseCase.execute().collectLatest { newResult ->
                     newResult.onSuccess { data ->
-                        val websites = data.list.take(10)
+                        val websites = data.list.take(12)
                         next.invoke(AddNewLoginWish.LoadedWebsites((websites)))
                     }
                 }
