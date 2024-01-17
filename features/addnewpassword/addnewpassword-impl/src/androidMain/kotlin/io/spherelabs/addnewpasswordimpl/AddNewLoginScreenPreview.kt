@@ -11,19 +11,19 @@ import io.spherelabs.addnewpasswordimpl.ui.AddNewLoginContext
 @Composable
 fun AddNewLoginScreenPreview() {
     Surface {
-        AddNewLoginContext(uiState =
-            AddNewLoginState(
-                websites = listOf(
-                    WebsiteDomain(
-                        name = "Amazon",
-                        url = "https://amazon.com/"
-                    ),
-                    WebsiteDomain(
-                        name = "Google",
-                        url = "https://google.com/"
-                    )
-                )
-            )
-        ){}
+//        AddNewLoginContext(uiState =
+//            AddNewLoginState(
+//                websites = listOf(
+//                    WebsiteDomain(
+//                        name = "Amazon",
+//                        url = "https://amazon.com/"
+//                    ),
+//                    WebsiteDomain(
+//                        name = "Google",
+//                        url = "https://google.com/"
+//                    )
+//                )
+//            )
+//        ){}
     }
 }

@@ -1,20 +1,32 @@
 package io.spherelabs.addnewpasswordimpl.ui
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,7 +50,8 @@ import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
-import io.spherelabs.resource.fonts.font
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 
 class AddNewLoginScreen : Screen {
 
@@ -52,6 +65,13 @@ class AddNewLoginScreen : Screen {
             onStartLoadedWebsites = {
                 viewModel.wish(AddNewLoginWish.StartLoadedWebsites)
             },
+            onSearchFocusChanged = { newValue ->
+                viewModel.wish(AddNewLoginWish.OnSearchFocusChanged(newValue))
+            },
+            onSearchBackClicked = {
+                viewModel.wish(AddNewLoginWish.OnSearchBackClicked)
+            },
+            onSearchClearClicked = {},
         )
     }
 }
@@ -62,10 +82,19 @@ fun AddNewLoginContext(
     modifier: Modifier = Modifier,
     uiState: AddNewLoginState,
     onStartLoadedWebsites: () -> Unit,
+    onSearchFocusChanged: (Boolean) -> Unit,
+    onSearchBackClicked: () -> Unit,
+    onSearchClearClicked: () -> Unit,
 ) {
 
     useEffect(true) {
         onStartLoadedWebsites()
+
+        snapshotFlow { uiState.query }
+            .debounce(250)
+            .collectLatest { searchQuery ->
+                
+            }
     }
 
     Scaffold(
@@ -80,21 +109,40 @@ fun AddNewLoginContext(
                 .padding(newPaddingValues)
                 .consumeWindowInsets(paddingValues = newPaddingValues),
         ) {
-            AddNewLoginTextField(modifier = modifier, textValue = "") {
-            }
-            Spacer(modifier.height(16.dp))
-            Text(
-                modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
-                text = "Enter the service you want to add",
-                fontSize = 16.sp,
-                color = Color.White,
-                fontFamily = GoogleSansFontFamily,
-            )
-            WebsiteGridLayout(
+            AddNewLoginTextField(
                 modifier = modifier,
-                paddingValues = newPaddingValues,
-                websites = uiState.websites,
+                query = uiState.query,
+                isSearchFocused = uiState.isSearchFocused,
+                onBackClick = {
+                    onSearchBackClicked.invoke()
+                },
+                onClearClick = {},
+                onSearchFocusChanged = {
+                    onSearchFocusChanged.invoke(it)
+                },
+                onValueChanged = {},
             )
+
+            if (uiState.isSearchFocused) {
+                WebsiteColumn(websites = uiState.websites)
+            }
+
+            if (uiState.query.isEmpty() && !uiState.isSearchFocused) {
+                Spacer(modifier.height(16.dp))
+                Text(
+                    modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                    text = "Enter the service you want to add",
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    fontFamily = GoogleSansFontFamily,
+                )
+                WebsiteGridLayout(
+                    modifier = modifier,
+                    paddingValues = newPaddingValues,
+                    websites = uiState.websites,
+                )
+            }
+
         }
     }
 }
@@ -154,6 +202,43 @@ fun WebsiteGridLayout(
 }
 
 @Composable
+private fun WebsiteColumn(
+    websites: List<WebsiteDomain>,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
+    ) {
+        items(
+            websites,
+            key = {
+                it.name
+            },
+        ) {
+            WebsiteRow(it.name)
+        }
+    }
+}
+
+@Composable
+private fun WebsiteRow(
+    name: String,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = name,
+            fontFamily = GoogleSansFontFamily,
+            fontSize = 16.sp,
+            color = Color.White,
+        )
+    }
+
+}
+
+@Composable
 internal fun AddNewLoginTopBar(
     modifier: Modifier = Modifier,
     navigateToBack: () -> Unit,
@@ -182,16 +267,28 @@ internal fun AddNewLoginTopBar(
 
 @Composable
 fun AddNewLoginTextField(
-    textValue: String,
+    query: String,
+    isSearchFocused: Boolean,
     modifier: Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChanged: (String) -> Unit,
+    onSearchFocusChanged: (Boolean) -> Unit,
+    onBackClick: () -> Unit,
+    onClearClick: () -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    val focusManager = LocalFocusManager.current
+
     Column {
         androidx.compose.material.TextField(
-            modifier = modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 16.dp),
-            value = textValue,
+            modifier = modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester).onFocusChanged {
+                    onSearchFocusChanged.invoke(it.isFocused)
+                }.padding(start = 12.dp, end = 12.dp, top = 16.dp),
+            value = query,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
             colors =
@@ -203,6 +300,37 @@ fun AddNewLoginTextField(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
+            leadingIcon = {
+                IconButton(onClick = onBackClick) {
+                    Icon(
+                        Icons.Rounded.ArrowBack,
+                        contentDescription = null,
+                        tint = Color.White,
+                    )
+                }
+            },
+            trailingIcon = {
+                if (query.isNotBlank()) {
+                    AnimatedContent(isSearchFocused) {
+                        IconButton(onClick = onClearClick) {
+                            Icon(
+                                Icons.Rounded.Close,
+                                contentDescription = null,
+                                tint = Color.Red.copy(0.6f),
+                            )
+                        }
+
+//                        if (it) {
+////                            ClearSearchQueryButton {
+////                                focusRequester.requestFocus()
+////                                onClearClick()
+////                            }
+//                        } else {
+////                            SearchSortButton(sortOrder, onSortOrderChanged)
+//                        }
+                    }
+                }
+            },
             onValueChange = { newValue -> onValueChanged.invoke(newValue) },
             shape = RoundedCornerShape(8.dp),
             singleLine = true,
