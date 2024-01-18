@@ -1,6 +1,8 @@
 package io.spherelabs.addnewpasswordimpl.ui
 
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +28,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,6 +43,7 @@ import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
 import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginState
 import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginViewModel
 import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginWish
+import io.spherelabs.common.Empty
 import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
@@ -50,8 +54,10 @@ import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onEach
 
 class AddNewLoginScreen : Screen {
 
@@ -71,12 +77,23 @@ class AddNewLoginScreen : Screen {
             onSearchBackClicked = {
                 viewModel.wish(AddNewLoginWish.OnSearchBackClicked)
             },
-            onSearchClearClicked = {},
+            onSearchClearClicked = {
+                viewModel.wish(AddNewLoginWish.OnSearchClearClicked)
+            },
+            onSearchLoadedWebsites = { newQuery ->
+                viewModel.wish(AddNewLoginWish.OnSearchLoadedWebsites(newQuery))
+            },
+            onQuerySearchChanged = {
+                viewModel.wish(AddNewLoginWish.OnSearchQueryChanged(it))
+            },
+            onSearchingChanged = {
+                viewModel.wish(AddNewLoginWish.OnSearchingChanged)
+            },
         )
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalCoilApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalCoilApi::class, FlowPreview::class)
 @Composable
 fun AddNewLoginContext(
     modifier: Modifier = Modifier,
@@ -84,18 +101,26 @@ fun AddNewLoginContext(
     onStartLoadedWebsites: () -> Unit,
     onSearchFocusChanged: (Boolean) -> Unit,
     onSearchBackClicked: () -> Unit,
+    onSearchLoadedWebsites: (String) -> Unit,
+    onQuerySearchChanged: (String) -> Unit,
+    onSearchingChanged: () -> Unit,
     onSearchClearClicked: () -> Unit,
 ) {
 
     useEffect(true) {
         onStartLoadedWebsites()
+    }
 
+    useEffect(uiState.query) {
         snapshotFlow { uiState.query }
             .debounce(250)
+            .onEach { onSearchingChanged.invoke() }
             .collectLatest { searchQuery ->
-                
+                onSearchLoadedWebsites.invoke(searchQuery)
             }
     }
+
+
 
     Scaffold(
         containerColor = BlackRussian,
@@ -105,8 +130,7 @@ fun AddNewLoginContext(
     ) { newPaddingValues ->
         Column(
             modifier = modifier
-                .fillMaxSize()
-                .padding(newPaddingValues)
+                .fillMaxSize().padding(newPaddingValues)
                 .consumeWindowInsets(paddingValues = newPaddingValues),
         ) {
             AddNewLoginTextField(
@@ -114,17 +138,20 @@ fun AddNewLoginContext(
                 query = uiState.query,
                 isSearchFocused = uiState.isSearchFocused,
                 onBackClick = {
-                    onSearchBackClicked.invoke()
+                    onSearchBackClicked()
                 },
-                onClearClick = {},
-                onSearchFocusChanged = {
-                    onSearchFocusChanged.invoke(it)
+                onClearClick = { onSearchClearClicked() },
+                onSearchFocusChanged = { isFocused ->
+                    onSearchFocusChanged(isFocused)
                 },
-                onValueChanged = {},
+                onValueChanged = { newValue ->
+                    onQuerySearchChanged(newValue)
+                },
             )
 
+
             if (uiState.isSearchFocused) {
-                WebsiteColumn(websites = uiState.websites)
+                WebsiteColumn(websites = uiState.filteredWebsites)
             }
 
             if (uiState.query.isEmpty() && !uiState.isSearchFocused) {
@@ -142,6 +169,7 @@ fun AddNewLoginContext(
                     websites = uiState.websites,
                 )
             }
+
 
         }
     }
@@ -206,6 +234,8 @@ private fun WebsiteColumn(
     websites: List<WebsiteDomain>,
     modifier: Modifier = Modifier,
 ) {
+    val visibleAnimation by animateFloatAsState(1f)
+
     LazyColumn(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
     ) {
@@ -218,6 +248,7 @@ private fun WebsiteColumn(
             WebsiteRow(it.name)
         }
     }
+
 }
 
 @Composable
@@ -265,6 +296,7 @@ internal fun AddNewLoginTopBar(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddNewLoginTextField(
     query: String,
@@ -278,8 +310,18 @@ fun AddNewLoginTextField(
     onClearClick: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
-
+    val isKeyboardOpen by keyboardAsState()
     val focusManager = LocalFocusManager.current
+
+    val isVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+
+    useEffect(isVisible) {
+        if (!isVisible) {
+            onSearchFocusChanged(false)
+        } else {
+            onSearchFocusChanged(true)
+        }
+    }
 
     Column {
         androidx.compose.material.TextField(
@@ -301,13 +343,25 @@ fun AddNewLoginTextField(
                 unfocusedIndicatorColor = Color.Transparent,
             ),
             leadingIcon = {
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        Icons.Rounded.ArrowBack,
-                        contentDescription = null,
-                        tint = Color.White,
-                    )
+                AnimatedVisibility(
+                    visible = isSearchFocused,
+                    enter = fadeIn(animationSpec = tween(2000)),
+                    exit = fadeOut(animationSpec = tween(2000)),
+                ) {
+                    IconButton(
+                        onClick = {
+                            focusManager.clearFocus()
+                            onValueChanged.invoke(String.Empty)
+                        },
+                    ) {
+                        Icon(
+                            Icons.Rounded.ArrowBack,
+                            contentDescription = null,
+                            tint = Color.White,
+                        )
+                    }
                 }
+
             },
             trailingIcon = {
                 if (query.isNotBlank()) {
@@ -320,14 +374,6 @@ fun AddNewLoginTextField(
                             )
                         }
 
-//                        if (it) {
-////                            ClearSearchQueryButton {
-////                                focusRequester.requestFocus()
-////                                onClearClick()
-////                            }
-//                        } else {
-////                            SearchSortButton(sortOrder, onSortOrderChanged)
-//                        }
                     }
                 }
             },
@@ -336,4 +382,10 @@ fun AddNewLoginTextField(
             singleLine = true,
         )
     }
+}
+
+@Composable
+fun keyboardAsState(): State<Boolean> {
+    val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    return rememberUpdatedState(isImeVisible)
 }

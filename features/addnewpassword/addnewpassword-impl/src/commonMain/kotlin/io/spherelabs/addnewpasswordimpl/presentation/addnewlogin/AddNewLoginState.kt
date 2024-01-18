@@ -7,10 +7,18 @@ import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
 data class AddNewLoginState(
     val websites: List<WebsiteDomain> = emptyList(),
     val filteredWebsites: List<WebsiteDomain> = emptyList(),
+    val unfilteredWebsites: List<WebsiteDomain> = emptyList(),
     val query: String = "",
     val isSearchFocused: Boolean = false,
+    val isSearched: Boolean = false,
+    val searchType: SearchType = SearchType.NotSearch,
 ) {
     companion object {
         val Empty = AddNewLoginState()
     }
+}
+
+enum class SearchType {
+    Searching,
+    NotSearch
 }

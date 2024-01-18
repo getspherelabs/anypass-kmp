@@ -1,11 +1,10 @@
 package io.spherelabs.addnewpasswordimpl.presentation.addnewlogin
 
+import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
 import io.spherelabs.meteor.configs.Change
-import io.spherelabs.meteor.extension.change
 import io.spherelabs.meteor.extension.expect
 import io.spherelabs.meteor.extension.unexpected
 import io.spherelabs.meteor.reducer.Reducer
-import kotlinx.coroutines.coroutineScope
 
 class AddNewLoginReducer : Reducer<AddNewLoginState, AddNewLoginWish, AddNewLoginEffect> {
 
@@ -16,7 +15,10 @@ class AddNewLoginReducer : Reducer<AddNewLoginState, AddNewLoginWish, AddNewLogi
         return when (currentWish) {
             is AddNewLoginWish.LoadedWebsites -> {
                 expect {
-                    currentState.copy(websites = currentWish.data)
+                    currentState.copy(
+                        websites = currentWish.data.take(12),
+                        unfilteredWebsites = currentWish.data,
+                    )
                 }
             }
             is AddNewLoginWish.OnSearchFocusChanged -> {
@@ -32,6 +34,26 @@ class AddNewLoginReducer : Reducer<AddNewLoginState, AddNewLoginWish, AddNewLogi
                         query = currentWish.query,
                     )
                 }
+            }
+            is AddNewLoginWish.OnSearchLoadedWebsites -> {
+                println("Current query is ${currentWish.query}")
+                val filteredWebsites =
+                    if (currentWish.query.isEmpty()) emptyList() else {
+                        currentState.unfilteredWebsites.filter { it.contains(currentWish.query) }
+                    }
+
+                println("Filtered websites $filteredWebsites")
+
+                expect {
+                    currentState.copy(
+                        filteredWebsites = filteredWebsites,
+                        isSearched = true,
+                    )
+                }
+
+            }
+            AddNewLoginWish.OnSearchingChanged -> {
+                expect { currentState.copy(isSearched = false) }
             }
             else -> unexpected { currentState }
         }

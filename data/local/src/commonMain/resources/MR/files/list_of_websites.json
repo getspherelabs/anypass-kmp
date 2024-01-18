@@ -181,10 +181,6 @@
             "url": "www.behance.net"
         },
         {
-            "name": "Imgur",
-            "url": "www.imgur.com"
-        },
-        {
             "name": "Taringa",
             "url": "www.taringa.net"
         },
@@ -192,10 +188,7 @@
             "name": "Myspace",
             "url": "www.myspace.com"
         },
-        {
-            "name": "500px",
-            "url": "www.500px.com"
-        },
+
         {
             "name": "Trello",
             "url": "www.trello.com"
@@ -207,10 +200,6 @@
         {
             "name": "Giphy",
             "url": "www.giphy.com"
-        },
-        {
-            "name": "Houseparty",
-            "url": "www.houseparty.com"
         },
         {
             "name": "Duolingo",
@@ -257,20 +246,8 @@
             "url": "www.waze.com"
         },
         {
-            "name": "Houseparty",
-            "url": "www.houseparty.com"
-        },
-        {
-            "name": "Imgur",
-            "url": "www.imgur.com"
-        },
-        {
             "name": "Zynga",
             "url": "www.zynga.com"
-        },
-        {
-            "name": "500px",
-            "url": "www.500px.com"
         },
         {
             "name": "Taringa",
@@ -347,10 +324,6 @@
         {
             "name": "Flipgrid",
             "url": "www.flipgrid.com"
-        },
-        {
-            "name": "Marco Polo",
-            "url": "www.marcopolo.me"
         },
         {
             "name": "Wattpad",

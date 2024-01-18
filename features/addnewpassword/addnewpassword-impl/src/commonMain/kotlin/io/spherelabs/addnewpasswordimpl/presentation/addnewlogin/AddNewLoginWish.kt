@@ -9,4 +9,6 @@ sealed interface AddNewLoginWish {
     object OnSearchBackClicked : AddNewLoginWish
     object OnSearchClearClicked : AddNewLoginWish
     data class OnSearchQueryChanged(val query: String) : AddNewLoginWish
+    data class OnSearchLoadedWebsites(val query: String) : AddNewLoginWish
+    object OnSearchingChanged : AddNewLoginWish
 }
