@@ -34,6 +34,8 @@ import io.spherelabs.passwordhealthdi.passwordHealthDomainModule
 import io.spherelabs.passwordhealthdi.passwordHealthPresentationModule
 import io.spherelabs.passwordhistorydi.passwordHistoryDomainModule
 import io.spherelabs.passwordhistorydi.passwordHistoryPresentationModule
+import io.spherelabs.resource.icons.DefaultSocialMediaResourceProvider
+import io.spherelabs.resource.icons.SocialMediaResourceProvider
 import io.spherelabs.validation.di.validationModule
 import org.koin.compose.LocalKoinScope
 import org.koin.core.context.startKoin
@@ -42,6 +44,7 @@ import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
 import org.koin.core.scope.Scope
 import org.koin.dsl.KoinAppDeclaration
+import org.koin.dsl.module
 
 expect fun platformModule(): Module
 
@@ -83,8 +86,12 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             helpDomainModule,
             helpPresentationModule,
             passwordHistoryDomainModule,
-            passwordHistoryPresentationModule
+            passwordHistoryPresentationModule,
+            providerModule
         )
     }
 
+val providerModule = module {
+    single<SocialMediaResourceProvider> { DefaultSocialMediaResourceProvider() }
+}
 fun initKoin() = initKoin {}

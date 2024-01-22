@@ -3,6 +3,7 @@ package io.spherelabs.addnewpasswordimpl.ui
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,10 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import coil3.annotation.ExperimentalCoilApi
-import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
-import coil3.request.crossfade
 import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
 import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginState
 import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginViewModel
@@ -54,6 +51,7 @@ import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
+import io.spherelabs.resource.icons.SocialMediaResourceProvider
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -64,10 +62,13 @@ class AddNewLoginScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel: AddNewLoginViewModel = useInject()
+        val resourceProvider: SocialMediaResourceProvider = useInject()
+
         val currentUiState = viewModel.state.collectAsStateWithLifecycle()
 
         AddNewLoginContext(
             uiState = currentUiState.value,
+            resourceProvider = resourceProvider,
             onStartLoadedWebsites = {
                 viewModel.wish(AddNewLoginWish.StartLoadedWebsites)
             },
@@ -98,6 +99,7 @@ class AddNewLoginScreen : Screen {
 fun AddNewLoginContext(
     modifier: Modifier = Modifier,
     uiState: AddNewLoginState,
+    resourceProvider: SocialMediaResourceProvider,
     onStartLoadedWebsites: () -> Unit,
     onSearchFocusChanged: (Boolean) -> Unit,
     onSearchBackClicked: () -> Unit,
@@ -165,6 +167,7 @@ fun AddNewLoginContext(
                 )
                 WebsiteGridLayout(
                     modifier = modifier,
+                    resourceProvider = resourceProvider,
                     paddingValues = newPaddingValues,
                     websites = uiState.websites,
                 )
@@ -178,6 +181,7 @@ fun AddNewLoginContext(
 @Composable
 fun WebsiteGridLayout(
     paddingValues: PaddingValues,
+    resourceProvider: SocialMediaResourceProvider,
     modifier: Modifier = Modifier,
     websites: List<WebsiteDomain>,
 ) {
@@ -194,10 +198,11 @@ fun WebsiteGridLayout(
                 it.url
             },
         ) {
-            val request = ImageRequest.Builder(LocalPlatformContext.current)
-                .data("https://icon.horse/icon/${it.url}")
-                .crossfade(true)
-                .build()
+//            val request = ImageRequest.Builder(LocalPlatformContext.current)
+//                .data("https://icon.horse/icon/${it.url}")
+//                .crossfade(true)
+//                .build()
+            val imgVector = resourceProvider.loadMedia(it.name)
 
             Column(
                 modifier = modifier
@@ -208,13 +213,16 @@ fun WebsiteGridLayout(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                AsyncImage(
-                    model = request, contentDescription = null,
+
+                Image(
+                    imageVector = imgVector,
+                    contentDescription = null,
                     modifier = Modifier
                         .requiredSize(28.dp)
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop,
                 )
+
                 Spacer(modifier = modifier.height(4.dp))
                 Text(
                     text = it.name,
