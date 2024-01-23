@@ -46,8 +46,8 @@ inline fun useEffect(vararg keys: Any, noinline block: suspend CoroutineScope.()
 }
 
 @Composable
-inline fun useEffect(key1: Any, noinline block: suspend CoroutineScope.() -> Unit) {
-  LaunchedEffect(key1 = key1, block = block)
+inline fun useEffectOrNull(key1: Any?, noinline block: suspend CoroutineScope.() -> Unit) {
+    LaunchedEffect(key1 = key1, block = block)
 }
 
 @Composable
