@@ -1,10 +1,10 @@
 package io.spherelabs.addnewpasswordimpl.ui
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,10 +12,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
@@ -34,28 +31,33 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
-import coil3.annotation.ExperimentalCoilApi
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
-import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginState
-import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginViewModel
-import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.AddNewLoginWish
+import io.spherelabs.addnewpasswordimpl.presentation.addnewlogin.*
 import io.spherelabs.common.Empty
 import io.spherelabs.designsystem.button.BackButton
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useInject
+import io.spherelabs.designsystem.hooks.useScope
+import io.spherelabs.designsystem.hooks.useSnackbar
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.designsystem.text.Headline
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
+import io.spherelabs.navigationapi.AddNewPasswordDestination
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.SocialMediaResourceProvider
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class AddNewLoginScreen : Screen {
 
@@ -64,19 +66,19 @@ class AddNewLoginScreen : Screen {
         val viewModel: AddNewLoginViewModel = useInject()
         val resourceProvider: SocialMediaResourceProvider = useInject()
 
+        val navigator = LocalNavigator.currentOrThrow
+
         val currentUiState = viewModel.state.collectAsStateWithLifecycle()
 
         AddNewLoginContext(
             uiState = currentUiState.value,
+            uiEffect = viewModel.effect,
             resourceProvider = resourceProvider,
             onStartLoadedWebsites = {
                 viewModel.wish(AddNewLoginWish.StartLoadedWebsites)
             },
             onSearchFocusChanged = { newValue ->
                 viewModel.wish(AddNewLoginWish.OnSearchFocusChanged(newValue))
-            },
-            onSearchBackClicked = {
-                viewModel.wish(AddNewLoginWish.OnSearchBackClicked)
             },
             onSearchClearClicked = {
                 viewModel.wish(AddNewLoginWish.OnSearchClearClicked)
@@ -90,27 +92,48 @@ class AddNewLoginScreen : Screen {
             onSearchingChanged = {
                 viewModel.wish(AddNewLoginWish.OnSearchingChanged)
             },
+            onBackClick = {
+                navigator.pop()
+            },
         )
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalCoilApi::class, FlowPreview::class)
+@OptIn(ExperimentalLayoutApi::class, FlowPreview::class)
 @Composable
 fun AddNewLoginContext(
     modifier: Modifier = Modifier,
     uiState: AddNewLoginState,
+    uiEffect: Flow<AddNewLoginEffect>,
     resourceProvider: SocialMediaResourceProvider,
     onStartLoadedWebsites: () -> Unit,
     onSearchFocusChanged: (Boolean) -> Unit,
-    onSearchBackClicked: () -> Unit,
     onSearchLoadedWebsites: (String) -> Unit,
     onQuerySearchChanged: (String) -> Unit,
     onSearchingChanged: () -> Unit,
     onSearchClearClicked: () -> Unit,
+    onBackClick: () -> Unit,
 ) {
+    val snackbarHostState = useSnackbar()
+    val scope = useScope()
+
+    val navigator = LocalNavigator.currentOrThrow
 
     useEffect(true) {
         onStartLoadedWebsites()
+
+        uiEffect.collectLatest { effect ->
+            when (effect) {
+                is AddNewLoginEffect.Failure -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = effect.message,
+                        )
+                    }
+                }
+            }
+
+        }
     }
 
     useEffect(uiState.query) {
@@ -122,12 +145,18 @@ fun AddNewLoginContext(
             }
     }
 
-
-
     Scaffold(
         containerColor = BlackRussian,
         topBar = {
-            AddNewLoginTopBar { }
+            AddNewLoginTopBar {
+                onBackClick()
+            }
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = modifier.fillMaxWidth().wrapContentHeight(Alignment.Bottom),
+            )
         },
     ) { newPaddingValues ->
         Column(
@@ -139,9 +168,6 @@ fun AddNewLoginContext(
                 modifier = modifier,
                 query = uiState.query,
                 isSearchFocused = uiState.isSearchFocused,
-                onBackClick = {
-                    onSearchBackClicked()
-                },
                 onClearClick = { onSearchClearClicked() },
                 onSearchFocusChanged = { isFocused ->
                     onSearchFocusChanged(isFocused)
@@ -150,7 +176,6 @@ fun AddNewLoginContext(
                     onQuerySearchChanged(newValue)
                 },
             )
-
 
             if (uiState.isSearchFocused) {
                 WebsiteColumn(websites = uiState.filteredWebsites)
@@ -183,8 +208,9 @@ fun WebsiteGridLayout(
     paddingValues: PaddingValues,
     resourceProvider: SocialMediaResourceProvider,
     modifier: Modifier = Modifier,
-    websites: List<WebsiteDomain>,
+    websites: List<UIWebsite>,
 ) {
+    val navigator = LocalNavigator.currentOrThrow
 
     LazyVerticalStaggeredGrid(
         modifier = modifier.padding(horizontal = 24.dp),
@@ -197,25 +223,30 @@ fun WebsiteGridLayout(
             key = {
                 it.url
             },
-        ) {
-//            val request = ImageRequest.Builder(LocalPlatformContext.current)
-//                .data("https://icon.horse/icon/${it.url}")
-//                .crossfade(true)
-//                .build()
-            val imgVector = resourceProvider.loadMedia(it.name)
+        ) { website ->
+            val img = resourceProvider.loadMedia(website.name)
 
+            val addPasswordScreen = rememberScreen(
+                AddNewPasswordDestination.UpdatePasswordScreen(
+                    website.name,
+                    website.url,
+                ),
+            )
             Column(
                 modifier = modifier
                     .padding(16.dp)
                     .width(120.dp)
                     .height(56.dp)
-                    .background(color = Jaguar, RoundedCornerShape(16.dp)),
+                    .background(color = Jaguar, RoundedCornerShape(16.dp))
+                    .clickable {
+                        navigator.push(addPasswordScreen)
+                    },
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
                 Image(
-                    imageVector = imgVector,
+                    imageVector = img,
                     contentDescription = null,
                     modifier = Modifier
                         .requiredSize(28.dp)
@@ -225,7 +256,7 @@ fun WebsiteGridLayout(
 
                 Spacer(modifier = modifier.height(4.dp))
                 Text(
-                    text = it.name,
+                    text = website.name,
                     fontFamily = GoogleSansFontFamily,
                     fontSize = 12.sp,
                     color = Color.White,
@@ -239,22 +270,45 @@ fun WebsiteGridLayout(
 
 @Composable
 private fun WebsiteColumn(
-    websites: List<WebsiteDomain>,
+    websites: List<UIWebsite>,
     modifier: Modifier = Modifier,
 ) {
-    val visibleAnimation by animateFloatAsState(1f)
-
+    val navigator = LocalNavigator.currentOrThrow
+    Spacer(modifier.height(16.dp))
     LazyColumn(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
+        modifier = modifier.fillMaxSize().padding(horizontal = 24.dp),
     ) {
-        items(
-            websites,
-            key = {
-                it.name
-            },
-        ) {
-            WebsiteRow(it.name)
+        if (websites.isNotEmpty()) {
+            items(
+                websites,
+                key = {
+                    it.name
+                },
+            ) { website ->
+                val addPasswordScreen = rememberScreen(
+                    AddNewPasswordDestination.UpdatePasswordScreen(
+                        website.name,
+                        website.url,
+                    ),
+                )
+                WebsiteRow(
+                    website.name,
+                    onClick = {
+                        navigator.push(addPasswordScreen)
+                    },
+                )
+            }
+        } else {
+            item {
+                Text(
+                    "The item does not exist",
+                    fontFamily = GoogleSansFontFamily,
+                    fontSize = 18.sp,
+                    color = Color.White,
+                )
+            }
         }
+
     }
 
 }
@@ -262,9 +316,12 @@ private fun WebsiteColumn(
 @Composable
 private fun WebsiteRow(
     name: String,
+    onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable {
+            onClick()
+        },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -304,7 +361,6 @@ internal fun AddNewLoginTopBar(
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddNewLoginTextField(
     query: String,
@@ -314,11 +370,9 @@ fun AddNewLoginTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChanged: (String) -> Unit,
     onSearchFocusChanged: (Boolean) -> Unit,
-    onBackClick: () -> Unit,
     onClearClick: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
-    val isKeyboardOpen by keyboardAsState()
     val focusManager = LocalFocusManager.current
 
     val isVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
@@ -332,7 +386,7 @@ fun AddNewLoginTextField(
     }
 
     Column {
-        androidx.compose.material.TextField(
+        TextField(
             modifier = modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester).onFocusChanged {

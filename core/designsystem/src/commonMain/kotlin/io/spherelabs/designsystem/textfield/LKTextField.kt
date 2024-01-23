@@ -42,7 +42,7 @@ fun LKTitleTextField(
 ) {
     Column {
         TextField(
-            modifier = modifier.width(240.dp).padding(start = 12.dp, end = 12.dp),
+            modifier = modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp),
             value = textValue,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,

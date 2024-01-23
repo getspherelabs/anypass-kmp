@@ -19,7 +19,7 @@ public val SocialMediaIcons.`Reddit`: ImageVector
         `_Reddit` = Builder(name = "Reddit",
                 defaultWidth = 512.0.dp, defaultHeight = 512.0.dp, viewportWidth = 512.0f,
                 viewportHeight = 512.0f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(256.0f, 0.0f)

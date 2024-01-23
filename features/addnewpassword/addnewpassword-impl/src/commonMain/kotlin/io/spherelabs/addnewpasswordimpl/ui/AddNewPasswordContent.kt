@@ -9,16 +9,17 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -32,10 +33,7 @@ import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordState
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordWish
 import io.spherelabs.designsystem.dialog.title
 import io.spherelabs.designsystem.fonts.LocalStrings
-import io.spherelabs.designsystem.hooks.useEffect
-import io.spherelabs.designsystem.hooks.useScope
-import io.spherelabs.designsystem.hooks.useSnackbar
-import io.spherelabs.designsystem.hooks.useUpdatedState
+import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.image.RoundedImage
 import io.spherelabs.designsystem.picker.LKSocialMediaPicker
 import io.spherelabs.designsystem.picker.SocialMedia
@@ -43,9 +41,11 @@ import io.spherelabs.designsystem.picker.socialIconsPicker
 import io.spherelabs.designsystem.spinner.LKSpinner
 import io.spherelabs.designsystem.textfield.*
 import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
+import io.spherelabs.resource.icons.SocialMediaResourceProvider
 import io.spherelabs.resource.icons.anypassicons.*
 import io.spherelabs.resource.images.MR
 import kotlinx.coroutines.flow.Flow
@@ -55,6 +55,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddNewPasswordContent(
     usePassword: String? = null,
+    website: String? = null,
+    websiteUrl: String? = null,
+    resourceProvider: SocialMediaResourceProvider,
     modifier: Modifier = Modifier,
     wish: (AddNewPasswordWish) -> Unit,
     state: AddNewPasswordState,
@@ -65,9 +68,17 @@ fun AddNewPasswordContent(
     val snackbarHostState = useSnackbar()
     val scope = useScope()
 
+    useEffectOrNull(website) {
+        wish.invoke(AddNewPasswordWish.OnWebsiteAddressChanged(websiteUrl))
+        wish.invoke(AddNewPasswordWish.OnTitleChanged(website))
+    }
+
     useEffect(true) {
         wish.invoke(AddNewPasswordWish.GetCategoriesStarted)
+
         wish.invoke(AddNewPasswordWish.OnPasswordChanged(usePassword))
+
+
         flow.collectLatest { effect ->
             when (effect) {
                 is AddNewPasswordEffect.Failure -> {
@@ -110,6 +121,7 @@ fun AddNewPasswordContent(
         BasicAddNewPasswordContent(
             modifier = modifier,
             paddingValues = paddingValues,
+            resourceProvider = resourceProvider,
             state = state,
             wish = { newWish -> wish.invoke(newWish) },
         )
@@ -190,12 +202,11 @@ object SocialIcons {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class,
-    ExperimentalComposeUiApi::class
-)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun BasicAddNewPasswordContent(
     state: AddNewPasswordState,
+    resourceProvider: SocialMediaResourceProvider,
     paddingValues: PaddingValues,
     wish: (AddNewPasswordWish) -> Unit,
     modifier: Modifier = Modifier,
@@ -221,12 +232,33 @@ fun BasicAddNewPasswordContent(
                 )
 
                 Row(
-                    modifier = modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, top = 8.dp),
+                    modifier = modifier.fillMaxWidth()
+                        .padding(start = 24.dp, end = 24.dp, top = 8.dp),
                 ) {
-                    RoundedImage(
-                        painter = painterResource(MR.images.avatar),
-                        contentDescription = null,
-                    )
+                    val img = resourceProvider.loadMedia(state.title)
+
+                    Box(
+                        modifier =
+                        modifier
+                            .size(56.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .border(
+                                width = 2.dp,
+                                color = Jaguar,
+                                shape = RoundedCornerShape(8.dp),
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Image(
+                            imageVector = img,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .requiredSize(28.dp)
+                                .clip(RoundedCornerShape(12.dp)),
+                            contentScale = ContentScale.Crop,
+                        )
+
+                    }
 
                     LKTitleTextField(
                         state.title,
@@ -246,16 +278,16 @@ fun BasicAddNewPasswordContent(
                             )
                         },
                     )
-
-                    LKSocialMediaPicker {
-                        title(strings.selectIcon)
-                        socialIconsPicker(
-                            socialIcons = SocialIcons.getSocialMedia().value,
-                            waitForPositiveButton = waitForPositiveButton,
-                        ) {
-                            wish.invoke(AddNewPasswordWish.OnImageChanged(it.title))
-                        }
-                    }
+//
+//                    LKSocialMediaPicker {
+//                        title(strings.selectIcon)
+//                        socialIconsPicker(
+//                            socialIcons = SocialIcons.getSocialMedia().value,
+//                            waitForPositiveButton = waitForPositiveButton,
+//                        ) {
+//                            wish.invoke(AddNewPasswordWish.OnImageChanged(it.title))
+//                        }
+//                    }
                 }
                 if (state.isTitleFailed) {
                     Text(
@@ -333,7 +365,13 @@ fun BasicAddNewPasswordContent(
                         onNext = { focusManager.moveFocus(FocusDirection.Down) },
                     ),
                     fontFamily = GoogleSansFontFamily,
-                    onValueChanged = { newValue -> wish.invoke(AddNewPasswordWish.OnEmailChanged(newValue)) },
+                    onValueChanged = { newValue ->
+                        wish.invoke(
+                            AddNewPasswordWish.OnEmailChanged(
+                                newValue,
+                            ),
+                        )
+                    },
                 )
                 if (state.isEmailFailed) {
                     Text(
@@ -421,10 +459,16 @@ fun BasicAddNewPasswordContent(
                     keyboardActions =
                     KeyboardActions(
                         onDone = {
-                                 focusManager.clearFocus()
+                            focusManager.clearFocus()
                         },
                     ),
-                    onValueChanged = { newValue -> wish.invoke(AddNewPasswordWish.OnNotesChanged(newValue)) },
+                    onValueChanged = { newValue ->
+                        wish.invoke(
+                            AddNewPasswordWish.OnNotesChanged(
+                                newValue,
+                            ),
+                        )
+                    },
                 )
                 if (state.isNotesFailed) {
                     Text(
@@ -442,9 +486,10 @@ fun BasicAddNewPasswordContent(
             item {
                 Row(
                     modifier =
-                    Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp, top = 8.dp).clickable {
-                        wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
-                    },
+                    Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp, top = 8.dp)
+                        .clickable {
+                            wish.invoke(AddNewPasswordWish.OnGeneratePasswordClicked)
+                        },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -478,7 +523,8 @@ fun BasicAddNewPasswordContent(
                 Spacer(modifier = modifier.height(32.dp))
 
                 Button(
-                    modifier = Modifier.fillMaxWidth().height(65.dp).padding(start = 24.dp, end = 24.dp),
+                    modifier = Modifier.fillMaxWidth().height(65.dp)
+                        .padding(start = 24.dp, end = 24.dp),
                     colors =
                     ButtonDefaults.buttonColors(
                         backgroundColor = LavenderBlue.copy(0.3f),

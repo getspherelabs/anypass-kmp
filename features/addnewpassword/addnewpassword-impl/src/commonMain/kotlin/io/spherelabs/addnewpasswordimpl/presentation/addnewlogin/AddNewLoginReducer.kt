@@ -1,6 +1,6 @@
 package io.spherelabs.addnewpasswordimpl.presentation.addnewlogin
 
-import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
+import io.spherelabs.common.Empty
 import io.spherelabs.meteor.configs.Change
 import io.spherelabs.meteor.extension.expect
 import io.spherelabs.meteor.extension.unexpected
@@ -14,10 +14,11 @@ class AddNewLoginReducer : Reducer<AddNewLoginState, AddNewLoginWish, AddNewLogi
     ): Change<AddNewLoginState, AddNewLoginEffect> {
         return when (currentWish) {
             is AddNewLoginWish.LoadedWebsites -> {
+                val uiWebsites = currentWish.data.map { it.toUI() }
                 expect {
                     currentState.copy(
-                        websites = currentWish.data.take(12),
-                        unfilteredWebsites = currentWish.data,
+                        websites = uiWebsites.take(12),
+                        unfilteredWebsites = uiWebsites,
                     )
                 }
             }
@@ -54,6 +55,9 @@ class AddNewLoginReducer : Reducer<AddNewLoginState, AddNewLoginWish, AddNewLogi
             }
             AddNewLoginWish.OnSearchingChanged -> {
                 expect { currentState.copy(isSearched = false) }
+            }
+            is AddNewLoginWish.OnSearchClearClicked -> {
+                expect { currentState.copy(query = String.Empty) }
             }
             else -> unexpected { currentState }
         }

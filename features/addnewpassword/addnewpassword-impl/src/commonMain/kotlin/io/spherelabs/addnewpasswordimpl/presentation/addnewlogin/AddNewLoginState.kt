@@ -5,9 +5,9 @@ import io.spherelabs.addnewpasswordapi.model.WebsiteDomain
 
 @Stable
 data class AddNewLoginState(
-    val websites: List<WebsiteDomain> = emptyList(),
-    val filteredWebsites: List<WebsiteDomain> = emptyList(),
-    val unfilteredWebsites: List<WebsiteDomain> = emptyList(),
+    val websites: List<UIWebsite> = emptyList(),
+    val filteredWebsites: List<UIWebsite> = emptyList(),
+    val unfilteredWebsites: List<UIWebsite> = emptyList(),
     val query: String = "",
     val isSearchFocused: Boolean = false,
     val isSearched: Boolean = false,

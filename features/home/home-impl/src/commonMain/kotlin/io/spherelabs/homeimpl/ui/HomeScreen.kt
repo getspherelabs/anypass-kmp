@@ -3,9 +3,13 @@ package io.spherelabs.homeimpl.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -14,12 +18,13 @@ import io.spherelabs.designsystem.hooks.*
 import io.spherelabs.designsystem.picker.SocialMedia
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian
+import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.homeimpl.presentation.*
+import io.spherelabs.homeimpl.ui.component.*
 import io.spherelabs.homeimpl.ui.component.CategoryCard
 import io.spherelabs.homeimpl.ui.component.HomeDrawer
-import io.spherelabs.homeimpl.ui.component.HomeHeadline
-import io.spherelabs.homeimpl.ui.component.HomeTopBar
 import io.spherelabs.navigationapi.*
+import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -60,7 +65,7 @@ class HomeScreen : Screen {
 }
 
 @Composable
-fun HomeContent(
+internal fun HomeContent(
     modifier: Modifier = Modifier,
     wish: (HomeWish) -> Unit,
     uiState: HomeState,
@@ -111,9 +116,15 @@ fun HomeContent(
         },
         topBar = {
             HomeTopBar(
-                modifier = modifier,
                 onOpenClick = { coroutineScope.launch { scaffoldState.drawerState.open() } },
-                navigateToAddNewPassword = { wish.invoke(HomeWish.NavigateToAddNewPassword) },
+                navigateToAddLogin = {
+                                     wish.invoke(HomeWish.NavigateToAddNewPassword)
+                },
+                navigateToAddPersonalInfo = {},
+                navigateToAddSecurityNotes = {},
+//                navigateToAddNewPassword = {
+//                    wish.invoke(HomeWish.NavigateToAddNewPassword)
+//                },
             )
         },
         content = {
@@ -129,7 +140,7 @@ fun HomeContent(
                 HomeHeadline()
 
                 CategoryCard(
-                    uiState.categories,
+                    categories = categories,
                     uiState.passwords,
                     onPasswordChanged = { newWish -> wish.invoke(newWish) },
                     isVisible = uiState.isVisible,
@@ -184,6 +195,7 @@ private fun useHomeEffect(
                 }
 
                 HomeEffect.NavigateToAddNewPassword -> {
+
                     navigateToCreatePassword.invoke()
                 }
 
@@ -286,3 +298,5 @@ object SocialIcons {
         )
     }
 }
+
+

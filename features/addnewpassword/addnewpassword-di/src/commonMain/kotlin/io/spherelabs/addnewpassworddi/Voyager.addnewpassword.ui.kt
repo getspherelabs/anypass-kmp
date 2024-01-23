@@ -13,6 +13,9 @@ val addNewPasswordUiModule = screenModule {
     register<AddNewPasswordDestination.Back> { provider ->
         AddNewPasswordScreen(provider.password)
     }
+    register<AddNewPasswordDestination.UpdatePasswordScreen> {
+        AddNewPasswordScreen(name = it.name, url = it.url)
+    }
 }
 
 val addNewLoginUiModule = screenModule {

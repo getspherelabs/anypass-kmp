@@ -26,7 +26,7 @@ public val SocialMediaIcons.Wechat: ImageVector
                 arcTo(14.658f, 14.658f, 0.0f, false, false, 179.885f, 182.329f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(250.735f, 211.645f)
@@ -34,7 +34,7 @@ public val SocialMediaIcons.Wechat: ImageVector
                 arcTo(14.657f, 14.657f, 0.0f, false, false, 250.735f, 211.645f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(284.909f, 256.673f)
@@ -42,7 +42,7 @@ public val SocialMediaIcons.Wechat: ImageVector
                 arcTo(12.206f, 12.206f, 0.0f, false, false, 284.909f, 256.673f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(256.0f, 0.0f)
@@ -79,7 +79,7 @@ public val SocialMediaIcons.Wechat: ImageVector
                 curveTo(402.667f, 314.24f, 391.28f, 333.8f, 373.193f, 347.249f)
                 close()
             }
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            path(fill = SolidColor(Color(0xFFFFFFFF)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
                 moveTo(343.912f, 256.673f)
