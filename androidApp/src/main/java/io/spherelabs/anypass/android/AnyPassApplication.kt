@@ -5,15 +5,5 @@ import io.spherelabs.anypass.di.initKoin
 import io.spherelabs.anypass.sentry.initializeSentry
 import org.koin.android.ext.koin.androidContext
 
-class AnyPassApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        initializeSentry(this)
-        initKoin {
-            androidContext(this@AnyPassApplication)
-        }
-
-    }
-}
+class AnyPassApplication : Application()
 

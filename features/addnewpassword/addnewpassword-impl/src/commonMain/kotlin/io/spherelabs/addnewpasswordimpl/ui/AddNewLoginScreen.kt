@@ -275,6 +275,7 @@ private fun WebsiteColumn(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     Spacer(modifier.height(16.dp))
+
     LazyColumn(
         modifier = modifier.fillMaxSize().padding(horizontal = 24.dp),
     ) {

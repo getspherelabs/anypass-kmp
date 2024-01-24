@@ -53,6 +53,7 @@ android {
         implementation(libs.koin.core)
         implementation(libs.app.update)
         implementation(libs.app.update.ktx)
+        implementation("androidx.startup:startup-runtime:1.1.1")
     }
 }
 
