@@ -9,7 +9,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,27 +26,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordEffect
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordState
 import io.spherelabs.addnewpasswordimpl.presentation.AddNewPasswordWish
-import io.spherelabs.designsystem.dialog.title
 import io.spherelabs.designsystem.fonts.LocalStrings
 import io.spherelabs.designsystem.hooks.*
-import io.spherelabs.designsystem.image.RoundedImage
-import io.spherelabs.designsystem.picker.LKSocialMediaPicker
-import io.spherelabs.designsystem.picker.SocialMedia
-import io.spherelabs.designsystem.picker.socialIconsPicker
-import io.spherelabs.designsystem.spinner.LKSpinner
 import io.spherelabs.designsystem.textfield.*
 import io.spherelabs.foundation.color.BlackRussian
 import io.spherelabs.foundation.color.Jaguar
 import io.spherelabs.foundation.color.LavenderBlue
 import io.spherelabs.resource.fonts.GoogleSansFontFamily
-import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.SocialMediaResourceProvider
 import io.spherelabs.resource.icons.anypassicons.*
-import io.spherelabs.resource.images.MR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -128,81 +118,7 @@ fun AddNewPasswordContent(
     }
 }
 
-object SocialIcons {
-    @Composable
-    fun getSocialMedia(): State<List<SocialMedia>> {
-        return useUpdatedState(
-            listOf(
-                SocialMedia(
-                    "Behance",
-                    AnyPassIcons.Behance,
-                ),
-                SocialMedia(
-                    "Linkedin",
-                    AnyPassIcons.Linkedin,
-                ),
-                SocialMedia(
-                    title = "Dribble",
-                    image = AnyPassIcons.Dribble,
-                ),
-                SocialMedia(
-                    title = "ApplePodcasts",
-                    image = AnyPassIcons.ApplePodcasts,
-                ),
-                SocialMedia(
-                    title = "Discord",
-                    image = AnyPassIcons.Discord,
-                ),
-                SocialMedia(
-                    title = "Facebook",
-                    image = AnyPassIcons.Facebook,
-                ),
-                SocialMedia(
-                    title = "GoogleMeet",
-                    image = AnyPassIcons.Googlemeet,
-                ),
-                SocialMedia(
-                    title = "Medium",
-                    image = AnyPassIcons.Medium,
-                ),
-                SocialMedia(
-                    title = "Messenger",
-                    image = AnyPassIcons.Messenger,
-                ),
-                SocialMedia(
-                    title = "Pinterest",
-                    image = AnyPassIcons.Pinterest,
-                ),
-                SocialMedia(
-                    title = "Quora",
-                    image = AnyPassIcons.Quora,
-                ),
-                SocialMedia(
-                    title = "Reddit",
-                    image = AnyPassIcons.Reddit,
-                ),
-                SocialMedia(
-                    title = "Skype",
-                    image = AnyPassIcons.Skype,
-                ),
-                SocialMedia(
-                    title = "Telegram",
-                    image = AnyPassIcons.Telegram,
-                ),
-            ),
-        )
-    }
-
-    @Composable
-    fun get(title: String): State<SocialMedia?> {
-        val items = getSocialMedia().value
-        return useUpdatedState(
-            items.find { it.title == title },
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BasicAddNewPasswordContent(
     state: AddNewPasswordState,
@@ -213,7 +129,6 @@ fun BasicAddNewPasswordContent(
 ) {
     val strings = LocalStrings.current
     val focusManager = LocalFocusManager.current
-    val waitForPositiveButton by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier.fillMaxSize().padding(paddingValues).consumeWindowInsets(paddingValues),
@@ -278,17 +193,7 @@ fun BasicAddNewPasswordContent(
                             )
                         },
                     )
-//
-//                    LKSocialMediaPicker {
-//                        title(strings.selectIcon)
-//                        socialIconsPicker(
-//                            socialIcons = SocialIcons.getSocialMedia().value,
-//                            waitForPositiveButton = waitForPositiveButton,
-//                        ) {
-//                            wish.invoke(AddNewPasswordWish.OnImageChanged(it.title))
-//                        }
-//                    }
-                }
+
                 if (state.isTitleFailed) {
                     Text(
                         modifier = modifier.padding(start = 24.dp, top = 4.dp),
@@ -299,7 +204,7 @@ fun BasicAddNewPasswordContent(
                         fontSize = 12.sp,
                     )
                 }
-            }
+            } }
 
             item {
                 LKUserNameTextField(
@@ -330,27 +235,27 @@ fun BasicAddNewPasswordContent(
                 }
             }
 
-            item {
-                Column {
-                    Text(
-                        text = strings.category,
-                        modifier = Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp),
-                        textAlign = TextAlign.Start,
-                        color = Color.White,
-                        fontSize = 18.sp,
-                        fontFamily = GoogleSansFontFamily,
-                        fontWeight = FontWeight.Medium,
-                    )
-                    LKSpinner(
-                        expanded = state.isExpanded,
-                        modifier = modifier,
-                        onExpandedChange = { wish.invoke(AddNewPasswordWish.OnExpandChanged(it)) },
-                        current = state.currentCategory,
-                        options = state.categories.map { it.title },
-                        onOptionChosen = { wish.invoke(AddNewPasswordWish.OnCategoryChanged(it)) },
-                    )
-                }
-            }
+//            item {
+//                Column {
+//                    Text(
+//                        text = strings.category,
+//                        modifier = Modifier.fillMaxWidth().padding(start = 24.dp, bottom = 4.dp),
+//                        textAlign = TextAlign.Start,
+//                        color = Color.White,
+//                        fontSize = 18.sp,
+//                        fontFamily = GoogleSansFontFamily,
+//                        fontWeight = FontWeight.Medium,
+//                    )
+//                    LKSpinner(
+//                        expanded = state.isExpanded,
+//                        modifier = modifier,
+//                        onExpandedChange = { wish.invoke(AddNewPasswordWish.OnExpandChanged(it)) },
+//                        current = state.currentCategory,
+//                        options = state.categories.map { it.title },
+//                        onOptionChosen = { wish.invoke(AddNewPasswordWish.OnCategoryChanged(it)) },
+//                    )
+//                }
+//            }
 
             item {
                 LKEmailTextField(
