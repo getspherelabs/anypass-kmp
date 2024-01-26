@@ -106,6 +106,8 @@ kotlin {
                 api(projects.features.passwordhistory.passwordhistoryApi)
                 api(projects.features.passwordhistory.passwordhistoryDi)
                 api(projects.features.passwordhistory.passwordhistoryImpl)
+
+                api(projects.manager.sshkey)
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)

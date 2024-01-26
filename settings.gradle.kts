@@ -120,3 +120,4 @@ include(":features:passwordhistory:passwordhistory-api")
 include(":features:passwordhistory:passwordhistory-impl")
 include(":features:passwordhistory:passwordhistory-di")
 
+include(":manager:sshkey")
