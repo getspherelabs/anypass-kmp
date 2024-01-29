@@ -1,7 +1,11 @@
 package io.spherelabs.sshkey
 
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import java.security.KeyFactory
+import java.security.KeyPairGenerator
 import java.security.spec.PKCS8EncodedKeySpec
+import java.security.spec.RSAKeyGenParameterSpec
 import java.security.spec.X509EncodedKeySpec
 
 actual fun ByteArray.toPrivateKey(): PrivateKey {
@@ -11,9 +15,12 @@ actual fun ByteArray.toPrivateKey(): PrivateKey {
 }
 
 actual fun ByteArray.toPublicKey(): PublicKey {
+    val generator = KeyFactory.getInstance("RSA")
+    val spec = X509EncodedKeySpec(this)
     return PublicKey(
-        KeyFactory.getInstance("RSA").generatePublic(
-            X509EncodedKeySpec(this)
-        )
+        generator.generatePublic(spec),
     )
 }
+
+
+

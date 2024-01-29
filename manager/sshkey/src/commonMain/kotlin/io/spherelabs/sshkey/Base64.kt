@@ -11,6 +11,13 @@ fun printPublicKey(keyPairMap: MultiplatformKeyPair): String {
 }
 
 @OptIn(ExperimentalEncodingApi::class)
+fun ByteArray.toHex(): String {
+    return Base64.encode(
+        this, 0,
+    )
+}
+
+@OptIn(ExperimentalEncodingApi::class)
 fun printPrivateKey(keyPairMap: MultiplatformKeyPair): String {
     return Base64.encode(
         keyPairMap.privateKey.encoded, 0,
