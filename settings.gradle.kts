@@ -121,3 +121,6 @@ include(":features:passwordhistory:passwordhistory-impl")
 include(":features:passwordhistory:passwordhistory-di")
 
 include(":manager:sshkey")
+include(":anycrypto")
+include(":anycrypto:secure-random")
+include(":anycrypto:cipher")
