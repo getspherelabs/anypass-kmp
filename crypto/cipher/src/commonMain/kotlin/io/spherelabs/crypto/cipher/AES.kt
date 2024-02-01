@@ -14,6 +14,7 @@ class AES(val keyWords: IntArray) : Cipher {
     private val keySize = keyWords.size
     private val numRounds = keySize + 6
     private val ksRows = (numRounds + 1) * 4
+
     private val keySchedule = IntArray(ksRows).apply {
         for (ksRow in indices) {
             this[ksRow] = when {

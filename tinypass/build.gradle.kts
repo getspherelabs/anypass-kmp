@@ -26,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("com.squareup.okio:okio:3.7.0")
+                implementation(projects.crypto.secureRandom)
             }
         }
         val commonTest by getting {
