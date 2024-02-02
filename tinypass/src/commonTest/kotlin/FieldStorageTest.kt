@@ -2,8 +2,10 @@ import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.tinypass.database.header.FieldStorage
 import io.spherelabs.crypto.tinypass.database.header.Kdbx4Field
 import io.spherelabs.crypto.tinypass.database.header.Type
+import kotlin.math.sin
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import okio.*
 import okio.ByteString.Companion.toByteString
 
 class FieldStorageTest {
@@ -25,4 +27,9 @@ class FieldStorageTest {
 
         assertEquals(uuid?.type, Type.Bytes)
     }
+}
+
+enum class ID {
+    BlahBlah,
+    AAA
 }
