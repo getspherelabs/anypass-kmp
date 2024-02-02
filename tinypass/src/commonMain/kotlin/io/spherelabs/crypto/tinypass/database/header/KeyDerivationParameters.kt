@@ -59,11 +59,30 @@ sealed class KeyDerivationParameters(
                 KdfAes -> {
                     Aes(
                         uuid = uuid,
-                        rounds = (bucket[ROUNDS] as? Kdbx4Field.UInt64)?.rawValue ?: throw IllegalArgumentException(),
-                        seed = (bucket[SALT_OR_SEED] as? Kdbx4Field.Bytes)?.rawValue ?: throw IllegalArgumentException(),
+                        rounds = (bucket[ROUNDS] as? Kdbx4Field.UInt64)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                        seed = (bucket[SALT_OR_SEED] as? Kdbx4Field.Bytes)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                    )
+
+                }
+                KdfArgon2d, KdfArgon2id -> {
+                    Argon2(
+                        uuid = uuid,
+                        salt = (bucket[SALT_OR_SEED] as? Kdbx4Field.Bytes)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                        parallelism = (bucket[PARALLELISM] as? Kdbx4Field.UInt32)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                        memory = (bucket[MEMORY] as? Kdbx4Field.UInt64)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                        iterations = (bucket[ITERATIONS] as? Kdbx4Field.UInt64)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                        version = (bucket[VERSION] as? Kdbx4Field.UInt32)?.rawValue
+                            ?: throw IllegalArgumentException(),
+                        null, null,
                     )
                 }
-                else -> {}
+                else -> throw IllegalArgumentException()
             }
         }
 
