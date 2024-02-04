@@ -9,10 +9,11 @@ package io.spherelabs.crypto.uuid
  * The length of each group is: 8-4-4-4-12. UUIDs are fixed length.
  */
 interface Uuid {
-    public val mostSignificantBits: Long
-    public val leastSignificantBits: Long
+    public var mostSignificantBits: Long
+    public var leastSignificantBits: Long
     public fun isZero(): Boolean
     public fun of(mostSigBits: Long, leastSigBits: Long): Uuid
+    public fun fromString(name: String): Uuid
 }
 
 expect fun uuid4(): Uuid

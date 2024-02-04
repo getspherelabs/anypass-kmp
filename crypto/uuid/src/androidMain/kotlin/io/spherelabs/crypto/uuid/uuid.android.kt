@@ -6,8 +6,8 @@ internal class AndroidUuid(
     private val uuid: UUID,
 ) : Uuid {
 
-    override val mostSignificantBits: Long = uuid.mostSignificantBits
-    override val leastSignificantBits: Long = uuid.leastSignificantBits
+    override var mostSignificantBits: Long = uuid.mostSignificantBits
+    override var leastSignificantBits: Long = uuid.leastSignificantBits
 
     override fun toString(): String {
         return uuid.toString()
@@ -19,6 +19,10 @@ internal class AndroidUuid(
 
     override fun of(mostSigBits: Long, leastSigBits: Long): Uuid {
         return UUID(mostSigBits, leastSigBits).toAndroidUuid()
+    }
+
+    override fun fromString(name: String): Uuid {
+        return UUID.fromString(name).toAndroidUuid()
     }
 }
 
