@@ -10,7 +10,7 @@ import okio.ByteString
 sealed class KeyDerivationParameters(
     open val uuid: ByteString,
 ) {
-    data class Aes(
+    data class AES(
         override val uuid: ByteString,
         val rounds: ULong,
         val seed: ByteString,
@@ -23,18 +23,19 @@ sealed class KeyDerivationParameters(
         val memory: ULong,
         val iterations: ULong,
         val version: UInt,
-        val secretKey: ByteString?,
+        val key: ByteString?,
         val associatedData: ByteString?,
     ) : KeyDerivationParameters(uuid)
 
 
     fun serialize(): ByteString {
         val fields = when (this) {
-            is Aes -> mapOf(
+            is AES -> mapOf(
                 UUID to Kdbx4Field.Bytes(uuid),
                 ROUNDS to Kdbx4Field.UInt64(rounds),
                 SALT_OR_SEED to Kdbx4Field.Bytes(seed),
             )
+
             is Argon2 -> mapOf(
                 UUID to Kdbx4Field.Bytes(uuid),
                 SALT_OR_SEED to Kdbx4Field.Bytes(salt),
@@ -53,19 +54,17 @@ sealed class KeyDerivationParameters(
         fun deserialize(output: ByteString): KeyDerivationParameters {
             val bucket = FieldStorage.read(output)
 
-            val uuid = (bucket[UUID] as? Kdbx4Field.Bytes)?.rawValue
-
-            return when (uuid) {
+            return when (val uuid = (bucket[UUID] as? Kdbx4Field.Bytes)?.rawValue) {
                 KdfAes -> {
-                    Aes(
+                    AES(
                         uuid = uuid,
                         rounds = (bucket[ROUNDS] as? Kdbx4Field.UInt64)?.rawValue
                             ?: throw IllegalArgumentException(),
                         seed = (bucket[SALT_OR_SEED] as? Kdbx4Field.Bytes)?.rawValue
                             ?: throw IllegalArgumentException(),
                     )
-
                 }
+
                 KdfArgon2d, KdfArgon2id -> {
                     Argon2(
                         uuid = uuid,
@@ -79,9 +78,11 @@ sealed class KeyDerivationParameters(
                             ?: throw IllegalArgumentException(),
                         version = (bucket[VERSION] as? Kdbx4Field.UInt32)?.rawValue
                             ?: throw IllegalArgumentException(),
-                        null, null,
+                        null,
+                        null,
                     )
                 }
+
                 else -> throw IllegalArgumentException()
             }
         }

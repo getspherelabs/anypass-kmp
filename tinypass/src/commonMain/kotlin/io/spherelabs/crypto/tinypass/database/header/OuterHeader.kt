@@ -1,8 +1,11 @@
 package io.spherelabs.crypto.tinypass.database.header
 
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
+import io.spherelabs.crypto.tinypass.database.common.toIntLe
+import io.spherelabs.crypto.tinypass.database.common.toUuid
 import io.spherelabs.crypto.tinypass.database.signature.Signature
 import okio.BufferedSink
+import okio.BufferedSource
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
 
@@ -70,29 +73,38 @@ import okio.ByteString.Companion.toByteString
  * EndOfHeader
  */
 
+
 data class OuterHeader(
-    val signature: Signature,
-    val version: Version,
-    val compression: Compression,
+    val options: OuterHeaderOption,
     val seed: ByteString,
     val encryptionIV: ByteString,
     val keyDerivationParameters: KeyDerivationParameters,
     val customData: Map<String, Kdbx4Field>,
 ) {
     fun writeTo(sink: BufferedSink) {
-        signature.writeTo(sink)
-        version.writeTo(sink)
+        options.serialize(sink)
 
-        // Writing the cipher ID
-        sink.writeByte(CIPHER_ID)
+        // Writing the seed.
+        sink.writeByte(SEED)
+        sink.writeIntLe(seed.size)
+        sink.write(seed)
 
+        // Writing the encryption IV.
+        sink.writeByte(ENCRYPTION_IV)
+        sink.writeIntLe(encryptionIV.size)
+        sink.write(encryptionIV)
 
-        // Writing the compression
-        sink.writeByte(COMPRESSION)
-        sink.writeIntLe(Int.SIZE_BYTES)
-        sink.writeIntLe(compression.ordinal)
+        // Writing the key derivation parameters.
+        sink.writeByte(KDF_PARAMETERS)
+        val keyDerivationParam = keyDerivationParameters.serialize()
+        sink.writeIntLe(keyDerivationParam.size)
+        sink.write(keyDerivationParam)
 
-
+        // Writing the custom data.
+        sink.writeByte(CUSTOM_DATA)
+        sink.writeIntLe(customData.size)
+        val data = FieldStorage.write(customData)
+        sink.write(data)
     }
 
     companion object {
@@ -100,9 +112,7 @@ data class OuterHeader(
             val random = buildSecureRandom()
 
             return OuterHeader(
-                signature = Signature.Default,
-                version = Version(4, 1),
-                compression = Compression.GZip,
+                options = OuterHeaderOption.Default,
                 seed = random.nextBytes(32).toByteString(),
                 encryptionIV = random.nextBytes(16).toByteString(),
                 keyDerivationParameters = KeyDerivationParameters.Argon2(
@@ -119,17 +129,80 @@ data class OuterHeader(
             )
         }
 
+        fun deserialize(source: BufferedSource): OuterHeader {
+            val options: OuterHeaderOption? = null
+//
+//            var cipherId: CipherId? = null
+//            var compressionFlags: CompressionFlags? = null
+            var seed: ByteString? = null
+            var encryptionIV: ByteString? = null
+            var keyDerivationParameters: KeyDerivationParameters? = null
+            var customData: Map<String, Kdbx4Field> = mapOf()
+
+            val signature = Signature.deserialize(source)
+            val version = Version.deserialize(source)
+
+            while (true) {
+                val id = source.readByte().toInt()
+                val length = source.readIntLe().toLong()
+                val data = source.readByteString(length)
+
+                when (id) {
+                    END_OF_HEADER -> break
+                    CIPHER_ID -> {
+                        cipherId = data.toUuid().let { cipherId ->
+                            CipherId.values().firstOrNull { newCipherId ->
+                                newCipherId.uuid == cipherId
+                            }
+                        }
+                    }
+
+                    COMPRESSION -> {
+                        compressionFlags = CompressionFlags.values()[data.toIntLe()]
+                    }
+
+                    SEED -> {
+                        seed = data
+                    }
+
+                    ENCRYPTION_IV -> {
+                        encryptionIV = data
+                    }
+
+                    KDF_PARAMETERS -> {
+                        keyDerivationParameters = KeyDerivationParameters.deserialize(data)
+                    }
+
+                    CUSTOM_DATA -> {
+                        customData = FieldStorage.read(data)
+                    }
+                }
+            }
+            return OuterHeader(
+                signature = signature,
+                cipherId = requireNotNull(cipherId) { "Cipher id is null." },
+                version = version,
+                compressionFlags = requireNotNull(compressionFlags) { "Compression is null." },
+                encryptionIV = requireNotNull(encryptionIV) { "Encryption IV is null." },
+                seed = requireNotNull(seed) { "Seed is null." },
+                keyDerivationParameters = requireNotNull(keyDerivationParameters) { "Key derivation is null." },
+                customData = customData,
+            )
+        }
+
         const val END_OF_HEADER = 0
         const val CIPHER_ID = 1
         const val COMPRESSION = 2
         const val SEED = 3
         const val ENCRYPTION_IV = 4
         const val KDF_PARAMETERS = 5
+        const val CUSTOM_DATA = 6
     }
 
 
 }
 
-enum class Compression {
+enum class CompressionFlags {
     None, GZip
 }
+

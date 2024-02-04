@@ -5,6 +5,7 @@ import okio.BufferedSource
 import okio.ByteString
 
 /**
+ * Outer header starts with signature and version.
  * Represents the header of .kdb and .kdbx file formats, consisting of two 4-byte fields for file signatures.
  *
  * @property first The first 4-byte signature. It will always have a value of 0x9AA2D903.
@@ -16,9 +17,9 @@ data class Signature(
     val second: ByteString,
 ) {
 
-    fun writeTo(sink: BufferedSink) = writeInternal(sink)
+    fun serialize(sink: BufferedSink) = serializeInternal(sink)
 
-    private fun writeInternal(sink: BufferedSink) = with(sink) {
+    private fun serializeInternal(sink: BufferedSink) = with(sink) {
         write(first)
         write(second)
     }
@@ -28,7 +29,7 @@ data class Signature(
         val SecondSignature = ByteString.of(0x67, 0xfb.toByte(), 0x4b, 0xb5.toByte())
         val Default = Signature(FirstSignature, SecondSignature)
 
-        fun readFrom(source: BufferedSource) = Signature(
+        fun deserialize(source: BufferedSource) = Signature(
             first = source.readByteString(4),
             second = source.readByteString(4),
         )

@@ -1,11 +1,11 @@
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.tinypass.database.header.FieldStorage
 import io.spherelabs.crypto.tinypass.database.header.Kdbx4Field
+import io.spherelabs.crypto.tinypass.database.header.KeyDerivationParameters
+import io.spherelabs.crypto.tinypass.database.header.OuterHeader
 import io.spherelabs.crypto.tinypass.database.header.Type
-import kotlin.math.sin
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import okio.*
 import okio.ByteString.Companion.toByteString
 
 class FieldStorageTest {
@@ -16,20 +16,16 @@ class FieldStorageTest {
 
 
         val input = mutableMapOf(
-            "uuid" to Kdbx4Field.Bytes(bytes.toByteString()),
+            KeyDerivationParameters.UUID to Kdbx4Field.Bytes(bytes.toByteString()),
         )
 
         val result = FieldStorage.write(input).let {
             FieldStorage.read(it)
         }
 
-        val uuid = result["uuid"]
+        val uuid = result[KeyDerivationParameters.UUID]
 
         assertEquals(uuid?.type, Type.Bytes)
     }
-}
 
-enum class ID {
-    BlahBlah,
-    AAA
 }

@@ -27,6 +27,7 @@ kotlin {
             dependencies {
                 implementation("com.squareup.okio:okio:3.7.0")
                 implementation(projects.crypto.secureRandom)
+                implementation("com.benasher44:uuid:0.8.2")
             }
         }
         val commonTest by getting {
@@ -35,7 +36,12 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidUnitTest by getting
+        val androidUnitTest by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.0")
+                implementation(kotlin("test"))
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
