@@ -37,5 +37,7 @@ data class OuterHeaderOption(
 
         const val CIPHER_ID = 1
         const val COMPRESSION = 2
+
+        const val CIPHER_ID_LENGTH = 16
     }
 }

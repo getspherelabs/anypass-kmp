@@ -94,7 +94,7 @@ sealed class KeyDerivationParameters(
         const val MEMORY = "M"
         const val ITERATIONS = "I"
         const val VERSION = "V"
-        const val SECRET_KEY = "K" // Unsupported
+        const val KEY = "K" // Unsupported
         const val ASSOC_DATA = "A" // Unsupported
 
         val KdfAes = ByteString.of(

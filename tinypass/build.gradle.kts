@@ -27,7 +27,10 @@ kotlin {
             dependencies {
                 implementation("com.squareup.okio:okio:3.7.0")
                 implementation(projects.crypto.secureRandom)
+                implementation(projects.crypto.digest)
                 implementation("com.benasher44:uuid:0.8.2")
+                implementation("com.fleeksoft.ksoup:ksoup:0.1.2")
+                implementation(libs.datetime)
             }
         }
         val commonTest by getting {
