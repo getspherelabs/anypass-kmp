@@ -15,7 +15,7 @@ data class Entry(
     val backgroundColor: String? = null,
     val overrideUrl: String = "",
     override val times: TimeData? = TimeData.create(),
-    val autoType: AutoTypeData? = null,
+    // val autoType: AutoTypeData? = null,
     val fields: EntryFields = EntryFields.createDefault(),
     override val tags: List<String> = listOf(),
     val binaries: List<BinaryReference> = listOf(),

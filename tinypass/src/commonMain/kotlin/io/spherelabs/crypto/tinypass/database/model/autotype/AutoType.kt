@@ -2,7 +2,9 @@ package io.spherelabs.crypto.tinypass.database.model.autotype
 
 import com.fleeksoft.ksoup.nodes.Element
 import io.spherelabs.crypto.tinypass.database.FormatXml
-import io.spherelabs.crypto.tinypass.database.xml.toXmlString
+import io.spherelabs.crypto.tinypass.database.common.selectAsBoolean
+import io.spherelabs.crypto.tinypass.database.common.selectAsInt
+import io.spherelabs.crypto.tinypass.database.common.selectAsString
 
 data class AutoType(
     val enabled: Boolean,
@@ -17,16 +19,20 @@ data class AutoType(
             appendElement(SEQUENCE).text(defaultSequence ?: "")
 
             items.forEach { item ->
-                appendElement(FormatXml.Tags.Entry.AutoType.Association).apply {
-                    item.serialize(this)
-                }
+                item.serialize(this)
             }
         }
     }
 
     companion object {
-        fun deserialize(): AutoType {
-
+        fun deserialize(element: Element): AutoType = with(element) {
+            return AutoType(
+                enabled = selectAsBoolean(ENABLED),
+                obfuscation = selectAsInt(OBFUSCATION)
+                    .let(Obfuscation.values()::getOrNull) ?: Obfuscation.None,
+                defaultSequence = selectAsString(SEQUENCE),
+                items = AutoTypeItem.deserialize(element),
+            )
         }
 
         const val TAG_NAME = "AutoType"
@@ -36,3 +42,8 @@ data class AutoType(
     }
 }
 
+internal fun Boolean.toXmlString() = if (this) {
+    FormatXml.Values.True
+} else {
+    FormatXml.Values.False
+}

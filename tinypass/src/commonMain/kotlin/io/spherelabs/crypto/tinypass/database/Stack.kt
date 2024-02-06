@@ -46,4 +46,7 @@ class Stack<T : Any> {
 
     val isEmpty: Boolean
         get() = storage.isEmpty()
+
+    val isNotEmpty: Boolean
+        get() = storage.isNotEmpty()
 }

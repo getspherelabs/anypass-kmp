@@ -1,7 +1,6 @@
 package io.spherelabs.crypto.tinypass.database.model.autotype
 
 import com.fleeksoft.ksoup.nodes.Element
-import io.spherelabs.crypto.tinypass.database.FormatXml
 import io.spherelabs.crypto.tinypass.database.common.selectAsString
 
 data class AutoTypeItem(
@@ -9,24 +8,27 @@ data class AutoTypeItem(
     val keystrokeSequence: String,
 ) {
     fun serialize(element: Element) = with(element) {
-        appendElement(Window)
-            .appendText(window)
-        appendElement(KeystrokeSequence)
-            .appendText(keystrokeSequence)
+        appendElement(ASSOCIATION).apply {
+            appendElement(Window)
+                .appendText(window)
+            appendElement(KEYSTORE_SEQUENCE)
+                .appendText(keystrokeSequence)
+        }
     }
 
     companion object {
         fun deserialize(element: Element): List<AutoTypeItem> = with(element) {
-            val elementByTag = getElementsByTag(FormatXml.Tags.Entry.AutoType.Association)
+            val elementByTag = getElementsByTag(ASSOCIATION)
 
             return elementByTag.map { currentElement ->
                 val window = currentElement.selectAsString(Window)
-                val sequence = currentElement.selectAsString(KeystrokeSequence)
+                val sequence = currentElement.selectAsString(KEYSTORE_SEQUENCE)
                 AutoTypeItem(window, sequence)
             }
         }
 
         const val Window = "Window"
-        const val KeystrokeSequence = "KeystrokeSequence"
+        const val KEYSTORE_SEQUENCE = "KeystrokeSequence"
+        const val ASSOCIATION = "Association"
     }
 }
