@@ -1,4 +1,6 @@
-package io.spherelabs.crypto.tinypass.database
+package io.spherelabs.crypto.tinypass.database.model.component
+
+import io.spherelabs.crypto.tinypass.database.BasicField
 
 
 /**
@@ -117,7 +119,7 @@ class EntryFields(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || other !is EntryFields) return false
+        if (other == null || this::class != other::class) return false
 
         val iterator = fields.iterator()
         val otherIterator = (other as EntryFields).iterator()

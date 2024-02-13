@@ -1,8 +1,6 @@
-package io.spherelabs.crypto.tinypass.database
+package io.spherelabs.crypto.tinypass.database.model.component
 
 import com.benasher44.uuid.Uuid
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 sealed interface DatabaseElement {
     val uuid: Uuid

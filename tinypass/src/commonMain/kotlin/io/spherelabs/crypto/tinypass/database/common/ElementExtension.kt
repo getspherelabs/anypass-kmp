@@ -34,3 +34,7 @@ internal fun Element.addUuid(uuid: Uuid?) {
     text(uuid?.toBase64() ?: "")
 }
 
+
+internal fun Element.addBytes(bytes: ByteArray) {
+    text(bytes.decodeToString())
+}

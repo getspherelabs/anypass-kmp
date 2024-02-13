@@ -1,17 +1,12 @@
 package io.spherelabs.crypto.tinypass.database.header
 
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
-import io.spherelabs.crypto.tinypass.database.compressor.toGzipSink
-import io.spherelabs.crypto.tinypass.database.compressor.toGzipSource
-import okio.Buffer
+import io.spherelabs.crypto.tinypass.database.model.component.BinaryData
 import okio.BufferedSink
 import okio.BufferedSource
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
-import okio.IOException
-import okio.Source
-import okio.buffer
-import okio.use
+
 
 private object InnerHeaderFieldId {
     const val END_OF_HEADER = 0x00
@@ -123,59 +118,5 @@ enum class CrsAlgorithm {
     ChaCha20
 }
 
-sealed class BinaryData(
-    val hash: ByteString,
-) {
-    abstract val memoryProtection: Boolean
-    abstract val rawContent: ByteArray
-
-    abstract fun getContent(): ByteArray
-    abstract fun source(): Source
-
-    class Uncompressed(
-        override val memoryProtection: Boolean,
-        override val rawContent: ByteArray,
-    ) : BinaryData(
-        rawContent.toByteString().sha256(),
-    ) {
-        override fun source(): Source {
-            val buffer = Buffer().write(rawContent)
-            return (buffer as Source).buffer()
-        }
-
-        override fun getContent() = rawContent
-
-        fun toCompressed(): Compressed {
-            try {
-                val sink = rawContent.toGzipSink().use {
-                    it.buffer().write(rawContent)
-                }
-                val bytes = sink.buffer.readByteArray()
-
-                return Compressed(
-                    rawContent = bytes,
-                    memoryProtection = memoryProtection,
-                )
-            } catch (exception: IOException) {
-                throw exception
-            }
-        }
-    }
-
-    class Compressed(
-        override val rawContent: ByteArray,
-        override val memoryProtection: Boolean,
-    ) : BinaryData(
-        rawContent.toByteString().sha256(),
-    ) {
-        override fun getContent(): ByteArray {
-            return source().buffer().readByteArray()
-        }
-
-        override fun source(): Source {
-            return rawContent.toGzipSource()
-        }
-    }
-}
 
 

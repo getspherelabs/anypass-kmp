@@ -5,7 +5,6 @@ import io.spherelabs.crypto.tinypass.database.FormatXml
 import io.spherelabs.crypto.tinypass.database.common.selectAsBoolean
 import io.spherelabs.crypto.tinypass.database.common.selectAsInt
 import io.spherelabs.crypto.tinypass.database.common.selectAsString
-
 data class AutoType(
     val enabled: Boolean,
     val obfuscation: Obfuscation = Obfuscation.None,

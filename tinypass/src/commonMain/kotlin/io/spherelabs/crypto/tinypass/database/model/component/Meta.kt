@@ -1,7 +1,7 @@
-package io.spherelabs.crypto.tinypass.database
+package io.spherelabs.crypto.tinypass.database.model.component
 
 import com.benasher44.uuid.Uuid
-import io.spherelabs.crypto.tinypass.database.header.BinaryData
+import io.spherelabs.crypto.tinypass.database.FormatXml
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import okio.ByteString

@@ -5,7 +5,7 @@ package io.spherelabs.crypto.cipher
  * Implementation of Daniel J. Bernstein's ChaCha stream cipher.
  */
 
-internal class ChaCha7539 : Salsa20() {
+class ChaCha7539Engine : Salsa20Engine() {
     override val algorithmName = "ChaCha7539"
 
     override fun advanceCounter(diff: Long) {

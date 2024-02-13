@@ -7,7 +7,7 @@ package io.spherelabs.crypto.cipher
 
 private const val DefaultRounds = 20
 
-internal class ChaCha(rounds: Int = DefaultRounds) : Salsa20(rounds) {
+internal class ChaChaEngine(rounds: Int = DefaultRounds) : Salsa20Engine(rounds) {
     override val algorithmName = "ChaCha"
 
     override fun advanceCounter(diff: Long) {

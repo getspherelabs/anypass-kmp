@@ -1,8 +1,9 @@
-package io.spherelabs.crypto.tinypass.database
+package io.spherelabs.crypto.tinypass.database.model.component
 
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.hash.Algorithm
 import io.spherelabs.crypto.hash.digest
+import io.spherelabs.crypto.hash.sha256
 import kotlin.experimental.xor
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -11,7 +12,6 @@ class EncryptedValue(
     private val value: ByteArray,
     private val salt: ByteArray,
 ) {
-    private val sha256 = digest(Algorithm.Sha256)
 
     /**
      * Length of encrypted value in bytes.
@@ -26,7 +26,7 @@ class EncryptedValue(
     /**
      * Decrypts value and calculates SHA256.
      */
-    fun binaryHash() = sha256.digest(getBinary())
+    fun binaryHash() = getBinary().sha256()
 
     /**
      * Decrypts value and returns raw bytes.

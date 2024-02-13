@@ -17,4 +17,18 @@ interface Digest {
     fun digest(): ByteArray
 }
 
+
 expect fun digest(type: Algorithm): Digest
+
+fun ByteArray.sha256(): ByteArray {
+    val msgDigest = digest(Algorithm.Sha256)
+    msgDigest.digest(this)
+    return msgDigest.digest()
+}
+
+
+fun ByteArray.sha512(): ByteArray {
+    val msgDigest = digest(Algorithm.Sha512)
+    msgDigest.digest(this)
+    return msgDigest.digest()
+}

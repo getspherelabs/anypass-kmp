@@ -10,21 +10,21 @@ data class OuterHeaderOption(
     val cipherId: CipherId,
     val compressionFlags: CompressionFlags
 ) {
-    fun serialize(sink: BufferedSink) {
+    fun serialize(sink: BufferedSink)  = with(sink){
         signature.serialize(sink)
         version.serialize(sink)
 
-        sink.writeByte(CIPHER_ID)
-        sink.writeIntLe(16)
+        writeByte(CIPHER_ID)
+        writeIntLe(16)
         val bytes = Buffer().apply {
             writeLong(cipherId.uuid.mostSignificantBits)
             writeLong(cipherId.uuid.leastSignificantBits)
         }
-        sink.write(bytes.readByteArray())
+        write(bytes.readByteArray())
 
-        sink.writeByte(OuterHeader.COMPRESSION)
-        sink.writeIntLe(Int.SIZE_BYTES)
-        sink.writeIntLe(compressionFlags.ordinal)
+        writeByte(OuterHeader.COMPRESSION)
+        writeIntLe(Int.SIZE_BYTES)
+        writeIntLe(compressionFlags.ordinal)
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package io.spherelabs.crypto.tinypass.database
+package io.spherelabs.crypto.tinypass.database.model.component
 
 import kotlinx.datetime.Instant
 
