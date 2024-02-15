@@ -28,6 +28,6 @@ data class DeletedComponent(
 
         const val TAG_NAME = "DeletedComponents"
         const val COMPONENT = "DeletedComponent"
-        const val TIMESTAMP = "DeletionTIme"
+        const val TIMESTAMP = "DeletionTime"
     }
 }

@@ -3,28 +3,35 @@ package io.spherelabs.crypto.tinypass.database.header
 import io.spherelabs.crypto.tinypass.database.signature.Signature
 import okio.Buffer
 import okio.BufferedSink
+import okio.BufferedSource
+import okio.buffer
 
 data class OuterHeaderOption(
-    val signature: Signature,
-    val version: Version,
-    val cipherId: CipherId,
-    val compressionFlags: CompressionFlags
+    var signature: Signature,
+    var version: Version,
+    var cipherId: CipherId,
+    var compressionFlags: CompressionFlags,
 ) {
-    fun serialize(sink: BufferedSink)  = with(sink){
+    fun serialize(sink: BufferedSink) = with(sink) {
         signature.serialize(sink)
         version.serialize(sink)
-
-        writeByte(CIPHER_ID)
-        writeIntLe(16)
+        println("Sink is ${sink.buffer()}")
+        writeByte(FieldID.CipherID.ordinal)
+        writeIntLe(CIPHER_ID_LENGTH)
         val bytes = Buffer().apply {
             writeLong(cipherId.uuid.mostSignificantBits)
             writeLong(cipherId.uuid.leastSignificantBits)
-        }
-        write(bytes.readByteArray())
+        }.readByteString()
 
-        writeByte(OuterHeader.COMPRESSION)
+        write(bytes)
+
+        println("Option bytes are $bytes")
+        println("Id is ${FieldID.CompressionFlags.ordinal}")
+        writeByte(FieldID.CompressionFlags.ordinal)
         writeIntLe(Int.SIZE_BYTES)
         writeIntLe(compressionFlags.ordinal)
+
+        println("Sink is ${sink.buffer()}")
     }
 
     companion object {

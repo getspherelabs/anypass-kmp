@@ -14,7 +14,7 @@ internal class IosSecureRandom : SecureRandom {
 
         if (size != 0) {
             result.usePinned { pin ->
-                val address =  pin.addressOf(0)
+                val address = pin.addressOf(0)
 
                 SecRandomCopyBytes(
                     kSecRandomDefault,
@@ -25,6 +25,21 @@ internal class IosSecureRandom : SecureRandom {
         }
 
         return result
+    }
+
+    override fun nextBytes(byteArray: ByteArray): ByteArray {
+        if (byteArray.size != 0) {
+            byteArray.usePinned { pin ->
+                val address = pin.addressOf(0)
+
+                SecRandomCopyBytes(
+                    kSecRandomDefault,
+                    byteArray.size.convert(),
+                    address,
+                )
+            }
+        }
+        return byteArray
     }
 }
 

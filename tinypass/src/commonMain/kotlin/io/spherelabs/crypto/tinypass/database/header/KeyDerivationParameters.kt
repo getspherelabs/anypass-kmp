@@ -46,13 +46,13 @@ sealed class KeyDerivationParameters(
             )
         }
 
-        return FieldStorage.write(fields)
+        return VarDict.serialize(fields)
     }
 
     companion object {
 
         fun deserialize(output: ByteString): KeyDerivationParameters {
-            val bucket = FieldStorage.read(output)
+            val bucket = VarDict.deserialize(output)
 
             return when (val uuid = (bucket[UUID] as? Kdbx4Field.Bytes)?.rawValue) {
                 KdfAes -> {

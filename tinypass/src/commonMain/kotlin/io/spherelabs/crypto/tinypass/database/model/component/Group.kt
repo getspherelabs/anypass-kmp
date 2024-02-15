@@ -2,15 +2,16 @@ package io.spherelabs.crypto.tinypass.database.model.component
 
 import com.benasher44.uuid.Uuid
 import io.spherelabs.crypto.tinypass.database.Stack
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 data class Group(
     override val id: Uuid,
-    override val expiredAt: Instant?,
-    override val expired: Boolean,
-    override val createdAt: Instant?,
-    override val lastModifiedAt: Instant?,
-    override val tags: List<String>,
+    override val expiredAt: Instant? = null,
+    override val expired: Boolean = false,
+    override val createdAt: Instant = Clock.System.now(),
+    override val lastModifiedAt: Instant = Clock.System.now(),
+    override val tags: List<String> = listOf(),
     val title: String,
     val notes: String = "",
     val isSearchable: Boolean = false,

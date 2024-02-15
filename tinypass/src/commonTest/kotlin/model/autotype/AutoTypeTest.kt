@@ -25,8 +25,9 @@ class AutoTypeTest {
         val result = actual.serialize()
         val expected = AutoType.deserialize(result)
 
-        assertEquals(actual.enabled, expected.enabled)
-        assertEquals(actual.obfuscation, expected.obfuscation)
+        println("Result is $result")
+        assertEquals(expected.enabled,actual.enabled)
+        assertEquals(expected.obfuscation, actual.obfuscation)
     }
 
     @Test

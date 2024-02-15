@@ -26,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.crypto.secureRandom)
+                implementation(projects.crypto.digest)
             }
         }
         val commonTest by getting {

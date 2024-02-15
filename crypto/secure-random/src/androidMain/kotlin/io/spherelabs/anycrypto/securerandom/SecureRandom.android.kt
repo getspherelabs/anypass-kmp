@@ -10,6 +10,11 @@ class AndroidSecureRandom(
         secureRandom.nextBytes(byteArray)
         return byteArray
     }
+
+    override fun nextBytes(byteArray: ByteArray): ByteArray {
+        secureRandom.nextBytes(byteArray)
+        return byteArray
+    }
 }
 
 actual fun buildSecureRandom(): SecureRandom = AndroidSecureRandom(JvmSecureRandom())

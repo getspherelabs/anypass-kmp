@@ -18,7 +18,9 @@ internal fun ByteString.toUuid(): Uuid? {
     }
 }
 
-internal fun Uuid.toBase64(): String {
+
+
+fun Uuid.toBase64(): String {
     val buffer = Buffer()
     buffer.write(this.bytes)
 

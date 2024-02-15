@@ -1,8 +1,11 @@
 package io.spherelabs.crypto.tinypass.database.header
 
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
+import io.spherelabs.crypto.tinypass.database.common.toIntLe
+import io.spherelabs.crypto.tinypass.database.common.toUuid
 import io.spherelabs.crypto.tinypass.database.signature.Signature
 import okio.BufferedSink
+import okio.BufferedSource
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
 
@@ -71,36 +74,58 @@ import okio.ByteString.Companion.toByteString
  */
 
 data class OuterHeader(
-    val signature: Signature,
-    val version: Version,
-    val compressionFlags: CompressionFlags,
+    val option: OuterHeaderOption,
     val seed: ByteString,
     val encryptionIV: ByteString,
     val keyDerivationParameters: KeyDerivationParameters,
     val customData: Map<String, Kdbx4Field>,
 ) {
-    fun writeTo(sink: BufferedSink) {
-        signature.serialize(sink)
-        version.serialize(sink)
+    fun serialize(sink: BufferedSink) {
+        with(sink) {
+            option.serialize(sink)
+            serializeSeed()
+            serializeEncryptionIv()
+            serializeParams()
+            println("Option is $option")
+            println("Option is $keyDerivationParameters")
+            val customData = VarDict.serialize(customData)
+            writeByte(FieldID.PublicCustomData.ordinal)
+            writeIntLe(customData.size)
+            write(customData)
 
-        // Writing the cipher ID
-        sink.writeByte(CIPHER_ID)
+            writeByte(FieldID.End.ordinal)
+            writeIntLe(end.size)
+            write(end)
+        }
+    }
 
+    private fun BufferedSink.serializeSeed() {
+        // Write the seed
+        writeByte(FieldID.Seed.ordinal)
+        writeIntLe(seed.size)
+        write(seed)
+    }
 
-        // Writing the compression
-        sink.writeByte(COMPRESSION)
-        sink.writeIntLe(Int.SIZE_BYTES)
-        sink.writeIntLe(compressionFlags.ordinal)
+    private fun BufferedSink.serializeEncryptionIv() {
+        this.writeByte(FieldID.EncryptionIV.ordinal)
+        this.writeIntLe(encryptionIV.size)
+        this.write(encryptionIV)
+    }
+
+    private fun BufferedSink.serializeParams() {
+        val params = keyDerivationParameters.serialize()
+        writeByte(FieldID.KdfParameters.ordinal)
+        writeIntLe(params.size)
+        write(params)
     }
 
     companion object {
+
         fun create(): OuterHeader {
             val random = buildSecureRandom()
 
             return OuterHeader(
-                signature = Signature.Default,
-                version = Version(4, 1),
-                compressionFlags = CompressionFlags.GZip,
+                option = OuterHeaderOption.Default,
                 seed = random.nextBytes(32).toByteString(),
                 encryptionIV = random.nextBytes(16).toByteString(),
                 keyDerivationParameters = KeyDerivationParameters.Argon2(
@@ -117,12 +142,82 @@ data class OuterHeader(
             )
         }
 
-        const val END_OF_HEADER = 0
-        const val CIPHER_ID = 1
-        const val COMPRESSION = 2
+        fun deserialize(source: BufferedSource): OuterHeader {
+            val option: OuterHeaderOption? = null
+            var seed: ByteString? = null
+            var encryptionIV: ByteString? = null
+            var params: KeyDerivationParameters? = null
+            var customData: Map<String, Kdbx4Field> = mapOf()
+
+            val signature = Signature.deserialize(source)
+            val version = Version.deserialize(source)
+
+            while (true) {
+                val (id, rawData) = readHeaderValue(source, version)
+                println("Raw data is $rawData")
+                val fieldId = FieldID.values().getOrNull(id)
+                println("Field id $fieldId")
+                when (fieldId) {
+                    FieldID.End -> break
+                    FieldID.CipherID -> {
+                        option?.cipherId = checkNotNull(
+                            rawData.toUuid()?.let {
+                                CipherId.values().firstOrNull { it.uuid == it.uuid }
+                            },
+                        )
+                    }
+                    FieldID.CompressionFlags -> {
+                        option?.compressionFlags = CompressionFlags.values()[rawData.toIntLe()]
+                    }
+                    FieldID.Seed -> {
+                        seed = rawData
+                    }
+                    FieldID.EncryptionIV -> encryptionIV = rawData
+                    FieldID.KdfParameters -> {
+                        params = KeyDerivationParameters.deserialize(rawData)
+                    }
+                    FieldID.PublicCustomData -> customData = VarDict.deserialize(rawData)
+                    else -> {}
+                }
+            }
+
+            return OuterHeader(
+                option = checkNotNull(option) { "Option is null." },
+                seed = checkNotNull(seed),
+                encryptionIV = checkNotNull(encryptionIV),
+                keyDerivationParameters = checkNotNull(params),
+                customData = customData,
+            )
+
+        }
+        private fun readHeaderValue(
+            source: BufferedSource,
+            version: Version
+        ): Pair<Int, ByteString> {
+            println("Hey,")
+            val id = source.readByte()
+
+            println("Id is $id")
+            val length = source.readIntLe().toLong()
+            val data = if (length > 0) {
+                println("Length is $length")
+                source.readByteString(length)
+            } else {
+                ByteString.EMPTY
+            }
+            return id.toInt() to data
+        }
+
+        val end = ByteString.of(0x0D, 0x0A, 0x0D, 0x0A)
+
+        const val End = 0
         const val SEED = 3
         const val ENCRYPTION_IV = 4
         const val KDF_PARAMETERS = 5
+        const val CUSTOM_DATA = 6
+
+        const val DbVer4Aes =
+            "A9mimmf7S7UAAAQAAhAAAAAxwfLmv3FDUL5YBSFq/Fr/AwQAAAABAAAABCAAAACCdsEJoa+/HI4PlAqhFR+1ZoZ1aU6vtdlxY5jLWTEcogcQAAAAUiN/IXWVctgggk7HpkgJCwtdAAAAAAFCBQAAACRVVUlEEAAAAMnZ85piikRgv3QNCMGKT+pCAQAAAFMgAAAAcvkOGPCC91iXT7+0PHgKSrz1iyw1hClm2lIY0lKQqz0FAQAAAFIIAAAA4JMEAAAAAAAAAAQAAAAA0K0KMpvUzK+vW5N4VgfrjB6WpW5pQta2y8oXrSdnB/fipqvp0zQrRasNKs2n+nJIsG/z5/cID6qCn9SKTXJyCHBB69DvHXbl/IGT/554qluYE8KSxdWBB7aa5iAOcZcOZFNXcAMAAD4h3BpDHx/phFQR4yEvnLaHiXytgubQTRgo5iukAn8/QmMCu5zjvcGap3BoBKghkjHpOMFdEtDum7pHBqbncsIH81bbqFchEKWj+GPnxWjVau1164emKOMVrre+srFVNUKMpDynw+mZ2oNZcRzApKVPGH2nDqx4QAgaOQGcllCBlYjnsCZlZC2tFOuopdRva8fNOWEXgyMcICd9sUV3KBLBn0mk0W2vAoKXe8MwHUfEzVtCAOzP8vFSEnJcqkGmJsZjx2d6SlZkvGqgrwM7p9VLVxCwSkVDKPuFq2qtNSbGZX1iZsZOM0N4VDBQLrlIaNSxLnKnKxnRYl/8dScD4Q7h4MlYBHQX1OLyLlAR/n78Pe201A22KRCHrjh7sqQ/v0Miq3msN8crnvofMky9xuA65k1HAwH8nIfQPDWxaYKhK9CDXifC7JNfrcCw6jxwY3FSP9mm/HKQQjgF3+n3dEhJofWCGh8Z3yrgws/vo2WDHUay5Ia3puR7L2Wmu4+XDnt8EjwqVkkG58x8OcmfHwxgr3ax46rrDfLMts4UWILGaI8I0vcDSZHvQya6ibQ10gIYFP840pgOj5DPtIASfWWj6qpNSmyRZ4aLfRD7xrjlKcKBtOvLT7Or1KO48a8G+Y13DXucsIWCvSBFUiiMKimvh6nLD/5t1Nu0igsBDChP4a/JMhtpVg7dUuH1jQKvDaD6TdJ/PTj5K7oFDhKqyuwIGLpaP8T7k3+luYZgf0jWSNKGTZ37ZEg7yLI9oZ7G0JqV/UrPWiWg7VMoMmCBm9ZM5JBNp4Qdjf3cJWESxEXNtNgVldDSFoTR6kATiJjhS7gk6kWD/1YvjVS2wkVejTWBIk9xSygwmH++CvtibLr+V5TXawprkDuAeGGhfo46OH7gwuK1wvPdmmrykay9f7AZdGOCpeFiZ+jmxiBj+mXmB0Qrz0Pb3SltkH9rOMhV1YBqSHyyuym84HBq/bWoCzc5a0sM9OQ5jMKOK1r5/BxWGx2Ebx/KQhCGW6546Ld6ny99YUhYKG0UMNI3DumC5FXP+bZL0wbGE084hB544zFCR4v83Eqwp5dSTyG0ktfrnGGV8dHG57nKacoB0jORKuCnCV32fW3+GkdwptdZXTXUA9OLIonWpf1nlH5gIHhlwGhg5DaMCVHNjKRFLzbaaHmuwuGNPdzanrBmQFl1DQncq20FXaedD1hYIa8iBeNnfAAAAAA="
     }
 
 
@@ -130,4 +225,15 @@ data class OuterHeader(
 
 enum class CompressionFlags {
     None, GZip
+}
+
+
+enum class FieldID {
+    End, // 0
+    CipherID, // 1
+    CompressionFlags, // 2
+    Seed, // 3
+    EncryptionIV, // 4
+    KdfParameters, // 5
+    PublicCustomData // 6
 }

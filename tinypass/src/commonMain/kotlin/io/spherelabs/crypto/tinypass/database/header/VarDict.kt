@@ -2,11 +2,11 @@ package io.spherelabs.crypto.tinypass.database.header
 
 import okio.*
 
-object FieldStorage {
+object VarDict {
     private const val Version: Short = 0x0100
     private const val VersionFilter: Short = 0xff00.toShort()
 
-    fun read(data: ByteString): Map<String, Kdbx4Field> {
+    fun deserialize(data: ByteString): Map<String, Kdbx4Field> {
         val result = mutableMapOf<String, Kdbx4Field>()
 
         /**
@@ -46,7 +46,7 @@ object FieldStorage {
         return result
     }
 
-    fun write(input: Map<String, Kdbx4Field>): ByteString {
+    fun serialize(input: Map<String, Kdbx4Field>): ByteString {
         val buffer = Buffer()
         buffer.writeShortLe(Version.toInt())
 
