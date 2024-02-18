@@ -1,9 +1,11 @@
 package core
 
+import io.spherelabs.anycrypto.securerandom.SecureRandom
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.tinypass.database.common.encodeHex
 import io.spherelabs.crypto.tinypass.database.common.xmlParser
 import io.spherelabs.crypto.tinypass.database.core.KeyHelper
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -11,36 +13,54 @@ import kotlin.test.assertNotNull
 
 class KeyHelperTest {
 
-    @Test
-    fun `GIVEN the credentials xml file THEN parse the input WHEN checks the parsing input correctly `() {
-        val random = buildSecureRandom().nextBytes(32)
+    private lateinit var secureRandom: SecureRandom
 
+    @BeforeTest
+    fun setup() {
+        secureRandom = buildSecureRandom()
+    }
+
+    @Test
+    fun `GIVEN the credentials xml file WHEN parse the input THEN checks it is not null `() {
+        // GIVEN
+        val random = secureRandom.nextBytes(32)
+
+        // WHEN
         val keyHelper = KeyHelper.from(htmlContent.encodeToByteArray())
         val xml = xmlParser(content = htmlContent)
 
+        // THEN
         assertNotNull(xml)
     }
 
     @Test
-    fun `GIVEN the key THEN create key file WHEN encoding hex`() {
-        val key = buildSecureRandom().nextBytes(32)
+    fun `GIVEN the key WHEN create key file THEN encoding hex`() {
+        // GIVEN
+        val key = secureRandom.nextBytes(32)
+
+        // THEN
         val file = KeyHelper.createKeyfile(key)
 
         val keyHelper = KeyHelper.from(file.encodeToByteArray())
         val hex = keyHelper.key!!.raw.encodeHex()
 
+        // WHEN
         assertEquals(hex, key.encodeHex())
     }
 
     @Test
-    fun `GIVEN the key THEN create key file WHEN encoding hex is not same`() {
-        val key = buildSecureRandom().nextBytes(32)
-        val file = KeyHelper.createKeyfile(key)
+    fun `GIVEN the key WHEN create key file THEN encoding hex is not same`() {
+        // GIVEN
+        val key = secureRandom.nextBytes(32)
+        val actualHex = "werwerxkjdi123asdjksd"
 
+        // THEN
+        val file = KeyHelper.createKeyfile(key)
         val keyHelper = KeyHelper.from(file.encodeToByteArray())
         val hex = keyHelper.key!!.raw.encodeHex()
 
-        assertNotEquals(hex, "werwerxkjdi123asdjksd")
+        // WHEN
+        assertNotEquals(hex, actualHex)
     }
 
     companion object {

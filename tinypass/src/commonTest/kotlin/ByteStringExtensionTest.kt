@@ -23,6 +23,7 @@ class ByteStringExtensionTest {
         assertEquals(expected, result)
     }
 
+
     @Test
     fun `GIVEN byte string WHEN convert to integer length THEN equals not same`() {
         val actual = ByteString.of(0x01, 0x02, 0x03, 0x04)

@@ -106,6 +106,5 @@ class KeyHelper private constructor(
         private const val KEY = "key"
         private const val HASH = "hash"
         private const val DATA = "data"
-
     }
 }

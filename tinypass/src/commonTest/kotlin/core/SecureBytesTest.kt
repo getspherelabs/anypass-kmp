@@ -12,7 +12,7 @@ import kotlin.test.assertNotEquals
 class SecureBytesTest {
 
     @Test
-    fun `GIVEN the plain text THEN create encryptor WHEN the checks the plain text is not same`() {
+    fun `GIVEN the plain text WHEN create encryptor THEN the checks the plain text is not same`() {
         val plainText = "anypass_multiplatform"
         val actual = "anypass_multiplatform_s"
         val expected = secureBytes(plainText)
@@ -21,7 +21,7 @@ class SecureBytesTest {
     }
 
     @Test
-    fun `GIVEN the plain text THEN encrypted WHEN the checks the plain text is same`() {
+    fun `GIVEN the plain text WHEN encrypted THEN the checks the plain text is same`() {
         val plainText = "anypass_multiplatform"
         val actual = "anypass_multiplatform"
         val expected = secureBytes(plainText)
@@ -30,7 +30,7 @@ class SecureBytesTest {
     }
 
     @Test
-    fun `GIVEN the plain text THEN decoding WHEN size is the same`() {
+    fun `GIVEN the plain text WHEN decoding THEN size is the same`() {
         val plainText = "anypass_multiplatform"
         val actual = "anypass_multiplatform"
 
@@ -40,7 +40,7 @@ class SecureBytesTest {
     }
 
     @Test
-    fun `GIVEN the plain text THEN decoding WHEN size is not the same`() {
+    fun `GIVEN the plain text WHEN decoding THEN size is not the same`() {
         val plainText = "anypass_multiplatform"
         val actual = "anypass_multiplatform_2"
 
@@ -50,7 +50,7 @@ class SecureBytesTest {
     }
 
     @Test
-    fun `GIVEN the plain text THEN decoding WHEN sha256 is the same`() {
+    fun `GIVEN the plain text WHEN decoding THEN sha256 is the same`() {
         val plainText = "anypass_multiplatform"
         val actual = "anypass_multiplatform".encodeToByteArray().sha256().encodeHex()
 
@@ -59,7 +59,7 @@ class SecureBytesTest {
     }
 
     @Test
-    fun `GIVEN the plain text THEN decoding WHEN sha512 is the same`() {
+    fun `GIVEN the plain text WHEN decoding THEN sha512 is the same`() {
         val plainText = "anypass_multiplatform"
         val actual = "anypass_multiplatform".encodeToByteArray().sha512().encodeHex()
 
@@ -68,7 +68,7 @@ class SecureBytesTest {
     }
 
     @Test
-    fun `GIVEN the empty text THEN decoding WHEN checks empty`() {
+    fun `GIVEN the empty text WHEN decoding THEN checks empty`() {
         val plainText = ""
         val actual = ""
 
@@ -87,4 +87,5 @@ class SecureBytesTest {
 
         return SecureBytes(bytes, salt)
     }
+
 }

@@ -1,4 +1,4 @@
-package io.spherelabs.crypto.tinypass.database.core
+ package io.spherelabs.crypto.tinypass.database.core
 
 import io.spherelabs.crypto.cipher.AesKdf
 import io.spherelabs.crypto.cipher.Argon2Engine

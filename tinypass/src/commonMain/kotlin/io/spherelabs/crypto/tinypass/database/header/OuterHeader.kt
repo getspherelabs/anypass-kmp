@@ -18,7 +18,7 @@ import okio.ByteString.Companion.toByteString
  *
  * 02   10 00 00 00   31 c1 f2 e6 bf 71 43 50 be 58 05 21 6a fc 5a ff
  * ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
- * CipherID: AES256-CBC
+ * CipherID: AES256-EBC
  *
  * 03   04 00 00 00   01 00 00 00
  * ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
@@ -143,7 +143,9 @@ data class OuterHeader(
         }
 
         fun deserialize(source: BufferedSource): OuterHeader {
-            val option: OuterHeaderOption? = null
+            var cipherId: CipherId? = null
+            var compressionFlags: CompressionFlags? = null
+
             var seed: ByteString? = null
             var encryptionIV: ByteString? = null
             var params: KeyDerivationParameters? = null
@@ -160,29 +162,38 @@ data class OuterHeader(
                 when (fieldId) {
                     FieldID.End -> break
                     FieldID.CipherID -> {
-                        option?.cipherId = checkNotNull(
+                        cipherId = checkNotNull(
                             rawData.toUuid()?.let {
                                 CipherId.values().firstOrNull { it.uuid == it.uuid }
                             },
                         )
                     }
+
                     FieldID.CompressionFlags -> {
-                        option?.compressionFlags = CompressionFlags.values()[rawData.toIntLe()]
+                        compressionFlags = CompressionFlags.values()[rawData.toIntLe()]
                     }
+
                     FieldID.Seed -> {
                         seed = rawData
                     }
+
                     FieldID.EncryptionIV -> encryptionIV = rawData
                     FieldID.KdfParameters -> {
                         params = KeyDerivationParameters.deserialize(rawData)
                     }
+
                     FieldID.PublicCustomData -> customData = VarDict.deserialize(rawData)
                     else -> {}
                 }
             }
 
             return OuterHeader(
-                option = checkNotNull(option) { "Option is null." },
+                option = OuterHeaderOption(
+                    signature = signature,
+                    version = version,
+                    cipherId = checkNotNull(cipherId),
+                    compressionFlags = checkNotNull(compressionFlags),
+                ),
                 seed = checkNotNull(seed),
                 encryptionIV = checkNotNull(encryptionIV),
                 keyDerivationParameters = checkNotNull(params),
@@ -190,9 +201,10 @@ data class OuterHeader(
             )
 
         }
+
         private fun readHeaderValue(
             source: BufferedSource,
-            version: Version
+            version: Version,
         ): Pair<Int, ByteString> {
             println("Hey,")
             val id = source.readByte()

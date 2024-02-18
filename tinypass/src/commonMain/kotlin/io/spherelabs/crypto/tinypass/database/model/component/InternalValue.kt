@@ -13,7 +13,8 @@ import kotlin.io.encoding.ExperimentalEncodingApi
  * [SecureBytes] represents a secure byte array with optional encryption.
  * This class provides methods for encryption, decryption, and hashing of byte arrays.
  *
- * Password hashing and salting are two techniques that can strengthen the security of passwords stored in a database.
+ * Password hashing and salting are two techniques that
+ * can strengthen the security of passwords stored in a database.
  * The hashing algorithm involves a mathematical operation that alters or transforms a password into a string of random characters.
  *
  * However, hackers can try to guess a password by comparing hashes of common passwords.
@@ -28,6 +29,9 @@ class SecureBytes(
     private val bytes: ByteArray,
     private val salt: ByteArray,
 ) {
+    /**
+     * It represents the count of bytes.
+     */
     val count: Int get() = bytes.size
 
     val isEmpty: Boolean get() = bytes.isEmpty()
@@ -55,7 +59,6 @@ class SecureBytes(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || other !is SecureBytes) return false
-        other as SecureBytes
 
         return bytes.contentEquals(other.bytes) &&
             salt.contentEquals(other.salt)
@@ -71,7 +74,6 @@ class SecureBytes(
     companion object {
         fun fromPlainText(plainText: String) = from(plainText.encodeToByteArray())
 
-        @OptIn(ExperimentalEncodingApi::class)
         fun fromBase64(base64: String) = from(Base64.decode(base64.encodeToByteArray()))
 
         fun from(bytes: ByteArray): SecureBytes {
@@ -96,7 +98,7 @@ class EncryptedValue(
     val byteLength: Int get() = value.size
 
     /**
-     * Decrypts value and parses as [UTF_8][Charsets.UTF_8] string.
+     * Decrypts value and parses as UTF_8 string.
      */
     val text: String get() = getBinary().decodeToString()
 
@@ -130,7 +132,6 @@ class EncryptedValue(
     /**
      * Decrypts value and returns as base 64.
      */
-    @OptIn(ExperimentalEncodingApi::class)
     fun toBase64(): String = Base64.encode(getBinary())
 
     override fun toString(): String = value.decodeToString()
@@ -138,7 +139,7 @@ class EncryptedValue(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || other !is EncryptedValue) return false
-        other as EncryptedValue
+        other
 
         return value.contentEquals(other.value) &&
             salt.contentEquals(other.salt)

@@ -28,7 +28,7 @@ internal class IosSecureRandom : SecureRandom {
     }
 
     override fun nextBytes(byteArray: ByteArray): ByteArray {
-        if (byteArray.size != 0) {
+        if (byteArray.isNotEmpty()) {
             byteArray.usePinned { pin ->
                 val address = pin.addressOf(0)
 
@@ -39,6 +39,7 @@ internal class IosSecureRandom : SecureRandom {
                 )
             }
         }
+
         return byteArray
     }
 }
