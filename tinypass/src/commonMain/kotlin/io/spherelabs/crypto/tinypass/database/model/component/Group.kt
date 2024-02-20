@@ -1,7 +1,10 @@
 package io.spherelabs.crypto.tinypass.database.model.component
 
 import com.benasher44.uuid.Uuid
+import com.fleeksoft.ksoup.nodes.Element
+import io.spherelabs.crypto.tinypass.database.FormatXml
 import io.spherelabs.crypto.tinypass.database.Stack
+import io.spherelabs.crypto.tinypass.database.core.XmlContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
@@ -43,3 +46,11 @@ data class Group(
 
 }
 
+
+fun Group.write(
+    context: XmlContext,
+): Element {
+    return Element(FormatXml.Tags.Group.TagName).apply {
+        appendElement(FormatXml.Tags.Uuid)
+    }
+}

@@ -12,6 +12,20 @@ import io.spherelabs.crypto.tinypass.database.model.component.SecureBytes
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
+data class Credentials(
+    val passphrase: String?,
+    val key: String?,
+) {
+    companion object {
+        fun from(passphrase: String): Credentials {
+            return Credentials(
+                passphrase = SecureBytes.fromPlainText(passphrase).plainText,
+                key = null
+            )
+        }
+    }
+}
+
 class KeyHelper private constructor(
     val passphrase: SecureBytes?,
     val key: SecureBytes?,

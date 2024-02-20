@@ -1,7 +1,7 @@
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.tinypass.database.header.VarDict
 import io.spherelabs.crypto.tinypass.database.header.Kdbx4Field
-import io.spherelabs.crypto.tinypass.database.header.KeyDerivationParameters
+import io.spherelabs.crypto.tinypass.database.header.KdfParameters
 import io.spherelabs.crypto.tinypass.database.header.Type
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,14 +15,14 @@ class VarDictTest {
 
 
         val input = mutableMapOf(
-            KeyDerivationParameters.UUID to Kdbx4Field.Bytes(bytes.toByteString()),
+            KdfParameters.UUID to Kdbx4Field.Bytes(bytes.toByteString()),
         )
 
         val result = VarDict.serialize(input).let {
             VarDict.deserialize(it)
         }
 
-        val uuid = result[KeyDerivationParameters.UUID]
+        val uuid = result[KdfParameters.UUID]
 
         assertEquals(uuid?.type, Type.Bytes)
     }

@@ -17,7 +17,7 @@ private object InnerHeaderFieldId {
 
 private const val BinaryFlagsSize = 1
 
-data class InnerHeader(
+data class KdbxInnerHeader(
     val streamCipher: CrsAlgorithm,
     val streamKey: ByteString,
     val binaries: Map<ByteString, BinaryData> = linkedMapOf(),
@@ -25,7 +25,7 @@ data class InnerHeader(
     fun serialize(sink: BufferedSink) = with(sink) {
         serializeStreamCipher()
         serializeStreamKey()
-        serializeStreamKey()
+        serializeBinaries()
         serializeEndOfHeader()
     }
 
@@ -62,15 +62,15 @@ data class InnerHeader(
         const val STREAM_KEY = 0x02
         const val BINARY = 0x03
 
-        fun create(): InnerHeader {
-            return InnerHeader(
+        fun create(): KdbxInnerHeader {
+            return KdbxInnerHeader(
                 streamCipher = CrsAlgorithm.ChaCha20,
                 streamKey = buildSecureRandom().nextBytes(64).toByteString(),
                 binaries = linkedMapOf(),
             )
         }
 
-        fun deserialize(source: BufferedSource): InnerHeader {
+        fun deserialize(source: BufferedSource): KdbxInnerHeader {
             val binaries = linkedMapOf<ByteString, BinaryData>()
             var streamCipher: CrsAlgorithm? = null
             var streamKey: ByteString? = null
@@ -101,7 +101,7 @@ data class InnerHeader(
                 }
             }
 
-            return InnerHeader(
+            return KdbxInnerHeader(
                 streamCipher = requireNotNull(streamCipher) { "Stream cipher is not existed."},
                 streamKey = requireNotNull(streamKey) { "Stream key is not existed."},
                 binaries = binaries

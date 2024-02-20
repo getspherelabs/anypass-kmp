@@ -18,6 +18,7 @@ sealed class BinaryData(
     abstract val memoryProtection: Boolean
     abstract val rawContent: ByteArray
 
+    abstract fun serialize(id: Int): Element
     abstract fun getContent(): ByteArray
     abstract fun source(): Source
 
@@ -69,7 +70,7 @@ sealed class BinaryData(
         }
 
 
-        fun serialize(id: Int) = Element(BINARY).apply {
+        override fun serialize(id: Int) = Element(BINARY).apply {
             attr(attributeKey = ID, attributeValue = id.toString())
             attr(
                 attributeKey = COMPRESSED,
@@ -94,7 +95,7 @@ sealed class BinaryData(
         }
 
 
-        fun serialize(id: Int) = Element(BINARY).apply {
+        override fun serialize(id: Int) = Element(BINARY).apply {
             attr(attributeKey = ID, attributeValue = id.toString())
             attr(
                 attributeKey = COMPRESSED,

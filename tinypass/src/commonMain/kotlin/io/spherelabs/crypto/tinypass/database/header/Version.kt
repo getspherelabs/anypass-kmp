@@ -11,8 +11,6 @@ data class Version(
     val minor: Short,
 ) {
     fun serialize(sink: BufferedSink) {
-        println("Version is ${minor.toInt()}")
-        println("Version is ${major.toInt()}")
         sink.writeShortLe(minor.toInt())
         sink.writeShortLe(major.toInt())
     }

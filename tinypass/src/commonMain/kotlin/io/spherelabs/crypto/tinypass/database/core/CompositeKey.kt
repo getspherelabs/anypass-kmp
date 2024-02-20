@@ -6,8 +6,8 @@ import io.spherelabs.crypto.cipher.Argon2Kdf
 import io.spherelabs.crypto.cipher.clear
 import io.spherelabs.crypto.hash.sha256
 import io.spherelabs.crypto.hash.sha512
-import io.spherelabs.crypto.tinypass.database.header.KeyDerivationParameters
-import io.spherelabs.crypto.tinypass.database.header.OuterHeader
+import io.spherelabs.crypto.tinypass.database.header.KdfParameters
+import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
 
 /**
  * Creating a composite key
@@ -45,30 +45,30 @@ fun compositeKey(key: KeyHelper): ByteArray {
     return composite.sha256().also { composite.clear() }
 }
 
-fun transformKey(header: OuterHeader, keys: KeyHelper): ByteArray {
-    return when (header.keyDerivationParameters) {
-        is KeyDerivationParameters.AES -> {
+fun transformKey(header: KdbxOuterHeader, keys: KeyHelper): ByteArray {
+    return when (header.kdfParameters) {
+        is KdfParameters.AES -> {
             AesKdf.transformKey(
                 key = compositeKey(keys),
-                seed = header.keyDerivationParameters.seed.toByteArray(),
-                rounds = header.keyDerivationParameters.rounds,
+                seed = header.kdfParameters.seed.toByteArray(),
+                rounds = header.kdfParameters.rounds,
             )
         }
-        is KeyDerivationParameters.Argon2 -> {
+        is KdfParameters.Argon2 -> {
             Argon2Kdf.transformKey(
-                type = when (header.keyDerivationParameters.uuid) {
-                    KeyDerivationParameters.KdfArgon2d -> Argon2Engine.Type.Argon2D
-                    KeyDerivationParameters.KdfArgon2id -> Argon2Engine.Type.Argon2Id
+                type = when (header.kdfParameters.uuid) {
+                    KdfParameters.KdfArgon2d -> Argon2Engine.Type.Argon2D
+                    KdfParameters.KdfArgon2id -> Argon2Engine.Type.Argon2Id
                     else -> throw Exception("")
                 },
-                version = Argon2Engine.Version.from(header.keyDerivationParameters.version),
+                version = Argon2Engine.Version.from(header.kdfParameters.version),
                 password = compositeKey(keys),
-                salt = header.keyDerivationParameters.salt.toByteArray(),
-                secretKey = header.keyDerivationParameters.key?.toByteArray(),
-                additional = header.keyDerivationParameters.associatedData?.toByteArray(),
-                iterations = header.keyDerivationParameters.iterations,
-                parallelism = header.keyDerivationParameters.parallelism,
-                memory = header.keyDerivationParameters.memory,
+                salt = header.kdfParameters.salt.toByteArray(),
+                secretKey = header.kdfParameters.key?.toByteArray(),
+                additional = header.kdfParameters.associatedData?.toByteArray(),
+                iterations = header.kdfParameters.iterations,
+                parallelism = header.kdfParameters.parallelism,
+                memory = header.kdfParameters.memory,
             )
         }
     }

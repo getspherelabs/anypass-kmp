@@ -27,7 +27,7 @@ class KeyHelperTest {
 
         // WHEN
         val keyHelper = KeyHelper.from(htmlContent.encodeToByteArray())
-        val xml = xmlParser(content = htmlContent)
+        val xml = xmlParser(content = KeyHelper.createKeyfile(htmlContent.encodeToByteArray()))
 
         // THEN
         assertNotNull(xml)

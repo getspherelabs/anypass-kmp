@@ -7,14 +7,14 @@ import okio.ByteString
  * The parameters are serialized as a FieldStorage (with the KDF UUID being stored in '$UUID');
  * For details on the parameters being used by AES-KDF and Argon2.
  */
-sealed class KeyDerivationParameters(
+sealed class KdfParameters(
     open val uuid: ByteString,
 ) {
     data class AES(
         override val uuid: ByteString,
         val rounds: ULong,
         val seed: ByteString,
-    ) : KeyDerivationParameters(uuid)
+    ) : KdfParameters(uuid)
 
     data class Argon2(
         override val uuid: ByteString,
@@ -25,7 +25,7 @@ sealed class KeyDerivationParameters(
         val version: UInt,
         val key: ByteString?,
         val associatedData: ByteString?,
-    ) : KeyDerivationParameters(uuid)
+    ) : KdfParameters(uuid)
 
 
     fun serialize(): ByteString {
@@ -51,7 +51,7 @@ sealed class KeyDerivationParameters(
 
     companion object {
 
-        fun deserialize(output: ByteString): KeyDerivationParameters {
+        fun deserialize(output: ByteString): KdfParameters {
             val bucket = VarDict.deserialize(output)
 
             return when (val uuid = (bucket[UUID] as? Kdbx4Field.Bytes)?.rawValue) {

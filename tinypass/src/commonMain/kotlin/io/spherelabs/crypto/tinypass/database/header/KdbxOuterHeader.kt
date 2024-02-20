@@ -73,11 +73,11 @@ import okio.ByteString.Companion.toByteString
  * EndOfHeader
  */
 
-data class OuterHeader(
+data class KdbxOuterHeader(
     val option: OuterHeaderOption,
     val seed: ByteString,
     val encryptionIV: ByteString,
-    val keyDerivationParameters: KeyDerivationParameters,
+    val kdfParameters: KdfParameters,
     val customData: Map<String, Kdbx4Field>,
 ) {
     fun serialize(sink: BufferedSink) {
@@ -87,7 +87,7 @@ data class OuterHeader(
             serializeEncryptionIv()
             serializeParams()
             println("Option is $option")
-            println("Option is $keyDerivationParameters")
+            println("Option is $kdfParameters")
             val customData = VarDict.serialize(customData)
             writeByte(FieldID.PublicCustomData.ordinal)
             writeIntLe(customData.size)
@@ -113,7 +113,7 @@ data class OuterHeader(
     }
 
     private fun BufferedSink.serializeParams() {
-        val params = keyDerivationParameters.serialize()
+        val params = kdfParameters.serialize()
         writeByte(FieldID.KdfParameters.ordinal)
         writeIntLe(params.size)
         write(params)
@@ -121,15 +121,15 @@ data class OuterHeader(
 
     companion object {
 
-        fun create(): OuterHeader {
+        fun create(): KdbxOuterHeader {
             val random = buildSecureRandom()
 
-            return OuterHeader(
+            return KdbxOuterHeader(
                 option = OuterHeaderOption.Default,
                 seed = random.nextBytes(32).toByteString(),
                 encryptionIV = random.nextBytes(16).toByteString(),
-                keyDerivationParameters = KeyDerivationParameters.Argon2(
-                    uuid = KeyDerivationParameters.KdfArgon2d,
+                kdfParameters = KdfParameters.Argon2(
+                    uuid = KdfParameters.KdfArgon2d,
                     salt = random.nextBytes(32).toByteString(),
                     parallelism = 2U,
                     memory = 32UL * 1024UL * 1024UL,
@@ -142,13 +142,13 @@ data class OuterHeader(
             )
         }
 
-        fun deserialize(source: BufferedSource): OuterHeader {
+        fun deserialize(source: BufferedSource): KdbxOuterHeader {
             var cipherId: CipherId? = null
             var compressionFlags: CompressionFlags? = null
 
             var seed: ByteString? = null
             var encryptionIV: ByteString? = null
-            var params: KeyDerivationParameters? = null
+            var params: KdfParameters? = null
             var customData: Map<String, Kdbx4Field> = mapOf()
 
             val signature = Signature.deserialize(source)
@@ -179,7 +179,7 @@ data class OuterHeader(
 
                     FieldID.EncryptionIV -> encryptionIV = rawData
                     FieldID.KdfParameters -> {
-                        params = KeyDerivationParameters.deserialize(rawData)
+                        params = KdfParameters.deserialize(rawData)
                     }
 
                     FieldID.PublicCustomData -> customData = VarDict.deserialize(rawData)
@@ -187,7 +187,7 @@ data class OuterHeader(
                 }
             }
 
-            return OuterHeader(
+            return KdbxOuterHeader(
                 option = OuterHeaderOption(
                     signature = signature,
                     version = version,
@@ -196,7 +196,7 @@ data class OuterHeader(
                 ),
                 seed = checkNotNull(seed),
                 encryptionIV = checkNotNull(encryptionIV),
-                keyDerivationParameters = checkNotNull(params),
+                kdfParameters = checkNotNull(params),
                 customData = customData,
             )
 

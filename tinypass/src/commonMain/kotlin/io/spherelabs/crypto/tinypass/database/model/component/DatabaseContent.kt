@@ -5,3 +5,9 @@ data class DatabaseContent(
     val group: Group,
     val deletedObjects: List<DeletedComponent>,
 )
+
+data class Content(
+    val meta: Meta,
+    val group: Group,
+    val deletedObjects: List<DeletedComponent>,
+)
