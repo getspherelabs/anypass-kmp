@@ -1,7 +1,7 @@
 package xml
 
 import com.benasher44.uuid.uuid4
-import io.spherelabs.crypto.tinypass.database.header.Version
+import io.spherelabs.crypto.tinypass.database.header.KdbxVersion
 import io.spherelabs.crypto.tinypass.database.model.component.Meta
 import io.spherelabs.crypto.tinypass.database.xml.XmlComponent
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
@@ -26,7 +26,7 @@ class XmlWriterTest {
         val writer = XmlWriter.write(
             XmlComponent.Meta(
                 meta = meta,
-                option = XmlOption(Version(4, 1), binaries = mapOf()),
+                option = XmlOption(KdbxVersion(4, 1), binaries = mapOf()),
             ),
         )
         val generator = writer.select(XmlTags.META_GENERATOR).text()

@@ -56,10 +56,10 @@ object XmlWriter {
     private fun writeMeta(meta: Meta, option: XmlOption): Element = with(meta) {
         return element(XmlTags.META_TAG_NAME) {
             writeElement(XmlTags.META_GENERATOR, generator)
-            headerHash?.takeIf { option.version.major < 4 }?.let { bytes ->
+            headerHash?.takeIf { option.kdbxVersion.major < 4 }?.let { bytes ->
                 writeElement(XmlTags.META_HEADER_HASH, bytes.toByteArray())
             }
-            settingsChanged?.takeIf { option.version.major < 4 }?.let { instant ->
+            settingsChanged?.takeIf { option.kdbxVersion.major < 4 }?.let { instant ->
                 writeElement(XmlTags.META_SETTINGS_CHANGED, instant.deserialize(option))
             }
             writeElement(XmlTags.META_DATABASE_NAME, name)

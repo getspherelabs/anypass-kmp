@@ -1,18 +1,13 @@
 package io.spherelabs.crypto.tinypass.database.common
 
 import com.benasher44.uuid.Uuid
-import com.benasher44.uuid.uuidFrom
-import com.benasher44.uuid.uuidOf
 import com.fleeksoft.ksoup.nodes.Element
 import com.fleeksoft.ksoup.select.Elements
-import io.spherelabs.crypto.tinypass.database.core.XmlContext
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.datetime.Instant
-import okio.Buffer
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.toByteString
 
 internal fun Element.selectAsInt(query: String): Int {
     return this.select(query).text().toInt()
@@ -46,7 +41,7 @@ internal fun Element.addBytes(bytes: ByteArray) {
 
 @OptIn(ExperimentalEncodingApi::class)
 internal fun Instant.deserialize(context: XmlOption): String {
-    val binary = context.version.major >= 4 && !context.isExportable
+    val binary = context.kdbxVersion.major >= 4 && !context.isExportable
 
     return if (binary) {
         Base64.encode((epochSeconds + 62135596800).toByteArray())

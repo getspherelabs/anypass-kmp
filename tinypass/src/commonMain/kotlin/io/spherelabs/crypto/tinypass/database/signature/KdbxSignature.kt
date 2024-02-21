@@ -12,7 +12,7 @@ import okio.ByteString
  * @property second The second 4-byte signature. It can have (for now) 3 different value.
  */
 
-data class Signature(
+data class KdbxSignature(
     val first: ByteString,
     val second: ByteString,
 ) {
@@ -27,9 +27,9 @@ data class Signature(
     companion object {
         val FirstSignature = ByteString.of(0x03, 0xd9.toByte(), 0xa2.toByte(), 0x9a.toByte())
         val SecondSignature = ByteString.of(0x67, 0xfb.toByte(), 0x4b, 0xb5.toByte())
-        val Default = Signature(FirstSignature, SecondSignature)
+        val Default = KdbxSignature(FirstSignature, SecondSignature)
 
-        fun deserialize(source: BufferedSource) = Signature(
+        fun deserialize(source: BufferedSource) = KdbxSignature(
             first = source.readByteString(4),
             second = source.readByteString(4),
         )

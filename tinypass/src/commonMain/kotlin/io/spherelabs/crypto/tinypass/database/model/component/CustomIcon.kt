@@ -7,12 +7,10 @@ import io.spherelabs.crypto.tinypass.database.common.addBytes
 import io.spherelabs.crypto.tinypass.database.common.addUuid
 import io.spherelabs.crypto.tinypass.database.common.getInstant
 import io.spherelabs.crypto.tinypass.database.common.selectAsUuid
-import io.spherelabs.crypto.tinypass.database.core.XmlContext
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.datetime.Instant
-import okio.ByteString.Companion.decodeBase64
 
 data class CustomIcon(
     val data: ByteArray,
@@ -70,7 +68,7 @@ internal object CustomIcons {
                     appendElement(ItemUuid).addUuid(key)
                     appendElement(ItemData).addBytes(item.data)
 
-                    if (context.version.isAtLeast(4, 1)) {
+                    if (context.kdbxVersion.isAtLeast(4, 1)) {
                         appendElement(ItemName).text(item.name.toString())
                         appendElement("LastModificationTime").text(
                             checkNotNull(item.lastModified?.deserialize(context)),

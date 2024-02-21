@@ -3,7 +3,7 @@ package io.spherelabs.crypto.tinypass.database.header
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.tinypass.database.common.toIntLe
 import io.spherelabs.crypto.tinypass.database.common.toUuid
-import io.spherelabs.crypto.tinypass.database.signature.Signature
+import io.spherelabs.crypto.tinypass.database.signature.KdbxSignature
 import okio.BufferedSink
 import okio.BufferedSource
 import okio.ByteString
@@ -151,11 +151,11 @@ data class KdbxOuterHeader(
             var params: KdfParameters? = null
             var customData: Map<String, Kdbx4Field> = mapOf()
 
-            val signature = Signature.deserialize(source)
-            val version = Version.deserialize(source)
+            val kdbxSignature = KdbxSignature.deserialize(source)
+            val kdbxVersion = KdbxVersion.deserialize(source)
 
             while (true) {
-                val (id, rawData) = readHeaderValue(source, version)
+                val (id, rawData) = readHeaderValue(source, kdbxVersion)
                 println("Raw data is $rawData")
                 val fieldId = FieldID.values().getOrNull(id)
                 println("Field id $fieldId")
@@ -189,8 +189,8 @@ data class KdbxOuterHeader(
 
             return KdbxOuterHeader(
                 option = OuterHeaderOption(
-                    signature = signature,
-                    version = version,
+                    kdbxSignature = kdbxSignature,
+                    kdbxVersion = kdbxVersion,
                     cipherId = checkNotNull(cipherId),
                     compressionFlags = checkNotNull(compressionFlags),
                 ),
@@ -204,7 +204,7 @@ data class KdbxOuterHeader(
 
         private fun readHeaderValue(
             source: BufferedSource,
-            version: Version,
+            kdbxVersion: KdbxVersion,
         ): Pair<Int, ByteString> {
             println("Hey,")
             val id = source.readByte()

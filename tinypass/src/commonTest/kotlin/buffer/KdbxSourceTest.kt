@@ -1,26 +1,21 @@
 package buffer
 
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxInput
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxOutput
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxSink
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxSource
+import io.spherelabs.crypto.tinypass.database.buffer.*
 import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
 import kotlin.test.Test
 import okio.Buffer
+import okio.BufferedSink
+import okio.BufferedSource
 
 class KdbxSourceTest {
 
     @Test
     fun `GIVEN AND WHEN`() {
-        val source = Buffer()
-        val outerHeader = KdbxOutput.OuterHeader(KdbxOuterHeader.create())
+        val outerHeader = KdbxOuterHeader.create()
 
-        val kdbxSource = KdbxSink.write(
-            sink = source,
-            outerHeader,
-        )
+        KdbxBuffer.writeOuterHeader(outerHeader)
 
-        val data = KdbxSource.read(source, KdbxInput.OuterHeader)
+        val data = KdbxBuffer.readOuterHeader()
 
         println(data)
     }

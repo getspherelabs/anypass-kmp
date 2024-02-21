@@ -10,7 +10,6 @@ import io.spherelabs.crypto.tinypass.database.common.deserialize
 import io.spherelabs.crypto.tinypass.database.common.getInstant
 import io.spherelabs.crypto.tinypass.database.model.autotype.toXmlString
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
-import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -183,10 +182,10 @@ data class Meta(
 fun Meta.serialize(context: XmlOption): Element {
     return Element("meta").apply {
         appendElement("generator").text(generator)
-        if (context.version.major < 4 && headerHash != null) {
+        if (context.kdbxVersion.major < 4 && headerHash != null) {
             appendElement("headerhash").addBytes(headerHash.toByteArray())
         }
-        if (settingsChanged != null && context.version.major <= 4) {
+        if (settingsChanged != null && context.kdbxVersion.major <= 4) {
             appendElement("settingschanged").text(settingsChanged.deserialize(context))
         }
         appendElement(FormatXml.Tags.Meta.DatabaseName).text(name)
