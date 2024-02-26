@@ -11,7 +11,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 /**
  * [SecureBytes] represents a secure byte array with optional encryption.
- * This class provides methods for encryption, decryption, and hashing of byte arrays.
+ * It provides methods for encryption, decryption, and hashing of byte arrays.
  *
  * Password hashing and salting are two techniques that
  * can strengthen the security of passwords stored in a database.

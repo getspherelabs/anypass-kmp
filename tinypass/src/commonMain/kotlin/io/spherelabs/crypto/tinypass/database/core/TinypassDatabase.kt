@@ -87,26 +87,7 @@ package io.spherelabs.crypto.tinypass.database.core
 //            return decryptedContent
 //        }
 //
-//        private fun deserializeAsContent(
-//            cipherId: CipherId,
-//            key: ByteArray,
-//            iv: ByteArray,
-//            data: ByteArray,
-//        ): ByteArray {
-//            return when (cipherId) {
-//                CipherId.Aes -> {
-//                    ChaCha7539Engine().apply { init(key, iv) }.processBytes(data)
-//                }
-//                CipherId.ChaCha20 -> {
-//                    AES.decryptAesCbc(
-//                        key = key,
-//                        data = data,
-//                        iv = iv,
-//                        padding = CipherPadding.NoPadding,
-//                    )
-//                }
-//            }
-//        }
+
 //
 //        private fun serializeAsContent(
 //            cipherId: CipherId,

@@ -8,11 +8,15 @@ import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
 import io.spherelabs.crypto.tinypass.database.compressor.toGzipSink
 import io.spherelabs.crypto.tinypass.database.compressor.toGzipSource
 import io.spherelabs.crypto.tinypass.database.core.*
+import io.spherelabs.crypto.tinypass.database.getPlatformFileSystem
 import io.spherelabs.crypto.tinypass.database.header.CipherId
 import io.spherelabs.crypto.tinypass.database.header.CompressionFlags
+import io.spherelabs.crypto.tinypass.database.serializer.KdbxSerializer
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
+import io.spherelabs.crypto.tinypass.database.xml.XmlReader
 import io.spherelabs.crypto.tinypass.database.xml.XmlWriter
 import okio.Buffer
+import okio.Path.Companion.toPath
 import okio.buffer
 import okio.use
 
@@ -43,9 +47,6 @@ fun commonKdbxEncode(database: KdbxDatabase) = database.apply {
         query, option,
     ).text().encodeToByteArray()
 
-    println("Xml is ${XmlWriter.write(
-        query, option,
-    ).text()}")
     val contentBuffer = Buffer()
     KdbxBuffer.writeInnerHeader(sink = contentBuffer, innerHeader)
     contentBuffer.write(rawContent)
@@ -64,14 +65,20 @@ fun commonKdbxEncode(database: KdbxDatabase) = database.apply {
         iv = outerHeader.encryptionIV.toByteArray(),
         data = raw,
     )
-    Buffer().buffer.use { sink ->
-        sink.write(outerHeaderBuffer.snapshot().toByteArray())
-        ContentBlocks.writeContentBlocksVer4x(
-            sink = sink,
-            contentData = encryptedContent,
-            masterSeed = seed,
-            transformedKey = transformKey(header = outerHeader, configuration),
-        )
+
+    getPlatformFileSystem().write(
+        configuration.path.toPath(),
+        mustCreate = true
+    ) {
+        buffer().use { sink ->
+            sink.write(outerHeaderBuffer.snapshot().toByteArray())
+            ContentBlocks.writeContentBlocksVer4x(
+                sink = sink,
+                contentData = encryptedContent,
+                masterSeed = seed,
+                transformedKey = transformKey(header = outerHeader, configuration),
+            )
+        }
     }
 }
 
@@ -118,3 +125,40 @@ private fun serializeAsContent(
 }
 
 
+fun commonKdbxDecode(database: KdbxDatabase): KdbxDatabase  = database.apply {
+    val headerBuffer = Buffer()
+
+    getPlatformFileSystem().read(configuration.path.toPath()) {
+        val header = KdbxBuffer.readOuterHeader()
+
+        val rawHeaderData = headerBuffer.snapshot()
+
+        val expectedSha256 = readByteString(32)
+        val expectedHmacSha256 = readByteString(32)
+        val transformedKey = transformKey(header, configuration)
+        val innerHeaderBuffer = Buffer()
+        val seed = header.seed.toByteArray()
+        val encryptedContent = ContentBlocks.readContentBlocksVer4x(
+            source = this,
+            masterSeed = seed,
+            transformedKey = transformedKey,
+        )
+        var decryptedContent =
+            deserializeAsContent(
+                header.option.cipherId, key = masterKey(seed, header, configuration),
+                iv = header.encryptionIV.toByteArray(), data = encryptedContent,
+            )
+
+        if (outerHeader.option.compressionFlags == CompressionFlags.GZip) {
+            decryptedContent = decryptedContent.toGzipSink().buffer().buffer.readByteArray()
+        }
+
+        val innerHeader = KdbxBuffer.readInnerHeader()
+        val saltGenerator = EncryptionSaltGenerator.create(
+            id = innerHeader.streamCipher,
+            key = innerHeader.streamKey
+        )
+
+        val content = XmlReader
+    }
+}

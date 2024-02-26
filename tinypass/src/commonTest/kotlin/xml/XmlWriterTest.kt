@@ -23,6 +23,7 @@ class XmlWriterTest {
             lastTopVisibleGroup = uuid4(),
             lastSelectedGroup = uuid4(),
         )
+
 //        val writer = XmlWriter.write(
 //            option = XmlOption(KdbxVersion(4, 1), binaries = mapOf()),
 //            XmlComponent.Meta(

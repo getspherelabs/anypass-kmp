@@ -1,6 +1,7 @@
 package io.spherelabs.crypto.tinypass.database.xml
 
 import com.benasher44.uuid.Uuid
+import com.fleeksoft.ksoup.nodes.Document
 import com.fleeksoft.ksoup.nodes.Element
 import io.spherelabs.crypto.tinypass.database.FormatXml
 import io.spherelabs.crypto.tinypass.database.common.*
@@ -17,20 +18,20 @@ object XmlWriter {
         val version = "2.0"
         val encoding = "utf-8"
 
-        val element = xml(version, encoding) {
-            writeGroup(query.group)
-            writeMeta(query.meta, option)
+        val document = xml(version, encoding) {
+            writeMeta(query.meta, option).appendTo(this)
+            appendElement("root").appendTo(this).apply {
+                writeGroup(query.group).appendTo(this)
+            }
 
         }
-        println(element)
-        return element
+
+        println("Document is $document")
+        return document
     }
 
-    fun writeTime(timeDatta: TimeData): Element {
-        TODO()
-    }
 
-    fun writeGroup(group: Group): Element = with(group) {
+    private fun writeGroup(group: Group): Element = with(group) {
         return element(XmlTags.GROUP_TAG_NAME) {
             writeElement(XmlTags.UUID, uuid = id)
             writeElement(XmlTags.GROUP_NAME, title)
