@@ -62,10 +62,10 @@ data class KdbxInnerHeader(
         const val STREAM_KEY = 0x02
         const val BINARY = 0x03
 
-        fun create(): KdbxInnerHeader {
+        fun of(streamKey: ByteString): KdbxInnerHeader {
             return KdbxInnerHeader(
                 streamCipher = CrsAlgorithm.ChaCha20,
-                streamKey = buildSecureRandom().nextBytes(64).toByteString(),
+                streamKey = streamKey,
                 binaries = linkedMapOf(),
             )
         }
@@ -79,7 +79,7 @@ data class KdbxInnerHeader(
                 val id = source.readByte()
                 val length = source.readIntLe().toLong()
 
-                when(id.toInt()) {
+                when (id.toInt()) {
                     END_OF_HEADER -> {
                         source.readByteArray(length)
                         break
@@ -90,7 +90,7 @@ data class KdbxInnerHeader(
                     STREAM_KEY -> {
                         streamKey = source.readByteString(length)
                     }
-                    BINARY ->{
+                    BINARY -> {
                         val memoryProtection = source.readByte() != 0x0.toByte()
                         val content = source.readByteArray(length - BinaryFlagsSize)
                         val binary = BinaryData.Uncompressed(memoryProtection, content)
@@ -102,9 +102,9 @@ data class KdbxInnerHeader(
             }
 
             return KdbxInnerHeader(
-                streamCipher = requireNotNull(streamCipher) { "Stream cipher is not existed."},
-                streamKey = requireNotNull(streamKey) { "Stream key is not existed."},
-                binaries = binaries
+                streamCipher = requireNotNull(streamCipher) { "Stream cipher is not existed." },
+                streamKey = requireNotNull(streamKey) { "Stream key is not existed." },
+                binaries = binaries,
             )
 
         }

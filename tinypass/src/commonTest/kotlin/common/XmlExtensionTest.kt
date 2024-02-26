@@ -19,6 +19,7 @@ class XmlExtensionTest {
                 appendElement("version").text("2.0")
             }
         }
+        println(document)
         assertNotNull(document)
     }
 

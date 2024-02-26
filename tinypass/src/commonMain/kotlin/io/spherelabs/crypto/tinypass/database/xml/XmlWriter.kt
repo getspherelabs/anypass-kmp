@@ -3,6 +3,7 @@ package io.spherelabs.crypto.tinypass.database.xml
 import com.benasher44.uuid.Uuid
 import com.fleeksoft.ksoup.nodes.Element
 import io.spherelabs.crypto.tinypass.database.FormatXml
+import io.spherelabs.crypto.tinypass.database.common.*
 import io.spherelabs.crypto.tinypass.database.common.addBytes
 import io.spherelabs.crypto.tinypass.database.common.addUuid
 import io.spherelabs.crypto.tinypass.database.common.deserialize
@@ -12,13 +13,17 @@ import io.spherelabs.crypto.tinypass.database.model.component.CustomIcons
 
 object XmlWriter {
 
-    fun write(component: XmlComponent): Element {
-        return when (component) {
-            is XmlComponent.Group -> TODO()
-            is XmlComponent.Time -> TODO()
-            is XmlComponent.Meta -> writeMeta(meta = component.meta, option = component.option)
-            is XmlComponent.CustomData -> writeCustomData(component.data)
+    fun write(query: KdbxQuery, option: XmlOption): Element {
+        val version = "2.0"
+        val encoding = "utf-8"
+
+        val element = xml(version, encoding) {
+            writeGroup(query.group)
+            writeMeta(query.meta, option)
+
         }
+        println(element)
+        return element
     }
 
     fun writeTime(timeDatta: TimeData): Element {
@@ -90,9 +95,7 @@ object XmlWriter {
             appendElement(FormatXml.Tags.Meta.Color).text(
                 color ?: "",
             )
-            appendElement(FormatXml.Tags.Meta.MasterKeyChanged).text(
-                checkNotNull(masterKeyChanged?.deserialize(option)),
-            )
+            appendElement(FormatXml.Tags.Meta.MasterKeyChanged).addInstant(masterKeyChanged, option)
             appendElement(FormatXml.Tags.Meta.MasterKeyChangeRec).text(
                 masterKeyChangeRec.toString(),
             )
@@ -103,12 +106,14 @@ object XmlWriter {
                 recycleBinEnabled.toXmlString(),
             )
             appendElement(FormatXml.Tags.Meta.RecycleBinUuid).addUuid(recycleBinUuid)
-            appendElement(FormatXml.Tags.Meta.RecycleBinChanged).text(
-                checkNotNull(recycleBinChanged?.deserialize(option)),
+            appendElement(FormatXml.Tags.Meta.RecycleBinChanged).addInstant(
+                recycleBinChanged,
+                option,
             )
             appendElement(FormatXml.Tags.Meta.EntryTemplatesGroup).addUuid(entryTemplatesGroup)
-            appendElement(FormatXml.Tags.Meta.EntryTemplatesGroupChanged).text(
-                checkNotNull(entryTemplatesGroupChanged?.deserialize(option)),
+            appendElement(FormatXml.Tags.Meta.EntryTemplatesGroupChanged).addInstant(
+                entryTemplatesGroupChanged,
+                option,
             )
             appendElement(FormatXml.Tags.Meta.HistoryMaxItems).text(historyMaxItems.toString())
             appendElement(FormatXml.Tags.Meta.HistoryMaxSize).text(historyMaxSize.toString())

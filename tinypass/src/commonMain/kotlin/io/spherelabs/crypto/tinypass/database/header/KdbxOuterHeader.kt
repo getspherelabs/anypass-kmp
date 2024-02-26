@@ -1,6 +1,7 @@
 package io.spherelabs.crypto.tinypass.database.header
 
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
+import io.spherelabs.crypto.tinypass.database.buffer.internal.commonWriteVarDict
 import io.spherelabs.crypto.tinypass.database.common.toIntLe
 import io.spherelabs.crypto.tinypass.database.common.toUuid
 import io.spherelabs.crypto.tinypass.database.signature.KdbxSignature
@@ -88,7 +89,7 @@ data class KdbxOuterHeader(
             serializeParams()
             println("Option is $option")
             println("Option is $kdfParameters")
-            val customData = VarDict.serialize(customData)
+            val customData = commonWriteVarDict(customData)
             writeByte(FieldID.PublicCustomData.ordinal)
             writeIntLe(customData.size)
             write(customData)

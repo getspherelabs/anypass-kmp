@@ -1,4 +1,4 @@
- package io.spherelabs.crypto.tinypass.database.core
+package io.spherelabs.crypto.tinypass.database.core
 
 import io.spherelabs.crypto.cipher.AesKdf
 import io.spherelabs.crypto.cipher.Argon2Engine
@@ -8,6 +8,7 @@ import io.spherelabs.crypto.hash.sha256
 import io.spherelabs.crypto.hash.sha512
 import io.spherelabs.crypto.tinypass.database.header.KdfParameters
 import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
+import io.spherelabs.crypto.tinypass.database.model.component.SecureBytes
 
 /**
  * Creating a composite key
@@ -30,10 +31,10 @@ import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
  *
  * https://palant.info/2023/03/29/documenting-keepass-kdbx4-file-format/
  */
-fun compositeKey(key: KeyHelper): ByteArray {
+fun compositeKey(key: KdbxConfiguration): ByteArray {
     val keys = listOfNotNull(
-        key.passphrase?.raw,
-        key.key?.raw,
+        SecureBytes.fromPlainText(key.passphrase ?: "").raw,
+        SecureBytes.fromPlainText(key.key ?: "").raw,
     )
 
     val composite = when {
@@ -45,7 +46,7 @@ fun compositeKey(key: KeyHelper): ByteArray {
     return composite.sha256().also { composite.clear() }
 }
 
-fun transformKey(header: KdbxOuterHeader, keys: KeyHelper): ByteArray {
+fun transformKey(header: KdbxOuterHeader, keys: KdbxConfiguration): ByteArray {
     return when (header.kdfParameters) {
         is KdfParameters.AES -> {
             AesKdf.transformKey(
@@ -76,14 +77,20 @@ fun transformKey(header: KdbxOuterHeader, keys: KeyHelper): ByteArray {
 
 fun masterKey(
     masterSeed: ByteArray,
-    transformedKey: ByteArray,
-) = (masterSeed + transformedKey).sha256()
+    outerHeader: KdbxOuterHeader,
+    config: KdbxConfiguration,
+): ByteArray {
+    val transformedKey = transformKey(outerHeader, config)
+    return (masterSeed + transformedKey).sha256()
+}
 
 
 fun hmacKey(
     masterSeed: ByteArray,
-    transformedKey: ByteArray,
+    outerHeader: KdbxOuterHeader,
+    config: KdbxConfiguration,
 ): ByteArray {
+    val transformedKey = transformKey(outerHeader, config)
     val combined = byteArrayOf(*masterSeed, *transformedKey, 0x01)
     return (ByteArray(8) { 0xFF.toByte() } + combined.sha512())
         .sha512()

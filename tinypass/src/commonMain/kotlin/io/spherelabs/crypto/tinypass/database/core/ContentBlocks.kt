@@ -27,7 +27,6 @@ import okio.ByteString.Companion.toByteString
  * <p>
  * Streams in Keepass are Little Endian.
  */
-
 internal object ContentBlocks {
     private const val BlockSplitRate = 1048576
 

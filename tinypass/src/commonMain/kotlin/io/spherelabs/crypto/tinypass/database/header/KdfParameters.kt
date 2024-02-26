@@ -1,5 +1,6 @@
 package io.spherelabs.crypto.tinypass.database.header
 
+import io.spherelabs.crypto.tinypass.database.buffer.internal.commonKdfParameters
 import okio.ByteString
 
 /**
@@ -46,7 +47,7 @@ sealed class KdfParameters(
             )
         }
 
-        return VarDict.serialize(fields)
+        return commonKdfParameters(this)
     }
 
     companion object {

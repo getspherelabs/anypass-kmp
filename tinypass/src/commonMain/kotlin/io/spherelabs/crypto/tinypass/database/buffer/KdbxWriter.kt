@@ -2,15 +2,17 @@ package io.spherelabs.crypto.tinypass.database.buffer
 
 import io.spherelabs.crypto.tinypass.database.header.KdbxInnerHeader
 import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
-import io.spherelabs.crypto.tinypass.database.header.KdbxVersion
-import io.spherelabs.crypto.tinypass.database.header.OuterHeaderOption
-import io.spherelabs.crypto.tinypass.database.signature.KdbxSignature
+import okio.BufferedSink
 
 
 interface KdbxWriter {
+    fun write(
+        header: KdbxOuterHeader,
+        bytes: ByteArray,
+        key: ByteArray
+    )
     fun writeOuterHeader(outerHeader: KdbxOuterHeader)
+    fun writeOuterHeader(sink: BufferedSink, outerHeader: KdbxOuterHeader)
     fun writeInnerHeader(innerHeader: KdbxInnerHeader)
-    fun writeSignature(signature: KdbxSignature)
-    fun writeVersion(kdbxVersion: KdbxVersion)
-    fun writeOuterHeaderOption(option: OuterHeaderOption)
+    fun writeInnerHeader(sink: BufferedSink, innerHeader: KdbxInnerHeader)
 }

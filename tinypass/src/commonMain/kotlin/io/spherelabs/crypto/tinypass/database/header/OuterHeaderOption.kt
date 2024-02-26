@@ -13,7 +13,7 @@ data class OuterHeaderOption(
 ) {
     fun serialize(sink: BufferedSink) = with(sink) {
         kdbxSignature.serialize(sink)
-        kdbxVersion.serialize(sink)
+        //kdbxVersion.serialize(sink)
         writeByte(FieldID.CipherID.ordinal)
         writeIntLe(CIPHER_ID_LENGTH)
         val bytes = Buffer().apply {

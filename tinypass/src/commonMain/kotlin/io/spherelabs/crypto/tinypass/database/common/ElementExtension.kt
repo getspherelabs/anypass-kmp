@@ -34,6 +34,11 @@ internal fun Element.addUuid(uuid: Uuid?) {
     text(uuid?.toBase64() ?: "")
 }
 
+internal fun Element.addInstant(instant: Instant?, option: XmlOption) {
+    if (instant != null) {
+        text(instant.deserialize(option))
+    }
+}
 
 internal fun Element.addBytes(bytes: ByteArray) {
     text(bytes.decodeToString())
