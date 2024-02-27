@@ -1,18 +1,22 @@
 package io.spherelabs.crypto.tinypass.database.compressor
 
 
-import okio.Buffer
-import okio.Sink
-import okio.Source
-import okio.gzip
+import okio.*
 
 
 actual fun ByteArray.toGzipSource(): Source {
-    val buffer = Buffer().write(this)
-    return (buffer as Source).gzip()
+    val buf = Buffer()
+    val source = GzipSource(buf)
+    source.read(buf, buf.size)
+
+    return buf
 }
 
-actual fun ByteArray.toGzipSink(): Sink {
-    val buffer = Buffer().write(this)
-    return (buffer as Sink).gzip()
+
+actual fun Buffer.toGzipSink(data: ByteArray): ByteArray {
+    this.write(data)
+    val sink = Buffer()
+    val gzipSink = GzipSink(sink)
+    gzipSink.write(buffer, buffer.size)
+    return this.readByteArray()
 }

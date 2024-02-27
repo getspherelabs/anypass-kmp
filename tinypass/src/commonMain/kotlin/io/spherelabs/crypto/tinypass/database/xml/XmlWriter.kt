@@ -14,7 +14,7 @@ import io.spherelabs.crypto.tinypass.database.model.component.CustomIcons
 
 object XmlWriter {
 
-    fun write(query: KdbxQuery, option: XmlOption): Element {
+    fun write(query: KdbxQuery, option: XmlOption): String {
         val version = "2.0"
         val encoding = "utf-8"
 
@@ -23,11 +23,9 @@ object XmlWriter {
             appendElement("root").appendTo(this).apply {
                 writeGroup(query.group).appendTo(this)
             }
-
         }
 
-        println("Document is $document")
-        return document
+        return document.toString()
     }
 
 
@@ -65,7 +63,7 @@ object XmlWriter {
             headerHash?.takeIf { option.kdbxVersion.major < 4 }?.let { bytes ->
                 writeElement(XmlTags.META_HEADER_HASH, bytes.toByteArray())
             }
-            settingsChanged?.takeIf { option.kdbxVersion.major < 4 }?.let { instant ->
+            settingsChanged?.takeIf { option.kdbxVersion.major >= 4 }?.let { instant ->
                 writeElement(XmlTags.META_SETTINGS_CHANGED, instant.deserialize(option))
             }
             writeElement(XmlTags.META_DATABASE_NAME, name)

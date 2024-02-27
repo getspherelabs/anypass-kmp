@@ -7,6 +7,7 @@ import io.spherelabs.crypto.tinypass.database.header.*
 import io.spherelabs.crypto.tinypass.database.model.component.Content
 import okio.Buffer
 import okio.BufferedSink
+import okio.BufferedSource
 
 /**
  * Buffer is a mutable sequence of bytes. Like ArrayList, you don’t need to size your buffer in advance.
@@ -15,7 +16,7 @@ import okio.BufferedSink
  */
 
 object KdbxBuffer : KdbxWriter, KdbxReader {
-    private val buffer = Buffer()
+    val buffer = Buffer()
 
     override fun write(header: KdbxOuterHeader, bytes: ByteArray, key: ByteArray) {
         val seed = header.seed.toByteArray()
@@ -26,6 +27,14 @@ object KdbxBuffer : KdbxWriter, KdbxReader {
         sink.commonWriteInnerHeader(innerHeader)
 
     override fun readOuterHeader(): KdbxOuterHeader = buffer.commonReadOuterHeader()
+
+    override fun readOuterHeader(bufferedSource: BufferedSource): KdbxOuterHeader {
+        return bufferedSource.commonReadOuterHeader()
+    }
+
+    override fun readInnerHeader(bufferedSource: BufferedSource): KdbxInnerHeader {
+        return bufferedSource.commonReadInnerHeader()
+    }
 
     override fun readInnerHeader(): KdbxInnerHeader = buffer.commonReadInnerHeader()
 

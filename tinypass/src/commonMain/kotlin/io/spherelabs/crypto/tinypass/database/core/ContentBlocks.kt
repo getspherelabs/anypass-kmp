@@ -9,6 +9,7 @@ import okio.Buffer
 import okio.BufferedSink
 import okio.BufferedSource
 import okio.ByteString.Companion.toByteString
+import okio.buffer
 
 /**
  * Takes a stream of (encrypted GZIP) data and formats it as HMAC Hashed Blocks to the
@@ -65,6 +66,7 @@ internal object ContentBlocks {
     ): ByteArray {
         val contentData = Buffer()
         val hmacKey = createBlockHmacKey(masterSeed, transformedKey)
+
         var index = 0L
 
         while (true) {
@@ -83,19 +85,10 @@ internal object ContentBlocks {
             }
         }
 
+        println("Content data is ${contentData.snapshot()}")
         return contentData.readByteArray()
     }
 
-    internal fun writeContentBlocksVer3x(
-        sink: BufferedSink,
-        contentData: ByteArray,
-    ) = writeContentBlocks(sink, contentData, true) {
-        if (data.isNotEmpty()) {
-            data.sha256()
-        } else {
-            ByteArray(32) { 0x0 }
-        }
-    }
 
     internal fun writeContentBlocksVer4x(
         sink: BufferedSink,
@@ -106,7 +99,9 @@ internal object ContentBlocks {
         val hmacKey = createBlockHmacKey(masterSeed, transformedKey)
 
         writeContentBlocks(sink, contentData, false) {
-            createBlockHmac(hmacKey, index, length, data)
+            val data = createBlockHmac(hmacKey, index, length, data)
+            println("Data write block is ${data.toByteString()}")
+            data
         }
     }
 
@@ -118,9 +113,9 @@ internal object ContentBlocks {
     ): Unit = with(sink) {
         var index = 0L
         var offset = 0
-
         while (offset < contentData.size) {
             val length = minOf(contentData.size - offset, BlockSplitRate)
+
             val data = contentData.sliceArray(offset until offset + length)
             val hash = hashFunc(Block(index, length, data))
 

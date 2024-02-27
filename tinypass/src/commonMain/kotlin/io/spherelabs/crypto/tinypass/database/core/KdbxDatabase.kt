@@ -1,13 +1,10 @@
 package io.spherelabs.crypto.tinypass.database.core
 
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxReader
 import io.spherelabs.crypto.tinypass.database.getPlatformFileSystem
 import io.spherelabs.crypto.tinypass.database.header.KdbxInnerHeader
 import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
 import io.spherelabs.crypto.tinypass.database.model.component.KdbxQuery
 import io.spherelabs.crypto.tinypass.database.serializer.KdbxSerializer
-import kotlin.coroutines.CoroutineContext
 import okio.Buffer
 import okio.Path.Companion.toPath
 
@@ -23,15 +20,15 @@ data class KdbxDatabase(
             return getPlatformFileSystem().exists(path.toPath())
         }
 
-        fun write(configuration: KdbxConfiguration): KdbxDatabase {
-            return if (!isEmpty(configuration.path)) KdbxSerializer.encode(configuration) else {
-                throw Exception("File is existed!")
-            }
+        fun write(buffer: Buffer, configuration: KdbxConfiguration): KdbxDatabase {
+            TODO()
+        }
+
+        fun read(configuration: KdbxConfiguration): KdbxQuery {
+
+            TODO()
         }
     }
 
-    fun read(): KdbxQuery {
-        TODO()
-    }
 
 }

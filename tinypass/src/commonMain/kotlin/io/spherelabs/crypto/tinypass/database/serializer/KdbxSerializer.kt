@@ -21,16 +21,15 @@ import io.spherelabs.crypto.tinypass.database.header.KdfParameters
 import io.spherelabs.crypto.tinypass.database.model.component.KdbxQuery
 import io.spherelabs.crypto.tinypass.database.model.component.Group
 import io.spherelabs.crypto.tinypass.database.model.component.Meta
+import io.spherelabs.crypto.tinypass.database.serializer.internal.commonKdbxDecode
 import io.spherelabs.crypto.tinypass.database.serializer.internal.commonKdbxEncode
-import okio.Buffer
-import okio.BufferedSource
+import okio.*
 import okio.ByteString.Companion.toByteString
 import okio.Path.Companion.toPath
-import okio.buffer
 
 object KdbxSerializer : KdbxEncoder, KdbxDecoder {
-
-    override fun encode(config: KdbxConfiguration): KdbxDatabase {
+    private val fileSystem = getPlatformFileSystem()
+    override fun encode(buffer: Buffer,config: KdbxConfiguration): KdbxDatabase {
         val random = buildSecureRandom()
         val outerHeader = KdbxOuterHeader.create().copy(
             seed = random.nextBytes(32).toByteString(),
@@ -55,6 +54,7 @@ object KdbxSerializer : KdbxEncoder, KdbxDecoder {
         )
 
         return commonKdbxEncode(
+            buffer,
             KdbxDatabase(
                 configuration = config,
                 outerHeader = outerHeader,
@@ -74,29 +74,49 @@ object KdbxSerializer : KdbxEncoder, KdbxDecoder {
 
     }
 
-    override fun decode(source: BufferedSource, configuration: KdbxConfiguration): KdbxDatabase {
-      TODO()
+    override fun decode(buffer: Buffer, db: KdbxDatabase): KdbxDatabase {
+        return commonKdbxDecode(buffer, db)
     }
 
-    private fun deserializeAsContent(
-        cipherId: CipherId,
-        key: ByteArray,
-        iv: ByteArray,
-        data: ByteArray,
-    ): ByteArray {
-        return when (cipherId) {
-            CipherId.Aes -> {
-                ChaCha7539Engine().apply { init(key, iv) }.processBytes(data)
-            }
-
-            CipherId.ChaCha20 -> {
-                AES.decryptAesCbc(
-                    key = key,
-                    data = data,
-                    iv = iv,
-                    padding = CipherPadding.NoPadding,
-                )
-            }
+    override fun decode(config: KdbxConfiguration): KdbxDatabase {
+        val random = buildSecureRandom()
+        val outerHeader = KdbxOuterHeader.create().copy(
+            seed = random.nextBytes(32).toByteString(),
+            encryptionIV = random.nextBytes(16).toByteString(),
+            kdfParameters = KdfParameters.Argon2(
+                uuid = KdfParameters.KdfArgon2d,
+                salt = random.nextBytes(32).toByteString(),
+                parallelism = 2U,
+                memory = 32UL * 1024UL * 1024UL,
+                iterations = 8U,
+                version = 0x13.toUInt(),
+                key = null,
+                associatedData = null,
+            ),
+            customData = linkedMapOf(),
+        )
+        val innerHeader = KdbxInnerHeader.of(
+            random.nextBytes(64).toByteString(),
+        )
+        val meta = Meta(
+            name = config.path,
+        )
+        return fileSystem.source(config.path.toPath()).use { source ->
+            commonKdbxDecode(source.buffer(), KdbxDatabase(
+                configuration = config,
+                outerHeader = outerHeader,
+                innerHeader = innerHeader,
+                query = KdbxQuery(
+                    meta = meta,
+                    group = Group(
+                        id = uuid4(),
+                        title = config.path,
+                        isAutoTyped = true,
+                        isSearchable = true,
+                    ),
+                    deletedObjects = emptyList(),
+                ),
+            ),)
         }
     }
 }

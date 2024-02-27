@@ -37,10 +37,8 @@ sealed class BinaryData(
 
         fun toCompressed(): Compressed {
             try {
-                val sink = rawContent.toGzipSink().use {
-                    it.buffer().write(rawContent)
-                }
-                val bytes = sink.buffer.readByteArray()
+                val buffer = Buffer()
+                val bytes = buffer.toGzipSink(data = rawContent)
 
                 return Compressed(
                     rawContent = bytes,

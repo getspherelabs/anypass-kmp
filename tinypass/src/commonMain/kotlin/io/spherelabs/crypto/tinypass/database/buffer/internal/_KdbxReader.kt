@@ -17,7 +17,7 @@ internal fun BufferedSource.commonReadOuterHeader(): KdbxOuterHeader {
     var params: KdfParameters? = null
     var customData: Map<String, Kdbx4Field> = mapOf()
 
-    val kdbxSignature = buffer.commonReadSignature()
+    val kdbxSignature = KdbxSignature.deserialize(this)
     val kdbxVersion = KdbxVersion.deserialize(this)
 
     while (true) {
@@ -69,22 +69,27 @@ internal fun BufferedSource.commonReadInnerHeader(): KdbxInnerHeader {
     var streamCipher: CrsAlgorithm? = null
     var streamKey: ByteString? = null
 
+    println(this.buffer.snapshot())
     while (true) {
         val id = this.readByte()
         val length = this.readIntLe().toLong()
 
         when (id.toInt()) {
             KdbxInnerHeader.END_OF_HEADER -> {
+                println("End of header")
                 this.readByteArray(length)
                 break
             }
             KdbxInnerHeader.STREAM_CIPHER -> {
+                println("Stream of cipher")
                 streamCipher = CrsAlgorithm.values()[this.readIntLe()]
             }
             KdbxInnerHeader.STREAM_KEY -> {
+                println("Stream key")
                 streamKey = this.readByteString(length)
             }
             KdbxInnerHeader.BINARY -> {
+                println("Binary")
                 val memoryProtection = this.readByte() != 0x0.toByte()
                 val content = this.readByteArray(length - 1)
                 val binary = BinaryData.Uncompressed(memoryProtection, content)

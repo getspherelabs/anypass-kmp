@@ -2,7 +2,7 @@ package io.spherelabs.crypto.tinypass.database.xml
 
 object XmlTags {
     const val UUID = "uuid"
-
+    const val ROOT = "root"
     /**
      * Meta
      */

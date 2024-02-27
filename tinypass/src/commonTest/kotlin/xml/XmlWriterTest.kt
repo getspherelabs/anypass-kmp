@@ -1,14 +1,8 @@
 package xml
 
 import com.benasher44.uuid.uuid4
-import io.spherelabs.crypto.tinypass.database.header.KdbxVersion
 import io.spherelabs.crypto.tinypass.database.model.component.Meta
-import io.spherelabs.crypto.tinypass.database.xml.XmlComponent
-import io.spherelabs.crypto.tinypass.database.xml.XmlOption
-import io.spherelabs.crypto.tinypass.database.xml.XmlTags
-import io.spherelabs.crypto.tinypass.database.xml.XmlWriter
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.datetime.Clock
 
 class XmlWriterTest {

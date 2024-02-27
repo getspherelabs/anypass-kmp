@@ -5,73 +5,82 @@ import io.spherelabs.crypto.cipher.ChaCha7539Engine
 import io.spherelabs.crypto.cipher.CipherPadding
 import io.spherelabs.crypto.tinypass.database.EncryptionSaltGenerator
 import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
+import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer.buffer
+import io.spherelabs.crypto.tinypass.database.buffer.internal.commonReadInnerHeader
 import io.spherelabs.crypto.tinypass.database.compressor.toGzipSink
 import io.spherelabs.crypto.tinypass.database.compressor.toGzipSource
 import io.spherelabs.crypto.tinypass.database.core.*
 import io.spherelabs.crypto.tinypass.database.getPlatformFileSystem
 import io.spherelabs.crypto.tinypass.database.header.CipherId
 import io.spherelabs.crypto.tinypass.database.header.CompressionFlags
+import io.spherelabs.crypto.tinypass.database.header.CrsAlgorithm
+import io.spherelabs.crypto.tinypass.database.header.KdbxInnerHeader
+import io.spherelabs.crypto.tinypass.database.model.component.BinaryData
 import io.spherelabs.crypto.tinypass.database.serializer.KdbxSerializer
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 import io.spherelabs.crypto.tinypass.database.xml.XmlReader
 import io.spherelabs.crypto.tinypass.database.xml.XmlWriter
-import okio.Buffer
+import okio.*
+import okio.ByteString.Companion.toByteString
 import okio.Path.Companion.toPath
-import okio.buffer
-import okio.use
 
-fun commonKdbxEncode(database: KdbxDatabase) = database.apply {
-    val outerHeaderBuffer = Buffer().also { sink ->
-        KdbxBuffer.writeOuterHeader(outerHeader = outerHeader, sink = sink)
-    }
+fun commonKdbxEncode(fileSystem: Buffer, database: KdbxDatabase) =
+    database.apply {
+        val outerHeaderBuffer = Buffer().also { sink ->
+            KdbxBuffer.writeOuterHeader(outerHeader = outerHeader, sink = sink)
+        }
 
-    val salt = EncryptionSaltGenerator.create(
-        id = innerHeader.streamCipher,
-        key = innerHeader.streamKey,
-    )
+        val headerHash = outerHeaderBuffer.sha256()
+        val salt = EncryptionSaltGenerator.create(
+            id = innerHeader.streamCipher,
+            key = innerHeader.streamKey,
+        )
 
-    val option = XmlOption(
-        kdbxVersion = outerHeader.option.kdbxVersion,
-        salt = salt,
-        binaries = innerHeader.binaries,
-        isExportable = false,
-    )
+        val option = XmlOption(
+            kdbxVersion = outerHeader.option.kdbxVersion,
+            salt = salt,
+            binaries = innerHeader.binaries,
+            isExportable = false,
+        )
 
-    val hmacKey = hmacKey(
-        masterSeed = outerHeader.seed.toByteArray(),
-        outerHeader = outerHeader,
-        config = configuration,
-    )
+        val hmacKey = hmacKey(
+            masterSeed = outerHeader.seed.toByteArray(),
+            outerHeader = outerHeader,
+            config = configuration,
+        )
 
-    val rawContent = XmlWriter.write(
-        query, option,
-    ).text().encodeToByteArray()
+        val hmacSha256 = outerHeaderBuffer.hmacSha256(hmacKey.toByteString())
 
-    val contentBuffer = Buffer()
-    KdbxBuffer.writeInnerHeader(sink = contentBuffer, innerHeader)
-    contentBuffer.write(rawContent)
+        outerHeaderBuffer.write(headerHash)
+        outerHeaderBuffer.write(hmacSha256)
+        val xmlText = XmlWriter.write(
+            query, option
+        )
 
-    var raw = contentBuffer.readByteArray()
+        println("Xml text is $xmlText")
+        val rawContent =xmlText.encodeToByteArray()
 
-    if (outerHeader.option.compressionFlags == CompressionFlags.GZip) {
-        raw = raw.toGzipSink().buffer().buffer.readByteArray()
-    }
+        val innerHeaderBuffer = Buffer()
+        KdbxBuffer.writeInnerHeader(innerHeaderBuffer, innerHeader)
+        innerHeaderBuffer.write(rawContent)
 
-    val seed = outerHeader.seed.toByteArray()
+        val raw = innerHeaderBuffer.readByteArray()
 
-    val encryptedContent = serializeAsContent(
-        cipherId = outerHeader.option.cipherId,
-        key = masterKey(masterSeed = seed, outerHeader = outerHeader, configuration),
-        iv = outerHeader.encryptionIV.toByteArray(),
-        data = raw,
-    )
+        val seed = outerHeader.seed.toByteArray()
 
-    getPlatformFileSystem().write(
-        configuration.path.toPath(),
-        mustCreate = true
-    ) {
-        buffer().use { sink ->
+        fileSystem.use { sink ->
+            println("Outer header is ${outerHeaderBuffer.snapshot()}")
             sink.write(outerHeaderBuffer.snapshot().toByteArray())
+
+            println("Raw is ${raw.toByteString()}")
+            val encryptedContent = serializeAsContent(
+                cipherId = outerHeader.option.cipherId,
+                key = masterKey(masterSeed = seed, outerHeader = outerHeader, configuration),
+                iv = outerHeader.encryptionIV.toByteArray(),
+                data = raw,
+            )
+
+            println("Encrypted in writing is ${encryptedContent.toByteString()}")
             ContentBlocks.writeContentBlocksVer4x(
                 sink = sink,
                 contentData = encryptedContent,
@@ -80,7 +89,6 @@ fun commonKdbxEncode(database: KdbxDatabase) = database.apply {
             )
         }
     }
-}
 
 private fun deserializeAsContent(
     cipherId: CipherId,
@@ -90,15 +98,17 @@ private fun deserializeAsContent(
 ): ByteArray {
     return when (cipherId) {
         CipherId.Aes -> {
-            ChaCha7539Engine().apply { init(key, iv) }.processBytes(data)
-        }
-        CipherId.ChaCha20 -> {
+            println("Deserialized key is ${key.toByteString()}")
             AES.decryptAesCbc(
                 key = key,
                 data = data,
                 iv = iv,
                 padding = CipherPadding.NoPadding,
             )
+
+        }
+        CipherId.ChaCha20 -> {
+            ChaCha7539Engine().apply { init(key, iv) }.processBytes(data)
         }
     }
 }
@@ -111,6 +121,7 @@ private fun serializeAsContent(
 ): ByteArray {
     return when (cipherId) {
         CipherId.Aes -> {
+            println("Serialized key is ${key.toByteString()}")
             AES.encryptAesCbc(
                 key = key,
                 iv = iv,
@@ -125,40 +136,73 @@ private fun serializeAsContent(
 }
 
 
-fun commonKdbxDecode(database: KdbxDatabase): KdbxDatabase  = database.apply {
-    val headerBuffer = Buffer()
+fun commonKdbxDecode(fileSystem: BufferedSource, database: KdbxDatabase): KdbxDatabase =
+    database.apply {
+        val headerBuffer = Buffer()
 
-    getPlatformFileSystem().read(configuration.path.toPath()) {
-        val header = KdbxBuffer.readOuterHeader()
+        fileSystem.use { source ->
+            source.buffer.write(headerBuffer, headerBuffer.size)
+            val header = KdbxBuffer.readOuterHeader(source)
 
-        val rawHeaderData = headerBuffer.snapshot()
+            val rawHeaderData = headerBuffer.snapshot()
 
-        val expectedSha256 = readByteString(32)
-        val expectedHmacSha256 = readByteString(32)
-        val transformedKey = transformKey(header, configuration)
-        val innerHeaderBuffer = Buffer()
-        val seed = header.seed.toByteArray()
-        val encryptedContent = ContentBlocks.readContentBlocksVer4x(
-            source = this,
-            masterSeed = seed,
-            transformedKey = transformedKey,
-        )
-        var decryptedContent =
-            deserializeAsContent(
-                header.option.cipherId, key = masterKey(seed, header, configuration),
-                iv = header.encryptionIV.toByteArray(), data = encryptedContent,
+            val transformedKey = transformKey(header, configuration)
+            val expectedSha256 = source.readByteString(32)
+            println("Expected sha256 is $expectedSha256")
+            val expectedHmac = source.readByteString(32)
+            println("Expected hmac is $expectedHmac")
+            val seed = header.seed.toByteArray()
+
+            val encryptedContent = ContentBlocks.readContentBlocksVer4x(
+                source = source,
+                masterSeed = seed,
+                transformedKey = transformedKey,
             )
 
-        if (outerHeader.option.compressionFlags == CompressionFlags.GZip) {
-            decryptedContent = decryptedContent.toGzipSink().buffer().buffer.readByteArray()
+
+            println("Encrypted content is ${encryptedContent.toByteString()}")
+            println("Cipher id is ${header.option.cipherId}")
+            val decryptedContent =
+                deserializeAsContent(
+                    header.option.cipherId,
+                    key = masterKey(masterSeed = seed, outerHeader = outerHeader, configuration),
+                    iv = header.encryptionIV.toByteArray(),
+                    data = encryptedContent,
+                )
+
+
+            println("Decrypted content is ${decryptedContent.toByteString()}")
+            val innerHeaderBuffer = Buffer().apply {
+                write(decryptedContent)
+            }
+
+            val innerSource = (innerHeaderBuffer as BufferedSource)
+
+            val innerHeader = KdbxBuffer.readInnerHeader(innerSource)
+
+            println("Inner header is $innerHeader")
+            val salt = EncryptionSaltGenerator.create(
+                id = innerHeader.streamCipher,
+                key = innerHeader.streamKey,
+            )
+
+            val option = XmlOption(
+                kdbxVersion = outerHeader.option.kdbxVersion,
+                salt = salt,
+                binaries = innerHeader.binaries,
+                isExportable = false,
+            )
+
+            val content = XmlReader.read(innerSource, option)
+
+            println("Content is $content")
+
+            return KdbxDatabase(
+                configuration = configuration,
+                outerHeader = header,
+                innerHeader = innerHeader,
+                query = content,
+            )
         }
 
-        val innerHeader = KdbxBuffer.readInnerHeader()
-        val saltGenerator = EncryptionSaltGenerator.create(
-            id = innerHeader.streamCipher,
-            key = innerHeader.streamKey
-        )
-
-        val content = XmlReader
     }
-}

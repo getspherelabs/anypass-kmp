@@ -1,7 +1,7 @@
 package io.spherelabs.crypto.tinypass.database.core.internal
 
-import io.spherelabs.crypto.tinypass.database.core.KdbxQuery
+import io.spherelabs.crypto.tinypass.database.core.KQuery
 
-fun KdbxQuery.getEntry() {
+fun KQuery.getEntry() {
 
 }

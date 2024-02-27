@@ -37,6 +37,8 @@ internal fun Element.addUuid(uuid: Uuid?) {
 internal fun Element.addInstant(instant: Instant?, option: XmlOption) {
     if (instant != null) {
         text(instant.deserialize(option))
+    } else {
+        text("")
     }
 }
 
@@ -49,20 +51,35 @@ internal fun Instant.deserialize(context: XmlOption): String {
     val binary = context.kdbxVersion.major >= 4 && !context.isExportable
 
     return if (binary) {
-        Base64.encode((epochSeconds + 62135596800).toByteArray())
+        val data = Base64.encode((epochSeconds + 62135596800).toByteArray())
+        println("Binary is $data")
+        data
     } else {
         this.toString()
     }
 }
 
 @OptIn(ExperimentalEncodingApi::class)
-internal fun Elements.getInstant(): Instant = text().let { text ->
+internal fun Elements.getInstant(): Instant? = text().takeIf { it.isNotEmpty() }?.let { text ->
+
     // Check if ISO text or binary timestamp
     if (text.indexOf(':') > 0) {
         Instant.parse(text)
     } else {
         val seconds = Long.fromByteArray(Base64.decode(text))
-        Instant.fromEpochSeconds(seconds -62135596800 )
+        Instant.fromEpochSeconds(seconds - 62135596800)
+    }
+}
+
+@OptIn(ExperimentalEncodingApi::class)
+internal fun Element.getInstant(): Instant? = text().takeIf { it.isNotEmpty() }?.let { text ->
+    println("Text is $text")
+// Check if ISO text or binary timestamp
+    if (text.indexOf(':') > 0) {
+        Instant.parse(text)
+    } else {
+        val seconds = Long.fromByteArray(Base64.decode(text))
+        Instant.fromEpochSeconds(seconds - 62135596800)
     }
 }
 

@@ -42,10 +42,10 @@ actual fun ByteArray.toGzipSource(): Source {
 
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun ByteArray.toGzipSink(): Sink {
+actual fun Buffer.toGzipSink(data: ByteArray): ByteArray {
     val capacity = 10_000_000
     return memScoped {
-        val input = this@toGzipSink
+        val input = data
         val destinationBuffer = allocArray<UByteVar>(capacity)
 
         val newSize = compression_encode_buffer(
@@ -55,6 +55,7 @@ actual fun ByteArray.toGzipSink(): Sink {
             COMPRESSION_ZLIB,
         )
         val bytes = destinationBuffer.readBytes(newSize.convert())
-        Buffer().write(bytes)
+        this@toGzipSink.write(bytes)
+        this@toGzipSink.readByteArray()
     }
 }
