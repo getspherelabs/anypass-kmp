@@ -1,9 +1,7 @@
 package io.spherelabs.crypto.tinypass.database.buffer
 
-import io.spherelabs.crypto.tinypass.database.header.KdbxInnerHeader
-import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
-import okio.BufferedSink
 
+import okio.BufferedSink
 
 /**
  * A [KdbxWriter] designed for managing the writing process of KDBX databases,
@@ -11,7 +9,7 @@ import okio.BufferedSink
  *
  * This interface provides methods for writing the outer and inner headers of a KDBX database,
  * along with encrypting and storing sensitive data. It uses [BufferedSink] to improve performance
- * and make the writing process smoother. Buffered sinks are versatile tools that can apply various
+ * and make the writing process smoother. Buffered sinks are powerful that can apply various
  * transformations to data streams, like compression, encryption, and protocol framing.
  *
  * Additionally, they should consider scalability and extensibility to accommodate

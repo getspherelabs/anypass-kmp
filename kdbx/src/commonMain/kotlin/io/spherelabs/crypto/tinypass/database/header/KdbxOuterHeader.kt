@@ -1,13 +1,6 @@
 package io.spherelabs.crypto.tinypass.database.header
 
 import io.spherelabs.anycrypto.securerandom.SecureRandom
-import io.spherelabs.anycrypto.securerandom.buildSecureRandom
-import io.spherelabs.crypto.tinypass.database.buffer.internal.commonWriteVarDict
-import io.spherelabs.crypto.tinypass.database.common.toIntLe
-import io.spherelabs.crypto.tinypass.database.common.toUuid
-import io.spherelabs.crypto.tinypass.database.signature.KdbxSignature
-import okio.BufferedSink
-import okio.BufferedSource
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
 
@@ -88,7 +81,7 @@ data class KdbxOuterHeader(
 
     companion object {
 
-        fun create(random: SecureRandom): KdbxOuterHeader {
+        fun of(random: SecureRandom): KdbxOuterHeader {
             return KdbxOuterHeader(
                 option = OuterHeaderOption.Default,
                 seed = random.nextBytes(32).toByteString(),

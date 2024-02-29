@@ -1,4 +1,4 @@
-package io.spherelabs.crypto.tinypass.database.core2
+package io.spherelabs.crypto.tinypass.database.core
 
 import io.spherelabs.crypto.cipher.AesKdf
 import io.spherelabs.crypto.cipher.Argon2Engine
@@ -6,6 +6,7 @@ import io.spherelabs.crypto.cipher.Argon2Kdf
 import io.spherelabs.crypto.cipher.clear
 import io.spherelabs.crypto.hash.sha256
 import io.spherelabs.crypto.hash.sha512
+import io.spherelabs.crypto.tinypass.database.common.toArgon2EngineType
 import io.spherelabs.crypto.tinypass.database.header.KdfParameters
 import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
 import io.spherelabs.crypto.tinypass.database.model.component.SecureBytes
@@ -31,51 +32,53 @@ import io.spherelabs.crypto.tinypass.database.model.component.SecureBytes
  *
  * https://palant.info/2023/03/29/documenting-keepass-kdbx4-file-format/
  */
-fun compositeKey(key: KdbxConfiguration): ByteArray {
-    val keys = listOfNotNull(
-        SecureBytes.fromPlainText(key.passphrase ?: "").raw,
-        SecureBytes.fromPlainText(key.key ?: "").raw,
-    )
 
-    val composite = when {
-        keys.isNotEmpty() -> {
-            keys.reduce { a, b -> a + b }
+internal fun transformKey(header: KdbxOuterHeader, keys: KdbxConfiguration): ByteArray {
+    fun compositeKey(configuration: KdbxConfiguration): ByteArray {
+        val hash = listOfNotNull(
+            SecureBytes.fromPlainText(configuration.passphrase ?: "").raw,
+            SecureBytes.fromPlainText(configuration.key ?: "").raw,
+        )
+
+        val composite = when {
+            hash.isNotEmpty() -> {
+                hash.reduce { a, b -> a + b }
+            }
+            else -> ByteArray(0)
         }
-        else -> ByteArray(0)
+        return composite.sha256().also { composite.clear() }
     }
-    return composite.sha256().also { composite.clear() }
-}
 
-fun transformKey(header: KdbxOuterHeader, keys: KdbxConfiguration): ByteArray {
     return when (header.kdfParameters) {
         is KdfParameters.AES -> {
-            AesKdf.transformKey(
-                key = compositeKey(keys),
-                seed = header.kdfParameters.seed.toByteArray(),
-                rounds = header.kdfParameters.rounds,
-            )
+            with(header.kdfParameters) {
+                AesKdf.transformKey(
+                    key = compositeKey(keys),
+                    seed = seed.toByteArray(),
+                    rounds = rounds,
+                )
+            }
         }
         is KdfParameters.Argon2 -> {
-            Argon2Kdf.transformKey(
-                type = when (header.kdfParameters.uuid) {
-                    KdfParameters.KdfArgon2d -> Argon2Engine.Type.Argon2D
-                    KdfParameters.KdfArgon2id -> Argon2Engine.Type.Argon2Id
-                    else -> throw Exception("")
-                },
-                version = Argon2Engine.Version.from(header.kdfParameters.version),
-                password = compositeKey(keys),
-                salt = header.kdfParameters.salt.toByteArray(),
-                secretKey = header.kdfParameters.key?.toByteArray(),
-                additional = header.kdfParameters.associatedData?.toByteArray(),
-                iterations = header.kdfParameters.iterations,
-                parallelism = header.kdfParameters.parallelism,
-                memory = header.kdfParameters.memory,
-            )
+            with(header.kdfParameters) {
+                Argon2Kdf.transformKey(
+                    type = uuid.toArgon2EngineType(),
+                    version = Argon2Engine.Version.from(version),
+                    password = compositeKey(keys),
+                    salt = salt.toByteArray(),
+                    secretKey = key?.toByteArray(),
+                    additional = associatedData?.toByteArray(),
+                    iterations = iterations,
+                    parallelism = parallelism,
+                    memory = memory,
+                )
+            }
+
         }
     }
 }
 
-fun masterKey(
+internal fun masterKey(
     masterSeed: ByteArray,
     outerHeader: KdbxOuterHeader,
     config: KdbxConfiguration,
@@ -85,15 +88,15 @@ fun masterKey(
 }
 
 
-fun hmacKey(
+internal fun hmacKey(
     masterSeed: ByteArray,
     outerHeader: KdbxOuterHeader,
     config: KdbxConfiguration,
 ): ByteArray {
     val transformedKey = transformKey(outerHeader, config)
-    val combined = byteArrayOf(*masterSeed, *transformedKey, 0x01)
-    return (ByteArray(8) { 0xFF.toByte() } + combined.sha512())
+    val hash = masterSeed + transformedKey + 0x01
+    return (ByteArray(8) { 0xFF.toByte() } + hash.sha512())
         .sha512()
-        .also { combined.clear() }
+        .also { hash.clear() }
 }
 

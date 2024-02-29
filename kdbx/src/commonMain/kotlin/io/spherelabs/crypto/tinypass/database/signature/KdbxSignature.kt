@@ -25,9 +25,9 @@ data class KdbxSignature(
     }
 
     companion object {
-        val FirstSignature = ByteString.of(0x03, 0xd9.toByte(), 0xa2.toByte(), 0x9a.toByte())
-        val SecondSignature = ByteString.of(0x67, 0xfb.toByte(), 0x4b, 0xb5.toByte())
-        val Default = KdbxSignature(FirstSignature, SecondSignature)
+        private val first = ByteString.of(0x03, 0xd9.toByte(), 0xa2.toByte(), 0x9a.toByte())
+        private val second = ByteString.of(0x67, 0xfb.toByte(), 0x4b, 0xb5.toByte())
+        val Default = KdbxSignature(first, second)
 
         fun deserialize(source: BufferedSource) = KdbxSignature(
             first = source.readByteString(4),

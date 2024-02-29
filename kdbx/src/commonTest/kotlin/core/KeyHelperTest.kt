@@ -4,7 +4,7 @@ import io.spherelabs.anycrypto.securerandom.SecureRandom
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
 import io.spherelabs.crypto.tinypass.database.common.encodeHex
 import io.spherelabs.crypto.tinypass.database.common.xmlParser
-import io.spherelabs.crypto.tinypass.database.core2.KeyHelper
+import io.spherelabs.crypto.tinypass.database.core.KeyHelper
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

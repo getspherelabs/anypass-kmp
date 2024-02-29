@@ -3,8 +3,8 @@ package io.spherelabs.crypto.tinypass.database.serializer
 import com.benasher44.uuid.uuid4
 import io.spherelabs.anycrypto.securerandom.SecureRandom
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
-import io.spherelabs.crypto.tinypass.database.core2.KdbxConfiguration
-import io.spherelabs.crypto.tinypass.database.core2.KdbxDatabase
+import io.spherelabs.crypto.tinypass.database.core.KdbxConfiguration
+import io.spherelabs.crypto.tinypass.database.core.KdbxDatabase
 import io.spherelabs.crypto.tinypass.database.header.KdbxInnerHeader
 import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
 import io.spherelabs.crypto.tinypass.database.model.component.KdbxQuery
@@ -18,7 +18,7 @@ import okio.ByteString.Companion.toByteString
 object KdbxSerializer : KdbxEncoder, KdbxDecoder {
     private val random: SecureRandom by lazy { buildSecureRandom() }
 
-    private val outerHeader: KdbxOuterHeader by lazy { KdbxOuterHeader.create(random) }
+    private val outerHeader: KdbxOuterHeader by lazy { KdbxOuterHeader.of(random) }
 
     private val innerHeader: KdbxInnerHeader by lazy {
         KdbxInnerHeader.of(

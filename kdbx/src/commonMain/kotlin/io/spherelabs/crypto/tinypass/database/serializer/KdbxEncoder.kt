@@ -1,7 +1,7 @@
 package io.spherelabs.crypto.tinypass.database.serializer
 
-import io.spherelabs.crypto.tinypass.database.core2.KdbxConfiguration
-import io.spherelabs.crypto.tinypass.database.core2.KdbxDatabase
+import io.spherelabs.crypto.tinypass.database.core.KdbxConfiguration
+import io.spherelabs.crypto.tinypass.database.core.KdbxDatabase
 import okio.BufferedSink
 
 interface KdbxEncoder {

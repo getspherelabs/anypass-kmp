@@ -5,7 +5,7 @@ import okio.ByteString
 
 /**
  * As of KDBX 4, key derivation function parameters are stored in the header field with ID 11 (KdfParameters).
- * The parameters are serialized as a FieldStorage (with the KDF UUID being stored in '$UUID');
+ * The parameters are serialized as a VarDict (with the KDF UUID being stored in '$UUID');
  * For details on the parameters being used by AES-KDF and Argon2.
  */
 sealed class KdfParameters(

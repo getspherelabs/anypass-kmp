@@ -14,13 +14,4 @@ data class KdbxVersion(
     fun isAtLeast(major: Short, minor: Short): Boolean {
         return this.major > major || (this.major == major && this.minor >= minor)
     }
-
-    companion object {
-        fun deserialize(source: BufferedSource): KdbxVersion {
-            return KdbxVersion(
-                major = source.readShortLe(),
-                minor = source.readShortLe(),
-            )
-        }
-    }
 }
