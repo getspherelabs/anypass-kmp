@@ -9,7 +9,6 @@ import okio.BufferedSource
 import okio.ByteString
 
 internal fun BufferedSource.commonReadOuterHeader(): KdbxOuterHeader {
-    println("Reader buffer is $buffer")
     var cipherId: CipherId? = null
     var compressionFlags: CompressionFlags? = null
 
@@ -19,10 +18,10 @@ internal fun BufferedSource.commonReadOuterHeader(): KdbxOuterHeader {
     var customData: Map<String, Kdbx4Field> = mapOf()
 
     val kdbxSignature = commonReadSignature()
-    val kdbxVersion = KdbxVersion.deserialize(this)
+    val kdbxVersion = commonReadVersion()
 
     while (true) {
-        val (id, rawData) = buffer.commonReadId(kdbxVersion)
+        val (id, rawData) = commonReadId(kdbxVersion)
         when (FieldID.values().getOrNull(id)) {
             FieldID.End -> break
             FieldID.CipherID -> {
@@ -50,7 +49,6 @@ internal fun BufferedSource.commonReadOuterHeader(): KdbxOuterHeader {
             else -> {}
         }
     }
-    println("Reader Buffer is $buffer")
     return KdbxOuterHeader(
         option = OuterHeaderOption(
             kdbxSignature = kdbxSignature,
@@ -104,14 +102,14 @@ internal fun BufferedSource.commonReadInnerHeader(): KdbxInnerHeader {
     )
 }
 
-internal fun BufferedSource.commonReadSignature(): KdbxSignature {
+private  fun BufferedSource.commonReadSignature(): KdbxSignature {
     return KdbxSignature(
         first = readByteString(4),
         second = readByteString(4),
     )
 }
 
-internal fun BufferedSource.commonReadId(
+private fun BufferedSource.commonReadId(
     kdbxVersion: KdbxVersion,
 ): Pair<Int, ByteString> {
     val id = readByte()
@@ -122,4 +120,12 @@ internal fun BufferedSource.commonReadId(
         ByteString.EMPTY
     }
     return id.toInt() to data
+}
+
+
+private fun BufferedSource.commonReadVersion(): KdbxVersion {
+    return KdbxVersion(
+        minor = readShortLe(),
+        major = readShortLe(),
+    )
 }

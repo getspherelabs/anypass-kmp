@@ -3,6 +3,8 @@ package io.spherelabs.crypto.tinypass.database.common
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.bytes
 import com.benasher44.uuid.uuidOf
+import io.spherelabs.crypto.cipher.Argon2Engine
+import io.spherelabs.crypto.tinypass.database.header.KdfParameters
 import kotlin.experimental.inv
 import kotlin.experimental.xor
 import okio.Buffer
@@ -182,4 +184,13 @@ internal fun ByteArray.constantTimeEquals(other: ByteArray): Boolean {
         notEqual = notEqual or (this[i] xor this[i].inv()).toInt()
     }
     return notEqual == 0
+}
+
+
+internal fun ByteString.toArgon2EngineType(): Argon2Engine.Type {
+    return when (this) {
+        KdfParameters.KdfArgon2d -> Argon2Engine.Type.Argon2D
+        KdfParameters.KdfArgon2id -> Argon2Engine.Type.Argon2Id
+        else -> throw Exception("Unsupported uuid for Argon2 Engine")
+    }
 }

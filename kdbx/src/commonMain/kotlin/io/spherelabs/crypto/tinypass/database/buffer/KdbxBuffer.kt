@@ -24,7 +24,12 @@ import okio.BufferedSource
 object KdbxBuffer : KdbxWriter, KdbxReader {
 
     override fun readOuterHeader(source: BufferedSource): KdbxOuterHeader {
-        return source.commonReadOuterHeader()
+        return try {
+            source.commonReadOuterHeader()
+        } catch (e: Exception) {
+            throw Exception("Outer header is empty.")
+        }
+
     }
 
     override fun readInnerHeader(source: BufferedSource): KdbxInnerHeader {

@@ -18,13 +18,14 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "tinypass"
+            baseName = "kdbx"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.coroutine)
                 implementation("com.squareup.okio:okio:3.7.0")
                 implementation(projects.crypto.secureRandom)
                 implementation(projects.crypto.digest)
@@ -32,11 +33,13 @@ kotlin {
                 implementation("com.benasher44:uuid:0.8.2")
                 implementation("com.fleeksoft.ksoup:ksoup:0.1.2")
                 implementation(libs.datetime)
+
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(libs.coroutine.test)
                 implementation("com.squareup.okio:okio-fakefilesystem:3.7.0")
             }
         }
@@ -45,6 +48,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test-junit:1.9.0")
                 implementation(kotlin("test"))
+                implementation(libs.assertk)
             }
         }
         val iosX64Main by getting

@@ -7,12 +7,6 @@ import com.benasher44.uuid.uuidFrom
  * [CipherId] is a unique identifier used to specify the encryption algorithm used to encrypt the database file.
  */
 
-data class KdbxHeader(
-    val uuid: Uuid,
-) {
-    private val seed = ByteArray(32)
-}
-
 sealed interface C
 enum class CipherId(val uuid: Uuid, val ivLength: Int) {
     Aes(
