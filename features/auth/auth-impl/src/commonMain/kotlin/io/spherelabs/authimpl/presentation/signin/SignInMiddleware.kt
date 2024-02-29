@@ -1,6 +1,7 @@
 package io.spherelabs.authimpl.presentation.signin
 
 import io.spherelabs.authapi.domain.usecase.*
+import io.spherelabs.data.local.website.WebsiteService
 import io.spherelabs.meteor.middleware.Middleware
 import io.spherelabs.passphraseapi.domain.usecase.SetKeyPasswordUseCase
 
@@ -9,6 +10,7 @@ class SignInMiddleware(
     private val hasCurrentUserExist: HasCurrentUserExist,
     private val setKeyPasswordUseCase: SetKeyPasswordUseCase,
     private val insertUserUseCase: InsertUserUseCase,
+    private val website: WebsiteService
 ) : Middleware<SignInState, SignInWish> {
 
     override suspend fun process(
@@ -19,6 +21,7 @@ class SignInMiddleware(
         when (wish) {
             SignInWish.SignIn -> {
                 val result = signInWithEmailAndPassword.execute(state.email, state.password)
+
 
                 result
                     .onSuccess {
@@ -36,6 +39,10 @@ class SignInMiddleware(
             is SignInWish.CheckCurrentUser -> {
                 runCatching { hasCurrentUserExist.execute() }
                     .onSuccess { isExist ->
+                        val json = website.get()
+
+                        println("Json context is ${json.getOrThrow()}")
+                        println("Existing is $isExist")
                         if (isExist) {
                             next.invoke(SignInWish.SignInSuccess)
                         }
@@ -53,6 +60,7 @@ class SignInMiddleware(
                         password = state.password
                     )
                     setKeyPasswordUseCase.execute("1234")
+
                 }.onSuccess {
                     next.invoke(SignInWish.SignInSuccess)
                 }.onFailure {

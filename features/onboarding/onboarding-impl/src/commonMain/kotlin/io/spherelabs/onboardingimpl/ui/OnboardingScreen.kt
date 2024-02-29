@@ -29,7 +29,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import io.spherelabs.designsystem.fonts.LocalStrings
-import io.spherelabs.designsystem.hooks.useEffect
 import io.spherelabs.designsystem.hooks.useInject
 import io.spherelabs.designsystem.state.collectAsStateWithLifecycle
 import io.spherelabs.foundation.color.BlackRussian

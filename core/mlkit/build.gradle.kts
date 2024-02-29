@@ -7,11 +7,11 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -57,5 +57,10 @@ android {
     compileSdk = 33
     defaultConfig {
         minSdk = 24
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }

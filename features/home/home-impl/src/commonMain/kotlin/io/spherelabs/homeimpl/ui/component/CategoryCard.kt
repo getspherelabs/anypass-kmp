@@ -17,14 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.spherelabs.homeimpl.presentation.UIHomeCategory
 import io.spherelabs.homeimpl.presentation.UIHomePassword
 import io.spherelabs.homeimpl.presentation.HomeWish
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CategoryCard(
-    categories: List<UIHomeCategory>,
+    categories: List<Category>,
     passwords: List<UIHomePassword>,
     modifier: Modifier = Modifier,
     isVisible: Boolean,
@@ -57,7 +56,7 @@ internal fun CategoryCard(
                 divider = { Divider(color = Color.Transparent) },
             ) {
                 categories.forEachIndexed { index, category ->
-                    HomeTag(index, category = category.title, pagerState = pagerState)
+                    HomeTag(index, categoryType = category.categoryType, pagerState = pagerState)
                 }
             }
         }

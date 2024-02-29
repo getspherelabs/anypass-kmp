@@ -5,12 +5,12 @@ import io.sentry.kotlin.multiplatform.OptionsConfiguration
 import io.sentry.kotlin.multiplatform.Sentry
 import io.spherelabs.anypass.BuildKonfig
 
-private val optionsConfiguration: OptionsConfiguration = {
-    it.dsn = BuildKonfig.SENTRY_DSN
-    it.attachStackTrace = true
-    it.attachThreads = true
-    it.attachScreenshot = true
-    it.beforeSend = { event ->
+private val optionsConfiguration: OptionsConfiguration = { option ->
+    option.dsn = BuildKonfig.SENTRY_DSN
+    option.attachStackTrace = true
+    option.attachThreads = true
+    option.attachScreenshot = true
+    option.beforeSend = { event ->
         if (event.environment == "test") {
             null
         } else {
@@ -30,7 +30,7 @@ fun initializeSentry(context: Context?) {
 
 private fun configureSentryScope() {
     Sentry.configureScope {
-        it.setContext("Custom Context", "Shared Context")
-        it.setTag("custom-tag", "from shared code")
+        it.setContext("AnyPass", "Shared Context")
+        it.setTag("anypass-tag", "from shared code")
     }
 }

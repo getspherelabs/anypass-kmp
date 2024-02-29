@@ -4,6 +4,7 @@ import io.spherelabs.navigationapi.core.Destination
 
 
 sealed interface AddNewPasswordDestination : Destination {
-    object AddNewPasswordScreen : Destination
-    data class Back(val password: String) : Destination
+    object AddNewPasswordScreen : AddNewPasswordDestination
+    data class UpdatePasswordScreen(val name: String, val url: String) : AddNewPasswordDestination
+    data class Back(val password: String) : AddNewPasswordDestination
 }

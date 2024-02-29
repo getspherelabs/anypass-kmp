@@ -3,10 +3,7 @@ package io.spherelabs.homeimpl.ui.component
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -25,7 +21,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.spherelabs.designsystem.hooks.usePagerEffect
@@ -36,7 +31,6 @@ import io.spherelabs.designsystem.swiper.LKCardStack
 import io.spherelabs.designsystem.swiper.items
 import io.spherelabs.designsystem.swiper.useLKCardStackState
 import io.spherelabs.foundation.color.Jaguar
-import io.spherelabs.homeimpl.presentation.UIHomeCategory
 import io.spherelabs.homeimpl.presentation.UIHomePassword
 import io.spherelabs.homeimpl.presentation.HomeWish
 import io.spherelabs.homeimpl.ui.HomeDefaults
@@ -45,8 +39,6 @@ import io.spherelabs.resource.fonts.GoogleSansFontFamily
 import io.spherelabs.resource.icons.AnyPassIcons
 import io.spherelabs.resource.icons.anypassicons.Behance
 import io.spherelabs.system.ui.randompassword.ColorizedRandomPassword
-import kotlin.math.min
-import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
@@ -54,7 +46,7 @@ import kotlinx.coroutines.launch
 internal fun HomePager(
     modifier: Modifier = Modifier.animateContentSize(),
     pagerState: PagerState,
-    category: List<UIHomeCategory>,
+    category: List<Category>,
     passwords: List<UIHomePassword>,
     isHidden: Boolean,
     onPasswordChanged: (HomeWish) -> Unit,
@@ -72,7 +64,7 @@ internal fun HomePager(
     )
     usePagerEffect(pagerState) {
         scope.launch {
-            onGetStartingPasswordByCategory.invoke(HomeWish.GetStartedPasswordByCategory(category[it].id))
+            onGetStartingPasswordByCategory.invoke(HomeWish.GetStartedPasswordByCategory(category[it].id.toString()))
         }
     }
 

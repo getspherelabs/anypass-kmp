@@ -20,7 +20,7 @@ internal fun Project.configureDomainMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }
@@ -96,7 +96,7 @@ internal fun Project.configureDesignSystemMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }
@@ -180,7 +180,7 @@ internal fun Project.configurePresentationMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }
@@ -249,7 +249,7 @@ internal fun Project.configureCommonMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }
@@ -314,7 +314,7 @@ internal fun Project.configurePrefsMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }
@@ -390,7 +390,7 @@ internal fun Project.configureValidationMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }
@@ -456,7 +456,7 @@ internal fun Project.configureResourceMultiplatform(
         androidTarget {
             compilations.all {
                 kotlinOptions {
-                    jvmTarget = "1.8"
+                    jvmTarget = "11"
                 }
             }
         }

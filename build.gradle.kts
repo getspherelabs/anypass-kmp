@@ -28,6 +28,7 @@ plugins {
     alias(libs.plugins.sentry).apply(false)
     alias(libs.plugins.spotless)
     alias(libs.plugins.dependencyanalysis)
+    alias(libs.plugins.kotlinx.serialization)
     id("org.jetbrains.kotlin.jvm") version "1.8.20" apply false
 }
 

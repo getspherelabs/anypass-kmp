@@ -1,0 +1,197 @@
+{
+    "list": [
+        {
+            "name": "Facebook",
+            "url": "www.facebook.com"
+        },
+        {
+            "name": "Youtube",
+            "url": "www.youtube.com"
+        },
+        {
+            "name": "Whatsapp",
+            "url": "www.whatsapp.com"
+        },
+        {
+            "name": "Instagram",
+            "url": "www.instagram.com"
+        },
+        {
+            "name": "Wechat",
+            "url": "www.wechat.com"
+        },
+        {
+            "name": "Twitter",
+            "url": "www.twitter.com"
+        },
+        {
+            "name": "Snapchat",
+            "url": "www.snapchat.com"
+        },
+        {
+            "name": "Linkedin",
+            "url": "www.linkedin.com"
+        },
+        {
+            "name": "Pinterest",
+            "url": "www.pinterest.com"
+        },
+        {
+            "name": "Reddit",
+            "url": "www.reddit.com"
+        },
+        {
+            "name": "TikTok",
+            "url": "www.tiktok.com"
+        },
+        {
+            "name": "Tumblr",
+            "url": "www.tumblr.com"
+        },
+        {
+            "name": "Skype",
+            "url": "www.skype.com"
+        },
+        {
+            "name": "Telegram",
+            "url": "www.telegram.org"
+        },
+        {
+            "name": "Discord",
+            "url": "www.discord.com"
+        },
+        {
+            "name": "Viber",
+            "url": "www.viber.com"
+        },
+        {
+            "name": "Flickr",
+            "url": "www.flickr.com"
+        },
+        {
+            "name": "Meetup",
+            "url": "www.meetup.com"
+        },
+        {
+            "name": "Vk",
+            "url": "www.vk.com"
+        },
+        {
+            "name": "Goodreads",
+            "url": "www.goodreads.com"
+        },
+        {
+            "name": "Quora",
+            "url": "www.quora.com"
+        },
+        {
+            "name": "SoundCloud",
+            "url": "www.soundcloud.com"
+        },
+        {
+            "name": "Badoo",
+            "url": "www.badoo.com"
+        },
+        {
+            "name": "Twitch",
+            "url": "www.twitch.tv"
+        },
+        {
+            "name": "Medium",
+            "url": "www.medium.com"
+        },
+        {
+            "name": "Houzz",
+            "url": "www.houzz.com"
+        },
+        {
+            "name": "Foursquare",
+            "url": "www.foursquare.com"
+        },
+        {
+            "name": "Nextdoor",
+            "url": "www.nextdoor.com"
+        },
+        {
+            "name": "Dribbble",
+            "url": "www.dribbble.com"
+        },
+        {
+            "name": "Wattpad",
+            "url": "www.wattpad.com"
+        },
+        {
+            "name": "Steemit",
+            "url": "www.steemit.com"
+        },
+        {
+            "name": "Mix",
+            "url": "www.mix.com"
+        },
+        {
+            "name": "Reverbnation",
+            "url": "www.reverbnation.com"
+        },
+        {
+            "name": "Couchsurfing",
+            "url": "www.couchsurfing.com"
+        },
+        {
+            "name": "Mastodon",
+            "url": "www.joinmastodon.org"
+        },
+        {
+            "name": "Ello",
+            "url": "www.ello.co"
+        },
+        {
+            "name": "Vimeo",
+            "url": "www.vimeo.com"
+        },
+        {
+            "name": "Mixcloud",
+            "url": "www.mixcloud.com"
+        },
+        {
+            "name": "Delicious",
+            "url": "www.delicious.com"
+        },
+        {
+            "name": "Yelp",
+            "url": "www.yelp.com"
+        },
+        {
+            "name": "Behance",
+            "url": "www.behance.net"
+        },
+        {
+            "name": "Taringa",
+            "url": "www.taringa.net"
+        },
+        {
+            "name": "Myspace",
+            "url": "www.myspace.com"
+        },
+
+        {
+            "name": "Trello",
+            "url": "www.trello.com"
+        },
+        {
+            "name": "Yubo",
+            "url": "www.yubo.live"
+        },
+        {
+            "name": "Line",
+            "url": "www.line.me"
+        },
+        {
+            "name": "Netflix",
+            "url": "www.netflix.com"
+        },
+        {
+            "name": "Imgur",
+            "url": "www.imgur.com"
+        }
+    ]
+}

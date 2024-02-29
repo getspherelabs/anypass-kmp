@@ -3,7 +3,12 @@ package io.spherelabs.anypass.app
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.navigator.Navigator
+import coil3.ImageLoader
+import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.setSingletonImageLoaderFactory
+import coil3.fetch.NetworkFetcher
 import io.spherelabs.accountdi.accountUiModule
+import io.spherelabs.addnewpassworddi.addNewLoginUiModule
 import io.spherelabs.addnewpassworddi.addNewPasswordUiModule
 import io.spherelabs.authdi.authScreenModule
 import io.spherelabs.authenticatordi.authenticatorUiModule
@@ -22,12 +27,20 @@ import io.spherelabs.passphraseimpl.ui.KeyPasswordScreen
 import io.spherelabs.passwordhealthdi.passwordHealthUiModule
 import io.spherelabs.passwordhistorydi.passwordHistoryUiModule
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun AnyPassApp(
     onboardingSettings: SharedViewModel = useInject(),
 ) {
     val uiState = onboardingSettings.uiSharedState.collectAsStateWithLifecycle().value
 
+    setSingletonImageLoaderFactory { context ->
+        ImageLoader.Builder(context)
+            .components {
+                add(NetworkFetcher.Factory())
+            }
+            .build()
+    }
     ScreenRegistry {
         onboardingScreenModule()
         authScreenModule()
@@ -42,6 +55,7 @@ fun AnyPassApp(
         passwordHealthUiModule()
         helpUiModule()
         passwordHistoryUiModule()
+        addNewLoginUiModule()
     }
 
 

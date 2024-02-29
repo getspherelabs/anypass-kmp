@@ -40,8 +40,9 @@ class PasswordHistoryViewModelTest {
     }
 
     @Test
-    fun `GIVEN starts history WHEN loaded THEN checks the size`() = runTest() {
+    fun `GIVEN starts history WHEN loaded THEN checks the size`() = runTest {
         viewModel.wish(PasswordHistoryWish.StartLoadingPasswordHistory)
+
         viewModel.state.test {
             assertThat(1).isEqualTo(awaitItem().history.size)
         }

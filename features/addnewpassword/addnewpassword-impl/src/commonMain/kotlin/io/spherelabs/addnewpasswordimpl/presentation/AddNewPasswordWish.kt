@@ -9,7 +9,7 @@ sealed interface AddNewPasswordWish {
 
   object OnPasswordFailed : AddNewPasswordWish
 
-  data class OnTitleChanged(val title: String) : AddNewPasswordWish
+  data class OnTitleChanged(val title: String?) : AddNewPasswordWish
 
   object OnTitleFailed : AddNewPasswordWish
 
@@ -21,7 +21,7 @@ sealed interface AddNewPasswordWish {
 
   object OnUserNameFailed : AddNewPasswordWish
 
-  data class OnWebsiteAddressChanged(val websiteAddress: String) : AddNewPasswordWish
+  data class OnWebsiteAddressChanged(val websiteAddress: String?) : AddNewPasswordWish
 
   object OnWebsiteFailed : AddNewPasswordWish
 

@@ -36,6 +36,7 @@ actual class FirebaseAuthManager(
     ): Result<AuthResult> {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            println("Result of firebase")
             Result.success(AuthResult(checkNotNull(result)))
         } catch (e: Exception) {
             Result.failure(e)
