@@ -1,4 +1,4 @@
-package io.spherelabs.crypto.tinypass.database.core2
+package io.spherelabs.crypto.tinypass.database.core
 
 import io.spherelabs.crypto.tinypass.database.model.component.SecureBytes
 
