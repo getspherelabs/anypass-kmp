@@ -6,10 +6,10 @@ import io.spherelabs.crypto.cipher.CipherPadding
 import io.spherelabs.crypto.tinypass.database.EncryptionSaltGenerator
 import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
 import io.spherelabs.crypto.tinypass.database.buffer.WriterStrategy
-import io.spherelabs.crypto.tinypass.database.core2.*
+import io.spherelabs.crypto.tinypass.database.core.*
+import io.spherelabs.crypto.tinypass.database.core.internal.HmacBlock
 import io.spherelabs.crypto.tinypass.database.header.CipherId
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
-import io.spherelabs.crypto.tinypass.database.xml.XmlReader
 import io.spherelabs.crypto.tinypass.database.xml.XmlWriter
 import okio.*
 import okio.ByteString.Companion.toByteString
@@ -72,38 +72,17 @@ fun commonKdbxEncode(fileSystem: BufferedSink, database: KdbxDatabase) =
             )
 
             println("Encrypted in writing is ${encryptedContent.toByteString()}")
-            ContentBlocks.writeContentBlocksVer4x(
+            HmacBlock.write(
                 sink = sink,
-                contentData = encryptedContent,
-                masterSeed = seed,
+                bytes = encryptedContent,
+                seed = seed,
                 transformedKey = transformKey(header = outerHeader, configuration),
             )
             println("Writer Buffer is $sink")
         }
     }
 
-private fun deserializeAsContent(
-    cipherId: CipherId,
-    key: ByteArray,
-    iv: ByteArray,
-    data: ByteArray,
-): ByteArray {
-    return when (cipherId) {
-        CipherId.Aes -> {
-            println("Deserialized key is ${key.toByteString()}")
-            AES.decryptAesCbc(
-                key = key,
-                data = data,
-                iv = iv,
-                padding = CipherPadding.NoPadding,
-            )
 
-        }
-        CipherId.ChaCha20 -> {
-            ChaCha7539Engine().apply { init(key, iv) }.processBytes(data)
-        }
-    }
-}
 
 private fun serializeAsContent(
     cipherId: CipherId,
@@ -128,63 +107,4 @@ private fun serializeAsContent(
 }
 
 
-fun commonKdbxDecode(fileSystem: BufferedSource, database: KdbxDatabase): KdbxDatabase =
-    database.apply {
-        val headerBuffer = Buffer()
 
-        fileSystem.use { source ->
-            println("2. Decode file system ${fileSystem.buffer.snapshot()}")
-            source.buffer.write(headerBuffer, headerBuffer.size)
-            val header = KdbxBuffer.readOuterHeader(source)
-
-            val rawHeaderData = headerBuffer.snapshot()
-
-            val transformedKey = transformKey(header, configuration)
-            val expectedSha256 = source.readByteString(32)
-            val expectedHmac = source.readByteString(32)
-            val seed = header.seed.toByteArray()
-
-            val encryptedContent = ContentBlocks.readContentBlocksVer4x(
-                source = source,
-                masterSeed = seed,
-                transformedKey = transformedKey,
-            )
-
-            val decryptedContent =
-                deserializeAsContent(
-                    header.option.cipherId,
-                    key = masterKey(masterSeed = seed, outerHeader = outerHeader, configuration),
-                    iv = header.encryptionIV.toByteArray(),
-                    data = encryptedContent,
-                )
-
-
-            val innerHeaderBuffer = Buffer().apply {
-                write(decryptedContent)
-            }
-
-            val innerHeader = KdbxBuffer.readInnerHeader(innerHeaderBuffer)
-
-            val salt = EncryptionSaltGenerator.create(
-                id = innerHeader.streamCipher,
-                key = innerHeader.streamKey,
-            )
-
-            val option = XmlOption(
-                kdbxVersion = outerHeader.option.kdbxVersion,
-                salt = salt,
-                binaries = innerHeader.binaries,
-                isExportable = false,
-            )
-
-            val content = XmlReader.read(innerHeaderBuffer, option)
-
-            return KdbxDatabase(
-                configuration = configuration,
-                outerHeader = header,
-                innerHeader = innerHeader,
-                query = content,
-            )
-        }
-
-    }
