@@ -1,12 +1,9 @@
 package io.spherelabs.crypto.tinypass.database.model.component
 
-data class KdbxQuery(
-    val meta: Meta,
-    val group: Group,
-    val deletedObjects: List<DeletedComponent>,
-)
+import io.spherelabs.crypto.tinypass.database.entity.DeletedComponent
+import io.spherelabs.crypto.tinypass.database.entity.Group
 
-data class Content(
+data class KdbxQuery(
     val meta: Meta,
     val group: Group,
     val deletedObjects: List<DeletedComponent>,

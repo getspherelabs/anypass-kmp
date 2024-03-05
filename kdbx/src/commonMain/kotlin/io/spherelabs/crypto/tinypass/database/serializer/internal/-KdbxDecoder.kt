@@ -5,11 +5,13 @@ import io.spherelabs.crypto.cipher.ChaCha7539Engine
 import io.spherelabs.crypto.cipher.CipherPadding
 import io.spherelabs.crypto.tinypass.database.EncryptionSaltGenerator
 import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
+import io.spherelabs.crypto.tinypass.database.compressor.ungzip
 import io.spherelabs.crypto.tinypass.database.core.internal.HmacBlock
 import io.spherelabs.crypto.tinypass.database.core.KdbxDatabase
 import io.spherelabs.crypto.tinypass.database.core.masterKey
 import io.spherelabs.crypto.tinypass.database.core.transformKey
 import io.spherelabs.crypto.tinypass.database.header.CipherId
+import io.spherelabs.crypto.tinypass.database.header.CompressionFlags
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 import io.spherelabs.crypto.tinypass.database.xml.XmlReader
 import okio.Buffer
@@ -27,8 +29,10 @@ fun commonKdbxDecode(buffer: BufferedSource, database: KdbxDatabase): KdbxDataba
             val rawHeaderData = headerBuffer.snapshot()
 
             val transformedKey = transformKey(header, configuration)
+
             val expectedSha256 = source.readByteString(32)
             val expectedHmac = source.readByteString(32)
+
             val seed = header.seed.toByteArray()
 
             val encryptedContent = HmacBlock.read(
@@ -37,6 +41,8 @@ fun commonKdbxDecode(buffer: BufferedSource, database: KdbxDatabase): KdbxDataba
                 transformedKey = transformedKey,
             )
 
+
+
             val decryptedContent =
                 deserializeAsContent(
                     header.option.cipherId,
@@ -44,7 +50,6 @@ fun commonKdbxDecode(buffer: BufferedSource, database: KdbxDatabase): KdbxDataba
                     iv = header.encryptionIV.toByteArray(),
                     data = encryptedContent,
                 )
-
 
             val innerHeaderBuffer = Buffer().apply {
                 write(decryptedContent)

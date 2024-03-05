@@ -15,6 +15,14 @@ import io.spherelabs.crypto.tinypass.database.serializer.internal.commonKdbxEnco
 import okio.*
 import okio.ByteString.Companion.toByteString
 
+/**
+ * A [KdbxSerializer] provides serialization and deserialization functionality for
+ * Keepass database files in the Kdbx format.
+ *
+ * [KdbxSerializer] implements both the [KdbxEncoder] and [KdbxDecoder] interfaces, allowing it
+ * to encode [KdbxDatabase] into byte streams and decode byte streams into [KdbxDatabase].
+ */
+
 object KdbxSerializer : KdbxEncoder, KdbxDecoder {
     private val random: SecureRandom by lazy { buildSecureRandom() }
 

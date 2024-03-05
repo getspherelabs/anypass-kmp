@@ -1,4 +1,4 @@
-package io.spherelabs.crypto.tinypass.database.model.component
+package io.spherelabs.crypto.tinypass.database.entity
 
 import okio.ByteString
 

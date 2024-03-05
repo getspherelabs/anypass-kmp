@@ -32,7 +32,7 @@ class SecureBytes(
     /**
      * It represents the count of bytes.
      */
-    val count: Int get() = bytes.size
+    val size: Int get() = bytes.size
 
     val isEmpty: Boolean get() = bytes.isEmpty()
 

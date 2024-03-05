@@ -4,8 +4,8 @@ package io.spherelabs.crypto.tinypass.database.model.component
 
 import com.fleeksoft.ksoup.nodes.Element
 import com.fleeksoft.ksoup.parser.Parser
-import io.spherelabs.crypto.tinypass.database.compressor.toGzipSink
-import io.spherelabs.crypto.tinypass.database.compressor.toGzipSource
+import io.spherelabs.crypto.tinypass.database.compressor.gzip
+import io.spherelabs.crypto.tinypass.database.compressor.ungzip
 import io.spherelabs.crypto.tinypass.database.model.autotype.toXmlString
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -20,7 +20,6 @@ sealed class BinaryData(
 
     abstract fun serialize(id: Int): Element
     abstract fun getContent(): ByteArray
-    abstract fun source(): Source
 
     data class Uncompressed(
         override val memoryProtection: Boolean,
@@ -28,18 +27,12 @@ sealed class BinaryData(
     ) : BinaryData(
         rawContent.toByteString().sha256(),
     ) {
-        override fun source(): Source {
-            val buffer = Buffer().write(rawContent)
-            return (buffer as Source).buffer()
-        }
 
-        override fun getContent() = rawContent
+        override fun getContent() = rawContent.ungzip()
 
         fun toCompressed(): Compressed {
             try {
-                val buffer = Buffer()
-                val bytes = buffer.toGzipSink(data = rawContent)
-
+                val bytes = rawContent.gzip()
                 return Compressed(
                     rawContent = bytes,
                     memoryProtection = memoryProtection,
@@ -68,6 +61,7 @@ sealed class BinaryData(
         }
 
 
+        @OptIn(ExperimentalEncodingApi::class)
         override fun serialize(id: Int) = Element(BINARY).apply {
             attr(attributeKey = ID, attributeValue = id.toString())
             attr(
@@ -85,11 +79,7 @@ sealed class BinaryData(
         rawContent.toByteString().sha256(),
     ) {
         override fun getContent(): ByteArray {
-            return source().buffer().readByteArray()
-        }
-
-        override fun source(): Source {
-            return rawContent.toGzipSource()
+            return rawContent.ungzip()
         }
 
 
@@ -125,26 +115,26 @@ sealed class BinaryData(
 
 
     companion object {
-        fun deserialize(element: Element): Pair<Int, BinaryData> {
-            val id = checkNotNull(element.attribute(ID)?.value).toInt()
-            val bytes = Base64.decode(element.text())
+//        fun deserialize(element: Element): Pair<Int, BinaryData> {
+//            val id = checkNotNull(element.attribute(ID)?.value).toInt()
+//            val bytes = Base64.decode(element.text())
+//
+//            val compressed =
+//                checkNotNull(element.attribute(COMPRESSED)?.value).toBoolean()
+//            val binary = when {
+//                compressed -> Compressed(rawContent = bytes, false)
+//                else -> Uncompressed(rawContent = bytes, memoryProtection = false)
+//            }
+//            return id to binary
+//        }
 
-            val compressed =
-                checkNotNull(element.attribute(COMPRESSED)?.value).toBoolean()
-            val binary = when {
-                compressed -> Compressed(rawContent = bytes, false)
-                else -> Uncompressed(rawContent = bytes, memoryProtection = false)
-            }
-            return id to binary
-        }
-
-        fun deserializeElements(element: Element): Map<ByteString, BinaryData> {
-            val binary = element.tagName(BINARY, namespace = Parser.NamespaceXml)
-            return binary.let {
-                val result = deserialize(it)
-                mutableMapOf(result.second.hash to result.second)
-            }
-        }
+//        fun deserializeElements(element: Element): Map<ByteString, BinaryData> {
+//            val binary = element.tagName(BINARY, namespace = Parser.NamespaceXml)
+//            return binary.let {
+//                val result = deserialize(it)
+//                mutableMapOf(result.second.hash to result.second)
+//            }
+//        }
 
         private const val ID = "id"
         private const val COMPRESSED = "compressed"

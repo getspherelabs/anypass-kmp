@@ -1,16 +1,18 @@
 package io.spherelabs.crypto.tinypass.database.xml
 
 import com.benasher44.uuid.Uuid
-import com.fleeksoft.ksoup.nodes.Document
 import com.fleeksoft.ksoup.nodes.Element
 import io.spherelabs.crypto.tinypass.database.FormatXml
 import io.spherelabs.crypto.tinypass.database.common.*
-import io.spherelabs.crypto.tinypass.database.common.addBytes
-import io.spherelabs.crypto.tinypass.database.common.addUuid
+import io.spherelabs.crypto.tinypass.database.common.writeBytes
+import io.spherelabs.crypto.tinypass.database.common.writeUuid
 import io.spherelabs.crypto.tinypass.database.common.deserialize
+import io.spherelabs.crypto.tinypass.database.entity.CustomDataValue
+import io.spherelabs.crypto.tinypass.database.entity.CustomIcon
+import io.spherelabs.crypto.tinypass.database.entity.Group
 import io.spherelabs.crypto.tinypass.database.model.autotype.toXmlString
 import io.spherelabs.crypto.tinypass.database.model.component.*
-import io.spherelabs.crypto.tinypass.database.model.component.CustomIcons
+import okio.ByteString
 
 object XmlWriter {
 
@@ -32,7 +34,7 @@ object XmlWriter {
     private fun writeGroup(group: Group): Element = with(group) {
         return element(XmlTags.GROUP_TAG_NAME) {
             writeElement(XmlTags.UUID, uuid = id)
-            writeElement(XmlTags.GROUP_NAME, title)
+            writeElement(XmlTags.GROUP_NAME, name)
             writeElement(XmlTags.GROUP_NOTES, notes)
             writeElement(XmlTags.GROUP_IS_EXPANDED, expired)
             writeElement(XmlTags.GROUP_ENABLE_AUTO_TYPE, isAutoTyped)
@@ -40,7 +42,7 @@ object XmlWriter {
             lastTopVisibleEntryId?.let { uuid ->
                 writeElement(XmlTags.GROUP_LAST_TOP_VISIBLE_ENTRY, uuid)
             }
-            addChildren(CustomDataValue.serialize(customData))
+            addChildren(writeCustomData(customData))
         }
     }
 
@@ -94,7 +96,10 @@ object XmlWriter {
             appendElement(FormatXml.Tags.Meta.Color).text(
                 color ?: "",
             )
-            appendElement(FormatXml.Tags.Meta.MasterKeyChanged).addInstant(masterKeyChanged, option)
+            appendElement(FormatXml.Tags.Meta.MasterKeyChanged).writeInstant(
+                masterKeyChanged,
+                option,
+            )
             appendElement(FormatXml.Tags.Meta.MasterKeyChangeRec).text(
                 masterKeyChangeRec.toString(),
             )
@@ -104,27 +109,61 @@ object XmlWriter {
             appendElement(FormatXml.Tags.Meta.RecycleBinEnabled).text(
                 recycleBinEnabled.toXmlString(),
             )
-            appendElement(FormatXml.Tags.Meta.RecycleBinUuid).addUuid(recycleBinUuid)
-            appendElement(FormatXml.Tags.Meta.RecycleBinChanged).addInstant(
+            appendElement(FormatXml.Tags.Meta.RecycleBinUuid).writeUuid(recycleBinUuid)
+            appendElement(FormatXml.Tags.Meta.RecycleBinChanged).writeInstant(
                 recycleBinChanged,
                 option,
             )
-            appendElement(FormatXml.Tags.Meta.EntryTemplatesGroup).addUuid(entryTemplatesGroup)
-            appendElement(FormatXml.Tags.Meta.EntryTemplatesGroupChanged).addInstant(
+            appendElement(FormatXml.Tags.Meta.EntryTemplatesGroup).writeUuid(entryTemplatesGroup)
+            appendElement(FormatXml.Tags.Meta.EntryTemplatesGroupChanged).writeInstant(
                 entryTemplatesGroupChanged,
                 option,
             )
             appendElement(FormatXml.Tags.Meta.HistoryMaxItems).text(historyMaxItems.toString())
             appendElement(FormatXml.Tags.Meta.HistoryMaxSize).text(historyMaxSize.toString())
-            appendElement(FormatXml.Tags.Meta.LastSelectedGroup).addUuid(lastSelectedGroup)
-            appendElement(FormatXml.Tags.Meta.LastTopVisibleGroup).addUuid(lastTopVisibleGroup)
-            addChildren(MemoryProtectionFlag.serialize(memoryProtection))
-            addChildren(CustomIcons.serialize(option, customIcons))
+            appendElement(FormatXml.Tags.Meta.LastSelectedGroup).writeUuid(lastSelectedGroup)
+            appendElement(FormatXml.Tags.Meta.LastTopVisibleGroup).writeUuid(lastTopVisibleGroup)
+            addChildren(writeMemoryProtection(memoryProtection))
+            addChildren(writeCustomIcon(option, customIcons))
             addChildren(writeCustomData(customData))
             var binaryCount = 0
             binaries.values.forEach { binary ->
                 addChildren(binary.serialize(binaryCount))
                 binaryCount++
+            }
+        }
+    }
+
+    private fun writeCustomIcon(context: XmlOption, customIcon: Map<Uuid, CustomIcon>): Element {
+        return Element(XmlTags.ICON_TAG_NAME).apply {
+            for ((key, item) in customIcon) {
+                appendElement(XmlTags.ICON_ITEM).apply {
+                    appendElement(XmlTags.ICON_UUID).writeUuid(key)
+                    appendElement(XmlTags.ICON_DATA).writeBytes(item.data)
+
+                    if (context.kdbxVersion.isAtLeast(4, 1)) {
+                        appendElement(XmlTags.ICON_NAME).text(item.name.toString())
+                        appendElement(XmlTags.LAST_MODIFICATION_TIME).text(
+                            checkNotNull(item.lastModified?.deserialize(context)),
+                        )
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun writeBinaryData(binary: Pair<ByteString, BinaryData>): Element {
+        return Element(XmlTags.BINARY_DATA_BINARY).apply {
+
+        }
+    }
+    private fun writeMemoryProtection(
+        memoryProtection: Set<MemoryProtectionFlag>,
+    ): Element {
+        return Element(XmlTags.MEMORY_PROTECTION_TAG_NAME).apply {
+            MemoryProtectionFlag.values().forEach { flag ->
+                appendElement(flag.value).text(memoryProtection.contains(flag).toXmlString())
             }
         }
     }
@@ -151,7 +190,7 @@ object XmlWriter {
         tagName: String,
         raw: ByteArray,
     ) {
-        appendElement(tagName).addBytes(raw)
+        appendElement(tagName).writeBytes(raw)
     }
 
     private inline fun Element.writeElement(
@@ -165,7 +204,7 @@ object XmlWriter {
         tagName: String,
         uuid: Uuid,
     ) {
-        appendElement(tagName).addUuid(uuid)
+        appendElement(tagName).writeUuid(uuid)
     }
 
     private inline fun Element.writeIfElement(
@@ -175,6 +214,5 @@ object XmlWriter {
     ) {
         if (predicate) appendElement(tagName).text(raw)
     }
-
 
 }

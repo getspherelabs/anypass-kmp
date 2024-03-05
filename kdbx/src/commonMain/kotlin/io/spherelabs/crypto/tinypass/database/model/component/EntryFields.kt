@@ -157,14 +157,15 @@ class EntryFields(
          * Creates [EntryFields] which is populated with empty [BasicField]
          * values as required by KeePass contract.
          */
-        fun createDefault() = EntryFields(
+        val Default: EntryFields = createDefault()
+        private fun createDefault() = EntryFields(
             buildMap {
                 BasicField
                     .values()
                     .filter { it != BasicField.Password }
                     .forEach { field -> put(field(), EntryValue.Plain("")) }
 
-                val password = EncryptedValue.fromString("")
+                val password = SecureBytes.fromPlainText("")
                 put(BasicField.Password(), EntryValue.Encrypted(password))
             }
         )

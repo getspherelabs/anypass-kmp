@@ -2,8 +2,8 @@ package io.spherelabs.crypto.tinypass.database.xml.internal
 
 import com.benasher44.uuid.Uuid
 import com.fleeksoft.ksoup.nodes.Element
-import io.spherelabs.crypto.tinypass.database.common.addBytes
-import io.spherelabs.crypto.tinypass.database.common.addUuid
+import io.spherelabs.crypto.tinypass.database.common.writeBytes
+import io.spherelabs.crypto.tinypass.database.common.writeUuid
 import io.spherelabs.crypto.tinypass.database.model.autotype.toXmlString
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 
@@ -30,7 +30,7 @@ internal inline fun Element.writeElement(
     tagName: String,
     raw: ByteArray,
 ) {
-    appendElement(tagName).addBytes(raw)
+    appendElement(tagName).writeBytes(raw)
 }
 
 internal inline fun Element.writeElement(
@@ -44,7 +44,7 @@ internal inline fun Element.writeElement(
     tagName: String,
     uuid: Uuid,
 ) {
-    appendElement(tagName).addUuid(uuid)
+    appendElement(tagName).writeUuid(uuid)
 }
 
 internal inline fun Element.writeIfElement(

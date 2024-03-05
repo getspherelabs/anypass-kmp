@@ -29,17 +29,14 @@ internal fun BufferedSink.commonWriteInnerHeader(header: KdbxInnerHeader) {
     writeByte(KdbxInnerHeader.CIPHER)
     writeIntLe(Int.SIZE_BYTES)
     writeIntLe(header.streamCipher.ordinal)
-    println("Writer: Cipher is ${header.streamCipher}")
+
     // Write stream key
     writeByte(KdbxInnerHeader.KEY)
     writeIntLe(header.streamKey.size)
     write(header.streamKey)
 
     // Write binary data
-
-    println("Writer: Binaries are ${header.binaries}")
     for ((_, item) in header.binaries) {
-        println("Writer: Binary content")
         val data = item.getContent()
         writeByte(KdbxInnerHeader.BINARY)
         writeIntLe(data.size + 1)

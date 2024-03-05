@@ -19,7 +19,7 @@ sealed class EntryValue {
      * Should be used for non-sensitive values.
      */
     data class Plain(
-        override val content: String
+        override val content: String,
     ) : EntryValue() {
         override fun isEmpty() = content.isEmpty()
     }
@@ -28,11 +28,11 @@ sealed class EntryValue {
      * Should be used for secrets.
      */
     data class Encrypted(
-        private val value: EncryptedValue
+        private val value: SecureBytes,
     ) : EntryValue() {
-        override val content: String get() = value.text
+        override val content: String get() = value.plainText
 
-        override fun isEmpty() = value.byteLength == 0
+        override fun isEmpty() = value.size == 0
     }
 
     /**
@@ -40,6 +40,6 @@ sealed class EntryValue {
      */
     inline fun map(block: (String) -> String) = when (this) {
         is Plain -> Plain(block(content))
-        is Encrypted -> Encrypted(EncryptedValue.fromString(block(content)))
+        is Encrypted -> Encrypted(SecureBytes.fromPlainText(block(content)))
     }
 }

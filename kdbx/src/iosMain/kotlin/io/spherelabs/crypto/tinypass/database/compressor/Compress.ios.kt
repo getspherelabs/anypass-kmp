@@ -12,8 +12,6 @@ import platform.darwin.compression_encode_buffer
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.cinterop.ExperimentalForeignApi
-import okio.Buffer
-import okio.Sink
 import okio.Source
 
 /**
@@ -23,10 +21,10 @@ import okio.Source
     ExperimentalForeignApi::class, ExperimentalEncodingApi::class,
     ExperimentalUnsignedTypes::class,
 )
-actual fun ByteArray.toGzipSource(): Source {
+actual fun ByteArray.ungzip(): ByteArray {
     val capacity = 10_000_000
     return memScoped {
-        val input = Base64.Default.decode(this@toGzipSource).also { println(it.size) }
+        val input = Base64.Default.decode(this@ungzip).also { println(it.size) }
 
         val destinationBuffer = allocArray<UByteVar>(capacity)
         val oldSize = compression_decode_buffer(
@@ -35,17 +33,16 @@ actual fun ByteArray.toGzipSource(): Source {
             null,
             COMPRESSION_ZLIB,
         )
-        val bytes = destinationBuffer.readBytes(oldSize.convert())
-        Buffer().write(bytes)
+        destinationBuffer.readBytes(oldSize.convert())
     }
 }
 
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun Buffer.toGzipSink(data: ByteArray): ByteArray {
+actual fun ByteArray.gzip(): ByteArray {
     val capacity = 10_000_000
     return memScoped {
-        val input = data
+        val input = this@gzip
         val destinationBuffer = allocArray<UByteVar>(capacity)
 
         val newSize = compression_encode_buffer(
@@ -54,8 +51,6 @@ actual fun Buffer.toGzipSink(data: ByteArray): ByteArray {
             null,
             COMPRESSION_ZLIB,
         )
-        val bytes = destinationBuffer.readBytes(newSize.convert())
-        this@toGzipSink.write(bytes)
-        this@toGzipSink.readByteArray()
+        destinationBuffer.readBytes(newSize.convert())
     }
 }

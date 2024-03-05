@@ -6,9 +6,11 @@ import io.spherelabs.crypto.cipher.CipherPadding
 import io.spherelabs.crypto.tinypass.database.EncryptionSaltGenerator
 import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
 import io.spherelabs.crypto.tinypass.database.buffer.WriterStrategy
+import io.spherelabs.crypto.tinypass.database.compressor.gzip
 import io.spherelabs.crypto.tinypass.database.core.*
 import io.spherelabs.crypto.tinypass.database.core.internal.HmacBlock
 import io.spherelabs.crypto.tinypass.database.header.CipherId
+import io.spherelabs.crypto.tinypass.database.header.CompressionFlags
 import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 import io.spherelabs.crypto.tinypass.database.xml.XmlWriter
 import okio.*
@@ -60,10 +62,8 @@ fun commonKdbxEncode(fileSystem: BufferedSink, database: KdbxDatabase) =
         val seed = outerHeader.seed.toByteArray()
 
         fileSystem.use { sink ->
-            println("Outer header is ${outerHeaderBuffer.snapshot()}")
             sink.write(outerHeaderBuffer.snapshot().toByteArray())
 
-            println("Raw is ${raw.toByteString()}")
             val encryptedContent = serializeAsContent(
                 cipherId = outerHeader.option.cipherId,
                 key = masterKey(masterSeed = seed, outerHeader = outerHeader, configuration),
@@ -71,14 +71,12 @@ fun commonKdbxEncode(fileSystem: BufferedSink, database: KdbxDatabase) =
                 data = raw,
             )
 
-            println("Encrypted in writing is ${encryptedContent.toByteString()}")
             HmacBlock.write(
                 sink = sink,
                 bytes = encryptedContent,
                 seed = seed,
                 transformedKey = transformKey(header = outerHeader, configuration),
             )
-            println("Writer Buffer is $sink")
         }
     }
 
@@ -92,7 +90,6 @@ private fun serializeAsContent(
 ): ByteArray {
     return when (cipherId) {
         CipherId.Aes -> {
-            println("Serialized key is ${key.toByteString()}")
             AES.encryptAesCbc(
                 key = key,
                 iv = iv,

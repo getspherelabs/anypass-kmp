@@ -22,9 +22,9 @@ class Stack<T : Any> {
         storage.add(element)
     }
 
-    fun pop(): T? {
+    fun pop(): T {
         if (isEmpty) {
-            return null
+            throw Exception("")
         }
         return storage.removeAt(count - 1)
     }

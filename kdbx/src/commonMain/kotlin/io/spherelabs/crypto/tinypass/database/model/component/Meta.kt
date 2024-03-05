@@ -3,18 +3,13 @@ package io.spherelabs.crypto.tinypass.database.model.component
 import com.benasher44.uuid.Uuid
 import com.fleeksoft.ksoup.nodes.Element
 import io.spherelabs.crypto.tinypass.database.FormatXml
-import io.spherelabs.crypto.tinypass.database.common.*
-import io.spherelabs.crypto.tinypass.database.common.addBytes
-import io.spherelabs.crypto.tinypass.database.common.addUuid
-import io.spherelabs.crypto.tinypass.database.common.deserialize
-import io.spherelabs.crypto.tinypass.database.common.getInstant
+import io.spherelabs.crypto.tinypass.database.entity.CustomDataValue
+import io.spherelabs.crypto.tinypass.database.entity.CustomIcon
 import io.spherelabs.crypto.tinypass.database.model.autotype.toXmlString
-import io.spherelabs.crypto.tinypass.database.xml.XmlOption
-import kotlin.io.encoding.ExperimentalEncodingApi
+import io.spherelabs.crypto.tinypass.database.xml.XmlTags
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import okio.ByteString
-import okio.ByteString.Companion.decodeBase64
 
 /**
  * Meta describes various database meta data.
@@ -107,74 +102,7 @@ data class Meta(
         const val LastSelectedGroup = "LastSelectedGroup"
         const val LastTopVisibleGroup = "LastTopVisibleGroup"
 
-        @OptIn(ExperimentalEncodingApi::class)
-        fun deserialize(element: Element): Meta = with(element) {
-            val generator = select(Generator).text()
-            val headerHash = select(HeaderHash).text().decodeBase64()
-            val settingsChanged = select(SettingsChanged).getInstant()
-            val name = select(DatabaseName).text()
-            val nameChanged = select(DatabaseNameChanged).getInstant()
-            val description = select(DatabaseDescription).text()
-            val descriptionChanged = select(DatabaseDescriptionChanged).getInstant()
-            val defaultUser = element.select(DefaultUserName).text()
-            val defaultUserChanged = element.select(DefaultUserNameChanged).getInstant()
-            val maintenanceHistoryDays = element.select(MaintenanceHistoryDays).text().toInt()
-            val color = element.select(Color).text()
-            val masterKeyChanged = element.select(MasterKeyChanged).getInstant()
-            val masterKeyChangeRec = element.select(MasterKeyChangeRec).text().toInt()
-            val masterKeyChangeForce = element.select(MasterKeyChangeForce).text().toInt()
-            val recycleBinEnabled = select(RecycleBinEnabled).text().toBoolean()
-            val recycleBinChanged = select(RecycleBinChanged).getInstant()
-            val recycleBinUuid = selectAsUuid(RecycleBinUuid)
-            val entryTemplatesGroup = selectAsUuid(EntryTemplatesGroup)
-            val entryTemplatesGroupChanged = select(EntryTemplatesGroupChanged).getInstant()
-            val historyMaxItems = select(HistoryMaxItems).text().toInt()
-            val historyMaxSize = select(HistoryMaxSize).text().toInt()
-            val lastSelectedGroup = selectAsUuid(LastSelectedGroup)
-            val lastTopVisibleGroup = selectAsUuid(LastTopVisibleGroup)
-            val memoryProtection = select(MemoryProtectionFlag.TAG_NAME).first()?.let {
-                MemoryProtectionFlag.deserialize(it)
-            } ?: setOf()
-            val binaries = select(FormatXml.Tags.Meta.Binaries.TagName).first()?.let {
-                BinaryData.deserializeElements(it)
-            } ?: linkedMapOf()
-            val customIcon = select(FormatXml.Tags.Meta.CustomIcons.TagName).first()?.let {
-                CustomIcons.deserialize(it)
-            } ?: mapOf()
-            val customData = select(FormatXml.Tags.CustomData.TagName).first()?.let {
-                CustomDataValue.deserialize(it)
-            } ?: mapOf()
 
-            return Meta(
-                generator = generator,
-                headerHash = headerHash,
-                settingsChanged = settingsChanged,
-                name = name,
-                nameChanged = nameChanged,
-                description = description,
-                descriptionChanged = descriptionChanged,
-                defaultUser = defaultUser,
-                defaultUserChanged = defaultUserChanged,
-                maintenanceHistoryDays = maintenanceHistoryDays,
-                color = color,
-                masterKeyChanged = masterKeyChanged,
-                masterKeyChangeRec = masterKeyChangeRec,
-                masterKeyChangeForce = masterKeyChangeForce,
-                recycleBinEnabled = recycleBinEnabled,
-                recycleBinUuid = recycleBinUuid,
-                recycleBinChanged = recycleBinChanged,
-                entryTemplatesGroup = entryTemplatesGroup,
-                entryTemplatesGroupChanged = entryTemplatesGroupChanged,
-                historyMaxItems = historyMaxItems,
-                historyMaxSize = historyMaxSize,
-                lastSelectedGroup = lastSelectedGroup,
-                lastTopVisibleGroup = lastTopVisibleGroup,
-                memoryProtection =memoryProtection,
-                binaries = binaries,
-                customIcons = customIcon,
-                customData = customData
-            )
-        }
     }
 }
 
@@ -191,50 +119,12 @@ internal object Defaults {
 }
 
 enum class MemoryProtectionFlag(val value: String) {
-    Title(FormatXml.Tags.Meta.MemoryProtection.ProtectTitle),
-    UserName(FormatXml.Tags.Meta.MemoryProtection.ProtectUserName),
-    Password(FormatXml.Tags.Meta.MemoryProtection.ProtectPassword),
-    Url(FormatXml.Tags.Meta.MemoryProtection.ProtectUrl),
-    Notes(FormatXml.Tags.Meta.MemoryProtection.ProtectNotes);
+    Title(XmlTags.MEMORY_PROTECTION_NAME),
+    UserName(XmlTags.MEMORY_PROTECTION_USERNAME),
+    Password(XmlTags.MEMORY_PROTECTION_PASSWORD),
+    Url(XmlTags.MEMORY_PROTECTION_URL),
+    Notes(XmlTags.MEMORY_PROTECTION_NOTES);
 
-    companion object {
-        const val TAG_NAME = "memory_protection"
-        const val ProtectTitle = "ProtectTitle"
-        const val ProtectUserName = "ProtectUserName"
-        const val ProtectPassword = "ProtectPassword"
-        const val ProtectUrl = "ProtectURL"
-        const val ProtectNotes = "ProtectNotes"
-
-        fun serialize(
-            memoryProtection: Set<MemoryProtectionFlag>,
-        ): Element = Element(TAG_NAME).apply {
-            MemoryProtectionFlag.values().forEach { flag ->
-                appendElement(flag.value).text(memoryProtection.contains(flag).toXmlString())
-            }
-        }
-
-        fun deserialize(document: Element): Set<MemoryProtectionFlag> {
-            val tag = document.getElementsByTag(TAG_NAME)
-
-            return buildSet {
-                if (tag.select(ProtectTitle).hasText()) {
-                    add(Title)
-                }
-                if (tag.select(ProtectUserName).hasText()) {
-                    add(UserName)
-                }
-                if (tag.select(ProtectPassword).hasText()) {
-                    add(Password)
-                }
-                if (tag.select(ProtectUrl).hasText()) {
-                    add(Url)
-                }
-                if (tag.select(ProtectNotes).hasText()) {
-                    add(Notes)
-                }
-            }
-        }
-    }
 }
 
 

@@ -36,7 +36,7 @@ class SecureBytesTest {
 
         val expected = secureBytes(plainText)
 
-        assertEquals(expected.count, actual.length)
+        assertEquals(expected.size, actual.length)
     }
 
     @Test
@@ -46,7 +46,7 @@ class SecureBytesTest {
 
         val expected = secureBytes(plainText)
 
-        assertNotEquals(expected.count, actual.length)
+        assertNotEquals(expected.size, actual.length)
     }
 
     @Test

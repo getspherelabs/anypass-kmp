@@ -7,34 +7,41 @@ import io.spherelabs.crypto.tinypass.database.xml.XmlOption
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.datetime.Instant
+import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 
-internal fun Element.selectAsInt(query: String): Int {
-    return this.select(query).text().toInt()
+internal fun Element.readInt(tagName: String): Int {
+    return this.select(tagName).text().toInt()
 }
 
-internal fun Element.selectAsBoolean(query: String): Boolean {
-    return this.select(query).text().toBoolean()
+internal fun Element.readBoolean(tagName: String): Boolean {
+    return this.select(tagName).text().toBoolean()
 }
 
-internal fun Element.selectAsUuid(query: String): Uuid? {
-    return select(query).text().decodeBase64()?.toUuid()
+internal fun Element.readUuid(tagName: String): Uuid? {
+    return select(tagName).text().decodeBase64()?.toUuid()
 }
 
-internal fun Element.selectAsInstant(query: String): Instant {
-    val data = select(query).text()
-    return Instant.parse(data)
+internal fun Element.readInstant(tagName: String): Instant? {
+    return selectFirst(tagName)?.readInstant()
 }
 
-internal fun Element.selectAsString(query: String): String {
-    return this.select(query).text()
+internal fun Element.readString(tagName: String): String {
+    return this.select(tagName).text()
 }
 
-internal fun Element.addUuid(uuid: Uuid?) {
+internal fun Element.readByteString(tagName: String): ByteString? {
+    return select(tagName).text().decodeBase64()
+}
+
+internal fun Element.readFirst(tagName: String): Element? {
+    return select(tagName).first()
+}
+internal fun Element.writeUuid(uuid: Uuid?) {
     text(uuid?.toBase64() ?: "")
 }
 
-internal fun Element.addInstant(instant: Instant?, option: XmlOption) {
+internal fun Element.writeInstant(instant: Instant?, option: XmlOption) {
     if (instant != null) {
         text(instant.deserialize(option))
     } else {
@@ -42,7 +49,7 @@ internal fun Element.addInstant(instant: Instant?, option: XmlOption) {
     }
 }
 
-internal fun Element.addBytes(bytes: ByteArray) {
+internal fun Element.writeBytes(bytes: ByteArray) {
     text(bytes.decodeToString())
 }
 
@@ -60,7 +67,7 @@ internal fun Instant.deserialize(context: XmlOption): String {
 }
 
 @OptIn(ExperimentalEncodingApi::class)
-internal fun Elements.getInstant(): Instant? = text().takeIf { it.isNotEmpty() }?.let { text ->
+internal fun Elements.readInstant(): Instant? = text().takeIf { it.isNotEmpty() }?.let { text ->
 
     // Check if ISO text or binary timestamp
     if (text.indexOf(':') > 0) {
@@ -71,10 +78,9 @@ internal fun Elements.getInstant(): Instant? = text().takeIf { it.isNotEmpty() }
     }
 }
 
+
 @OptIn(ExperimentalEncodingApi::class)
-internal fun Element.getInstant(): Instant? = text().takeIf { it.isNotEmpty() }?.let { text ->
-    println("Text is $text")
-// Check if ISO text or binary timestamp
+internal fun Element.readInstant(): Instant? = text().takeIf { it.isNotEmpty() }?.let { text ->
     if (text.indexOf(':') > 0) {
         Instant.parse(text)
     } else {

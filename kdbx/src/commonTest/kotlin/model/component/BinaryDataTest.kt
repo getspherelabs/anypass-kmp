@@ -44,7 +44,12 @@ class BinaryDataTest {
     fun `GIVEN the xml file THEN serialized and converted to compressed WHEN checks the correct format`() {
         val content =
             BinaryData.Uncompressed(memoryProtection = false, CONTENT.encodeToByteArray())
-                .toCompressed()
+
+        println("Content is ${content.rawContent.toList()}")
+
+        content.toCompressed()
+
+        println("Content is ${content.rawContent.toList()}")
         val result = content.serialize(1)
         val expected = BinaryData.deserialize(result)
 
