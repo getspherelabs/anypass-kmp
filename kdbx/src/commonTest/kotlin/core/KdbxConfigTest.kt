@@ -1,6 +1,6 @@
 package core
 
-import io.spherelabs.crypto.tinypass.database.core.KdbxConfiguration
+import io.spherelabs.crypto.kdbx.database.core.KdbxConfiguration
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 

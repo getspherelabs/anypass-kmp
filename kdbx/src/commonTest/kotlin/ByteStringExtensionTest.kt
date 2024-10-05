@@ -1,9 +1,8 @@
 import com.benasher44.uuid.bytes
-import com.benasher44.uuid.uuid
 import com.benasher44.uuid.uuidFrom
-import io.spherelabs.crypto.tinypass.database.common.toIntLe
-import io.spherelabs.crypto.tinypass.database.common.toLongLe
-import io.spherelabs.crypto.tinypass.database.common.toUuid
+import io.spherelabs.crypto.kdbx.database.common.toIntLe
+import io.spherelabs.crypto.kdbx.database.common.toLongLe
+import io.spherelabs.crypto.kdbx.database.common.toUuid
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
