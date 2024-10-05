@@ -3,12 +3,15 @@ package common
 import com.fleeksoft.ksoup.Ksoup
 import com.fleeksoft.ksoup.parser.Parser
 import com.fleeksoft.ksoup.ported.BufferReader
-import io.spherelabs.crypto.kdbx.database.common.xml
-import io.spherelabs.crypto.kdbx.database.common.xmlParser
+import io.spherelabs.anycrypto.securerandom.buildSecureRandom
+import io.spherelabs.crypto.tinypass.database.common.xml
+import io.spherelabs.crypto.tinypass.database.common.xmlParser
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import okio.Buffer
+import okio.ByteString.Companion.toByteString
 
 class XmlExtensionTest {
 

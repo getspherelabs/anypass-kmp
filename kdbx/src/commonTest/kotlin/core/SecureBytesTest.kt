@@ -2,8 +2,8 @@ package core
 
 import io.spherelabs.crypto.hash.sha256
 import io.spherelabs.crypto.hash.sha512
-import io.spherelabs.crypto.kdbx.database.common.encodeHex
-import io.spherelabs.crypto.kdbx.database.model.component.InternalSecureBytes
+import io.spherelabs.crypto.tinypass.database.common.encodeHex
+import io.spherelabs.crypto.tinypass.database.model.component.SecureBytes
 import kotlin.experimental.xor
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -76,7 +76,7 @@ class SecureBytesTest {
         assertEquals(expected.isEmpty, actual.isEmpty())
     }
 
-    private fun secureBytes(plainText: String): InternalSecureBytes {
+    private fun secureBytes(plainText: String): SecureBytes {
         val rawValue = plainText.encodeToByteArray()
         val bytes = plainText.encodeToByteArray()
         val salt = ByteArray(rawValue.size)
@@ -85,7 +85,7 @@ class SecureBytesTest {
             bytes[i] = bytes[i] xor i.toByte()
         }
 
-        return InternalSecureBytes(bytes, salt)
+        return SecureBytes(bytes, salt)
     }
 
 }

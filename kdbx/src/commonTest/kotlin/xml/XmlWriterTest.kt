@@ -1,7 +1,7 @@
 package xml
 
 import com.benasher44.uuid.uuid4
-import io.spherelabs.crypto.kdbx.database.model.component.Meta
+import io.spherelabs.crypto.tinypass.database.model.component.Meta
 import kotlin.test.Test
 import kotlinx.datetime.Clock
 
