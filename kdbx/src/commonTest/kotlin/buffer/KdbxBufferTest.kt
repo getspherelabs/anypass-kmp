@@ -1,10 +1,10 @@
 package buffer
 
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
-import io.spherelabs.crypto.tinypass.database.buffer.KdbxBuffer
-import io.spherelabs.crypto.tinypass.database.buffer.WriterStrategy
-import io.spherelabs.crypto.tinypass.database.header.KdbxInnerHeader
-import io.spherelabs.crypto.tinypass.database.header.KdbxOuterHeader
+import io.spherelabs.crypto.kdbx.database.buffer.KdbxBuffer
+import io.spherelabs.crypto.kdbx.database.buffer.WriterStrategy
+import io.spherelabs.crypto.kdbx.database.header.KdbxInnerHeader
+import io.spherelabs.crypto.kdbx.database.header.KdbxOuterHeader
 import kotlin.test.*
 import okio.Buffer
 import okio.ByteString.Companion.toByteString

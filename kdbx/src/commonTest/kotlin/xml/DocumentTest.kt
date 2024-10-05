@@ -1,7 +1,6 @@
 package xml
 
-import com.fleeksoft.ksoup.Ksoup
-import io.spherelabs.crypto.tinypass.database.common.xmlParser
+import io.spherelabs.crypto.kdbx.database.common.xmlParser
 import kotlin.test.Test
 import okio.Buffer
 

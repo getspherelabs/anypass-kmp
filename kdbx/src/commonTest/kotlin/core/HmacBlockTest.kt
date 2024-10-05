@@ -2,7 +2,7 @@ package core
 
 import io.spherelabs.anycrypto.securerandom.SecureRandom
 import io.spherelabs.anycrypto.securerandom.buildSecureRandom
-import io.spherelabs.crypto.tinypass.database.core.internal.HmacBlock
+import io.spherelabs.crypto.kdbx.database.core.internal.HmacBlock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
