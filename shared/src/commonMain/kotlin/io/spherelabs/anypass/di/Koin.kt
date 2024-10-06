@@ -36,6 +36,7 @@ import io.spherelabs.passwordhistorydi.passwordHistoryDomainModule
 import io.spherelabs.passwordhistorydi.passwordHistoryPresentationModule
 import io.spherelabs.resource.icons.DefaultSocialMediaResourceProvider
 import io.spherelabs.resource.icons.SocialMediaResourceProvider
+import io.spherelabs.sshkey.keyGeneratorModule
 import io.spherelabs.validation.di.validationModule
 import org.koin.compose.LocalKoinScope
 import org.koin.core.context.startKoin
@@ -87,11 +88,13 @@ fun initKoin(declaration: KoinAppDeclaration = {}) =
             helpPresentationModule,
             passwordHistoryDomainModule,
             passwordHistoryPresentationModule,
-            providerModule
+            providerModule,
+            keyGeneratorModule,
         )
     }
 
 val providerModule = module {
     single<SocialMediaResourceProvider> { DefaultSocialMediaResourceProvider() }
 }
+
 fun initKoin() = initKoin {}

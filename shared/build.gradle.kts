@@ -41,7 +41,7 @@ kotlin {
 
         pod("FirebaseAuth", "~> 10.7.0")
         pod("Google-Mobile-Ads-SDK", "~> 10.3.0", moduleName = "GoogleMobileAds")
-        pod("Sentry", "~> 8.4.0")
+        pod("Sentry")
         pod("FirebaseCore")
 
         extraSpecAttributes["resource"] = "'build/cocoapods/framework/shared.framework/*.bundle'"
@@ -106,6 +106,8 @@ kotlin {
                 api(projects.features.passwordhistory.passwordhistoryApi)
                 api(projects.features.passwordhistory.passwordhistoryDi)
                 api(projects.features.passwordhistory.passwordhistoryImpl)
+
+                api(projects.manager.sshkey)
                 api(libs.moko.resource)
                 api(libs.coroutine)
                 api(libs.koin.core)

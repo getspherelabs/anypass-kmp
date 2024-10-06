@@ -2,6 +2,7 @@
 .gradle
 .idea
 .DS_Store
+google-services.json
 build
 captures
 .externalNativeBuild

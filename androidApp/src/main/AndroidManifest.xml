@@ -9,6 +9,7 @@
         android:name="io.spherelabs.anypass.android.AnyPassApplication"
         android:allowBackup="false"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:label="@string/anypass"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">

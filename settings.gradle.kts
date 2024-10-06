@@ -120,3 +120,12 @@ include(":features:passwordhistory:passwordhistory-api")
 include(":features:passwordhistory:passwordhistory-impl")
 include(":features:passwordhistory:passwordhistory-di")
 
+include(":manager:sshkey")
+
+include(":crypto")
+include(":crypto:secure-random")
+include(":crypto:uuid")
+include(":crypto:digest")
+include(":crypto:cipher")
+include(":crypto:rsa")
+include(":kdbx")
