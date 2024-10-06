@@ -60,7 +60,6 @@ internal fun Instant.deserialize(context: XmlOption): String {
 
     return if (binary) {
         val data = Base64.encode((epochSeconds + 62135596800).toByteArray())
-        println("Binary is $data")
         data
     } else {
         this.toString()

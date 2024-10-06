@@ -1,8 +1,8 @@
 package io.spherelabs.crypto.kdbx.database.entity
 
 import com.benasher44.uuid.Uuid
+import com.benasher44.uuid.uuid4
 import io.spherelabs.crypto.kdbx.database.common.Default
-import io.spherelabs.crypto.kdbx.database.model.component.EntryFields
 import io.spherelabs.crypto.kdbx.database.model.component.PredefinedIcon
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -52,32 +52,78 @@ internal class MutableGroup(
     var entries: MutableList<Entry> = mutableListOf(),
     var customData: MutableMap<String, CustomDataValue> = mutableMapOf()
 )
+class GroupBuilder(private val id: Uuid = uuid4()) {
+    private var expiredAt: Instant? = null
+    private var expired: Boolean = false
+    private var createdAt: Instant = Clock.System.now()
+    private var lastModifiedAt: Instant = Clock.System.now()
+    private var icon: PredefinedIcon = PredefinedIcon.Folder
+    private var tags: List<String> = emptyList() // Changed to immutable List
+    private var customIconUuid: Uuid? = null
+    private var name: String = ""
+    private var notes: String = ""
+    private var isSearchable: Boolean = false
+    private var isAutoTyped: Boolean = false
+    private var isExpanded: Boolean = true
+    private var typeSequence: String? = null
+    private var lastTopVisibleEntryId: Uuid? = null
+    private var previousParentGroupId: Uuid? = null
+    private var childGroups: List<Group> = emptyList()
+    private var entries: List<Entry> = emptyList()
+    private var customData: Map<String, CustomDataValue> = emptyMap()
 
-internal inline fun buildGroup(
-    uuid: Uuid,
-    crossinline block: MutableGroup.() -> Unit
-): Group = MutableGroup(uuid)
-    .apply(block)
-    .run {
-        Group(
-           id = uuid,
-            name = name,
-            notes = notes,
-            icon = icon,
+    fun expiredAt(expiredAt: Instant?) = apply { this.expiredAt = expiredAt }
+    fun expired(expired: Boolean) = apply { this.expired = expired }
+    fun createdAt(createdAt: Instant) = apply { this.createdAt = createdAt }
+    fun lastModifiedAt(lastModifiedAt: Instant) = apply { this.lastModifiedAt = lastModifiedAt }
+    fun icon(icon: PredefinedIcon) = apply { this.icon = icon }
+    fun tags(tags: List<String>) = apply { this.tags = tags }
+    fun customIconUuid(customIconUuid: Uuid?) = apply { this.customIconUuid = customIconUuid }
+    fun name(name: String) = apply { this.name = name }
+    fun notes(notes: String) = apply { this.notes = notes }
+    fun searchable(isSearchable: Boolean) = apply { this.isSearchable = isSearchable }
+    fun autoTyped(isAutoTyped: Boolean) = apply { this.isAutoTyped = isAutoTyped }
+    fun expanded(isExpanded: Boolean) = apply { this.isExpanded = isExpanded }
+    fun typeSequence(typeSequence: String?) = apply { this.typeSequence = typeSequence }
+    fun lastTopVisibleEntryId(lastTopVisibleEntryId: Uuid?) = apply { this.lastTopVisibleEntryId = lastTopVisibleEntryId }
+    fun previousParentGroupId(previousParentGroupId: Uuid?) = apply { this.previousParentGroupId = previousParentGroupId }
+
+    fun addChildGroup(group: Group) = apply { this.childGroups += group }
+    fun addEntries(entries: List<Entry>) = apply { this.entries = entries }
+
+    fun customData(customData: Map<String, CustomDataValue>) = apply { this.customData = customData }
+
+    private fun validate() {
+        require(name.isNotEmpty()) { "Group name must not be empty." }
+    }
+
+    fun build(): Group {
+        validate()
+
+        return Group(
+            id = id,
             expiredAt = expiredAt,
             expired = expired,
             createdAt = createdAt,
             lastModifiedAt = lastModifiedAt,
+            tags = tags,
+            icon = icon,
             customIconUuid = customIconUuid,
+            name = name,
+            notes = notes,
             isSearchable = isSearchable,
             isAutoTyped = isAutoTyped,
             isExpanded = isExpanded,
             typeSequence = typeSequence,
             lastTopVisibleEntryId = lastTopVisibleEntryId,
             previousParentGroupId = previousParentGroupId,
-            tags = tags,
             childGroups = childGroups,
             entries = entries,
             customData = customData
         )
     }
+}
+
+fun buildGroup(id: Uuid = uuid4(), init: GroupBuilder.() -> Unit): Group {
+    return GroupBuilder(id).apply(init).build()
+}

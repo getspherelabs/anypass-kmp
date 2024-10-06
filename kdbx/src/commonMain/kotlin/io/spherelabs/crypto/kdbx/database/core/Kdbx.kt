@@ -60,7 +60,7 @@ import okio.buffer
 
 interface Kdbx {
     suspend fun write()
-    suspend fun write(query: KdbxQuery)
+    suspend fun write(query: KdbxQuery?)
     suspend fun open()
     suspend fun read(): KdbxDatabase
     fun isEmpty(): Boolean
@@ -110,14 +110,17 @@ class KdbxBuilder {
                 }
             }
 
-            override suspend fun write(query: KdbxQuery) {
+            override suspend fun write(query: KdbxQuery?) {
                 if (!fileSystem.exists(path.toPath())) {
                     throw IllegalArgumentException("File does not exist.")
                 }
                 withContext(Dispatchers.IO) {
                     mutex.withLock {
                         val sink = fileSystem.sink(path.toPath()).buffer()
-                        database = KdbxSerializer.encode(sink, configuration, query)
+                        if (query != null) {
+                            database = KdbxSerializer.encode(sink, configuration, query)
+                        }
+
                     }
                 }
             }

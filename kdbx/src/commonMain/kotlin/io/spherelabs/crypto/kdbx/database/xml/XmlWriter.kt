@@ -40,15 +40,22 @@ object XmlWriter {
     private fun writeGroup(group: Group): Element = with(group) {
         return element(XmlTags.GROUP_TAG_NAME) {
             writeElement(XmlTags.UUID, uuid = id)
+            writeElement(XmlTags.EXPIRED, expired)
+            writeElement(XmlTags.EXPIRED_AT, expiredAt?.toString())
             writeElement(XmlTags.GROUP_NAME, name)
             writeElement(XmlTags.GROUP_NOTES, notes)
+            writeElement(XmlTags.GROUP_ICON_ID, icon.ordinal.toString())
+            writeElement(XmlTags.GROUP_CUSTOM_ICON_UUID, customIconUuid)
             writeElement(XmlTags.GROUP_IS_EXPANDED, expired)
             writeElement(XmlTags.GROUP_ENABLE_AUTO_TYPE, isAutoTyped)
             writeElement(XmlTags.GROUP_ENABLE_SEARCHING, isSearchable)
+            writeElement(XmlTags.GROUP_TAGS, tags.joinToString(","))
+
             lastTopVisibleEntryId?.let { uuid ->
                 writeElement(XmlTags.GROUP_LAST_TOP_VISIBLE_ENTRY, uuid)
             }
             addChildren(writeCustomData(customData))
+
             group.entries.forEach { entry ->
                 writeEntry(entry).appendTo(this)
             }
@@ -62,7 +69,7 @@ object XmlWriter {
             if (customIconUuid != null) {
                 writeElement(XmlTags.ENTRY_CUSTOM_ICON_ID, customIconUuid)
             }
-            foregroundColor?.let {color ->
+            foregroundColor?.let { color ->
                 writeElement(XmlTags.ENTRY_FOREGROUND_COLOR, color)
             }
             backgroundColor?.let { color ->
@@ -73,10 +80,9 @@ object XmlWriter {
 
 
             writeFields(entry.fields).forEach { field ->
-               addChildren(field)
+                addChildren(field)
 //                appendTo(this)
             }
-
 
 
         }
@@ -106,7 +112,7 @@ object XmlWriter {
             }
             writeElement(XmlTags.META_DATABASE_NAME, name)
 
-            if (nameChanged !=null) {
+            if (nameChanged != null) {
                 appendElement(FormatXml.Tags.Meta.DatabaseNameChanged).text(
                     nameChanged.deserialize(
                         option,
@@ -130,7 +136,7 @@ object XmlWriter {
 
             if (defaultUserChanged != null) {
                 appendElement(FormatXml.Tags.Meta.DefaultUserNameChanged).text(
-                    defaultUserChanged.deserialize(option)
+                    defaultUserChanged.deserialize(option),
                 )
             }
 
@@ -205,7 +211,7 @@ object XmlWriter {
     }
 
     private fun writeFields(fields: Map<String, EntryValue>): List<Element> {
-        return  fields.map { (key, value) ->
+        return fields.map { (key, value) ->
             Element(XmlTags.ENTRY_FIELDS_TAG_NAME).apply {
                 writeElement(XmlTags.ENTRY_FIELDS_ITEM_KEY, key)
 
@@ -213,7 +219,10 @@ object XmlWriter {
 
                 if (isProtected) {
                     val content =
-                        EncryptionSaltGenerator.create(CrsAlgorithm.ChaCha20, byteArrayOf().toByteString()).processBytes(value.content.encodeToByteArray())
+                        EncryptionSaltGenerator.create(
+                            CrsAlgorithm.ChaCha20,
+                            byteArrayOf().toByteString(),
+                        ).processBytes(value.content.encodeToByteArray())
 
                     writeElement(XmlTags.ENTRY_FIELDS_ITEM_VALUE, content)
 
@@ -224,6 +233,7 @@ object XmlWriter {
 
         }
     }
+
     private fun writeMemoryProtection(
         memoryProtection: Set<MemoryProtectionFlag>,
     ): Element {
@@ -247,9 +257,9 @@ object XmlWriter {
 
     private inline fun Element.writeElement(
         tagName: String,
-        value: String,
+        value: String?,
     ) {
-        appendElement(tagName).text(value)
+        appendElement(tagName).text(value ?: "")
     }
 
     private inline fun Element.writeElement(
@@ -268,10 +278,11 @@ object XmlWriter {
 
     private inline fun Element.writeElement(
         tagName: String,
-        uuid: Uuid,
+        uuid: Uuid?,
     ) {
         appendElement(tagName).writeUuid(uuid)
     }
+
 
     private inline fun Element.writeIfElement(
         predicate: Boolean,

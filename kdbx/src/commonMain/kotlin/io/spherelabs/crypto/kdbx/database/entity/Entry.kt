@@ -2,7 +2,7 @@ package io.spherelabs.crypto.kdbx.database.entity
 
 import com.benasher44.uuid.Uuid
 import io.spherelabs.crypto.kdbx.database.entity.autotype.AutoType
-import io.spherelabs.crypto.kdbx.database.model.component.EntryFields
+import io.spherelabs.crypto.kdbx.database.model.component.EntryAttributes
 import io.spherelabs.crypto.kdbx.database.model.component.EntryValue
 import io.spherelabs.crypto.kdbx.database.model.component.PredefinedIcon
 import kotlinx.datetime.Clock
@@ -22,7 +22,7 @@ data class Entry(
     val overrideUrl: String = "",
     val binaries: List<BinaryReference> = listOf(),
     val autoType: AutoType? = null,
-    val fields: EntryFields = EntryFields.Default,
+    val fields: EntryAttributes = EntryAttributes.Default,
     val history: List<Entry> = listOf(),
     val customData: Map<String, CustomDataValue> = mapOf(),
     val previousParentGroup: Uuid? = null,
@@ -91,7 +91,7 @@ internal fun MutableEntry.toImmutableEntry(): Entry = Entry(
     backgroundColor = backgroundColor,
     overrideUrl = overrideUrl,
     autoType = autoType,
-    fields = EntryFields(fields), // Wrapping mutable fields in an immutable wrapper
+    fields = EntryAttributes(fields), // Wrapping mutable fields in an immutable wrapper
     tags = tags.toList(), // Ensure tags are immutable
     binaries = binaries.toList(), // Ensure binaries are immutable
     history = history.toList(), // Ensure history is immutable

@@ -3,7 +3,7 @@ package io.spherelabs.crypto.kdbx.database
 /**
  * Basic fields which should be added to every entry.
  */
-enum class BasicField(val key: String) {
+enum class EntryReferenceType(val key: String) {
     Title("Title"),
     UserName("UserName"),
     Password("Password"),
@@ -13,8 +13,8 @@ enum class BasicField(val key: String) {
     operator fun invoke() = this.key
 
     companion object {
-        val keys = values()
-            .map(io.spherelabs.crypto.kdbx.database.BasicField::key)
+        val keys = entries
+            .map(EntryReferenceType::key)
             .toSet()
     }
 }

@@ -33,16 +33,43 @@ object XmlTags {
     const val META_LAST_SELECTION_GROUP = "last_selected_group"
     const val META_LAST_TOP_VISIBLE_GROUP = "last_top_visible_group"
 
+    const val EXPIRED_AT = "expired_at"
+    const val EXPIRED = "expired"
+    const val CREATED_AT = "created_at"
+    const val LAST_MODIFIED_AT = "last_modified_at"
+
     /**
      * Group
+     */
+
+    /**
+     *     override val id: Uuid,
+     *     override val expiredAt: Instant? = null,
+     *     override val expired: Boolean = false,
+     *     override val createdAt: Instant = Instant.Default,
+     *     override val lastModifiedAt: Instant = Instant.Default,
+     *     override val tags: List<String> = listOf(),
+     *     override val icon: PredefinedIcon = PredefinedIcon.Folder,
+     *     override val customIconUuid: Uuid? = null,
+     *     val name: String,
+     *     val notes: String = "",
+     *     val isSearchable: Boolean = false,
+     *     val isAutoTyped: Boolean = false,
+     *     val isExpanded: Boolean = true,
+     *     val typeSequence: String? = null,
+     *     val lastTopVisibleEntryId: Uuid? = null,
+     *     val previousParentGroupId: Uuid? = null,
+     *     val childGroups: List<Group> = emptyList(),
+     *     val entries: List<Entry> = emptyList(),
+     *     val customData: Map<String, CustomDataValue> = mapOf(),
      */
     const val GROUP_TAG_NAME = "Group"
     const val GROUP_NAME = "name"
     const val GROUP_NOTES = "notes"
-    const val GROUP_ICON_ID = "conID"
-    const val GROUP_CUSTOM_ICON_UUID = "CustomIconUUID"
-    const val GROUP_TAGS = "Tags"
-    const val GROUP_IS_EXPANDED = "isexpanded"
+    const val GROUP_ICON_ID = "icon_id"
+    const val GROUP_CUSTOM_ICON_UUID = "custom_icon_uuid"
+    const val GROUP_TAGS = "tags"
+    const val GROUP_IS_EXPANDED = "is_expanded"
     const val GROUP_DEFAULT_AUTO_TYPE_SEQUENCE = "DefaultAutoTypeSequence"
     const val GROUP_ENABLE_AUTO_TYPE = "EnableAutoType"
     const val GROUP_ENABLE_SEARCHING = "EnableSearching"

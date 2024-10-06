@@ -20,19 +20,19 @@ val KdbxDatabase.deletedObjects: List<DeletedComponent> get() = this.query.delet
 fun KdbxQuery.updateParentGroup(
     block: Group.() -> Group
 ) = updateWith {
-    copy(group = group.modifyGroup(group.id, block))
+    copy(group = group.updateGroup(group.id, block))
 }
 fun KdbxQuery.updateGroup(
     block: Group.() -> Group
 ) = updateWith{
-    copy(group = group.modifyGroup(group.id, block))
+    copy(group = group.updateGroup(group.id, block))
 }
 
 fun KdbxQuery.updateEntry(
     uuid: Uuid,
     block: Entry.() -> Entry
 ) = updateWith {
-    copy(group = group.modifyEntry(uuid, block))
+    copy(group = group.updateEntry(uuid, block))
 }
 
 

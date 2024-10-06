@@ -57,18 +57,24 @@ object XmlReader {
             tag.first()?.children()?.forEach { childElement ->
                 when (childElement.tagName()) {
                     XmlTags.GROUP_NAME -> {
-                        println("Group name = ${childElement.text()}")
-                        name = childElement.text()
+                        name(childElement.text())
                     }
-
+                    XmlTags.EXPIRED -> {
+                        expired(childElement.text().toBoolean())
+                    }
                     XmlTags.GROUP_NOTES -> {
-                        notes = childElement.text()
-                        println("Tags = $notes")
+                        notes(childElement.text())
+                    }
+                    XmlTags.GROUP_ICON_ID -> {
+                        icon(childElement.readInt(XmlTags.ENTRY_ICON_ID).let(PredefinedIcon.entries::getOrNull)
+                            ?: PredefinedIcon.Key)
+                    }
+                    XmlTags.GROUP_TAGS -> {
+                        tags(childElement.text().split(","))
                     }
 
                     XmlTags.ENTRY_TAG_NAME ->
-                        entries.add(readEntry(childElement))
-
+                        addEntries(listOf(readEntry(childElement)))
                 }
 
             }
@@ -290,7 +296,7 @@ object XmlReader {
                 backgroundColor = backgroundColor,
                 overrideUrl = overrideUrl,
                 autoType = autoType,
-                fields = EntryFields(fields),
+                fields = EntryAttributes(fields),
                 tags = tags,
                 binaries = binaries,
                 history = history,
