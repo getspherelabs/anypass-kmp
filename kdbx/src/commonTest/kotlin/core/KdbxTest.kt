@@ -1,18 +1,19 @@
 package core
 
-import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuid4
-import io.spherelabs.crypto.kdbx.database.BasicField
-import io.spherelabs.crypto.kdbx.database.core.internal.find
-import io.spherelabs.crypto.kdbx.database.core.internal.findEntity
-import io.spherelabs.crypto.kdbx.database.core.internal.meta
+import io.spherelabs.crypto.kdbx.database.EntryReferenceType
+import io.spherelabs.crypto.kdbx.database.core.Kdbx
+import io.spherelabs.crypto.kdbx.database.core.KdbxDatabase
 import io.spherelabs.crypto.kdbx.database.core.internal.updateParentGroup
 import io.spherelabs.crypto.kdbx.database.core.kdbx
 import io.spherelabs.crypto.kdbx.database.entity.Entry
-import io.spherelabs.crypto.kdbx.database.entity.Group
-import io.spherelabs.crypto.kdbx.database.model.component.EntryFields
+import io.spherelabs.crypto.kdbx.database.model.component.EntryAttributes
 import io.spherelabs.crypto.kdbx.database.model.component.EntryValue
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
@@ -20,6 +21,16 @@ import kotlinx.coroutines.test.runTest
 
 class KdbxTest {
 
+    private var database: KdbxDatabase? = null
+    private lateinit var kdbx: Kdbx
+
+    @BeforeTest
+    fun setup() {
+        kdbx = kdbx  {
+            path = PATH
+            passphrase  = "kdbx_multiplatform"
+        }
+    }
 
     @Test
     fun `GIVEN the kdbx config WHEN kdbx open THEN empty is true`() = runTest {
@@ -32,62 +43,46 @@ class KdbxTest {
     }
 
     @Test
-    fun test() = runTest(
+    fun `GIVEN the kdbx config WHEN reads kdbx file THEN update and add entry`() = runTest(
         timeout = 60.seconds,
     ) {
-        val kdbx = kdbx  {
-            path = "config2.kdbx"
-            passphrase  = "kdbx_multiplatform"
-        }
 
+
+        val title = "Google"
+        val note = "Kdbx is encrypted database."
         kdbx.open()
 
-        val db =
+        database =
             kdbx.read("kdbx_multiplatform")
 
-        println("Meta is ${db.meta}")
-
-        println("Boolean value = ${kdbx.isEmpty()}")
-
-
-
-        val query = db.query.updateParentGroup {
+        val query = database?.query?.updateParentGroup {
            val entry = Entry(
                id = uuid4(),
-               fields = EntryFields.of(
-                   BasicField.Title.key to EntryValue.Plain("Behzod"),
-                   BasicField.Notes.key to EntryValue.Plain("Behzod2")
+               fields = EntryAttributes.of(
+                   EntryReferenceType.Title.key to EntryValue.Plain(title),
+                   EntryReferenceType.Notes.key to EntryValue.Plain(note)
                ),
                customData = mapOf()
            )
 
-            println("Entry = $entry")
             copy(entries = entries + entry, notes = "12323")
         }
 
         kdbx.write(query)
 
 
+        database = kdbx.read()
 
-        val db2 = kdbx.read()
+        val data = database?.query?.group?.entries
 
+        assertNotNull(data)
+        assertEquals(1, data.size)
+        assertNotEquals(0, data.size)
+        assertEquals(title,data.first().fields.title?.content)
+        assertEquals(note,data.first().fields.notes?.content)
+    }
 
-        assertNotNull(db2)
+    companion object {
+        private const val PATH = "config2.kdb"
     }
 }
-/**
- *     val newDatabase = database.modifyParentGroup {
- *       val entry = Entry(
- *         uuid = uuid,
- *         fields = EntryFields.of(
- *           BasicField.Title.key to EntryValue.Plain(noteEntryData.title),
- *           BasicField.Notes.key to EntryValue.Plain(noteEntryData.text)
- *         ),
- *         customData = mapOf(
- *           CUSTOM_DATA_TYPE_KEY to CustomDataValue(CUSTOM_DATA_NOTE),
- *           CUSTOM_DATA_FAVORITE_KEY to noteEntryData.isFavorite.toValue(instantProvider.now()),
- *         )
- *       )
- *       copy(entries = entries + entry)
- *     }
- */
